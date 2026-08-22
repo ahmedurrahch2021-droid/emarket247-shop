@@ -215,7 +215,9 @@ export default defineConfig({
     },
   },
   envDir: path.resolve(import.meta.dirname),
-  root: path.resolve(import.meta.dirname, "client"),
+  // Serve the completed Hostinger package itself, including its locally bundled assets.
+  // This keeps the managed preview identical to the File Manager upload output.
+  root: "/home/ubuntu/emarket247-hostinger-static",
   build: {
     outDir: path.resolve(import.meta.dirname, "dist/public"),
     emptyOutDir: true,

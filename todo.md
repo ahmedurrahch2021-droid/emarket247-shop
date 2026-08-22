@@ -20,3 +20,6 @@
 - [ ] Enrich unpriced product records with conservative, visually supported bilingual details and retain the absence of unconfirmed materials, prices, stock, ratings, and delivery claims.
 - [ ] Add lightweight keyboard-accessible category filtering and sorting that works locally in the Hostinger static package.
 - [ ] Research official Bangladesh payment and delivery options, recommend a secure integration approach, and wait for merchant-account/provider approval before activation.
+- [ ] Audit the final Hostinger-ready static route tree against every category link promised in the navigation and category submenu.
+- [ ] Verify that the production-facing homepage hero is genuinely full-width in the pure static package, not only in an earlier preview implementation.
+- [ ] Correct any missing, hidden, or mislinked category pages and regenerate the deployable Hostinger package.
