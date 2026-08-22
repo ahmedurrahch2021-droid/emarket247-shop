@@ -15,3 +15,8 @@
 - [ ] Add a cookie-preferences notice only if non-essential analytics, marketing, or third-party cookies are enabled; never show an automatic sign-in prompt.
 - [ ] Process the supplied product images as unpriced catalog assets with bilingual title, alt text, caption, copyright metadata, stable filenames, and code references.
 - [ ] Use public Bangladesh-focused sources for keyword, seasonal, competitor, and customer-intent research; label all unavailable volume, difficulty, and competitive metrics as qualitative or estimated rather than presenting invented figures as measured data.
+- [ ] Convert the homepage image hero into a full-width responsive composition with an accessible contrast overlay and reduced-motion-safe slider behavior.
+- [ ] Create separate, non-destructive background-cleaned and visually enhanced product-image derivatives while preserving all originals and the existing metadata trail.
+- [ ] Enrich unpriced product records with conservative, visually supported bilingual details and retain the absence of unconfirmed materials, prices, stock, ratings, and delivery claims.
+- [ ] Add lightweight keyboard-accessible category filtering and sorting that works locally in the Hostinger static package.
+- [ ] Research official Bangladesh payment and delivery options, recommend a secure integration approach, and wait for merchant-account/provider approval before activation.

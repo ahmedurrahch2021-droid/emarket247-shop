@@ -4,13 +4,15 @@
 
 The final upload folder is **`/home/ubuntu/emarket247-hostinger-static/`**. It is a pure static website: ordinary HTML files, a shared CSS file, one vanilla JavaScript file, JSON catalog records, and local image assets. There is no React, TypeScript, server-side rendering, database, payment secret, or external Manus asset dependency in the package.
 
+The current File Manager archive is **`/home/ubuntu/emarket247-hostinger-static-refined.zip`**. It includes the full-width responsive image hero, the background-cleaned product catalog derivatives, and client-side category filtering and non-price sorting.
+
 | Package location | Purpose |
 |---|---|
 | `index.html` | Neutral language selector and `x-default` entry point. |
 | `en/` | English individual HTML page tree. |
 | `bn/` | Bengali individual HTML page tree. |
 | `assets/css/site.css` | White, black, and eMarket247-red design system. |
-| `assets/js/site.js` | Vanilla-JavaScript menu, search panel, image slider, unpriced catalog, toast behavior, and reduced-motion-aware interactions. |
+| `assets/js/site.js` | Vanilla-JavaScript menu, search panel, full-width image slider, unpriced catalog, category filters, non-price sorting, toast behavior, and reduced-motion-aware interactions. |
 | `assets/images/brand/` | Supplied logo and favicon. |
 | `assets/images/editorial/` | Optimized hero, bridal, and Puja editorial WebP images. |
 | `assets/images/products/` | 96 responsive WebP derivatives of the 48 supplied product photographs. |
@@ -31,7 +33,7 @@ The 300-row keyword matrix is deliberately qualitative because public research w
 
 ## Product image and metadata status
 
-All 48 supplied originals are preserved outside the Hostinger folder. The published website uses 96 non-destructive WebP derivatives: a 640-pixel and 1280-pixel version for each source. Every derivative carries an embedded eMarket247 copyright, creator, title, and description metadata record. Every catalog entry has a stable subject-based filename, bilingual title, bilingual alt text, bilingual caption, source reference, and **unpriced details-preparing status**.
+All 48 supplied originals are preserved outside the Hostinger folder. The published website uses 96 non-destructive WebP derivatives: a 640-pixel and 1280-pixel version for each source. The current product derivatives were separately background-cleaned and modestly enhanced for clarity and balanced lighting while preserving the original product subject. Every derivative carries an embedded eMarket247 copyright, creator, title, and description metadata record. Every catalog entry has a stable subject-based filename, bilingual title, bilingual alt text, bilingual caption, source reference, and **unpriced details-preparing status**.
 
 Some images are visually ambiguous. Their initial labels are intentionally conservative, such as `Jewellery detail`, `Circular jewellery detail`, or `Necklace-style jewellery detail`. This protects customers from unverified material, purity, gemstone, size, certification, or product-type claims. Final product names, materials, prices, SKUs, stock, and availability must be reviewed before they replace these temporary records.
 

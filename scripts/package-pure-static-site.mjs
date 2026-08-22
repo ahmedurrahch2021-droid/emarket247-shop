@@ -6,7 +6,7 @@ const project = "/home/ubuntu/emarket247-shop";
 const source = path.join(project, "static-site");
 const output = "/home/ubuntu/emarket247-hostinger-static";
 const common = "/home/ubuntu/webdev-static-assets/emarket247-static-common";
-const products = "/home/ubuntu/webdev-static-assets/emarket247-product-catalog/products";
+const products = "/home/ubuntu/webdev-static-assets/emarket247-product-catalog/enhanced-background-cleaned";
 
 await rm(output, { recursive: true, force: true });
 await mkdir(output, { recursive: true });
