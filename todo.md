@@ -28,3 +28,9 @@
 - [x] Rebuild the enhanced product-image derivatives as consistent square catalog assets and present products in a responsive three-column desktop grid.
 - [x] Rewrite the Bengali interface and catalog microcopy for natural Bangladeshi Bengali.
 - [x] Remove machine-specific absolute paths from the static build workflow so the deployment can succeed in the cloud publishing environment.
+- [x] Prepare a client-ready 48-item inventory with stable published product-image URLs for price collection and product approval.
+- [x] Package the final square product images for download and document the local static-asset folders.
+- [x] Document every English and Bengali category-page URL for client review.
+- [x] Audit the current static storefront against the uploaded navigation, frontend, bilingual, accessibility, SEO, image, and Hostinger requirements.
+- [x] Record verified coverage and genuine omissions before modifying the current implementation.
+- [x] Apply only low-risk fixes that are supported by the existing requirements and do not assume unapproved pricing, payments, inventory, delivery, or backend decisions.
