@@ -1,0 +1,869 @@
+{
+  "status": "অনুমোদনের-অপেক্ষায়-দামবিহীন-পণ্যের-রেকর্ড",
+  "products": [
+    {
+      "id": "src-001",
+      "slug": "emarket247-jewellery-detail-01",
+      "category": "jewellery-detail",
+      "image": {
+        "src": "/assets/images/products/emarket247-jewellery-detail-01-1280.webp",
+        "srcset": "/assets/images/products/emarket247-jewellery-detail-01-640.webp 640w, /assets/images/products/emarket247-jewellery-detail-01-1280.webp 1200w",
+        "width": 1200,
+        "height": 1600,
+        "alt": "হালকা রঙের কাপড়ে রাখা সোনালি টোনের জুয়েলারি ডিটেইলের ক্লোজ-আপ ছবি, রেকর্ড 01।",
+        "caption": "পণ্যের ডিটেইল ছবি। স্পেসিফিকেশন ও দাম প্রস্তুত হচ্ছে।"
+      },
+      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "copyright": "© eMarket247. All rights reserved.",
+      "original_filename": "WhatsApp Image 2026-08-21 at 18.45.47 (1).jpeg",
+      "title": "জুয়েলারি ডিটেইল 01",
+      "categoryLabel": "জুয়েলারি ডিটেইল"
+    },
+    {
+      "id": "src-002",
+      "slug": "emarket247-jewellery-detail-02",
+      "category": "jewellery-detail",
+      "image": {
+        "src": "/assets/images/products/emarket247-jewellery-detail-02-1280.webp",
+        "srcset": "/assets/images/products/emarket247-jewellery-detail-02-640.webp 640w, /assets/images/products/emarket247-jewellery-detail-02-1280.webp 1200w",
+        "width": 1200,
+        "height": 1600,
+        "alt": "হালকা রঙের কাপড়ে রাখা সোনালি টোনের জুয়েলারি ডিটেইলের ক্লোজ-আপ ছবি, রেকর্ড 02।",
+        "caption": "পণ্যের ডিটেইল ছবি। স্পেসিফিকেশন ও দাম প্রস্তুত হচ্ছে।"
+      },
+      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "copyright": "© eMarket247. All rights reserved.",
+      "original_filename": "WhatsApp Image 2026-08-21 at 18.45.47.jpeg",
+      "title": "জুয়েলারি ডিটেইল 02",
+      "categoryLabel": "জুয়েলারি ডিটেইল"
+    },
+    {
+      "id": "src-003",
+      "slug": "emarket247-jewellery-detail-03",
+      "category": "jewellery-detail",
+      "image": {
+        "src": "/assets/images/products/emarket247-jewellery-detail-03-1280.webp",
+        "srcset": "/assets/images/products/emarket247-jewellery-detail-03-640.webp 640w, /assets/images/products/emarket247-jewellery-detail-03-1280.webp 1200w",
+        "width": 1200,
+        "height": 1600,
+        "alt": "হালকা রঙের কাপড়ে রাখা সোনালি টোনের জুয়েলারি ডিটেইলের ক্লোজ-আপ ছবি, রেকর্ড 03।",
+        "caption": "পণ্যের ডিটেইল ছবি। স্পেসিফিকেশন ও দাম প্রস্তুত হচ্ছে।"
+      },
+      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "copyright": "© eMarket247. All rights reserved.",
+      "original_filename": "WhatsApp Image 2026-08-21 at 18.45.48.jpeg",
+      "title": "জুয়েলারি ডিটেইল 03",
+      "categoryLabel": "জুয়েলারি ডিটেইল"
+    },
+    {
+      "id": "src-004",
+      "slug": "emarket247-jewellery-detail-04",
+      "category": "jewellery-detail",
+      "image": {
+        "src": "/assets/images/products/emarket247-jewellery-detail-04-1280.webp",
+        "srcset": "/assets/images/products/emarket247-jewellery-detail-04-640.webp 640w, /assets/images/products/emarket247-jewellery-detail-04-1280.webp 1280w",
+        "width": 1280,
+        "height": 960,
+        "alt": "হালকা রঙের কাপড়ে রাখা সোনালি টোনের জুয়েলারি ডিটেইলের ক্লোজ-আপ ছবি, রেকর্ড 04।",
+        "caption": "পণ্যের ডিটেইল ছবি। স্পেসিফিকেশন ও দাম প্রস্তুত হচ্ছে।"
+      },
+      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "copyright": "© eMarket247. All rights reserved.",
+      "original_filename": "WhatsApp Image 2026-08-21 at 18.45.49.jpeg",
+      "title": "জুয়েলারি ডিটেইল 04",
+      "categoryLabel": "জুয়েলারি ডিটেইল"
+    },
+    {
+      "id": "src-005",
+      "slug": "emarket247-jewellery-detail-05",
+      "category": "jewellery-detail",
+      "image": {
+        "src": "/assets/images/products/emarket247-jewellery-detail-05-1280.webp",
+        "srcset": "/assets/images/products/emarket247-jewellery-detail-05-640.webp 640w, /assets/images/products/emarket247-jewellery-detail-05-1280.webp 1200w",
+        "width": 1200,
+        "height": 1600,
+        "alt": "হালকা রঙের কাপড়ে রাখা সোনালি টোনের জুয়েলারি ডিটেইলের ক্লোজ-আপ ছবি, রেকর্ড 05।",
+        "caption": "পণ্যের ডিটেইল ছবি। স্পেসিফিকেশন ও দাম প্রস্তুত হচ্ছে।"
+      },
+      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "copyright": "© eMarket247. All rights reserved.",
+      "original_filename": "WhatsApp Image 2026-08-21 at 18.45.50 (1).jpeg",
+      "title": "জুয়েলারি ডিটেইল 05",
+      "categoryLabel": "জুয়েলারি ডিটেইল"
+    },
+    {
+      "id": "src-006",
+      "slug": "emarket247-jewellery-detail-06",
+      "category": "jewellery-detail",
+      "image": {
+        "src": "/assets/images/products/emarket247-jewellery-detail-06-1280.webp",
+        "srcset": "/assets/images/products/emarket247-jewellery-detail-06-640.webp 640w, /assets/images/products/emarket247-jewellery-detail-06-1280.webp 1280w",
+        "width": 1280,
+        "height": 960,
+        "alt": "হালকা রঙের কাপড়ে রাখা সোনালি টোনের জুয়েলারি ডিটেইলের ক্লোজ-আপ ছবি, রেকর্ড 06।",
+        "caption": "পণ্যের ডিটেইল ছবি। স্পেসিফিকেশন ও দাম প্রস্তুত হচ্ছে।"
+      },
+      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "copyright": "© eMarket247. All rights reserved.",
+      "original_filename": "WhatsApp Image 2026-08-21 at 18.45.50.jpeg",
+      "title": "জুয়েলারি ডিটেইল 06",
+      "categoryLabel": "জুয়েলারি ডিটেইল"
+    },
+    {
+      "id": "src-007",
+      "slug": "emarket247-jewellery-detail-07",
+      "category": "jewellery-detail",
+      "image": {
+        "src": "/assets/images/products/emarket247-jewellery-detail-07-1280.webp",
+        "srcset": "/assets/images/products/emarket247-jewellery-detail-07-640.webp 640w, /assets/images/products/emarket247-jewellery-detail-07-1280.webp 1280w",
+        "width": 1280,
+        "height": 960,
+        "alt": "হালকা রঙের কাপড়ে রাখা সোনালি টোনের জুয়েলারি ডিটেইলের ক্লোজ-আপ ছবি, রেকর্ড 07।",
+        "caption": "পণ্যের ডিটেইল ছবি। স্পেসিফিকেশন ও দাম প্রস্তুত হচ্ছে।"
+      },
+      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "copyright": "© eMarket247. All rights reserved.",
+      "original_filename": "WhatsApp Image 2026-08-21 at 18.45.52.jpeg",
+      "title": "জুয়েলারি ডিটেইল 07",
+      "categoryLabel": "জুয়েলারি ডিটেইল"
+    },
+    {
+      "id": "src-008",
+      "slug": "emarket247-jewellery-detail-08",
+      "category": "jewellery-detail",
+      "image": {
+        "src": "/assets/images/products/emarket247-jewellery-detail-08-1280.webp",
+        "srcset": "/assets/images/products/emarket247-jewellery-detail-08-640.webp 640w, /assets/images/products/emarket247-jewellery-detail-08-1280.webp 1280w",
+        "width": 1280,
+        "height": 960,
+        "alt": "হালকা রঙের কাপড়ে রাখা সোনালি টোনের জুয়েলারি ডিটেইলের ক্লোজ-আপ ছবি, রেকর্ড 08।",
+        "caption": "পণ্যের ডিটেইল ছবি। স্পেসিফিকেশন ও দাম প্রস্তুত হচ্ছে।"
+      },
+      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "copyright": "© eMarket247. All rights reserved.",
+      "original_filename": "WhatsApp Image 2026-08-21 at 18.45.53.jpeg",
+      "title": "জুয়েলারি ডিটেইল 08",
+      "categoryLabel": "জুয়েলারি ডিটেইল"
+    },
+    {
+      "id": "src-009",
+      "slug": "emarket247-jewellery-detail-09",
+      "category": "jewellery-detail",
+      "image": {
+        "src": "/assets/images/products/emarket247-jewellery-detail-09-1280.webp",
+        "srcset": "/assets/images/products/emarket247-jewellery-detail-09-640.webp 640w, /assets/images/products/emarket247-jewellery-detail-09-1280.webp 1200w",
+        "width": 1200,
+        "height": 1600,
+        "alt": "হালকা রঙের কাপড়ে রাখা সোনালি টোনের জুয়েলারি ডিটেইলের ক্লোজ-আপ ছবি, রেকর্ড 09।",
+        "caption": "পণ্যের ডিটেইল ছবি। স্পেসিফিকেশন ও দাম প্রস্তুত হচ্ছে।"
+      },
+      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "copyright": "© eMarket247. All rights reserved.",
+      "original_filename": "WhatsApp Image 2026-08-21 at 18.45.54.jpeg",
+      "title": "জুয়েলারি ডিটেইল 09",
+      "categoryLabel": "জুয়েলারি ডিটেইল"
+    },
+    {
+      "id": "src-010",
+      "slug": "emarket247-jewellery-detail-10",
+      "category": "jewellery-detail",
+      "image": {
+        "src": "/assets/images/products/emarket247-jewellery-detail-10-1280.webp",
+        "srcset": "/assets/images/products/emarket247-jewellery-detail-10-640.webp 640w, /assets/images/products/emarket247-jewellery-detail-10-1280.webp 1280w",
+        "width": 1280,
+        "height": 960,
+        "alt": "হালকা রঙের কাপড়ে রাখা সোনালি টোনের জুয়েলারি ডিটেইলের ক্লোজ-আপ ছবি, রেকর্ড 10।",
+        "caption": "পণ্যের ডিটেইল ছবি। স্পেসিফিকেশন ও দাম প্রস্তুত হচ্ছে।"
+      },
+      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "copyright": "© eMarket247. All rights reserved.",
+      "original_filename": "WhatsApp Image 2026-08-21 at 18.45.56.jpeg",
+      "title": "জুয়েলারি ডিটেইল 10",
+      "categoryLabel": "জুয়েলারি ডিটেইল"
+    },
+    {
+      "id": "src-011",
+      "slug": "emarket247-jewellery-detail-11",
+      "category": "jewellery-detail",
+      "image": {
+        "src": "/assets/images/products/emarket247-jewellery-detail-11-1280.webp",
+        "srcset": "/assets/images/products/emarket247-jewellery-detail-11-640.webp 640w, /assets/images/products/emarket247-jewellery-detail-11-1280.webp 1200w",
+        "width": 1200,
+        "height": 1600,
+        "alt": "হালকা রঙের কাপড়ে রাখা সোনালি টোনের জুয়েলারি ডিটেইলের ক্লোজ-আপ ছবি, রেকর্ড 11।",
+        "caption": "পণ্যের ডিটেইল ছবি। স্পেসিফিকেশন ও দাম প্রস্তুত হচ্ছে।"
+      },
+      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "copyright": "© eMarket247. All rights reserved.",
+      "original_filename": "WhatsApp Image 2026-08-21 at 18.45.57 (1).jpeg",
+      "title": "জুয়েলারি ডিটেইল 11",
+      "categoryLabel": "জুয়েলারি ডিটেইল"
+    },
+    {
+      "id": "src-012",
+      "slug": "emarket247-jewellery-detail-12",
+      "category": "jewellery-detail",
+      "image": {
+        "src": "/assets/images/products/emarket247-jewellery-detail-12-1280.webp",
+        "srcset": "/assets/images/products/emarket247-jewellery-detail-12-640.webp 640w, /assets/images/products/emarket247-jewellery-detail-12-1280.webp 1280w",
+        "width": 1280,
+        "height": 960,
+        "alt": "হালকা রঙের কাপড়ে রাখা সোনালি টোনের জুয়েলারি ডিটেইলের ক্লোজ-আপ ছবি, রেকর্ড 12।",
+        "caption": "পণ্যের ডিটেইল ছবি। স্পেসিফিকেশন ও দাম প্রস্তুত হচ্ছে।"
+      },
+      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "copyright": "© eMarket247. All rights reserved.",
+      "original_filename": "WhatsApp Image 2026-08-21 at 18.45.57 (2).jpeg",
+      "title": "জুয়েলারি ডিটেইল 12",
+      "categoryLabel": "জুয়েলারি ডিটেইল"
+    },
+    {
+      "id": "src-013",
+      "slug": "emarket247-jewellery-detail-13",
+      "category": "jewellery-detail",
+      "image": {
+        "src": "/assets/images/products/emarket247-jewellery-detail-13-1280.webp",
+        "srcset": "/assets/images/products/emarket247-jewellery-detail-13-640.webp 640w, /assets/images/products/emarket247-jewellery-detail-13-1280.webp 1200w",
+        "width": 1200,
+        "height": 1600,
+        "alt": "হালকা রঙের কাপড়ে রাখা সোনালি টোনের জুয়েলারি ডিটেইলের ক্লোজ-আপ ছবি, রেকর্ড 13।",
+        "caption": "পণ্যের ডিটেইল ছবি। স্পেসিফিকেশন ও দাম প্রস্তুত হচ্ছে।"
+      },
+      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "copyright": "© eMarket247. All rights reserved.",
+      "original_filename": "WhatsApp Image 2026-08-21 at 18.45.57.jpeg",
+      "title": "জুয়েলারি ডিটেইল 13",
+      "categoryLabel": "জুয়েলারি ডিটেইল"
+    },
+    {
+      "id": "src-014",
+      "slug": "emarket247-bracelets-14",
+      "category": "bracelets",
+      "image": {
+        "src": "/assets/images/products/emarket247-bracelets-14-1280.webp",
+        "srcset": "/assets/images/products/emarket247-bracelets-14-640.webp 640w, /assets/images/products/emarket247-bracelets-14-1280.webp 1200w",
+        "width": 1200,
+        "height": 1600,
+        "alt": "হালকা রঙের কাপড়ে রাখা সোনালি টোনের ব্রেসলেট-ধাঁচের জুয়েলারি ডিটেইলের ক্লোজ-আপ ছবি, রেকর্ড 14।",
+        "caption": "পণ্যের ডিটেইল ছবি। স্পেসিফিকেশন ও দাম প্রস্তুত হচ্ছে।"
+      },
+      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "copyright": "© eMarket247. All rights reserved.",
+      "original_filename": "WhatsApp Image 2026-08-21 at 18.45.58.jpeg",
+      "title": "ব্রেসলেট-ধাঁচের জুয়েলারি ডিটেইল 14",
+      "categoryLabel": "ব্রেসলেট"
+    },
+    {
+      "id": "src-015",
+      "slug": "emarket247-bracelets-15",
+      "category": "bracelets",
+      "image": {
+        "src": "/assets/images/products/emarket247-bracelets-15-1280.webp",
+        "srcset": "/assets/images/products/emarket247-bracelets-15-640.webp 640w, /assets/images/products/emarket247-bracelets-15-1280.webp 1280w",
+        "width": 1280,
+        "height": 960,
+        "alt": "হালকা রঙের কাপড়ে রাখা সোনালি টোনের ব্রেসলেট-ধাঁচের জুয়েলারি ডিটেইলের ক্লোজ-আপ ছবি, রেকর্ড 15।",
+        "caption": "পণ্যের ডিটেইল ছবি। স্পেসিফিকেশন ও দাম প্রস্তুত হচ্ছে।"
+      },
+      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "copyright": "© eMarket247. All rights reserved.",
+      "original_filename": "WhatsApp Image 2026-08-21 at 18.45.59 (1).jpeg",
+      "title": "ব্রেসলেট-ধাঁচের জুয়েলারি ডিটেইল 15",
+      "categoryLabel": "ব্রেসলেট"
+    },
+    {
+      "id": "src-016",
+      "slug": "emarket247-necklaces-16",
+      "category": "necklaces",
+      "image": {
+        "src": "/assets/images/products/emarket247-necklaces-16-1280.webp",
+        "srcset": "/assets/images/products/emarket247-necklaces-16-640.webp 640w, /assets/images/products/emarket247-necklaces-16-1280.webp 1200w",
+        "width": 1200,
+        "height": 1600,
+        "alt": "হালকা রঙের কাপড়ে রাখা সোনালি টোনের হার-ধাঁচের জুয়েলারি ডিটেইলের ক্লোজ-আপ ছবি, রেকর্ড 16।",
+        "caption": "পণ্যের ডিটেইল ছবি। স্পেসিফিকেশন ও দাম প্রস্তুত হচ্ছে।"
+      },
+      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "copyright": "© eMarket247. All rights reserved.",
+      "original_filename": "WhatsApp Image 2026-08-21 at 18.45.59 (2).jpeg",
+      "title": "হার-ধাঁচের জুয়েলারি ডিটেইল 16",
+      "categoryLabel": "হার"
+    },
+    {
+      "id": "src-017",
+      "slug": "emarket247-bangles-17",
+      "category": "bangles",
+      "image": {
+        "src": "/assets/images/products/emarket247-bangles-17-1280.webp",
+        "srcset": "/assets/images/products/emarket247-bangles-17-640.webp 640w, /assets/images/products/emarket247-bangles-17-1280.webp 1280w",
+        "width": 1280,
+        "height": 960,
+        "alt": "হালকা রঙের কাপড়ে রাখা সোনালি টোনের বৃত্তাকার জুয়েলারি ডিটেইলের ক্লোজ-আপ ছবি, রেকর্ড 17।",
+        "caption": "পণ্যের ডিটেইল ছবি। স্পেসিফিকেশন ও দাম প্রস্তুত হচ্ছে।"
+      },
+      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "copyright": "© eMarket247. All rights reserved.",
+      "original_filename": "WhatsApp Image 2026-08-21 at 18.45.59.jpeg",
+      "title": "বৃত্তাকার জুয়েলারি ডিটেইল 17",
+      "categoryLabel": "চুড়ি"
+    },
+    {
+      "id": "src-018",
+      "slug": "emarket247-bangles-18",
+      "category": "bangles",
+      "image": {
+        "src": "/assets/images/products/emarket247-bangles-18-1280.webp",
+        "srcset": "/assets/images/products/emarket247-bangles-18-640.webp 640w, /assets/images/products/emarket247-bangles-18-1280.webp 1200w",
+        "width": 1200,
+        "height": 1600,
+        "alt": "হালকা রঙের কাপড়ে রাখা সোনালি টোনের বৃত্তাকার জুয়েলারি ডিটেইলের ক্লোজ-আপ ছবি, রেকর্ড 18।",
+        "caption": "পণ্যের ডিটেইল ছবি। স্পেসিফিকেশন ও দাম প্রস্তুত হচ্ছে।"
+      },
+      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "copyright": "© eMarket247. All rights reserved.",
+      "original_filename": "WhatsApp Image 2026-08-21 at 18.46.00.jpeg",
+      "title": "বৃত্তাকার জুয়েলারি ডিটেইল 18",
+      "categoryLabel": "চুড়ি"
+    },
+    {
+      "id": "src-019",
+      "slug": "emarket247-bangles-19",
+      "category": "bangles",
+      "image": {
+        "src": "/assets/images/products/emarket247-bangles-19-1280.webp",
+        "srcset": "/assets/images/products/emarket247-bangles-19-640.webp 640w, /assets/images/products/emarket247-bangles-19-1280.webp 1280w",
+        "width": 1280,
+        "height": 960,
+        "alt": "হালকা রঙের কাপড়ে রাখা সোনালি টোনের বৃত্তাকার জুয়েলারি ডিটেইলের ক্লোজ-আপ ছবি, রেকর্ড 19।",
+        "caption": "পণ্যের ডিটেইল ছবি। স্পেসিফিকেশন ও দাম প্রস্তুত হচ্ছে।"
+      },
+      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "copyright": "© eMarket247. All rights reserved.",
+      "original_filename": "WhatsApp Image 2026-08-21 at 18.46.01 (1).jpeg",
+      "title": "বৃত্তাকার জুয়েলারি ডিটেইল 19",
+      "categoryLabel": "চুড়ি"
+    },
+    {
+      "id": "src-020",
+      "slug": "emarket247-bangles-20",
+      "category": "bangles",
+      "image": {
+        "src": "/assets/images/products/emarket247-bangles-20-1280.webp",
+        "srcset": "/assets/images/products/emarket247-bangles-20-640.webp 640w, /assets/images/products/emarket247-bangles-20-1280.webp 1200w",
+        "width": 1200,
+        "height": 1600,
+        "alt": "হালকা রঙের কাপড়ে রাখা সোনালি টোনের বৃত্তাকার জুয়েলারি ডিটেইলের ক্লোজ-আপ ছবি, রেকর্ড 20।",
+        "caption": "পণ্যের ডিটেইল ছবি। স্পেসিফিকেশন ও দাম প্রস্তুত হচ্ছে।"
+      },
+      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "copyright": "© eMarket247. All rights reserved.",
+      "original_filename": "WhatsApp Image 2026-08-21 at 18.46.01.jpeg",
+      "title": "বৃত্তাকার জুয়েলারি ডিটেইল 20",
+      "categoryLabel": "চুড়ি"
+    },
+    {
+      "id": "src-021",
+      "slug": "emarket247-bangles-21",
+      "category": "bangles",
+      "image": {
+        "src": "/assets/images/products/emarket247-bangles-21-1280.webp",
+        "srcset": "/assets/images/products/emarket247-bangles-21-640.webp 640w, /assets/images/products/emarket247-bangles-21-1280.webp 1200w",
+        "width": 1200,
+        "height": 1600,
+        "alt": "হালকা রঙের কাপড়ে রাখা সোনালি টোনের বৃত্তাকার জুয়েলারি ডিটেইলের ক্লোজ-আপ ছবি, রেকর্ড 21।",
+        "caption": "পণ্যের ডিটেইল ছবি। স্পেসিফিকেশন ও দাম প্রস্তুত হচ্ছে।"
+      },
+      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "copyright": "© eMarket247. All rights reserved.",
+      "original_filename": "WhatsApp Image 2026-08-21 at 18.46.03.jpeg",
+      "title": "বৃত্তাকার জুয়েলারি ডিটেইল 21",
+      "categoryLabel": "চুড়ি"
+    },
+    {
+      "id": "src-022",
+      "slug": "emarket247-bangles-22",
+      "category": "bangles",
+      "image": {
+        "src": "/assets/images/products/emarket247-bangles-22-1280.webp",
+        "srcset": "/assets/images/products/emarket247-bangles-22-640.webp 640w, /assets/images/products/emarket247-bangles-22-1280.webp 1200w",
+        "width": 1200,
+        "height": 1600,
+        "alt": "হালকা রঙের কাপড়ে রাখা সোনালি টোনের বৃত্তাকার জুয়েলারি ডিটেইলের ক্লোজ-আপ ছবি, রেকর্ড 22।",
+        "caption": "পণ্যের ডিটেইল ছবি। স্পেসিফিকেশন ও দাম প্রস্তুত হচ্ছে।"
+      },
+      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "copyright": "© eMarket247. All rights reserved.",
+      "original_filename": "WhatsApp Image 2026-08-21 at 18.46.04 (1).jpeg",
+      "title": "বৃত্তাকার জুয়েলারি ডিটেইল 22",
+      "categoryLabel": "চুড়ি"
+    },
+    {
+      "id": "src-023",
+      "slug": "emarket247-bangles-23",
+      "category": "bangles",
+      "image": {
+        "src": "/assets/images/products/emarket247-bangles-23-1280.webp",
+        "srcset": "/assets/images/products/emarket247-bangles-23-640.webp 640w, /assets/images/products/emarket247-bangles-23-1280.webp 1200w",
+        "width": 1200,
+        "height": 1600,
+        "alt": "হালকা রঙের কাপড়ে রাখা সোনালি টোনের বৃত্তাকার জুয়েলারি ডিটেইলের ক্লোজ-আপ ছবি, রেকর্ড 23।",
+        "caption": "পণ্যের ডিটেইল ছবি। স্পেসিফিকেশন ও দাম প্রস্তুত হচ্ছে।"
+      },
+      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "copyright": "© eMarket247. All rights reserved.",
+      "original_filename": "WhatsApp Image 2026-08-21 at 18.46.04.jpeg",
+      "title": "বৃত্তাকার জুয়েলারি ডিটেইল 23",
+      "categoryLabel": "চুড়ি"
+    },
+    {
+      "id": "src-024",
+      "slug": "emarket247-bangles-24",
+      "category": "bangles",
+      "image": {
+        "src": "/assets/images/products/emarket247-bangles-24-1280.webp",
+        "srcset": "/assets/images/products/emarket247-bangles-24-640.webp 640w, /assets/images/products/emarket247-bangles-24-1280.webp 1200w",
+        "width": 1200,
+        "height": 1600,
+        "alt": "হালকা রঙের কাপড়ে রাখা সোনালি টোনের বৃত্তাকার জুয়েলারি ডিটেইলের ক্লোজ-আপ ছবি, রেকর্ড 24।",
+        "caption": "পণ্যের ডিটেইল ছবি। স্পেসিফিকেশন ও দাম প্রস্তুত হচ্ছে।"
+      },
+      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "copyright": "© eMarket247. All rights reserved.",
+      "original_filename": "WhatsApp Image 2026-08-21 at 18.46.05 (1).jpeg",
+      "title": "বৃত্তাকার জুয়েলারি ডিটেইল 24",
+      "categoryLabel": "চুড়ি"
+    },
+    {
+      "id": "src-025",
+      "slug": "emarket247-bangles-25",
+      "category": "bangles",
+      "image": {
+        "src": "/assets/images/products/emarket247-bangles-25-1280.webp",
+        "srcset": "/assets/images/products/emarket247-bangles-25-640.webp 640w, /assets/images/products/emarket247-bangles-25-1280.webp 1280w",
+        "width": 1280,
+        "height": 960,
+        "alt": "হালকা রঙের কাপড়ে রাখা সোনালি টোনের বৃত্তাকার জুয়েলারি ডিটেইলের ক্লোজ-আপ ছবি, রেকর্ড 25।",
+        "caption": "পণ্যের ডিটেইল ছবি। স্পেসিফিকেশন ও দাম প্রস্তুত হচ্ছে।"
+      },
+      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "copyright": "© eMarket247. All rights reserved.",
+      "original_filename": "WhatsApp Image 2026-08-21 at 18.46.05 (2).jpeg",
+      "title": "বৃত্তাকার জুয়েলারি ডিটেইল 25",
+      "categoryLabel": "চুড়ি"
+    },
+    {
+      "id": "src-026",
+      "slug": "emarket247-bangles-26",
+      "category": "bangles",
+      "image": {
+        "src": "/assets/images/products/emarket247-bangles-26-1280.webp",
+        "srcset": "/assets/images/products/emarket247-bangles-26-640.webp 640w, /assets/images/products/emarket247-bangles-26-1280.webp 1200w",
+        "width": 1200,
+        "height": 1600,
+        "alt": "হালকা রঙের কাপড়ে রাখা সোনালি টোনের বৃত্তাকার জুয়েলারি ডিটেইলের ক্লোজ-আপ ছবি, রেকর্ড 26।",
+        "caption": "পণ্যের ডিটেইল ছবি। স্পেসিফিকেশন ও দাম প্রস্তুত হচ্ছে।"
+      },
+      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "copyright": "© eMarket247. All rights reserved.",
+      "original_filename": "WhatsApp Image 2026-08-21 at 18.46.05.jpeg",
+      "title": "বৃত্তাকার জুয়েলারি ডিটেইল 26",
+      "categoryLabel": "চুড়ি"
+    },
+    {
+      "id": "src-027",
+      "slug": "emarket247-bangles-27",
+      "category": "bangles",
+      "image": {
+        "src": "/assets/images/products/emarket247-bangles-27-1280.webp",
+        "srcset": "/assets/images/products/emarket247-bangles-27-640.webp 640w, /assets/images/products/emarket247-bangles-27-1280.webp 1254w",
+        "width": 1254,
+        "height": 1254,
+        "alt": "হালকা রঙের কাপড়ে রাখা সোনালি টোনের বৃত্তাকার জুয়েলারি ডিটেইলের ক্লোজ-আপ ছবি, রেকর্ড 27।",
+        "caption": "পণ্যের ডিটেইল ছবি। স্পেসিফিকেশন ও দাম প্রস্তুত হচ্ছে।"
+      },
+      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "copyright": "© eMarket247. All rights reserved.",
+      "original_filename": "WhatsApp Image 2026-08-21 at 18.46.06 (1).jpeg",
+      "title": "বৃত্তাকার জুয়েলারি ডিটেইল 27",
+      "categoryLabel": "চুড়ি"
+    },
+    {
+      "id": "src-028",
+      "slug": "emarket247-bangles-28",
+      "category": "bangles",
+      "image": {
+        "src": "/assets/images/products/emarket247-bangles-28-1280.webp",
+        "srcset": "/assets/images/products/emarket247-bangles-28-640.webp 640w, /assets/images/products/emarket247-bangles-28-1280.webp 1280w",
+        "width": 1280,
+        "height": 1136,
+        "alt": "হালকা রঙের কাপড়ে রাখা সোনালি টোনের বৃত্তাকার জুয়েলারি ডিটেইলের ক্লোজ-আপ ছবি, রেকর্ড 28।",
+        "caption": "পণ্যের ডিটেইল ছবি। স্পেসিফিকেশন ও দাম প্রস্তুত হচ্ছে।"
+      },
+      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "copyright": "© eMarket247. All rights reserved.",
+      "original_filename": "WhatsApp Image 2026-08-21 at 18.46.06 (2).jpeg",
+      "title": "বৃত্তাকার জুয়েলারি ডিটেইল 28",
+      "categoryLabel": "চুড়ি"
+    },
+    {
+      "id": "src-029",
+      "slug": "emarket247-bangles-29",
+      "category": "bangles",
+      "image": {
+        "src": "/assets/images/products/emarket247-bangles-29-1280.webp",
+        "srcset": "/assets/images/products/emarket247-bangles-29-640.webp 640w, /assets/images/products/emarket247-bangles-29-1280.webp 1200w",
+        "width": 1200,
+        "height": 1600,
+        "alt": "হালকা রঙের কাপড়ে রাখা সোনালি টোনের বৃত্তাকার জুয়েলারি ডিটেইলের ক্লোজ-আপ ছবি, রেকর্ড 29।",
+        "caption": "পণ্যের ডিটেইল ছবি। স্পেসিফিকেশন ও দাম প্রস্তুত হচ্ছে।"
+      },
+      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "copyright": "© eMarket247. All rights reserved.",
+      "original_filename": "WhatsApp Image 2026-08-21 at 18.46.06.jpeg",
+      "title": "বৃত্তাকার জুয়েলারি ডিটেইল 29",
+      "categoryLabel": "চুড়ি"
+    },
+    {
+      "id": "src-030",
+      "slug": "emarket247-bangles-30",
+      "category": "bangles",
+      "image": {
+        "src": "/assets/images/products/emarket247-bangles-30-1280.webp",
+        "srcset": "/assets/images/products/emarket247-bangles-30-640.webp 640w, /assets/images/products/emarket247-bangles-30-1280.webp 1200w",
+        "width": 1200,
+        "height": 1600,
+        "alt": "হালকা রঙের কাপড়ে রাখা সোনালি টোনের বৃত্তাকার জুয়েলারি ডিটেইলের ক্লোজ-আপ ছবি, রেকর্ড 30।",
+        "caption": "পণ্যের ডিটেইল ছবি। স্পেসিফিকেশন ও দাম প্রস্তুত হচ্ছে।"
+      },
+      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "copyright": "© eMarket247. All rights reserved.",
+      "original_filename": "WhatsApp Image 2026-08-21 at 18.46.07 (1).jpeg",
+      "title": "বৃত্তাকার জুয়েলারি ডিটেইল 30",
+      "categoryLabel": "চুড়ি"
+    },
+    {
+      "id": "src-031",
+      "slug": "emarket247-jewellery-detail-31",
+      "category": "jewellery-detail",
+      "image": {
+        "src": "/assets/images/products/emarket247-jewellery-detail-31-1280.webp",
+        "srcset": "/assets/images/products/emarket247-jewellery-detail-31-640.webp 640w, /assets/images/products/emarket247-jewellery-detail-31-1280.webp 1200w",
+        "width": 1200,
+        "height": 1600,
+        "alt": "হালকা রঙের কাপড়ে রাখা সোনালি টোনের জুয়েলারি ডিটেইলের ক্লোজ-আপ ছবি, রেকর্ড 31।",
+        "caption": "পণ্যের ডিটেইল ছবি। স্পেসিফিকেশন ও দাম প্রস্তুত হচ্ছে।"
+      },
+      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "copyright": "© eMarket247. All rights reserved.",
+      "original_filename": "WhatsApp Image 2026-08-21 at 18.46.07.jpeg",
+      "title": "জুয়েলারি ডিটেইল 31",
+      "categoryLabel": "জুয়েলারি ডিটেইল"
+    },
+    {
+      "id": "src-032",
+      "slug": "emarket247-earrings-32",
+      "category": "earrings",
+      "image": {
+        "src": "/assets/images/products/emarket247-earrings-32-1280.webp",
+        "srcset": "/assets/images/products/emarket247-earrings-32-640.webp 640w, /assets/images/products/emarket247-earrings-32-1280.webp 1200w",
+        "width": 1200,
+        "height": 1600,
+        "alt": "হালকা রঙের কাপড়ে রাখা সোনালি টোনের কানের দুল-ধাঁচের জুয়েলারি ডিটেইলের ক্লোজ-আপ ছবি, রেকর্ড 32।",
+        "caption": "পণ্যের ডিটেইল ছবি। স্পেসিফিকেশন ও দাম প্রস্তুত হচ্ছে।"
+      },
+      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "copyright": "© eMarket247. All rights reserved.",
+      "original_filename": "WhatsApp Image 2026-08-21 at 18.46.08 (1).jpeg",
+      "title": "কানের দুল-ধাঁচের জুয়েলারি ডিটেইল 32",
+      "categoryLabel": "কানের দুল"
+    },
+    {
+      "id": "src-033",
+      "slug": "emarket247-jewellery-detail-33",
+      "category": "jewellery-detail",
+      "image": {
+        "src": "/assets/images/products/emarket247-jewellery-detail-33-1280.webp",
+        "srcset": "/assets/images/products/emarket247-jewellery-detail-33-640.webp 640w, /assets/images/products/emarket247-jewellery-detail-33-1280.webp 1200w",
+        "width": 1200,
+        "height": 1600,
+        "alt": "হালকা রঙের কাপড়ে রাখা সোনালি টোনের জুয়েলারি ডিটেইলের ক্লোজ-আপ ছবি, রেকর্ড 33।",
+        "caption": "পণ্যের ডিটেইল ছবি। স্পেসিফিকেশন ও দাম প্রস্তুত হচ্ছে।"
+      },
+      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "copyright": "© eMarket247. All rights reserved.",
+      "original_filename": "WhatsApp Image 2026-08-21 at 18.46.08.jpeg",
+      "title": "জুয়েলারি ডিটেইল 33",
+      "categoryLabel": "জুয়েলারি ডিটেইল"
+    },
+    {
+      "id": "src-034",
+      "slug": "emarket247-jewellery-detail-34",
+      "category": "jewellery-detail",
+      "image": {
+        "src": "/assets/images/products/emarket247-jewellery-detail-34-1280.webp",
+        "srcset": "/assets/images/products/emarket247-jewellery-detail-34-640.webp 640w, /assets/images/products/emarket247-jewellery-detail-34-1280.webp 1200w",
+        "width": 1200,
+        "height": 1600,
+        "alt": "হালকা রঙের কাপড়ে রাখা সোনালি টোনের জুয়েলারি ডিটেইলের ক্লোজ-আপ ছবি, রেকর্ড 34।",
+        "caption": "পণ্যের ডিটেইল ছবি। স্পেসিফিকেশন ও দাম প্রস্তুত হচ্ছে।"
+      },
+      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "copyright": "© eMarket247. All rights reserved.",
+      "original_filename": "WhatsApp Image 2026-08-21 at 18.46.10 (1).jpeg",
+      "title": "জুয়েলারি ডিটেইল 34",
+      "categoryLabel": "জুয়েলারি ডিটেইল"
+    },
+    {
+      "id": "src-035",
+      "slug": "emarket247-jewellery-detail-35",
+      "category": "jewellery-detail",
+      "image": {
+        "src": "/assets/images/products/emarket247-jewellery-detail-35-1280.webp",
+        "srcset": "/assets/images/products/emarket247-jewellery-detail-35-640.webp 640w, /assets/images/products/emarket247-jewellery-detail-35-1280.webp 1200w",
+        "width": 1200,
+        "height": 1600,
+        "alt": "হালকা রঙের কাপড়ে রাখা সোনালি টোনের জুয়েলারি ডিটেইলের ক্লোজ-আপ ছবি, রেকর্ড 35।",
+        "caption": "পণ্যের ডিটেইল ছবি। স্পেসিফিকেশন ও দাম প্রস্তুত হচ্ছে।"
+      },
+      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "copyright": "© eMarket247. All rights reserved.",
+      "original_filename": "WhatsApp Image 2026-08-21 at 18.46.10.jpeg",
+      "title": "জুয়েলারি ডিটেইল 35",
+      "categoryLabel": "জুয়েলারি ডিটেইল"
+    },
+    {
+      "id": "src-036",
+      "slug": "emarket247-jewellery-detail-36",
+      "category": "jewellery-detail",
+      "image": {
+        "src": "/assets/images/products/emarket247-jewellery-detail-36-1280.webp",
+        "srcset": "/assets/images/products/emarket247-jewellery-detail-36-640.webp 640w, /assets/images/products/emarket247-jewellery-detail-36-1280.webp 1200w",
+        "width": 1200,
+        "height": 1600,
+        "alt": "হালকা রঙের কাপড়ে রাখা সোনালি টোনের জুয়েলারি ডিটেইলের ক্লোজ-আপ ছবি, রেকর্ড 36।",
+        "caption": "পণ্যের ডিটেইল ছবি। স্পেসিফিকেশন ও দাম প্রস্তুত হচ্ছে।"
+      },
+      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "copyright": "© eMarket247. All rights reserved.",
+      "original_filename": "WhatsApp Image 2026-08-21 at 18.46.12 (1).jpeg",
+      "title": "জুয়েলারি ডিটেইল 36",
+      "categoryLabel": "জুয়েলারি ডিটেইল"
+    },
+    {
+      "id": "src-037",
+      "slug": "emarket247-jewellery-detail-37",
+      "category": "jewellery-detail",
+      "image": {
+        "src": "/assets/images/products/emarket247-jewellery-detail-37-1280.webp",
+        "srcset": "/assets/images/products/emarket247-jewellery-detail-37-640.webp 640w, /assets/images/products/emarket247-jewellery-detail-37-1280.webp 1200w",
+        "width": 1200,
+        "height": 1600,
+        "alt": "হালকা রঙের কাপড়ে রাখা সোনালি টোনের জুয়েলারি ডিটেইলের ক্লোজ-আপ ছবি, রেকর্ড 37।",
+        "caption": "পণ্যের ডিটেইল ছবি। স্পেসিফিকেশন ও দাম প্রস্তুত হচ্ছে।"
+      },
+      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "copyright": "© eMarket247. All rights reserved.",
+      "original_filename": "WhatsApp Image 2026-08-21 at 18.46.12 (2).jpeg",
+      "title": "জুয়েলারি ডিটেইল 37",
+      "categoryLabel": "জুয়েলারি ডিটেইল"
+    },
+    {
+      "id": "src-038",
+      "slug": "emarket247-jewellery-detail-38",
+      "category": "jewellery-detail",
+      "image": {
+        "src": "/assets/images/products/emarket247-jewellery-detail-38-1280.webp",
+        "srcset": "/assets/images/products/emarket247-jewellery-detail-38-640.webp 640w, /assets/images/products/emarket247-jewellery-detail-38-1280.webp 1200w",
+        "width": 1200,
+        "height": 1600,
+        "alt": "হালকা রঙের কাপড়ে রাখা সোনালি টোনের জুয়েলারি ডিটেইলের ক্লোজ-আপ ছবি, রেকর্ড 38।",
+        "caption": "পণ্যের ডিটেইল ছবি। স্পেসিফিকেশন ও দাম প্রস্তুত হচ্ছে।"
+      },
+      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "copyright": "© eMarket247. All rights reserved.",
+      "original_filename": "WhatsApp Image 2026-08-21 at 18.46.12 (3).jpeg",
+      "title": "জুয়েলারি ডিটেইল 38",
+      "categoryLabel": "জুয়েলারি ডিটেইল"
+    },
+    {
+      "id": "src-039",
+      "slug": "emarket247-jewellery-detail-39",
+      "category": "jewellery-detail",
+      "image": {
+        "src": "/assets/images/products/emarket247-jewellery-detail-39-1280.webp",
+        "srcset": "/assets/images/products/emarket247-jewellery-detail-39-640.webp 640w, /assets/images/products/emarket247-jewellery-detail-39-1280.webp 1200w",
+        "width": 1200,
+        "height": 1600,
+        "alt": "হালকা রঙের কাপড়ে রাখা সোনালি টোনের জুয়েলারি ডিটেইলের ক্লোজ-আপ ছবি, রেকর্ড 39।",
+        "caption": "পণ্যের ডিটেইল ছবি। স্পেসিফিকেশন ও দাম প্রস্তুত হচ্ছে।"
+      },
+      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "copyright": "© eMarket247. All rights reserved.",
+      "original_filename": "WhatsApp Image 2026-08-21 at 18.46.12.jpeg",
+      "title": "জুয়েলারি ডিটেইল 39",
+      "categoryLabel": "জুয়েলারি ডিটেইল"
+    },
+    {
+      "id": "src-040",
+      "slug": "emarket247-jewellery-detail-40",
+      "category": "jewellery-detail",
+      "image": {
+        "src": "/assets/images/products/emarket247-jewellery-detail-40-1280.webp",
+        "srcset": "/assets/images/products/emarket247-jewellery-detail-40-640.webp 640w, /assets/images/products/emarket247-jewellery-detail-40-1280.webp 1200w",
+        "width": 1200,
+        "height": 1600,
+        "alt": "হালকা রঙের কাপড়ে রাখা সোনালি টোনের জুয়েলারি ডিটেইলের ক্লোজ-আপ ছবি, রেকর্ড 40।",
+        "caption": "পণ্যের ডিটেইল ছবি। স্পেসিফিকেশন ও দাম প্রস্তুত হচ্ছে।"
+      },
+      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "copyright": "© eMarket247. All rights reserved.",
+      "original_filename": "WhatsApp Image 2026-08-21 at 18.46.14 (1).jpeg",
+      "title": "জুয়েলারি ডিটেইল 40",
+      "categoryLabel": "জুয়েলারি ডিটেইল"
+    },
+    {
+      "id": "src-041",
+      "slug": "emarket247-jewellery-detail-41",
+      "category": "jewellery-detail",
+      "image": {
+        "src": "/assets/images/products/emarket247-jewellery-detail-41-1280.webp",
+        "srcset": "/assets/images/products/emarket247-jewellery-detail-41-640.webp 640w, /assets/images/products/emarket247-jewellery-detail-41-1280.webp 1200w",
+        "width": 1200,
+        "height": 1600,
+        "alt": "হালকা রঙের কাপড়ে রাখা সোনালি টোনের জুয়েলারি ডিটেইলের ক্লোজ-আপ ছবি, রেকর্ড 41।",
+        "caption": "পণ্যের ডিটেইল ছবি। স্পেসিফিকেশন ও দাম প্রস্তুত হচ্ছে।"
+      },
+      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "copyright": "© eMarket247. All rights reserved.",
+      "original_filename": "WhatsApp Image 2026-08-21 at 18.46.14.jpeg",
+      "title": "জুয়েলারি ডিটেইল 41",
+      "categoryLabel": "জুয়েলারি ডিটেইল"
+    },
+    {
+      "id": "src-042",
+      "slug": "emarket247-jewellery-detail-42",
+      "category": "jewellery-detail",
+      "image": {
+        "src": "/assets/images/products/emarket247-jewellery-detail-42-1280.webp",
+        "srcset": "/assets/images/products/emarket247-jewellery-detail-42-640.webp 640w, /assets/images/products/emarket247-jewellery-detail-42-1280.webp 1200w",
+        "width": 1200,
+        "height": 1600,
+        "alt": "হালকা রঙের কাপড়ে রাখা সোনালি টোনের জুয়েলারি ডিটেইলের ক্লোজ-আপ ছবি, রেকর্ড 42।",
+        "caption": "পণ্যের ডিটেইল ছবি। স্পেসিফিকেশন ও দাম প্রস্তুত হচ্ছে।"
+      },
+      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "copyright": "© eMarket247. All rights reserved.",
+      "original_filename": "WhatsApp Image 2026-08-21 at 18.46.15 (1).jpeg",
+      "title": "জুয়েলারি ডিটেইল 42",
+      "categoryLabel": "জুয়েলারি ডিটেইল"
+    },
+    {
+      "id": "src-043",
+      "slug": "emarket247-jewellery-detail-43",
+      "category": "jewellery-detail",
+      "image": {
+        "src": "/assets/images/products/emarket247-jewellery-detail-43-1280.webp",
+        "srcset": "/assets/images/products/emarket247-jewellery-detail-43-640.webp 640w, /assets/images/products/emarket247-jewellery-detail-43-1280.webp 1200w",
+        "width": 1200,
+        "height": 1600,
+        "alt": "হালকা রঙের কাপড়ে রাখা সোনালি টোনের জুয়েলারি ডিটেইলের ক্লোজ-আপ ছবি, রেকর্ড 43।",
+        "caption": "পণ্যের ডিটেইল ছবি। স্পেসিফিকেশন ও দাম প্রস্তুত হচ্ছে।"
+      },
+      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "copyright": "© eMarket247. All rights reserved.",
+      "original_filename": "WhatsApp Image 2026-08-21 at 18.46.15.jpeg",
+      "title": "জুয়েলারি ডিটেইল 43",
+      "categoryLabel": "জুয়েলারি ডিটেইল"
+    },
+    {
+      "id": "src-044",
+      "slug": "emarket247-jewellery-detail-44",
+      "category": "jewellery-detail",
+      "image": {
+        "src": "/assets/images/products/emarket247-jewellery-detail-44-1280.webp",
+        "srcset": "/assets/images/products/emarket247-jewellery-detail-44-640.webp 640w, /assets/images/products/emarket247-jewellery-detail-44-1280.webp 1200w",
+        "width": 1200,
+        "height": 1600,
+        "alt": "হালকা রঙের কাপড়ে রাখা সোনালি টোনের জুয়েলারি ডিটেইলের ক্লোজ-আপ ছবি, রেকর্ড 44।",
+        "caption": "পণ্যের ডিটেইল ছবি। স্পেসিফিকেশন ও দাম প্রস্তুত হচ্ছে।"
+      },
+      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "copyright": "© eMarket247. All rights reserved.",
+      "original_filename": "WhatsApp Image 2026-08-21 at 18.46.16 (1).jpeg",
+      "title": "জুয়েলারি ডিটেইল 44",
+      "categoryLabel": "জুয়েলারি ডিটেইল"
+    },
+    {
+      "id": "src-045",
+      "slug": "emarket247-jewellery-detail-45",
+      "category": "jewellery-detail",
+      "image": {
+        "src": "/assets/images/products/emarket247-jewellery-detail-45-1280.webp",
+        "srcset": "/assets/images/products/emarket247-jewellery-detail-45-640.webp 640w, /assets/images/products/emarket247-jewellery-detail-45-1280.webp 1200w",
+        "width": 1200,
+        "height": 1600,
+        "alt": "হালকা রঙের কাপড়ে রাখা সোনালি টোনের জুয়েলারি ডিটেইলের ক্লোজ-আপ ছবি, রেকর্ড 45।",
+        "caption": "পণ্যের ডিটেইল ছবি। স্পেসিফিকেশন ও দাম প্রস্তুত হচ্ছে।"
+      },
+      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "copyright": "© eMarket247. All rights reserved.",
+      "original_filename": "WhatsApp Image 2026-08-21 at 18.46.16 (2).jpeg",
+      "title": "জুয়েলারি ডিটেইল 45",
+      "categoryLabel": "জুয়েলারি ডিটেইল"
+    },
+    {
+      "id": "src-046",
+      "slug": "emarket247-necklaces-46",
+      "category": "necklaces",
+      "image": {
+        "src": "/assets/images/products/emarket247-necklaces-46-1280.webp",
+        "srcset": "/assets/images/products/emarket247-necklaces-46-640.webp 640w, /assets/images/products/emarket247-necklaces-46-1280.webp 1200w",
+        "width": 1200,
+        "height": 1600,
+        "alt": "হালকা রঙের কাপড়ে রাখা সোনালি টোনের হার-ধাঁচের জুয়েলারি ডিটেইলের ক্লোজ-আপ ছবি, রেকর্ড 46।",
+        "caption": "পণ্যের ডিটেইল ছবি। স্পেসিফিকেশন ও দাম প্রস্তুত হচ্ছে।"
+      },
+      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "copyright": "© eMarket247. All rights reserved.",
+      "original_filename": "WhatsApp Image 2026-08-21 at 18.46.16.jpeg",
+      "title": "হার-ধাঁচের জুয়েলারি ডিটেইল 46",
+      "categoryLabel": "হার"
+    },
+    {
+      "id": "src-047",
+      "slug": "emarket247-necklaces-47",
+      "category": "necklaces",
+      "image": {
+        "src": "/assets/images/products/emarket247-necklaces-47-1280.webp",
+        "srcset": "/assets/images/products/emarket247-necklaces-47-640.webp 640w, /assets/images/products/emarket247-necklaces-47-1280.webp 1200w",
+        "width": 1200,
+        "height": 1600,
+        "alt": "হালকা রঙের কাপড়ে রাখা সোনালি টোনের হার-ধাঁচের জুয়েলারি ডিটেইলের ক্লোজ-আপ ছবি, রেকর্ড 47।",
+        "caption": "পণ্যের ডিটেইল ছবি। স্পেসিফিকেশন ও দাম প্রস্তুত হচ্ছে।"
+      },
+      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "copyright": "© eMarket247. All rights reserved.",
+      "original_filename": "WhatsApp Image 2026-08-21 at 18.46.17 (1).jpeg",
+      "title": "হার-ধাঁচের জুয়েলারি ডিটেইল 47",
+      "categoryLabel": "হার"
+    },
+    {
+      "id": "src-048",
+      "slug": "emarket247-necklaces-48",
+      "category": "necklaces",
+      "image": {
+        "src": "/assets/images/products/emarket247-necklaces-48-1280.webp",
+        "srcset": "/assets/images/products/emarket247-necklaces-48-640.webp 640w, /assets/images/products/emarket247-necklaces-48-1280.webp 1200w",
+        "width": 1200,
+        "height": 1600,
+        "alt": "হালকা রঙের কাপড়ে রাখা সোনালি টোনের হার-ধাঁচের জুয়েলারি ডিটেইলের ক্লোজ-আপ ছবি, রেকর্ড 48।",
+        "caption": "পণ্যের ডিটেইল ছবি। স্পেসিফিকেশন ও দাম প্রস্তুত হচ্ছে।"
+      },
+      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "copyright": "© eMarket247. All rights reserved.",
+      "original_filename": "WhatsApp Image 2026-08-21 at 18.46.17.jpeg",
+      "title": "হার-ধাঁচের জুয়েলারি ডিটেইল 48",
+      "categoryLabel": "হার"
+    }
+  ]
+}

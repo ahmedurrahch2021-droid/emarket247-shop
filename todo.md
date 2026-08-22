@@ -6,3 +6,12 @@
 - [ ] Create approved production image derivatives with subject-based filenames, embedded eMarket247 copyright metadata, title, alt text, caption, and code/catalog references.
 - [ ] Keep the production output compatible with Hostinger File Manager upload by delivering the static `dist/public` build contents with required routing guidance.
 - [ ] Verify the white-layout black/red brand system, mobile behavior, accessibility, SEO, and performance before handoff.
+- [ ] Convert the existing React/TypeScript source into a pure multi-page HTML, CSS, and vanilla-JavaScript folder structure while preserving the saved checkpoint.
+- [ ] Confirm the keyword-data source for Bangladesh research before generating a country-scoped keyword and competitor-gap report.
+- [ ] Research Bengali and English search intent, customer psychology, seasonal demand, and trust requirements for Bangladesh jewelry buyers.
+- [ ] Build individual Bengali/English category pages and submenu routes for rings, earrings, necklaces, bracelets, bangles, pendants, jewellery sets, and gift jewellery.
+- [ ] Create a September Puja collection route and supporting bilingual content without making unsupported product or delivery claims.
+- [ ] Build a full-width image hero slider with accessible manual controls, reduced-motion support, and no autoplay video requirement.
+- [ ] Add a cookie-preferences notice only if non-essential analytics, marketing, or third-party cookies are enabled; never show an automatic sign-in prompt.
+- [ ] Process the supplied product images as unpriced catalog assets with bilingual title, alt text, caption, copyright metadata, stable filenames, and code references.
+- [ ] Use public Bangladesh-focused sources for keyword, seasonal, competitor, and customer-intent research; label all unavailable volume, difficulty, and competitive metrics as qualitative or estimated rather than presenting invented figures as measured data.
