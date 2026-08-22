@@ -1,14 +1,14 @@
-/** Build the managed deployment from the same pure static package supplied for Hostinger upload. */
+/** Build the managed deployment from the self-contained pure static source used for Hostinger upload. */
 import { cp, mkdir, rm } from "node:fs/promises";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
-// Recreate the latest Hostinger-ready source before copying it to the managed deployment output.
-await import("./package-pure-static-site.mjs");
-
-const project = "/home/ubuntu/emarket247-shop";
-const source = "/home/ubuntu/emarket247-hostinger-static";
+const project = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
+const source = path.join(project, "static-site");
 const output = path.join(project, "dist", "public");
 
+// The root entry is the English storefront. Bengali remains available in the utility bar.
+await cp(path.join(source, "en", "index.html"), path.join(source, "index.html"));
 await rm(output, { recursive: true, force: true });
 await mkdir(path.dirname(output), { recursive: true });
 await cp(source, output, { recursive: true });

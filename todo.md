@@ -1,25 +1,30 @@
 # eMarket247.shop — Active Delivery Tasks
 
-- [ ] Keep the visual system predominantly white/ivory, using eMarket247 black and red as the brand hierarchy rather than changing the storefront to a dark or Pandora-like color scheme.
-- [ ] Keep prices, SKUs, material claims, availability, delivery promises, and product-specific purchase data absent until the business provides approved values.
+- [x] Keep the visual system predominantly white/ivory, using eMarket247 black and red as the brand hierarchy rather than changing the storefront to a dark or Pandora-like color scheme.
+- [x] Keep prices, SKUs, material claims, availability, delivery promises, and product-specific purchase data absent until the business provides approved values.
 - [ ] Complete confirmed subject-to-product mapping for the 48 source photographs before any bulk final rename, metadata write, or product-card publication.
 - [ ] Create approved production image derivatives with subject-based filenames, embedded eMarket247 copyright metadata, title, alt text, caption, and code/catalog references.
-- [ ] Keep the production output compatible with Hostinger File Manager upload by delivering the static `dist/public` build contents with required routing guidance.
-- [ ] Verify the white-layout black/red brand system, mobile behavior, accessibility, SEO, and performance before handoff.
-- [ ] Convert the existing React/TypeScript source into a pure multi-page HTML, CSS, and vanilla-JavaScript folder structure while preserving the saved checkpoint.
-- [ ] Confirm the keyword-data source for Bangladesh research before generating a country-scoped keyword and competitor-gap report.
-- [ ] Research Bengali and English search intent, customer psychology, seasonal demand, and trust requirements for Bangladesh jewelry buyers.
-- [ ] Build individual Bengali/English category pages and submenu routes for rings, earrings, necklaces, bracelets, bangles, pendants, jewellery sets, and gift jewellery.
-- [ ] Create a September Puja collection route and supporting bilingual content without making unsupported product or delivery claims.
-- [ ] Build a full-width image hero slider with accessible manual controls, reduced-motion support, and no autoplay video requirement.
-- [ ] Add a cookie-preferences notice only if non-essential analytics, marketing, or third-party cookies are enabled; never show an automatic sign-in prompt.
-- [ ] Process the supplied product images as unpriced catalog assets with bilingual title, alt text, caption, copyright metadata, stable filenames, and code references.
-- [ ] Use public Bangladesh-focused sources for keyword, seasonal, competitor, and customer-intent research; label all unavailable volume, difficulty, and competitive metrics as qualitative or estimated rather than presenting invented figures as measured data.
-- [ ] Convert the homepage image hero into a full-width responsive composition with an accessible contrast overlay and reduced-motion-safe slider behavior.
-- [ ] Create separate, non-destructive background-cleaned and visually enhanced product-image derivatives while preserving all originals and the existing metadata trail.
-- [ ] Enrich unpriced product records with conservative, visually supported bilingual details and retain the absence of unconfirmed materials, prices, stock, ratings, and delivery claims.
-- [ ] Add lightweight keyboard-accessible category filtering and sorting that works locally in the Hostinger static package.
-- [ ] Research official Bangladesh payment and delivery options, recommend a secure integration approach, and wait for merchant-account/provider approval before activation.
-- [ ] Audit the final Hostinger-ready static route tree against every category link promised in the navigation and category submenu.
-- [ ] Verify that the production-facing homepage hero is genuinely full-width in the pure static package, not only in an earlier preview implementation.
-- [ ] Correct any missing, hidden, or mislinked category pages and regenerate the deployable Hostinger package.
+- [x] Keep the production output compatible with Hostinger File Manager upload by delivering the static `dist/public` build contents with required routing guidance.
+- [x] Verify the white-layout black/red brand system, mobile behavior, accessibility, SEO, and performance before handoff.
+- [x] Convert the existing React/TypeScript source into a pure multi-page HTML, CSS, and vanilla-JavaScript folder structure while preserving the saved checkpoint.
+- [x] Confirm the keyword-data source for Bangladesh research before generating a country-scoped keyword and competitor-gap report.
+- [x] Research Bengali and English search intent, customer psychology, seasonal demand, and trust requirements for Bangladesh jewelry buyers.
+- [x] Build individual Bengali/English category pages and submenu routes for rings, earrings, necklaces, bracelets, bangles, pendants, jewellery sets, and gift jewellery.
+- [x] Create a September Puja collection route and supporting bilingual content without making unsupported product or delivery claims.
+- [x] Build a full-width image hero slider with accessible manual controls, reduced-motion support, and no autoplay video requirement.
+- [x] Add a cookie-preferences notice only if non-essential analytics, marketing, or third-party cookies are enabled; never show an automatic sign-in prompt.
+- [x] Process the supplied product images as unpriced catalog assets with bilingual title, alt text, caption, copyright metadata, stable filenames, and code references.
+- [x] Use public Bangladesh-focused sources for keyword, seasonal, competitor, and customer-intent research; label all unavailable volume, difficulty, and competitive metrics as qualitative or estimated rather than presenting invented figures as measured data.
+- [x] Convert the homepage image hero into a full-width responsive composition with an accessible contrast overlay and reduced-motion-safe slider behavior.
+- [x] Create separate, non-destructive background-cleaned and visually enhanced product-image derivatives while preserving all originals and the existing metadata trail.
+- [x] Enrich unpriced product records with conservative, visually supported bilingual details and retain the absence of unconfirmed materials, prices, stock, ratings, and delivery claims.
+- [x] Add lightweight keyboard-accessible category filtering and sorting that works locally in the Hostinger static package.
+- [x] Research official Bangladesh payment and delivery options, recommend a secure integration approach, and wait for merchant-account/provider approval before activation.
+- [x] Audit the final Hostinger-ready static route tree against every category link promised in the navigation and category submenu.
+- [x] Verify that the production-facing homepage hero is genuinely full-width in the pure static package, not only in an earlier preview implementation.
+- [x] Correct any missing, hidden, or mislinked category pages and regenerate the deployable Hostinger package.
+- [x] Replace the root language-selector landing page with direct English entry and retain Bengali/English switching in the utility bar.
+- [x] Add a professional utility bar that supports confirmed contact and delivery information without inventing a phone number or delivery promise.
+- [x] Rebuild the enhanced product-image derivatives as consistent square catalog assets and present products in a responsive three-column desktop grid.
+- [x] Rewrite the Bengali interface and catalog microcopy for natural Bangladeshi Bengali.
+- [x] Remove machine-specific absolute paths from the static build workflow so the deployment can succeed in the cloud publishing environment.

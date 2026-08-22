@@ -39,3 +39,9 @@ The third batch includes multiple small gold-tone details on pale fabric and a c
 ## Operational conclusion
 
 All 48 photographs can now appear in the **unpriced Shop catalogue** with conservative bilingual labels and a clear `Details preparing / বিস্তারিত প্রস্তুত হচ্ছে` state. The category pages will show only temporary visual groupings where the form is clear. Final product merchandising must be reviewed when the owner supplies product names, materials, prices, and availability.
+
+## Square-catalog visual QA
+
+The first square derivative review confirmed that subject preservation is intact, but the previously transparent background-cleaning stage leaves substantial empty canvas around some jewellery pieces. Before final catalogue publication, square derivatives should trim only transparent padding to the subject alpha bounds, apply a small safe margin, and then contain the complete subject on the square studio canvas. This improves product prominence without cropping, stretching, or changing any supplied jewellery photograph.
+
+The regenerated sample for `src-001` now fills the square studio presentation appropriately while keeping all visible edges of the owner-supplied jewellery intact. The corresponding English Shop review confirms that this treatment remains compatible with the planned three-column desktop catalogue layout.

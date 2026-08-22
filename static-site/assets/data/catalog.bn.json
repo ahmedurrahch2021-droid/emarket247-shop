@@ -1,256 +1,256 @@
 {
-  "status": "unpriced-enhanced-product-records-pending-business-review",
+  "status": "মূল্য-ছাড়া পণ্যের তথ্য যাচাইাধীন",
   "products": [
     {
       "id": "src-001",
       "slug": "emarket247-jewellery-detail-01",
       "category": "jewellery-detail",
       "image": {
-        "src": "/assets/images/products/emarket247-jewellery-detail-01-1280.webp",
-        "srcset": "/assets/images/products/emarket247-jewellery-detail-01-640.webp 640w, /assets/images/products/emarket247-jewellery-detail-01-1280.webp 1280w",
-        "width": 1280,
-        "height": 1600,
-        "alt": "জুয়েলারির বিবরণ 01-এর পণ্যের ছবি; স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।",
-        "caption": "মূল্যবিহীন ক্যাটালগ রেকর্ড। স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।"
+        "src": "/assets/images/products-square/emarket247-jewellery-detail-01-1200-square.webp",
+        "srcset": "/assets/images/products-square/emarket247-jewellery-detail-01-600-square.webp 600w, /assets/images/products-square/emarket247-jewellery-detail-01-1200-square.webp 1200w",
+        "width": 1200,
+        "height": 1200,
+        "alt": "জুয়েলারি আইটেম ০১-এর ছবি। নকশা ও মূল্য যাচাই শেষে প্রকাশ করা হবে।",
+        "caption": "পণ্যের তথ্য যাচাইাধীন — মূল্য পরে যোগ করা হবে।"
       },
-      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "status": "তথ্য যাচাই চলছে",
       "copyright": "© eMarket247. All rights reserved.",
       "original_filename": "WhatsApp Image 2026-08-21 at 18.45.47 (1).jpeg",
-      "title": "জুয়েলারির বিবরণ",
-      "categoryLabel": "জুয়েলারি ডিটেইল"
+      "title": "জুয়েলারি আইটেম ০১",
+      "categoryLabel": "জুয়েলারি আইটেম"
     },
     {
       "id": "src-002",
       "slug": "emarket247-jewellery-detail-02",
       "category": "jewellery-detail",
       "image": {
-        "src": "/assets/images/products/emarket247-jewellery-detail-02-1280.webp",
-        "srcset": "/assets/images/products/emarket247-jewellery-detail-02-640.webp 640w, /assets/images/products/emarket247-jewellery-detail-02-1280.webp 1280w",
-        "width": 1280,
-        "height": 1600,
-        "alt": "জুয়েলারির বিবরণ 02-এর পণ্যের ছবি; স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।",
-        "caption": "মূল্যবিহীন ক্যাটালগ রেকর্ড। স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।"
+        "src": "/assets/images/products-square/emarket247-jewellery-detail-02-1200-square.webp",
+        "srcset": "/assets/images/products-square/emarket247-jewellery-detail-02-600-square.webp 600w, /assets/images/products-square/emarket247-jewellery-detail-02-1200-square.webp 1200w",
+        "width": 1200,
+        "height": 1200,
+        "alt": "জুয়েলারি আইটেম ০২-এর ছবি। নকশা ও মূল্য যাচাই শেষে প্রকাশ করা হবে।",
+        "caption": "পণ্যের তথ্য যাচাইাধীন — মূল্য পরে যোগ করা হবে।"
       },
-      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "status": "তথ্য যাচাই চলছে",
       "copyright": "© eMarket247. All rights reserved.",
       "original_filename": "WhatsApp Image 2026-08-21 at 18.45.47.jpeg",
-      "title": "জুয়েলারির বিবরণ",
-      "categoryLabel": "জুয়েলারি ডিটেইল"
+      "title": "জুয়েলারি আইটেম ০২",
+      "categoryLabel": "জুয়েলারি আইটেম"
     },
     {
       "id": "src-003",
       "slug": "emarket247-jewellery-detail-03",
       "category": "jewellery-detail",
       "image": {
-        "src": "/assets/images/products/emarket247-jewellery-detail-03-1280.webp",
-        "srcset": "/assets/images/products/emarket247-jewellery-detail-03-640.webp 640w, /assets/images/products/emarket247-jewellery-detail-03-1280.webp 1280w",
-        "width": 1280,
-        "height": 1600,
-        "alt": "জুয়েলারির বিবরণ 03-এর পণ্যের ছবি; স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।",
-        "caption": "মূল্যবিহীন ক্যাটালগ রেকর্ড। স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।"
+        "src": "/assets/images/products-square/emarket247-jewellery-detail-03-1200-square.webp",
+        "srcset": "/assets/images/products-square/emarket247-jewellery-detail-03-600-square.webp 600w, /assets/images/products-square/emarket247-jewellery-detail-03-1200-square.webp 1200w",
+        "width": 1200,
+        "height": 1200,
+        "alt": "জুয়েলারি আইটেম ০৩-এর ছবি। নকশা ও মূল্য যাচাই শেষে প্রকাশ করা হবে।",
+        "caption": "পণ্যের তথ্য যাচাইাধীন — মূল্য পরে যোগ করা হবে।"
       },
-      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "status": "তথ্য যাচাই চলছে",
       "copyright": "© eMarket247. All rights reserved.",
       "original_filename": "WhatsApp Image 2026-08-21 at 18.45.48.jpeg",
-      "title": "জুয়েলারির বিবরণ",
-      "categoryLabel": "জুয়েলারি ডিটেইল"
+      "title": "জুয়েলারি আইটেম ০৩",
+      "categoryLabel": "জুয়েলারি আইটেম"
     },
     {
       "id": "src-004",
       "slug": "emarket247-jewellery-detail-04",
       "category": "jewellery-detail",
       "image": {
-        "src": "/assets/images/products/emarket247-jewellery-detail-04-1280.webp",
-        "srcset": "/assets/images/products/emarket247-jewellery-detail-04-640.webp 640w, /assets/images/products/emarket247-jewellery-detail-04-1280.webp 1280w",
-        "width": 1280,
-        "height": 1600,
-        "alt": "জুয়েলারির বিবরণ 04-এর পণ্যের ছবি; স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।",
-        "caption": "মূল্যবিহীন ক্যাটালগ রেকর্ড। স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।"
+        "src": "/assets/images/products-square/emarket247-jewellery-detail-04-1200-square.webp",
+        "srcset": "/assets/images/products-square/emarket247-jewellery-detail-04-600-square.webp 600w, /assets/images/products-square/emarket247-jewellery-detail-04-1200-square.webp 1200w",
+        "width": 1200,
+        "height": 1200,
+        "alt": "জুয়েলারি আইটেম ০৪-এর ছবি। নকশা ও মূল্য যাচাই শেষে প্রকাশ করা হবে।",
+        "caption": "পণ্যের তথ্য যাচাইাধীন — মূল্য পরে যোগ করা হবে।"
       },
-      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "status": "তথ্য যাচাই চলছে",
       "copyright": "© eMarket247. All rights reserved.",
       "original_filename": "WhatsApp Image 2026-08-21 at 18.45.49.jpeg",
-      "title": "জুয়েলারির বিবরণ",
-      "categoryLabel": "জুয়েলারি ডিটেইল"
+      "title": "জুয়েলারি আইটেম ০৪",
+      "categoryLabel": "জুয়েলারি আইটেম"
     },
     {
       "id": "src-005",
       "slug": "emarket247-jewellery-detail-05",
       "category": "jewellery-detail",
       "image": {
-        "src": "/assets/images/products/emarket247-jewellery-detail-05-1280.webp",
-        "srcset": "/assets/images/products/emarket247-jewellery-detail-05-640.webp 640w, /assets/images/products/emarket247-jewellery-detail-05-1280.webp 1280w",
-        "width": 1280,
-        "height": 1600,
-        "alt": "জুয়েলারির বিবরণ 05-এর পণ্যের ছবি; স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।",
-        "caption": "মূল্যবিহীন ক্যাটালগ রেকর্ড। স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।"
+        "src": "/assets/images/products-square/emarket247-jewellery-detail-05-1200-square.webp",
+        "srcset": "/assets/images/products-square/emarket247-jewellery-detail-05-600-square.webp 600w, /assets/images/products-square/emarket247-jewellery-detail-05-1200-square.webp 1200w",
+        "width": 1200,
+        "height": 1200,
+        "alt": "জুয়েলারি আইটেম ০৫-এর ছবি। নকশা ও মূল্য যাচাই শেষে প্রকাশ করা হবে।",
+        "caption": "পণ্যের তথ্য যাচাইাধীন — মূল্য পরে যোগ করা হবে।"
       },
-      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "status": "তথ্য যাচাই চলছে",
       "copyright": "© eMarket247. All rights reserved.",
       "original_filename": "WhatsApp Image 2026-08-21 at 18.45.50 (1).jpeg",
-      "title": "জুয়েলারির বিবরণ",
-      "categoryLabel": "জুয়েলারি ডিটেইল"
+      "title": "জুয়েলারি আইটেম ০৫",
+      "categoryLabel": "জুয়েলারি আইটেম"
     },
     {
       "id": "src-006",
       "slug": "emarket247-jewellery-detail-06",
       "category": "jewellery-detail",
       "image": {
-        "src": "/assets/images/products/emarket247-jewellery-detail-06-1280.webp",
-        "srcset": "/assets/images/products/emarket247-jewellery-detail-06-640.webp 640w, /assets/images/products/emarket247-jewellery-detail-06-1280.webp 1280w",
-        "width": 1280,
-        "height": 1600,
-        "alt": "জুয়েলারির বিবরণ 06-এর পণ্যের ছবি; স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।",
-        "caption": "মূল্যবিহীন ক্যাটালগ রেকর্ড। স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।"
+        "src": "/assets/images/products-square/emarket247-jewellery-detail-06-1200-square.webp",
+        "srcset": "/assets/images/products-square/emarket247-jewellery-detail-06-600-square.webp 600w, /assets/images/products-square/emarket247-jewellery-detail-06-1200-square.webp 1200w",
+        "width": 1200,
+        "height": 1200,
+        "alt": "জুয়েলারি আইটেম ০৬-এর ছবি। নকশা ও মূল্য যাচাই শেষে প্রকাশ করা হবে।",
+        "caption": "পণ্যের তথ্য যাচাইাধীন — মূল্য পরে যোগ করা হবে।"
       },
-      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "status": "তথ্য যাচাই চলছে",
       "copyright": "© eMarket247. All rights reserved.",
       "original_filename": "WhatsApp Image 2026-08-21 at 18.45.50.jpeg",
-      "title": "জুয়েলারির বিবরণ",
-      "categoryLabel": "জুয়েলারি ডিটেইল"
+      "title": "জুয়েলারি আইটেম ০৬",
+      "categoryLabel": "জুয়েলারি আইটেম"
     },
     {
       "id": "src-007",
       "slug": "emarket247-jewellery-detail-07",
       "category": "jewellery-detail",
       "image": {
-        "src": "/assets/images/products/emarket247-jewellery-detail-07-1280.webp",
-        "srcset": "/assets/images/products/emarket247-jewellery-detail-07-640.webp 640w, /assets/images/products/emarket247-jewellery-detail-07-1280.webp 1280w",
-        "width": 1280,
-        "height": 1600,
-        "alt": "জুয়েলারির বিবরণ 07-এর পণ্যের ছবি; স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।",
-        "caption": "মূল্যবিহীন ক্যাটালগ রেকর্ড। স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।"
+        "src": "/assets/images/products-square/emarket247-jewellery-detail-07-1200-square.webp",
+        "srcset": "/assets/images/products-square/emarket247-jewellery-detail-07-600-square.webp 600w, /assets/images/products-square/emarket247-jewellery-detail-07-1200-square.webp 1200w",
+        "width": 1200,
+        "height": 1200,
+        "alt": "জুয়েলারি আইটেম ০৭-এর ছবি। নকশা ও মূল্য যাচাই শেষে প্রকাশ করা হবে।",
+        "caption": "পণ্যের তথ্য যাচাইাধীন — মূল্য পরে যোগ করা হবে।"
       },
-      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "status": "তথ্য যাচাই চলছে",
       "copyright": "© eMarket247. All rights reserved.",
       "original_filename": "WhatsApp Image 2026-08-21 at 18.45.52.jpeg",
-      "title": "জুয়েলারির বিবরণ",
-      "categoryLabel": "জুয়েলারি ডিটেইল"
+      "title": "জুয়েলারি আইটেম ০৭",
+      "categoryLabel": "জুয়েলারি আইটেম"
     },
     {
       "id": "src-008",
       "slug": "emarket247-jewellery-detail-08",
       "category": "jewellery-detail",
       "image": {
-        "src": "/assets/images/products/emarket247-jewellery-detail-08-1280.webp",
-        "srcset": "/assets/images/products/emarket247-jewellery-detail-08-640.webp 640w, /assets/images/products/emarket247-jewellery-detail-08-1280.webp 1280w",
-        "width": 1280,
-        "height": 1600,
-        "alt": "জুয়েলারির বিবরণ 08-এর পণ্যের ছবি; স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।",
-        "caption": "মূল্যবিহীন ক্যাটালগ রেকর্ড। স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।"
+        "src": "/assets/images/products-square/emarket247-jewellery-detail-08-1200-square.webp",
+        "srcset": "/assets/images/products-square/emarket247-jewellery-detail-08-600-square.webp 600w, /assets/images/products-square/emarket247-jewellery-detail-08-1200-square.webp 1200w",
+        "width": 1200,
+        "height": 1200,
+        "alt": "জুয়েলারি আইটেম ০৮-এর ছবি। নকশা ও মূল্য যাচাই শেষে প্রকাশ করা হবে।",
+        "caption": "পণ্যের তথ্য যাচাইাধীন — মূল্য পরে যোগ করা হবে।"
       },
-      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "status": "তথ্য যাচাই চলছে",
       "copyright": "© eMarket247. All rights reserved.",
       "original_filename": "WhatsApp Image 2026-08-21 at 18.45.53.jpeg",
-      "title": "জুয়েলারির বিবরণ",
-      "categoryLabel": "জুয়েলারি ডিটেইল"
+      "title": "জুয়েলারি আইটেম ০৮",
+      "categoryLabel": "জুয়েলারি আইটেম"
     },
     {
       "id": "src-009",
       "slug": "emarket247-jewellery-detail-09",
       "category": "jewellery-detail",
       "image": {
-        "src": "/assets/images/products/emarket247-jewellery-detail-09-1280.webp",
-        "srcset": "/assets/images/products/emarket247-jewellery-detail-09-640.webp 640w, /assets/images/products/emarket247-jewellery-detail-09-1280.webp 1280w",
-        "width": 1280,
-        "height": 1600,
-        "alt": "জুয়েলারির বিবরণ 09-এর পণ্যের ছবি; স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।",
-        "caption": "মূল্যবিহীন ক্যাটালগ রেকর্ড। স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।"
+        "src": "/assets/images/products-square/emarket247-jewellery-detail-09-1200-square.webp",
+        "srcset": "/assets/images/products-square/emarket247-jewellery-detail-09-600-square.webp 600w, /assets/images/products-square/emarket247-jewellery-detail-09-1200-square.webp 1200w",
+        "width": 1200,
+        "height": 1200,
+        "alt": "জুয়েলারি আইটেম ০৯-এর ছবি। নকশা ও মূল্য যাচাই শেষে প্রকাশ করা হবে।",
+        "caption": "পণ্যের তথ্য যাচাইাধীন — মূল্য পরে যোগ করা হবে।"
       },
-      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "status": "তথ্য যাচাই চলছে",
       "copyright": "© eMarket247. All rights reserved.",
       "original_filename": "WhatsApp Image 2026-08-21 at 18.45.54.jpeg",
-      "title": "জুয়েলারির বিবরণ",
-      "categoryLabel": "জুয়েলারি ডিটেইল"
+      "title": "জুয়েলারি আইটেম ০৯",
+      "categoryLabel": "জুয়েলারি আইটেম"
     },
     {
       "id": "src-010",
       "slug": "emarket247-jewellery-detail-10",
       "category": "jewellery-detail",
       "image": {
-        "src": "/assets/images/products/emarket247-jewellery-detail-10-1280.webp",
-        "srcset": "/assets/images/products/emarket247-jewellery-detail-10-640.webp 640w, /assets/images/products/emarket247-jewellery-detail-10-1280.webp 1280w",
-        "width": 1280,
-        "height": 1600,
-        "alt": "জুয়েলারির বিবরণ 10-এর পণ্যের ছবি; স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।",
-        "caption": "মূল্যবিহীন ক্যাটালগ রেকর্ড। স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।"
+        "src": "/assets/images/products-square/emarket247-jewellery-detail-10-1200-square.webp",
+        "srcset": "/assets/images/products-square/emarket247-jewellery-detail-10-600-square.webp 600w, /assets/images/products-square/emarket247-jewellery-detail-10-1200-square.webp 1200w",
+        "width": 1200,
+        "height": 1200,
+        "alt": "জুয়েলারি আইটেম ১০-এর ছবি। নকশা ও মূল্য যাচাই শেষে প্রকাশ করা হবে।",
+        "caption": "পণ্যের তথ্য যাচাইাধীন — মূল্য পরে যোগ করা হবে।"
       },
-      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "status": "তথ্য যাচাই চলছে",
       "copyright": "© eMarket247. All rights reserved.",
       "original_filename": "WhatsApp Image 2026-08-21 at 18.45.56.jpeg",
-      "title": "জুয়েলারির বিবরণ",
-      "categoryLabel": "জুয়েলারি ডিটেইল"
+      "title": "জুয়েলারি আইটেম ১০",
+      "categoryLabel": "জুয়েলারি আইটেম"
     },
     {
       "id": "src-011",
       "slug": "emarket247-jewellery-detail-11",
       "category": "jewellery-detail",
       "image": {
-        "src": "/assets/images/products/emarket247-jewellery-detail-11-1280.webp",
-        "srcset": "/assets/images/products/emarket247-jewellery-detail-11-640.webp 640w, /assets/images/products/emarket247-jewellery-detail-11-1280.webp 1280w",
-        "width": 1280,
-        "height": 1600,
-        "alt": "জুয়েলারির বিবরণ 11-এর পণ্যের ছবি; স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।",
-        "caption": "মূল্যবিহীন ক্যাটালগ রেকর্ড। স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।"
+        "src": "/assets/images/products-square/emarket247-jewellery-detail-11-1200-square.webp",
+        "srcset": "/assets/images/products-square/emarket247-jewellery-detail-11-600-square.webp 600w, /assets/images/products-square/emarket247-jewellery-detail-11-1200-square.webp 1200w",
+        "width": 1200,
+        "height": 1200,
+        "alt": "জুয়েলারি আইটেম ১১-এর ছবি। নকশা ও মূল্য যাচাই শেষে প্রকাশ করা হবে।",
+        "caption": "পণ্যের তথ্য যাচাইাধীন — মূল্য পরে যোগ করা হবে।"
       },
-      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "status": "তথ্য যাচাই চলছে",
       "copyright": "© eMarket247. All rights reserved.",
       "original_filename": "WhatsApp Image 2026-08-21 at 18.45.57 (1).jpeg",
-      "title": "জুয়েলারির বিবরণ",
-      "categoryLabel": "জুয়েলারি ডিটেইল"
+      "title": "জুয়েলারি আইটেম ১১",
+      "categoryLabel": "জুয়েলারি আইটেম"
     },
     {
       "id": "src-012",
       "slug": "emarket247-jewellery-detail-12",
       "category": "jewellery-detail",
       "image": {
-        "src": "/assets/images/products/emarket247-jewellery-detail-12-1280.webp",
-        "srcset": "/assets/images/products/emarket247-jewellery-detail-12-640.webp 640w, /assets/images/products/emarket247-jewellery-detail-12-1280.webp 1280w",
-        "width": 1280,
-        "height": 1600,
-        "alt": "জুয়েলারির বিবরণ 12-এর পণ্যের ছবি; স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।",
-        "caption": "মূল্যবিহীন ক্যাটালগ রেকর্ড। স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।"
+        "src": "/assets/images/products-square/emarket247-jewellery-detail-12-1200-square.webp",
+        "srcset": "/assets/images/products-square/emarket247-jewellery-detail-12-600-square.webp 600w, /assets/images/products-square/emarket247-jewellery-detail-12-1200-square.webp 1200w",
+        "width": 1200,
+        "height": 1200,
+        "alt": "জুয়েলারি আইটেম ১২-এর ছবি। নকশা ও মূল্য যাচাই শেষে প্রকাশ করা হবে।",
+        "caption": "পণ্যের তথ্য যাচাইাধীন — মূল্য পরে যোগ করা হবে।"
       },
-      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "status": "তথ্য যাচাই চলছে",
       "copyright": "© eMarket247. All rights reserved.",
       "original_filename": "WhatsApp Image 2026-08-21 at 18.45.57 (2).jpeg",
-      "title": "জুয়েলারির বিবরণ",
-      "categoryLabel": "জুয়েলারি ডিটেইল"
+      "title": "জুয়েলারি আইটেম ১২",
+      "categoryLabel": "জুয়েলারি আইটেম"
     },
     {
       "id": "src-013",
       "slug": "emarket247-jewellery-detail-13",
       "category": "jewellery-detail",
       "image": {
-        "src": "/assets/images/products/emarket247-jewellery-detail-13-1280.webp",
-        "srcset": "/assets/images/products/emarket247-jewellery-detail-13-640.webp 640w, /assets/images/products/emarket247-jewellery-detail-13-1280.webp 1280w",
-        "width": 1280,
-        "height": 1600,
-        "alt": "জুয়েলারির বিবরণ 13-এর পণ্যের ছবি; স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।",
-        "caption": "মূল্যবিহীন ক্যাটালগ রেকর্ড। স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।"
+        "src": "/assets/images/products-square/emarket247-jewellery-detail-13-1200-square.webp",
+        "srcset": "/assets/images/products-square/emarket247-jewellery-detail-13-600-square.webp 600w, /assets/images/products-square/emarket247-jewellery-detail-13-1200-square.webp 1200w",
+        "width": 1200,
+        "height": 1200,
+        "alt": "জুয়েলারি আইটেম ১৩-এর ছবি। নকশা ও মূল্য যাচাই শেষে প্রকাশ করা হবে।",
+        "caption": "পণ্যের তথ্য যাচাইাধীন — মূল্য পরে যোগ করা হবে।"
       },
-      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "status": "তথ্য যাচাই চলছে",
       "copyright": "© eMarket247. All rights reserved.",
       "original_filename": "WhatsApp Image 2026-08-21 at 18.45.57.jpeg",
-      "title": "জুয়েলারির বিবরণ",
-      "categoryLabel": "জুয়েলারি ডিটেইল"
+      "title": "জুয়েলারি আইটেম ১৩",
+      "categoryLabel": "জুয়েলারি আইটেম"
     },
     {
       "id": "src-014",
       "slug": "emarket247-bracelets-14",
       "category": "bracelets",
       "image": {
-        "src": "/assets/images/products/emarket247-bracelets-14-1280.webp",
-        "srcset": "/assets/images/products/emarket247-bracelets-14-640.webp 640w, /assets/images/products/emarket247-bracelets-14-1280.webp 1280w",
-        "width": 1280,
-        "height": 1600,
-        "alt": "ব্রেসলেট-ধাঁচের জুয়েলারির বিবরণ 14-এর পণ্যের ছবি; স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।",
-        "caption": "মূল্যবিহীন ক্যাটালগ রেকর্ড। স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।"
+        "src": "/assets/images/products-square/emarket247-bracelets-14-1200-square.webp",
+        "srcset": "/assets/images/products-square/emarket247-bracelets-14-600-square.webp 600w, /assets/images/products-square/emarket247-bracelets-14-1200-square.webp 1200w",
+        "width": 1200,
+        "height": 1200,
+        "alt": "ব্রেসলেট ১৪-এর ছবি। নকশা ও মূল্য যাচাই শেষে প্রকাশ করা হবে।",
+        "caption": "পণ্যের তথ্য যাচাইাধীন — মূল্য পরে যোগ করা হবে।"
       },
-      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "status": "তথ্য যাচাই চলছে",
       "copyright": "© eMarket247. All rights reserved.",
       "original_filename": "WhatsApp Image 2026-08-21 at 18.45.58.jpeg",
-      "title": "ব্রেসলেট-ধাঁচের জুয়েলারির বিবরণ",
+      "title": "ব্রেসলেট ১৪",
       "categoryLabel": "ব্রেসলেট"
     },
     {
@@ -258,17 +258,17 @@
       "slug": "emarket247-bracelets-15",
       "category": "bracelets",
       "image": {
-        "src": "/assets/images/products/emarket247-bracelets-15-1280.webp",
-        "srcset": "/assets/images/products/emarket247-bracelets-15-640.webp 640w, /assets/images/products/emarket247-bracelets-15-1280.webp 1280w",
-        "width": 1280,
-        "height": 1600,
-        "alt": "ব্রেসলেট-ধাঁচের জুয়েলারির বিবরণ 15-এর পণ্যের ছবি; স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।",
-        "caption": "মূল্যবিহীন ক্যাটালগ রেকর্ড। স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।"
+        "src": "/assets/images/products-square/emarket247-bracelets-15-1200-square.webp",
+        "srcset": "/assets/images/products-square/emarket247-bracelets-15-600-square.webp 600w, /assets/images/products-square/emarket247-bracelets-15-1200-square.webp 1200w",
+        "width": 1200,
+        "height": 1200,
+        "alt": "ব্রেসলেট ১৫-এর ছবি। নকশা ও মূল্য যাচাই শেষে প্রকাশ করা হবে।",
+        "caption": "পণ্যের তথ্য যাচাইাধীন — মূল্য পরে যোগ করা হবে।"
       },
-      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "status": "তথ্য যাচাই চলছে",
       "copyright": "© eMarket247. All rights reserved.",
       "original_filename": "WhatsApp Image 2026-08-21 at 18.45.59 (1).jpeg",
-      "title": "ব্রেসলেট-ধাঁচের জুয়েলারির বিবরণ",
+      "title": "ব্রেসলেট ১৫",
       "categoryLabel": "ব্রেসলেট"
     },
     {
@@ -276,17 +276,17 @@
       "slug": "emarket247-necklaces-16",
       "category": "necklaces",
       "image": {
-        "src": "/assets/images/products/emarket247-necklaces-16-1280.webp",
-        "srcset": "/assets/images/products/emarket247-necklaces-16-640.webp 640w, /assets/images/products/emarket247-necklaces-16-1280.webp 1280w",
-        "width": 1280,
-        "height": 1600,
-        "alt": "হার-ধাঁচের জুয়েলারির বিবরণ 16-এর পণ্যের ছবি; স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।",
-        "caption": "মূল্যবিহীন ক্যাটালগ রেকর্ড। স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।"
+        "src": "/assets/images/products-square/emarket247-necklaces-16-1200-square.webp",
+        "srcset": "/assets/images/products-square/emarket247-necklaces-16-600-square.webp 600w, /assets/images/products-square/emarket247-necklaces-16-1200-square.webp 1200w",
+        "width": 1200,
+        "height": 1200,
+        "alt": "হার ১৬-এর ছবি। নকশা ও মূল্য যাচাই শেষে প্রকাশ করা হবে।",
+        "caption": "পণ্যের তথ্য যাচাইাধীন — মূল্য পরে যোগ করা হবে।"
       },
-      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "status": "তথ্য যাচাই চলছে",
       "copyright": "© eMarket247. All rights reserved.",
       "original_filename": "WhatsApp Image 2026-08-21 at 18.45.59 (2).jpeg",
-      "title": "হার-ধাঁচের জুয়েলারির বিবরণ",
+      "title": "হার ১৬",
       "categoryLabel": "হার"
     },
     {
@@ -294,287 +294,287 @@
       "slug": "emarket247-bangles-17",
       "category": "bangles",
       "image": {
-        "src": "/assets/images/products/emarket247-bangles-17-1280.webp",
-        "srcset": "/assets/images/products/emarket247-bangles-17-640.webp 640w, /assets/images/products/emarket247-bangles-17-1280.webp 1280w",
-        "width": 1280,
-        "height": 1600,
-        "alt": "বৃত্তাকার জুয়েলারির বিবরণ 17-এর পণ্যের ছবি; স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।",
-        "caption": "মূল্যবিহীন ক্যাটালগ রেকর্ড। স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।"
+        "src": "/assets/images/products-square/emarket247-bangles-17-1200-square.webp",
+        "srcset": "/assets/images/products-square/emarket247-bangles-17-600-square.webp 600w, /assets/images/products-square/emarket247-bangles-17-1200-square.webp 1200w",
+        "width": 1200,
+        "height": 1200,
+        "alt": "চুড়ি ১৭-এর ছবি। নকশা ও মূল্য যাচাই শেষে প্রকাশ করা হবে।",
+        "caption": "পণ্যের তথ্য যাচাইাধীন — মূল্য পরে যোগ করা হবে।"
       },
-      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "status": "তথ্য যাচাই চলছে",
       "copyright": "© eMarket247. All rights reserved.",
       "original_filename": "WhatsApp Image 2026-08-21 at 18.45.59.jpeg",
-      "title": "বৃত্তাকার জুয়েলারির বিবরণ",
-      "categoryLabel": "চুড়ি"
+      "title": "চুড়ি ১৭",
+      "categoryLabel": "চুড়ি"
     },
     {
       "id": "src-018",
       "slug": "emarket247-bangles-18",
       "category": "bangles",
       "image": {
-        "src": "/assets/images/products/emarket247-bangles-18-1280.webp",
-        "srcset": "/assets/images/products/emarket247-bangles-18-640.webp 640w, /assets/images/products/emarket247-bangles-18-1280.webp 1280w",
-        "width": 1280,
-        "height": 1600,
-        "alt": "বৃত্তাকার জুয়েলারির বিবরণ 18-এর পণ্যের ছবি; স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।",
-        "caption": "মূল্যবিহীন ক্যাটালগ রেকর্ড। স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।"
+        "src": "/assets/images/products-square/emarket247-bangles-18-1200-square.webp",
+        "srcset": "/assets/images/products-square/emarket247-bangles-18-600-square.webp 600w, /assets/images/products-square/emarket247-bangles-18-1200-square.webp 1200w",
+        "width": 1200,
+        "height": 1200,
+        "alt": "চুড়ি ১৮-এর ছবি। নকশা ও মূল্য যাচাই শেষে প্রকাশ করা হবে।",
+        "caption": "পণ্যের তথ্য যাচাইাধীন — মূল্য পরে যোগ করা হবে।"
       },
-      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "status": "তথ্য যাচাই চলছে",
       "copyright": "© eMarket247. All rights reserved.",
       "original_filename": "WhatsApp Image 2026-08-21 at 18.46.00.jpeg",
-      "title": "বৃত্তাকার জুয়েলারির বিবরণ",
-      "categoryLabel": "চুড়ি"
+      "title": "চুড়ি ১৮",
+      "categoryLabel": "চুড়ি"
     },
     {
       "id": "src-019",
       "slug": "emarket247-bangles-19",
       "category": "bangles",
       "image": {
-        "src": "/assets/images/products/emarket247-bangles-19-1280.webp",
-        "srcset": "/assets/images/products/emarket247-bangles-19-640.webp 640w, /assets/images/products/emarket247-bangles-19-1280.webp 1280w",
-        "width": 1280,
-        "height": 1600,
-        "alt": "বৃত্তাকার জুয়েলারির বিবরণ 19-এর পণ্যের ছবি; স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।",
-        "caption": "মূল্যবিহীন ক্যাটালগ রেকর্ড। স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।"
+        "src": "/assets/images/products-square/emarket247-bangles-19-1200-square.webp",
+        "srcset": "/assets/images/products-square/emarket247-bangles-19-600-square.webp 600w, /assets/images/products-square/emarket247-bangles-19-1200-square.webp 1200w",
+        "width": 1200,
+        "height": 1200,
+        "alt": "চুড়ি ১৯-এর ছবি। নকশা ও মূল্য যাচাই শেষে প্রকাশ করা হবে।",
+        "caption": "পণ্যের তথ্য যাচাইাধীন — মূল্য পরে যোগ করা হবে।"
       },
-      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "status": "তথ্য যাচাই চলছে",
       "copyright": "© eMarket247. All rights reserved.",
       "original_filename": "WhatsApp Image 2026-08-21 at 18.46.01 (1).jpeg",
-      "title": "বৃত্তাকার জুয়েলারির বিবরণ",
-      "categoryLabel": "চুড়ি"
+      "title": "চুড়ি ১৯",
+      "categoryLabel": "চুড়ি"
     },
     {
       "id": "src-020",
       "slug": "emarket247-bangles-20",
       "category": "bangles",
       "image": {
-        "src": "/assets/images/products/emarket247-bangles-20-1280.webp",
-        "srcset": "/assets/images/products/emarket247-bangles-20-640.webp 640w, /assets/images/products/emarket247-bangles-20-1280.webp 1280w",
-        "width": 1280,
-        "height": 1600,
-        "alt": "বৃত্তাকার জুয়েলারির বিবরণ 20-এর পণ্যের ছবি; স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।",
-        "caption": "মূল্যবিহীন ক্যাটালগ রেকর্ড। স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।"
+        "src": "/assets/images/products-square/emarket247-bangles-20-1200-square.webp",
+        "srcset": "/assets/images/products-square/emarket247-bangles-20-600-square.webp 600w, /assets/images/products-square/emarket247-bangles-20-1200-square.webp 1200w",
+        "width": 1200,
+        "height": 1200,
+        "alt": "চুড়ি ২০-এর ছবি। নকশা ও মূল্য যাচাই শেষে প্রকাশ করা হবে।",
+        "caption": "পণ্যের তথ্য যাচাইাধীন — মূল্য পরে যোগ করা হবে।"
       },
-      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "status": "তথ্য যাচাই চলছে",
       "copyright": "© eMarket247. All rights reserved.",
       "original_filename": "WhatsApp Image 2026-08-21 at 18.46.01.jpeg",
-      "title": "বৃত্তাকার জুয়েলারির বিবরণ",
-      "categoryLabel": "চুড়ি"
+      "title": "চুড়ি ২০",
+      "categoryLabel": "চুড়ি"
     },
     {
       "id": "src-021",
       "slug": "emarket247-bangles-21",
       "category": "bangles",
       "image": {
-        "src": "/assets/images/products/emarket247-bangles-21-1280.webp",
-        "srcset": "/assets/images/products/emarket247-bangles-21-640.webp 640w, /assets/images/products/emarket247-bangles-21-1280.webp 1280w",
-        "width": 1280,
-        "height": 1600,
-        "alt": "বৃত্তাকার জুয়েলারির বিবরণ 21-এর পণ্যের ছবি; স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।",
-        "caption": "মূল্যবিহীন ক্যাটালগ রেকর্ড। স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।"
+        "src": "/assets/images/products-square/emarket247-bangles-21-1200-square.webp",
+        "srcset": "/assets/images/products-square/emarket247-bangles-21-600-square.webp 600w, /assets/images/products-square/emarket247-bangles-21-1200-square.webp 1200w",
+        "width": 1200,
+        "height": 1200,
+        "alt": "চুড়ি ২১-এর ছবি। নকশা ও মূল্য যাচাই শেষে প্রকাশ করা হবে।",
+        "caption": "পণ্যের তথ্য যাচাইাধীন — মূল্য পরে যোগ করা হবে।"
       },
-      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "status": "তথ্য যাচাই চলছে",
       "copyright": "© eMarket247. All rights reserved.",
       "original_filename": "WhatsApp Image 2026-08-21 at 18.46.03.jpeg",
-      "title": "বৃত্তাকার জুয়েলারির বিবরণ",
-      "categoryLabel": "চুড়ি"
+      "title": "চুড়ি ২১",
+      "categoryLabel": "চুড়ি"
     },
     {
       "id": "src-022",
       "slug": "emarket247-bangles-22",
       "category": "bangles",
       "image": {
-        "src": "/assets/images/products/emarket247-bangles-22-1280.webp",
-        "srcset": "/assets/images/products/emarket247-bangles-22-640.webp 640w, /assets/images/products/emarket247-bangles-22-1280.webp 1280w",
-        "width": 1280,
-        "height": 1600,
-        "alt": "বৃত্তাকার জুয়েলারির বিবরণ 22-এর পণ্যের ছবি; স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।",
-        "caption": "মূল্যবিহীন ক্যাটালগ রেকর্ড। স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।"
+        "src": "/assets/images/products-square/emarket247-bangles-22-1200-square.webp",
+        "srcset": "/assets/images/products-square/emarket247-bangles-22-600-square.webp 600w, /assets/images/products-square/emarket247-bangles-22-1200-square.webp 1200w",
+        "width": 1200,
+        "height": 1200,
+        "alt": "চুড়ি ২২-এর ছবি। নকশা ও মূল্য যাচাই শেষে প্রকাশ করা হবে।",
+        "caption": "পণ্যের তথ্য যাচাইাধীন — মূল্য পরে যোগ করা হবে।"
       },
-      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "status": "তথ্য যাচাই চলছে",
       "copyright": "© eMarket247. All rights reserved.",
       "original_filename": "WhatsApp Image 2026-08-21 at 18.46.04 (1).jpeg",
-      "title": "বৃত্তাকার জুয়েলারির বিবরণ",
-      "categoryLabel": "চুড়ি"
+      "title": "চুড়ি ২২",
+      "categoryLabel": "চুড়ি"
     },
     {
       "id": "src-023",
       "slug": "emarket247-bangles-23",
       "category": "bangles",
       "image": {
-        "src": "/assets/images/products/emarket247-bangles-23-1280.webp",
-        "srcset": "/assets/images/products/emarket247-bangles-23-640.webp 640w, /assets/images/products/emarket247-bangles-23-1280.webp 1280w",
-        "width": 1280,
-        "height": 1600,
-        "alt": "বৃত্তাকার জুয়েলারির বিবরণ 23-এর পণ্যের ছবি; স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।",
-        "caption": "মূল্যবিহীন ক্যাটালগ রেকর্ড। স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।"
+        "src": "/assets/images/products-square/emarket247-bangles-23-1200-square.webp",
+        "srcset": "/assets/images/products-square/emarket247-bangles-23-600-square.webp 600w, /assets/images/products-square/emarket247-bangles-23-1200-square.webp 1200w",
+        "width": 1200,
+        "height": 1200,
+        "alt": "চুড়ি ২৩-এর ছবি। নকশা ও মূল্য যাচাই শেষে প্রকাশ করা হবে।",
+        "caption": "পণ্যের তথ্য যাচাইাধীন — মূল্য পরে যোগ করা হবে।"
       },
-      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "status": "তথ্য যাচাই চলছে",
       "copyright": "© eMarket247. All rights reserved.",
       "original_filename": "WhatsApp Image 2026-08-21 at 18.46.04.jpeg",
-      "title": "বৃত্তাকার জুয়েলারির বিবরণ",
-      "categoryLabel": "চুড়ি"
+      "title": "চুড়ি ২৩",
+      "categoryLabel": "চুড়ি"
     },
     {
       "id": "src-024",
       "slug": "emarket247-bangles-24",
       "category": "bangles",
       "image": {
-        "src": "/assets/images/products/emarket247-bangles-24-1280.webp",
-        "srcset": "/assets/images/products/emarket247-bangles-24-640.webp 640w, /assets/images/products/emarket247-bangles-24-1280.webp 1280w",
-        "width": 1280,
-        "height": 1600,
-        "alt": "বৃত্তাকার জুয়েলারির বিবরণ 24-এর পণ্যের ছবি; স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।",
-        "caption": "মূল্যবিহীন ক্যাটালগ রেকর্ড। স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।"
+        "src": "/assets/images/products-square/emarket247-bangles-24-1200-square.webp",
+        "srcset": "/assets/images/products-square/emarket247-bangles-24-600-square.webp 600w, /assets/images/products-square/emarket247-bangles-24-1200-square.webp 1200w",
+        "width": 1200,
+        "height": 1200,
+        "alt": "চুড়ি ২৪-এর ছবি। নকশা ও মূল্য যাচাই শেষে প্রকাশ করা হবে।",
+        "caption": "পণ্যের তথ্য যাচাইাধীন — মূল্য পরে যোগ করা হবে।"
       },
-      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "status": "তথ্য যাচাই চলছে",
       "copyright": "© eMarket247. All rights reserved.",
       "original_filename": "WhatsApp Image 2026-08-21 at 18.46.05 (1).jpeg",
-      "title": "বৃত্তাকার জুয়েলারির বিবরণ",
-      "categoryLabel": "চুড়ি"
+      "title": "চুড়ি ২৪",
+      "categoryLabel": "চুড়ি"
     },
     {
       "id": "src-025",
       "slug": "emarket247-bangles-25",
       "category": "bangles",
       "image": {
-        "src": "/assets/images/products/emarket247-bangles-25-1280.webp",
-        "srcset": "/assets/images/products/emarket247-bangles-25-640.webp 640w, /assets/images/products/emarket247-bangles-25-1280.webp 1280w",
-        "width": 1280,
-        "height": 1600,
-        "alt": "বৃত্তাকার জুয়েলারির বিবরণ 25-এর পণ্যের ছবি; স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।",
-        "caption": "মূল্যবিহীন ক্যাটালগ রেকর্ড। স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।"
+        "src": "/assets/images/products-square/emarket247-bangles-25-1200-square.webp",
+        "srcset": "/assets/images/products-square/emarket247-bangles-25-600-square.webp 600w, /assets/images/products-square/emarket247-bangles-25-1200-square.webp 1200w",
+        "width": 1200,
+        "height": 1200,
+        "alt": "চুড়ি ২৫-এর ছবি। নকশা ও মূল্য যাচাই শেষে প্রকাশ করা হবে।",
+        "caption": "পণ্যের তথ্য যাচাইাধীন — মূল্য পরে যোগ করা হবে।"
       },
-      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "status": "তথ্য যাচাই চলছে",
       "copyright": "© eMarket247. All rights reserved.",
       "original_filename": "WhatsApp Image 2026-08-21 at 18.46.05 (2).jpeg",
-      "title": "বৃত্তাকার জুয়েলারির বিবরণ",
-      "categoryLabel": "চুড়ি"
+      "title": "চুড়ি ২৫",
+      "categoryLabel": "চুড়ি"
     },
     {
       "id": "src-026",
       "slug": "emarket247-bangles-26",
       "category": "bangles",
       "image": {
-        "src": "/assets/images/products/emarket247-bangles-26-1280.webp",
-        "srcset": "/assets/images/products/emarket247-bangles-26-640.webp 640w, /assets/images/products/emarket247-bangles-26-1280.webp 1280w",
-        "width": 1280,
-        "height": 1600,
-        "alt": "বৃত্তাকার জুয়েলারির বিবরণ 26-এর পণ্যের ছবি; স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।",
-        "caption": "মূল্যবিহীন ক্যাটালগ রেকর্ড। স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।"
+        "src": "/assets/images/products-square/emarket247-bangles-26-1200-square.webp",
+        "srcset": "/assets/images/products-square/emarket247-bangles-26-600-square.webp 600w, /assets/images/products-square/emarket247-bangles-26-1200-square.webp 1200w",
+        "width": 1200,
+        "height": 1200,
+        "alt": "চুড়ি ২৬-এর ছবি। নকশা ও মূল্য যাচাই শেষে প্রকাশ করা হবে।",
+        "caption": "পণ্যের তথ্য যাচাইাধীন — মূল্য পরে যোগ করা হবে।"
       },
-      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "status": "তথ্য যাচাই চলছে",
       "copyright": "© eMarket247. All rights reserved.",
       "original_filename": "WhatsApp Image 2026-08-21 at 18.46.05.jpeg",
-      "title": "বৃত্তাকার জুয়েলারির বিবরণ",
-      "categoryLabel": "চুড়ি"
+      "title": "চুড়ি ২৬",
+      "categoryLabel": "চুড়ি"
     },
     {
       "id": "src-027",
       "slug": "emarket247-bangles-27",
       "category": "bangles",
       "image": {
-        "src": "/assets/images/products/emarket247-bangles-27-1280.webp",
-        "srcset": "/assets/images/products/emarket247-bangles-27-640.webp 640w, /assets/images/products/emarket247-bangles-27-1280.webp 1280w",
-        "width": 1280,
-        "height": 1600,
-        "alt": "বৃত্তাকার জুয়েলারির বিবরণ 27-এর পণ্যের ছবি; স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।",
-        "caption": "মূল্যবিহীন ক্যাটালগ রেকর্ড। স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।"
+        "src": "/assets/images/products-square/emarket247-bangles-27-1200-square.webp",
+        "srcset": "/assets/images/products-square/emarket247-bangles-27-600-square.webp 600w, /assets/images/products-square/emarket247-bangles-27-1200-square.webp 1200w",
+        "width": 1200,
+        "height": 1200,
+        "alt": "চুড়ি ২৭-এর ছবি। নকশা ও মূল্য যাচাই শেষে প্রকাশ করা হবে।",
+        "caption": "পণ্যের তথ্য যাচাইাধীন — মূল্য পরে যোগ করা হবে।"
       },
-      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "status": "তথ্য যাচাই চলছে",
       "copyright": "© eMarket247. All rights reserved.",
       "original_filename": "WhatsApp Image 2026-08-21 at 18.46.06 (1).jpeg",
-      "title": "বৃত্তাকার জুয়েলারির বিবরণ",
-      "categoryLabel": "চুড়ি"
+      "title": "চুড়ি ২৭",
+      "categoryLabel": "চুড়ি"
     },
     {
       "id": "src-028",
       "slug": "emarket247-bangles-28",
       "category": "bangles",
       "image": {
-        "src": "/assets/images/products/emarket247-bangles-28-1280.webp",
-        "srcset": "/assets/images/products/emarket247-bangles-28-640.webp 640w, /assets/images/products/emarket247-bangles-28-1280.webp 1280w",
-        "width": 1280,
-        "height": 1600,
-        "alt": "বৃত্তাকার জুয়েলারির বিবরণ 28-এর পণ্যের ছবি; স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।",
-        "caption": "মূল্যবিহীন ক্যাটালগ রেকর্ড। স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।"
+        "src": "/assets/images/products-square/emarket247-bangles-28-1200-square.webp",
+        "srcset": "/assets/images/products-square/emarket247-bangles-28-600-square.webp 600w, /assets/images/products-square/emarket247-bangles-28-1200-square.webp 1200w",
+        "width": 1200,
+        "height": 1200,
+        "alt": "চুড়ি ২৮-এর ছবি। নকশা ও মূল্য যাচাই শেষে প্রকাশ করা হবে।",
+        "caption": "পণ্যের তথ্য যাচাইাধীন — মূল্য পরে যোগ করা হবে।"
       },
-      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "status": "তথ্য যাচাই চলছে",
       "copyright": "© eMarket247. All rights reserved.",
       "original_filename": "WhatsApp Image 2026-08-21 at 18.46.06 (2).jpeg",
-      "title": "বৃত্তাকার জুয়েলারির বিবরণ",
-      "categoryLabel": "চুড়ি"
+      "title": "চুড়ি ২৮",
+      "categoryLabel": "চুড়ি"
     },
     {
       "id": "src-029",
       "slug": "emarket247-bangles-29",
       "category": "bangles",
       "image": {
-        "src": "/assets/images/products/emarket247-bangles-29-1280.webp",
-        "srcset": "/assets/images/products/emarket247-bangles-29-640.webp 640w, /assets/images/products/emarket247-bangles-29-1280.webp 1280w",
-        "width": 1280,
-        "height": 1600,
-        "alt": "বৃত্তাকার জুয়েলারির বিবরণ 29-এর পণ্যের ছবি; স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।",
-        "caption": "মূল্যবিহীন ক্যাটালগ রেকর্ড। স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।"
+        "src": "/assets/images/products-square/emarket247-bangles-29-1200-square.webp",
+        "srcset": "/assets/images/products-square/emarket247-bangles-29-600-square.webp 600w, /assets/images/products-square/emarket247-bangles-29-1200-square.webp 1200w",
+        "width": 1200,
+        "height": 1200,
+        "alt": "চুড়ি ২৯-এর ছবি। নকশা ও মূল্য যাচাই শেষে প্রকাশ করা হবে।",
+        "caption": "পণ্যের তথ্য যাচাইাধীন — মূল্য পরে যোগ করা হবে।"
       },
-      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "status": "তথ্য যাচাই চলছে",
       "copyright": "© eMarket247. All rights reserved.",
       "original_filename": "WhatsApp Image 2026-08-21 at 18.46.06.jpeg",
-      "title": "বৃত্তাকার জুয়েলারির বিবরণ",
-      "categoryLabel": "চুড়ি"
+      "title": "চুড়ি ২৯",
+      "categoryLabel": "চুড়ি"
     },
     {
       "id": "src-030",
       "slug": "emarket247-bangles-30",
       "category": "bangles",
       "image": {
-        "src": "/assets/images/products/emarket247-bangles-30-1280.webp",
-        "srcset": "/assets/images/products/emarket247-bangles-30-640.webp 640w, /assets/images/products/emarket247-bangles-30-1280.webp 1280w",
-        "width": 1280,
-        "height": 1600,
-        "alt": "বৃত্তাকার জুয়েলারির বিবরণ 30-এর পণ্যের ছবি; স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।",
-        "caption": "মূল্যবিহীন ক্যাটালগ রেকর্ড। স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।"
+        "src": "/assets/images/products-square/emarket247-bangles-30-1200-square.webp",
+        "srcset": "/assets/images/products-square/emarket247-bangles-30-600-square.webp 600w, /assets/images/products-square/emarket247-bangles-30-1200-square.webp 1200w",
+        "width": 1200,
+        "height": 1200,
+        "alt": "চুড়ি ৩০-এর ছবি। নকশা ও মূল্য যাচাই শেষে প্রকাশ করা হবে।",
+        "caption": "পণ্যের তথ্য যাচাইাধীন — মূল্য পরে যোগ করা হবে।"
       },
-      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "status": "তথ্য যাচাই চলছে",
       "copyright": "© eMarket247. All rights reserved.",
       "original_filename": "WhatsApp Image 2026-08-21 at 18.46.07 (1).jpeg",
-      "title": "বৃত্তাকার জুয়েলারির বিবরণ",
-      "categoryLabel": "চুড়ি"
+      "title": "চুড়ি ৩০",
+      "categoryLabel": "চুড়ি"
     },
     {
       "id": "src-031",
       "slug": "emarket247-jewellery-detail-31",
       "category": "jewellery-detail",
       "image": {
-        "src": "/assets/images/products/emarket247-jewellery-detail-31-1280.webp",
-        "srcset": "/assets/images/products/emarket247-jewellery-detail-31-640.webp 640w, /assets/images/products/emarket247-jewellery-detail-31-1280.webp 1280w",
-        "width": 1280,
-        "height": 1600,
-        "alt": "জুয়েলারির বিবরণ 31-এর পণ্যের ছবি; স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।",
-        "caption": "মূল্যবিহীন ক্যাটালগ রেকর্ড। স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।"
+        "src": "/assets/images/products-square/emarket247-jewellery-detail-31-1200-square.webp",
+        "srcset": "/assets/images/products-square/emarket247-jewellery-detail-31-600-square.webp 600w, /assets/images/products-square/emarket247-jewellery-detail-31-1200-square.webp 1200w",
+        "width": 1200,
+        "height": 1200,
+        "alt": "জুয়েলারি আইটেম ৩১-এর ছবি। নকশা ও মূল্য যাচাই শেষে প্রকাশ করা হবে।",
+        "caption": "পণ্যের তথ্য যাচাইাধীন — মূল্য পরে যোগ করা হবে।"
       },
-      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "status": "তথ্য যাচাই চলছে",
       "copyright": "© eMarket247. All rights reserved.",
       "original_filename": "WhatsApp Image 2026-08-21 at 18.46.07.jpeg",
-      "title": "জুয়েলারির বিবরণ",
-      "categoryLabel": "জুয়েলারি ডিটেইল"
+      "title": "জুয়েলারি আইটেম ৩১",
+      "categoryLabel": "জুয়েলারি আইটেম"
     },
     {
       "id": "src-032",
       "slug": "emarket247-earrings-32",
       "category": "earrings",
       "image": {
-        "src": "/assets/images/products/emarket247-earrings-32-1280.webp",
-        "srcset": "/assets/images/products/emarket247-earrings-32-640.webp 640w, /assets/images/products/emarket247-earrings-32-1280.webp 1280w",
-        "width": 1280,
-        "height": 1600,
-        "alt": "কানের দুল-ধাঁচের জুয়েলারির বিবরণ 32-এর পণ্যের ছবি; স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।",
-        "caption": "মূল্যবিহীন ক্যাটালগ রেকর্ড। স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।"
+        "src": "/assets/images/products-square/emarket247-earrings-32-1200-square.webp",
+        "srcset": "/assets/images/products-square/emarket247-earrings-32-600-square.webp 600w, /assets/images/products-square/emarket247-earrings-32-1200-square.webp 1200w",
+        "width": 1200,
+        "height": 1200,
+        "alt": "কানের দুল ৩২-এর ছবি। নকশা ও মূল্য যাচাই শেষে প্রকাশ করা হবে।",
+        "caption": "পণ্যের তথ্য যাচাইাধীন — মূল্য পরে যোগ করা হবে।"
       },
-      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "status": "তথ্য যাচাই চলছে",
       "copyright": "© eMarket247. All rights reserved.",
       "original_filename": "WhatsApp Image 2026-08-21 at 18.46.08 (1).jpeg",
-      "title": "কানের দুল-ধাঁচের জুয়েলারির বিবরণ",
+      "title": "কানের দুল ৩২",
       "categoryLabel": "কানের দুল"
     },
     {
@@ -582,251 +582,251 @@
       "slug": "emarket247-jewellery-detail-33",
       "category": "jewellery-detail",
       "image": {
-        "src": "/assets/images/products/emarket247-jewellery-detail-33-1280.webp",
-        "srcset": "/assets/images/products/emarket247-jewellery-detail-33-640.webp 640w, /assets/images/products/emarket247-jewellery-detail-33-1280.webp 1280w",
-        "width": 1280,
-        "height": 1600,
-        "alt": "জুয়েলারির বিবরণ 33-এর পণ্যের ছবি; স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।",
-        "caption": "মূল্যবিহীন ক্যাটালগ রেকর্ড। স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।"
+        "src": "/assets/images/products-square/emarket247-jewellery-detail-33-1200-square.webp",
+        "srcset": "/assets/images/products-square/emarket247-jewellery-detail-33-600-square.webp 600w, /assets/images/products-square/emarket247-jewellery-detail-33-1200-square.webp 1200w",
+        "width": 1200,
+        "height": 1200,
+        "alt": "জুয়েলারি আইটেম ৩৩-এর ছবি। নকশা ও মূল্য যাচাই শেষে প্রকাশ করা হবে।",
+        "caption": "পণ্যের তথ্য যাচাইাধীন — মূল্য পরে যোগ করা হবে।"
       },
-      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "status": "তথ্য যাচাই চলছে",
       "copyright": "© eMarket247. All rights reserved.",
       "original_filename": "WhatsApp Image 2026-08-21 at 18.46.08.jpeg",
-      "title": "জুয়েলারির বিবরণ",
-      "categoryLabel": "জুয়েলারি ডিটেইল"
+      "title": "জুয়েলারি আইটেম ৩৩",
+      "categoryLabel": "জুয়েলারি আইটেম"
     },
     {
       "id": "src-034",
       "slug": "emarket247-jewellery-detail-34",
       "category": "jewellery-detail",
       "image": {
-        "src": "/assets/images/products/emarket247-jewellery-detail-34-1280.webp",
-        "srcset": "/assets/images/products/emarket247-jewellery-detail-34-640.webp 640w, /assets/images/products/emarket247-jewellery-detail-34-1280.webp 1280w",
-        "width": 1280,
-        "height": 1600,
-        "alt": "জুয়েলারির বিবরণ 34-এর পণ্যের ছবি; স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।",
-        "caption": "মূল্যবিহীন ক্যাটালগ রেকর্ড। স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।"
+        "src": "/assets/images/products-square/emarket247-jewellery-detail-34-1200-square.webp",
+        "srcset": "/assets/images/products-square/emarket247-jewellery-detail-34-600-square.webp 600w, /assets/images/products-square/emarket247-jewellery-detail-34-1200-square.webp 1200w",
+        "width": 1200,
+        "height": 1200,
+        "alt": "জুয়েলারি আইটেম ৩৪-এর ছবি। নকশা ও মূল্য যাচাই শেষে প্রকাশ করা হবে।",
+        "caption": "পণ্যের তথ্য যাচাইাধীন — মূল্য পরে যোগ করা হবে।"
       },
-      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "status": "তথ্য যাচাই চলছে",
       "copyright": "© eMarket247. All rights reserved.",
       "original_filename": "WhatsApp Image 2026-08-21 at 18.46.10 (1).jpeg",
-      "title": "জুয়েলারির বিবরণ",
-      "categoryLabel": "জুয়েলারি ডিটেইল"
+      "title": "জুয়েলারি আইটেম ৩৪",
+      "categoryLabel": "জুয়েলারি আইটেম"
     },
     {
       "id": "src-035",
       "slug": "emarket247-jewellery-detail-35",
       "category": "jewellery-detail",
       "image": {
-        "src": "/assets/images/products/emarket247-jewellery-detail-35-1280.webp",
-        "srcset": "/assets/images/products/emarket247-jewellery-detail-35-640.webp 640w, /assets/images/products/emarket247-jewellery-detail-35-1280.webp 1280w",
-        "width": 1280,
-        "height": 1600,
-        "alt": "জুয়েলারির বিবরণ 35-এর পণ্যের ছবি; স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।",
-        "caption": "মূল্যবিহীন ক্যাটালগ রেকর্ড। স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।"
+        "src": "/assets/images/products-square/emarket247-jewellery-detail-35-1200-square.webp",
+        "srcset": "/assets/images/products-square/emarket247-jewellery-detail-35-600-square.webp 600w, /assets/images/products-square/emarket247-jewellery-detail-35-1200-square.webp 1200w",
+        "width": 1200,
+        "height": 1200,
+        "alt": "জুয়েলারি আইটেম ৩৫-এর ছবি। নকশা ও মূল্য যাচাই শেষে প্রকাশ করা হবে।",
+        "caption": "পণ্যের তথ্য যাচাইাধীন — মূল্য পরে যোগ করা হবে।"
       },
-      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "status": "তথ্য যাচাই চলছে",
       "copyright": "© eMarket247. All rights reserved.",
       "original_filename": "WhatsApp Image 2026-08-21 at 18.46.10.jpeg",
-      "title": "জুয়েলারির বিবরণ",
-      "categoryLabel": "জুয়েলারি ডিটেইল"
+      "title": "জুয়েলারি আইটেম ৩৫",
+      "categoryLabel": "জুয়েলারি আইটেম"
     },
     {
       "id": "src-036",
       "slug": "emarket247-jewellery-detail-36",
       "category": "jewellery-detail",
       "image": {
-        "src": "/assets/images/products/emarket247-jewellery-detail-36-1280.webp",
-        "srcset": "/assets/images/products/emarket247-jewellery-detail-36-640.webp 640w, /assets/images/products/emarket247-jewellery-detail-36-1280.webp 1280w",
-        "width": 1280,
-        "height": 1600,
-        "alt": "জুয়েলারির বিবরণ 36-এর পণ্যের ছবি; স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।",
-        "caption": "মূল্যবিহীন ক্যাটালগ রেকর্ড। স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।"
+        "src": "/assets/images/products-square/emarket247-jewellery-detail-36-1200-square.webp",
+        "srcset": "/assets/images/products-square/emarket247-jewellery-detail-36-600-square.webp 600w, /assets/images/products-square/emarket247-jewellery-detail-36-1200-square.webp 1200w",
+        "width": 1200,
+        "height": 1200,
+        "alt": "জুয়েলারি আইটেম ৩৬-এর ছবি। নকশা ও মূল্য যাচাই শেষে প্রকাশ করা হবে।",
+        "caption": "পণ্যের তথ্য যাচাইাধীন — মূল্য পরে যোগ করা হবে।"
       },
-      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "status": "তথ্য যাচাই চলছে",
       "copyright": "© eMarket247. All rights reserved.",
       "original_filename": "WhatsApp Image 2026-08-21 at 18.46.12 (1).jpeg",
-      "title": "জুয়েলারির বিবরণ",
-      "categoryLabel": "জুয়েলারি ডিটেইল"
+      "title": "জুয়েলারি আইটেম ৩৬",
+      "categoryLabel": "জুয়েলারি আইটেম"
     },
     {
       "id": "src-037",
       "slug": "emarket247-jewellery-detail-37",
       "category": "jewellery-detail",
       "image": {
-        "src": "/assets/images/products/emarket247-jewellery-detail-37-1280.webp",
-        "srcset": "/assets/images/products/emarket247-jewellery-detail-37-640.webp 640w, /assets/images/products/emarket247-jewellery-detail-37-1280.webp 1280w",
-        "width": 1280,
-        "height": 1600,
-        "alt": "জুয়েলারির বিবরণ 37-এর পণ্যের ছবি; স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।",
-        "caption": "মূল্যবিহীন ক্যাটালগ রেকর্ড। স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।"
+        "src": "/assets/images/products-square/emarket247-jewellery-detail-37-1200-square.webp",
+        "srcset": "/assets/images/products-square/emarket247-jewellery-detail-37-600-square.webp 600w, /assets/images/products-square/emarket247-jewellery-detail-37-1200-square.webp 1200w",
+        "width": 1200,
+        "height": 1200,
+        "alt": "জুয়েলারি আইটেম ৩৭-এর ছবি। নকশা ও মূল্য যাচাই শেষে প্রকাশ করা হবে।",
+        "caption": "পণ্যের তথ্য যাচাইাধীন — মূল্য পরে যোগ করা হবে।"
       },
-      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "status": "তথ্য যাচাই চলছে",
       "copyright": "© eMarket247. All rights reserved.",
       "original_filename": "WhatsApp Image 2026-08-21 at 18.46.12 (2).jpeg",
-      "title": "জুয়েলারির বিবরণ",
-      "categoryLabel": "জুয়েলারি ডিটেইল"
+      "title": "জুয়েলারি আইটেম ৩৭",
+      "categoryLabel": "জুয়েলারি আইটেম"
     },
     {
       "id": "src-038",
       "slug": "emarket247-jewellery-detail-38",
       "category": "jewellery-detail",
       "image": {
-        "src": "/assets/images/products/emarket247-jewellery-detail-38-1280.webp",
-        "srcset": "/assets/images/products/emarket247-jewellery-detail-38-640.webp 640w, /assets/images/products/emarket247-jewellery-detail-38-1280.webp 1280w",
-        "width": 1280,
-        "height": 1600,
-        "alt": "জুয়েলারির বিবরণ 38-এর পণ্যের ছবি; স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।",
-        "caption": "মূল্যবিহীন ক্যাটালগ রেকর্ড। স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।"
+        "src": "/assets/images/products-square/emarket247-jewellery-detail-38-1200-square.webp",
+        "srcset": "/assets/images/products-square/emarket247-jewellery-detail-38-600-square.webp 600w, /assets/images/products-square/emarket247-jewellery-detail-38-1200-square.webp 1200w",
+        "width": 1200,
+        "height": 1200,
+        "alt": "জুয়েলারি আইটেম ৩৮-এর ছবি। নকশা ও মূল্য যাচাই শেষে প্রকাশ করা হবে।",
+        "caption": "পণ্যের তথ্য যাচাইাধীন — মূল্য পরে যোগ করা হবে।"
       },
-      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "status": "তথ্য যাচাই চলছে",
       "copyright": "© eMarket247. All rights reserved.",
       "original_filename": "WhatsApp Image 2026-08-21 at 18.46.12 (3).jpeg",
-      "title": "জুয়েলারির বিবরণ",
-      "categoryLabel": "জুয়েলারি ডিটেইল"
+      "title": "জুয়েলারি আইটেম ৩৮",
+      "categoryLabel": "জুয়েলারি আইটেম"
     },
     {
       "id": "src-039",
       "slug": "emarket247-jewellery-detail-39",
       "category": "jewellery-detail",
       "image": {
-        "src": "/assets/images/products/emarket247-jewellery-detail-39-1280.webp",
-        "srcset": "/assets/images/products/emarket247-jewellery-detail-39-640.webp 640w, /assets/images/products/emarket247-jewellery-detail-39-1280.webp 1280w",
-        "width": 1280,
-        "height": 1600,
-        "alt": "জুয়েলারির বিবরণ 39-এর পণ্যের ছবি; স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।",
-        "caption": "মূল্যবিহীন ক্যাটালগ রেকর্ড। স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।"
+        "src": "/assets/images/products-square/emarket247-jewellery-detail-39-1200-square.webp",
+        "srcset": "/assets/images/products-square/emarket247-jewellery-detail-39-600-square.webp 600w, /assets/images/products-square/emarket247-jewellery-detail-39-1200-square.webp 1200w",
+        "width": 1200,
+        "height": 1200,
+        "alt": "জুয়েলারি আইটেম ৩৯-এর ছবি। নকশা ও মূল্য যাচাই শেষে প্রকাশ করা হবে।",
+        "caption": "পণ্যের তথ্য যাচাইাধীন — মূল্য পরে যোগ করা হবে।"
       },
-      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "status": "তথ্য যাচাই চলছে",
       "copyright": "© eMarket247. All rights reserved.",
       "original_filename": "WhatsApp Image 2026-08-21 at 18.46.12.jpeg",
-      "title": "জুয়েলারির বিবরণ",
-      "categoryLabel": "জুয়েলারি ডিটেইল"
+      "title": "জুয়েলারি আইটেম ৩৯",
+      "categoryLabel": "জুয়েলারি আইটেম"
     },
     {
       "id": "src-040",
       "slug": "emarket247-jewellery-detail-40",
       "category": "jewellery-detail",
       "image": {
-        "src": "/assets/images/products/emarket247-jewellery-detail-40-1280.webp",
-        "srcset": "/assets/images/products/emarket247-jewellery-detail-40-640.webp 640w, /assets/images/products/emarket247-jewellery-detail-40-1280.webp 1280w",
-        "width": 1280,
-        "height": 1600,
-        "alt": "জুয়েলারির বিবরণ 40-এর পণ্যের ছবি; স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।",
-        "caption": "মূল্যবিহীন ক্যাটালগ রেকর্ড। স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।"
+        "src": "/assets/images/products-square/emarket247-jewellery-detail-40-1200-square.webp",
+        "srcset": "/assets/images/products-square/emarket247-jewellery-detail-40-600-square.webp 600w, /assets/images/products-square/emarket247-jewellery-detail-40-1200-square.webp 1200w",
+        "width": 1200,
+        "height": 1200,
+        "alt": "জুয়েলারি আইটেম ৪০-এর ছবি। নকশা ও মূল্য যাচাই শেষে প্রকাশ করা হবে।",
+        "caption": "পণ্যের তথ্য যাচাইাধীন — মূল্য পরে যোগ করা হবে।"
       },
-      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "status": "তথ্য যাচাই চলছে",
       "copyright": "© eMarket247. All rights reserved.",
       "original_filename": "WhatsApp Image 2026-08-21 at 18.46.14 (1).jpeg",
-      "title": "জুয়েলারির বিবরণ",
-      "categoryLabel": "জুয়েলারি ডিটেইল"
+      "title": "জুয়েলারি আইটেম ৪০",
+      "categoryLabel": "জুয়েলারি আইটেম"
     },
     {
       "id": "src-041",
       "slug": "emarket247-jewellery-detail-41",
       "category": "jewellery-detail",
       "image": {
-        "src": "/assets/images/products/emarket247-jewellery-detail-41-1280.webp",
-        "srcset": "/assets/images/products/emarket247-jewellery-detail-41-640.webp 640w, /assets/images/products/emarket247-jewellery-detail-41-1280.webp 1280w",
-        "width": 1280,
-        "height": 1600,
-        "alt": "জুয়েলারির বিবরণ 41-এর পণ্যের ছবি; স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।",
-        "caption": "মূল্যবিহীন ক্যাটালগ রেকর্ড। স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।"
+        "src": "/assets/images/products-square/emarket247-jewellery-detail-41-1200-square.webp",
+        "srcset": "/assets/images/products-square/emarket247-jewellery-detail-41-600-square.webp 600w, /assets/images/products-square/emarket247-jewellery-detail-41-1200-square.webp 1200w",
+        "width": 1200,
+        "height": 1200,
+        "alt": "জুয়েলারি আইটেম ৪১-এর ছবি। নকশা ও মূল্য যাচাই শেষে প্রকাশ করা হবে।",
+        "caption": "পণ্যের তথ্য যাচাইাধীন — মূল্য পরে যোগ করা হবে।"
       },
-      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "status": "তথ্য যাচাই চলছে",
       "copyright": "© eMarket247. All rights reserved.",
       "original_filename": "WhatsApp Image 2026-08-21 at 18.46.14.jpeg",
-      "title": "জুয়েলারির বিবরণ",
-      "categoryLabel": "জুয়েলারি ডিটেইল"
+      "title": "জুয়েলারি আইটেম ৪১",
+      "categoryLabel": "জুয়েলারি আইটেম"
     },
     {
       "id": "src-042",
       "slug": "emarket247-jewellery-detail-42",
       "category": "jewellery-detail",
       "image": {
-        "src": "/assets/images/products/emarket247-jewellery-detail-42-1280.webp",
-        "srcset": "/assets/images/products/emarket247-jewellery-detail-42-640.webp 640w, /assets/images/products/emarket247-jewellery-detail-42-1280.webp 1280w",
-        "width": 1280,
-        "height": 1600,
-        "alt": "জুয়েলারির বিবরণ 42-এর পণ্যের ছবি; স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।",
-        "caption": "মূল্যবিহীন ক্যাটালগ রেকর্ড। স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।"
+        "src": "/assets/images/products-square/emarket247-jewellery-detail-42-1200-square.webp",
+        "srcset": "/assets/images/products-square/emarket247-jewellery-detail-42-600-square.webp 600w, /assets/images/products-square/emarket247-jewellery-detail-42-1200-square.webp 1200w",
+        "width": 1200,
+        "height": 1200,
+        "alt": "জুয়েলারি আইটেম ৪২-এর ছবি। নকশা ও মূল্য যাচাই শেষে প্রকাশ করা হবে।",
+        "caption": "পণ্যের তথ্য যাচাইাধীন — মূল্য পরে যোগ করা হবে।"
       },
-      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "status": "তথ্য যাচাই চলছে",
       "copyright": "© eMarket247. All rights reserved.",
       "original_filename": "WhatsApp Image 2026-08-21 at 18.46.15 (1).jpeg",
-      "title": "জুয়েলারির বিবরণ",
-      "categoryLabel": "জুয়েলারি ডিটেইল"
+      "title": "জুয়েলারি আইটেম ৪২",
+      "categoryLabel": "জুয়েলারি আইটেম"
     },
     {
       "id": "src-043",
       "slug": "emarket247-jewellery-detail-43",
       "category": "jewellery-detail",
       "image": {
-        "src": "/assets/images/products/emarket247-jewellery-detail-43-1280.webp",
-        "srcset": "/assets/images/products/emarket247-jewellery-detail-43-640.webp 640w, /assets/images/products/emarket247-jewellery-detail-43-1280.webp 1280w",
-        "width": 1280,
-        "height": 1600,
-        "alt": "জুয়েলারির বিবরণ 43-এর পণ্যের ছবি; স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।",
-        "caption": "মূল্যবিহীন ক্যাটালগ রেকর্ড। স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।"
+        "src": "/assets/images/products-square/emarket247-jewellery-detail-43-1200-square.webp",
+        "srcset": "/assets/images/products-square/emarket247-jewellery-detail-43-600-square.webp 600w, /assets/images/products-square/emarket247-jewellery-detail-43-1200-square.webp 1200w",
+        "width": 1200,
+        "height": 1200,
+        "alt": "জুয়েলারি আইটেম ৪৩-এর ছবি। নকশা ও মূল্য যাচাই শেষে প্রকাশ করা হবে।",
+        "caption": "পণ্যের তথ্য যাচাইাধীন — মূল্য পরে যোগ করা হবে।"
       },
-      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "status": "তথ্য যাচাই চলছে",
       "copyright": "© eMarket247. All rights reserved.",
       "original_filename": "WhatsApp Image 2026-08-21 at 18.46.15.jpeg",
-      "title": "জুয়েলারির বিবরণ",
-      "categoryLabel": "জুয়েলারি ডিটেইল"
+      "title": "জুয়েলারি আইটেম ৪৩",
+      "categoryLabel": "জুয়েলারি আইটেম"
     },
     {
       "id": "src-044",
       "slug": "emarket247-jewellery-detail-44",
       "category": "jewellery-detail",
       "image": {
-        "src": "/assets/images/products/emarket247-jewellery-detail-44-1280.webp",
-        "srcset": "/assets/images/products/emarket247-jewellery-detail-44-640.webp 640w, /assets/images/products/emarket247-jewellery-detail-44-1280.webp 1280w",
-        "width": 1280,
-        "height": 1600,
-        "alt": "জুয়েলারির বিবরণ 44-এর পণ্যের ছবি; স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।",
-        "caption": "মূল্যবিহীন ক্যাটালগ রেকর্ড। স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।"
+        "src": "/assets/images/products-square/emarket247-jewellery-detail-44-1200-square.webp",
+        "srcset": "/assets/images/products-square/emarket247-jewellery-detail-44-600-square.webp 600w, /assets/images/products-square/emarket247-jewellery-detail-44-1200-square.webp 1200w",
+        "width": 1200,
+        "height": 1200,
+        "alt": "জুয়েলারি আইটেম ৪৪-এর ছবি। নকশা ও মূল্য যাচাই শেষে প্রকাশ করা হবে।",
+        "caption": "পণ্যের তথ্য যাচাইাধীন — মূল্য পরে যোগ করা হবে।"
       },
-      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "status": "তথ্য যাচাই চলছে",
       "copyright": "© eMarket247. All rights reserved.",
       "original_filename": "WhatsApp Image 2026-08-21 at 18.46.16 (1).jpeg",
-      "title": "জুয়েলারির বিবরণ",
-      "categoryLabel": "জুয়েলারি ডিটেইল"
+      "title": "জুয়েলারি আইটেম ৪৪",
+      "categoryLabel": "জুয়েলারি আইটেম"
     },
     {
       "id": "src-045",
       "slug": "emarket247-jewellery-detail-45",
       "category": "jewellery-detail",
       "image": {
-        "src": "/assets/images/products/emarket247-jewellery-detail-45-1280.webp",
-        "srcset": "/assets/images/products/emarket247-jewellery-detail-45-640.webp 640w, /assets/images/products/emarket247-jewellery-detail-45-1280.webp 1280w",
-        "width": 1280,
-        "height": 1600,
-        "alt": "জুয়েলারির বিবরণ 45-এর পণ্যের ছবি; স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।",
-        "caption": "মূল্যবিহীন ক্যাটালগ রেকর্ড। স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।"
+        "src": "/assets/images/products-square/emarket247-jewellery-detail-45-1200-square.webp",
+        "srcset": "/assets/images/products-square/emarket247-jewellery-detail-45-600-square.webp 600w, /assets/images/products-square/emarket247-jewellery-detail-45-1200-square.webp 1200w",
+        "width": 1200,
+        "height": 1200,
+        "alt": "জুয়েলারি আইটেম ৪৫-এর ছবি। নকশা ও মূল্য যাচাই শেষে প্রকাশ করা হবে।",
+        "caption": "পণ্যের তথ্য যাচাইাধীন — মূল্য পরে যোগ করা হবে।"
       },
-      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "status": "তথ্য যাচাই চলছে",
       "copyright": "© eMarket247. All rights reserved.",
       "original_filename": "WhatsApp Image 2026-08-21 at 18.46.16 (2).jpeg",
-      "title": "জুয়েলারির বিবরণ",
-      "categoryLabel": "জুয়েলারি ডিটেইল"
+      "title": "জুয়েলারি আইটেম ৪৫",
+      "categoryLabel": "জুয়েলারি আইটেম"
     },
     {
       "id": "src-046",
       "slug": "emarket247-necklaces-46",
       "category": "necklaces",
       "image": {
-        "src": "/assets/images/products/emarket247-necklaces-46-1280.webp",
-        "srcset": "/assets/images/products/emarket247-necklaces-46-640.webp 640w, /assets/images/products/emarket247-necklaces-46-1280.webp 1280w",
-        "width": 1280,
-        "height": 1600,
-        "alt": "হার-ধাঁচের জুয়েলারির বিবরণ 46-এর পণ্যের ছবি; স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।",
-        "caption": "মূল্যবিহীন ক্যাটালগ রেকর্ড। স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।"
+        "src": "/assets/images/products-square/emarket247-necklaces-46-1200-square.webp",
+        "srcset": "/assets/images/products-square/emarket247-necklaces-46-600-square.webp 600w, /assets/images/products-square/emarket247-necklaces-46-1200-square.webp 1200w",
+        "width": 1200,
+        "height": 1200,
+        "alt": "হার ৪৬-এর ছবি। নকশা ও মূল্য যাচাই শেষে প্রকাশ করা হবে।",
+        "caption": "পণ্যের তথ্য যাচাইাধীন — মূল্য পরে যোগ করা হবে।"
       },
-      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "status": "তথ্য যাচাই চলছে",
       "copyright": "© eMarket247. All rights reserved.",
       "original_filename": "WhatsApp Image 2026-08-21 at 18.46.16.jpeg",
-      "title": "হার-ধাঁচের জুয়েলারির বিবরণ",
+      "title": "হার ৪৬",
       "categoryLabel": "হার"
     },
     {
@@ -834,17 +834,17 @@
       "slug": "emarket247-necklaces-47",
       "category": "necklaces",
       "image": {
-        "src": "/assets/images/products/emarket247-necklaces-47-1280.webp",
-        "srcset": "/assets/images/products/emarket247-necklaces-47-640.webp 640w, /assets/images/products/emarket247-necklaces-47-1280.webp 1280w",
-        "width": 1280,
-        "height": 1600,
-        "alt": "হার-ধাঁচের জুয়েলারির বিবরণ 47-এর পণ্যের ছবি; স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।",
-        "caption": "মূল্যবিহীন ক্যাটালগ রেকর্ড। স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।"
+        "src": "/assets/images/products-square/emarket247-necklaces-47-1200-square.webp",
+        "srcset": "/assets/images/products-square/emarket247-necklaces-47-600-square.webp 600w, /assets/images/products-square/emarket247-necklaces-47-1200-square.webp 1200w",
+        "width": 1200,
+        "height": 1200,
+        "alt": "হার ৪৭-এর ছবি। নকশা ও মূল্য যাচাই শেষে প্রকাশ করা হবে।",
+        "caption": "পণ্যের তথ্য যাচাইাধীন — মূল্য পরে যোগ করা হবে।"
       },
-      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "status": "তথ্য যাচাই চলছে",
       "copyright": "© eMarket247. All rights reserved.",
       "original_filename": "WhatsApp Image 2026-08-21 at 18.46.17 (1).jpeg",
-      "title": "হার-ধাঁচের জুয়েলারির বিবরণ",
+      "title": "হার ৪৭",
       "categoryLabel": "হার"
     },
     {
@@ -852,18 +852,19 @@
       "slug": "emarket247-necklaces-48",
       "category": "necklaces",
       "image": {
-        "src": "/assets/images/products/emarket247-necklaces-48-1280.webp",
-        "srcset": "/assets/images/products/emarket247-necklaces-48-640.webp 640w, /assets/images/products/emarket247-necklaces-48-1280.webp 1280w",
-        "width": 1280,
-        "height": 1600,
-        "alt": "হার-ধাঁচের জুয়েলারির বিবরণ 48-এর পণ্যের ছবি; স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।",
-        "caption": "মূল্যবিহীন ক্যাটালগ রেকর্ড। স্পেসিফিকেশন ও মূল্য প্রস্তুত হচ্ছে।"
+        "src": "/assets/images/products-square/emarket247-necklaces-48-1200-square.webp",
+        "srcset": "/assets/images/products-square/emarket247-necklaces-48-600-square.webp 600w, /assets/images/products-square/emarket247-necklaces-48-1200-square.webp 1200w",
+        "width": 1200,
+        "height": 1200,
+        "alt": "হার ৪৮-এর ছবি। নকশা ও মূল্য যাচাই শেষে প্রকাশ করা হবে।",
+        "caption": "পণ্যের তথ্য যাচাইাধীন — মূল্য পরে যোগ করা হবে।"
       },
-      "status": "বিস্তারিত প্রস্তুত হচ্ছে",
+      "status": "তথ্য যাচাই চলছে",
       "copyright": "© eMarket247. All rights reserved.",
       "original_filename": "WhatsApp Image 2026-08-21 at 18.46.17.jpeg",
-      "title": "হার-ধাঁচের জুয়েলারির বিবরণ",
+      "title": "হার ৪৮",
       "categoryLabel": "হার"
     }
-  ]
+  ],
+  "image_presentation": "square-studio-contained"
 }
