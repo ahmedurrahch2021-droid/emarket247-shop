@@ -14,7 +14,13 @@
     if (message) message.textContent = language === "bn"
       ? "পণ্যের তথ্য, পেমেন্ট ও ডেলিভারির বিস্তারিত চেকআউট চালুর আগে পরিষ্কারভাবে জানানো হবে।"
       : "Product, payment, and delivery details will be stated clearly before checkout goes live.";
-    const careLink = one("a:not(.utility-language)", utility);
+    const phoneLink = document.createElement("a");
+    phoneLink.className = "utility-phone";
+    phoneLink.href = "tel:+8801740501062";
+    phoneLink.textContent = "+880 1740-501062";
+    phoneLink.setAttribute("aria-label", language === "bn" ? "কাস্টমার কেয়ারের ফোন নম্বর" : "Customer care phone number");
+    utility.insertBefore(phoneLink, message);
+    const careLink = one("a:not(.utility-language):not(.utility-phone)", utility);
     if (careLink) {
       careLink.href = language === "bn" ? "/bn/contact/" : "/en/contact/";
       careLink.textContent = language === "bn" ? "কাস্টমার কেয়ার" : "Customer care";
@@ -22,7 +28,7 @@
   }
 
   const utilityStyle = document.createElement("style");
-  utilityStyle.textContent = `.utility{height:34px;gap:14px;background:#fff;border-bottom:1px solid var(--line);font-size:10px;letter-spacing:.015em}.utility p{flex:1;text-align:center;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.utility-language{order:-1;color:var(--ink)!important;text-decoration:none!important;border-right:1px solid var(--line);padding-right:14px;font-weight:700}.utility a:not(.utility-language){text-decoration:none;border-bottom:1px solid var(--red);padding-bottom:1px}@media(max-width:700px){.utility{height:32px}.utility p{display:none}.utility{justify-content:space-between}.utility-language{padding-right:0;border-right:0}.utility a:not(.utility-language){font-size:9px}}`;
+  utilityStyle.textContent = `/* CONTACT_PHONE_WHATSAPP */.utility{height:34px;gap:14px;background:#fff;border-bottom:1px solid var(--line);font-size:10px;letter-spacing:.015em}.utility p{flex:1;text-align:center;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.utility-language{order:-1;color:var(--ink)!important;text-decoration:none!important;border-right:1px solid var(--line);padding-right:14px;font-weight:700}.utility-phone{color:var(--ink)!important;text-decoration:none!important;font-weight:700;white-space:nowrap}.utility a:not(.utility-language):not(.utility-phone){text-decoration:none;border-bottom:1px solid var(--red);padding-bottom:1px}@media(max-width:700px){.utility{height:32px}.utility p{display:none}.utility{justify-content:space-between}.utility-language{padding-right:0;border-right:0}.utility-phone{font-size:9px}.utility a:not(.utility-language):not(.utility-phone){font-size:9px}}`;
   document.head.append(utilityStyle);
 
   const toast = one(".toast");

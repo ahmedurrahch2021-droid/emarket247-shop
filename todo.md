@@ -34,3 +34,7 @@
 - [x] Audit the current static storefront against the uploaded navigation, frontend, bilingual, accessibility, SEO, image, and Hostinger requirements.
 - [x] Record verified coverage and genuine omissions before modifying the current implementation.
 - [x] Apply only low-risk fixes that are supported by the existing requirements and do not assume unapproved pricing, payments, inventory, delivery, or backend decisions.
+- [x] Produce a text-free, professional warm-white studio-image pilot from the user-provided jewellery samples, preserving the exact product subject and adding only realistic photographic presentation refinements.
+- [x] Add embedded rights metadata plus conservative titles, alt text, captions, and client-review identifiers for the pilot product images.
+- [x] Create a responsive product-grid and category-page mock-up that uses the pilot imagery and the confirmed WhatsApp/phone number, while retaining unpriced and availability-pending states.
+- [ ] Await pilot approval before applying the revised image treatment to the remaining catalogue images.

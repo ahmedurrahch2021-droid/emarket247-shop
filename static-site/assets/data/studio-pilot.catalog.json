@@ -1,0 +1,48 @@
+{
+  "status": "studio-image-pilot-pending-approval",
+  "copyright": "© eMarket247. All rights reserved.",
+  "products": [
+    {
+      "id": "pilot-crossed-band-ring",
+      "filename": "emarket247-studio-pilot-crossed-band-ring.png",
+      "title": "Crossed-Band Ring | eMarket247 Studio Pilot",
+      "alt": "Crossed-band ring with clear stone detailing on a warm-white studio background",
+      "caption": "Studio-image pilot. Product details, price, and availability are awaiting approval.",
+      "bn_alt": "উষ্ণ-সাদা স্টুডিও ব্যাকগ্রাউন্ডে স্বচ্ছ পাথরের ডিটেইলসহ ক্রসড-ব্যান্ড আংটি",
+      "bn_caption": "স্টুডিও ইমেজ পাইলট। পণ্যের বিস্তারিত, মূল্য ও প্রাপ্যতা অনুমোদনের অপেক্ষায় আছে।",
+      "category": "rings",
+      "local_published_source": "/manus-storage/emarket247-studio-pilot-crossed-band-ring_edbabd9d.png",
+      "rights": "© eMarket247. All rights reserved.",
+      "price_status": "pending-approval",
+      "availability_status": "pending-approval"
+    },
+    {
+      "id": "pilot-floral-ring",
+      "filename": "emarket247-studio-pilot-floral-ring.png",
+      "title": "Floral Motif Ring | eMarket247 Studio Pilot",
+      "alt": "Floral-motif ring with clear stone accents on a warm-white studio background",
+      "caption": "Studio-image pilot. Product details, price, and availability are awaiting approval.",
+      "bn_alt": "উষ্ণ-সাদা স্টুডিও ব্যাকগ্রাউন্ডে স্বচ্ছ পাথরের অ্যাকসেন্টসহ ফুলেল নকশার আংটি",
+      "bn_caption": "স্টুডিও ইমেজ পাইলট। পণ্যের বিস্তারিত, মূল্য ও প্রাপ্যতা অনুমোদনের অপেক্ষায় আছে।",
+      "category": "rings",
+      "local_published_source": "/manus-storage/emarket247-studio-pilot-floral-ring_f3fa0884.png",
+      "rights": "© eMarket247. All rights reserved.",
+      "price_status": "pending-approval",
+      "availability_status": "pending-approval"
+    },
+    {
+      "id": "pilot-pave-components",
+      "filename": "emarket247-studio-pilot-pave-components.png",
+      "title": "Pavé Jewellery Components | eMarket247 Studio Pilot",
+      "alt": "Three pavé-set jewellery components on a warm-white studio background",
+      "caption": "Studio-image pilot. Product details, price, and availability are awaiting approval.",
+      "bn_alt": "উষ্ণ-সাদা স্টুডিও ব্যাকগ্রাউন্ডে তিনটি পাভে-সেট জুয়েলারি কম্পোনেন্ট",
+      "bn_caption": "স্টুডিও ইমেজ পাইলট। পণ্যের বিস্তারিত, মূল্য ও প্রাপ্যতা অনুমোদনের অপেক্ষায় আছে।",
+      "category": "jewellery-sets",
+      "local_published_source": "/manus-storage/emarket247-studio-pilot-pave-components_f68812f4.png",
+      "rights": "© eMarket247. All rights reserved.",
+      "price_status": "pending-approval",
+      "availability_status": "pending-approval"
+    }
+  ]
+}
