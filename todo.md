@@ -38,3 +38,13 @@
 - [x] Add embedded rights metadata plus conservative titles, alt text, captions, and client-review identifiers for the pilot product images.
 - [x] Create a responsive product-grid and category-page mock-up that uses the pilot imagery and the confirmed WhatsApp/phone number, while retaining unpriced and availability-pending states.
 - [ ] Await pilot approval before applying the revised image treatment to the remaining catalogue images.
+- [ ] Inventory every supplied catalog source image and partition the complete treatment workload into safe repeatable batches without overwriting originals.
+- [ ] Create text-free warm-white studio derivatives for all supplied product images, preserving each visible product design and adding restrained contact shadows.
+- [ ] Embed conservative rights metadata and update English/Bengali catalog image, title, alt text, and caption records for the processed catalogue.
+- [ ] Integrate the full refined catalogue across Shop and only visually appropriate category pages with unpriced Add-to-Bag placeholders and product-specific WhatsApp enquiries.
+- [ ] Visually verify the full catalogue at desktop and mobile widths before publishing the updated static site.
+- [ ] Display exactly 47 processed product records in the public Shop and category collection pages; preserve the remaining source/catalog record outside the public collection until the user approves it for display.
+- [ ] Pause remaining AI studio-image processing until manually edited final product images are supplied by the user.
+- [x] Audit and correct header alignment across desktop and mobile storefront pages.
+- [x] Deliver a consistent bilingual Occasion menu and route structure containing Puja, Eid, Wedding, Anniversary, and Birthday.
+- [x] Remove decorative plus/asterisk-style symbols from visible navigation labels while retaining accessible submenu affordances.

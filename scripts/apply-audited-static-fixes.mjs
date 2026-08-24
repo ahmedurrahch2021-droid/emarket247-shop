@@ -19,6 +19,7 @@ const categories = [
 ];
 const occasions = [
   ["puja", "Puja", "পূজা"],
+  ["eid", "Eid", "ঈদ"],
   ["wedding", "Wedding", "বিয়ে"],
   ["anniversary", "Anniversary", "বার্ষিকী"],
   ["birthday", "Birthday", "জন্মদিন"],
@@ -40,9 +41,9 @@ function renderHeader(lang) {
     <nav id="main-menu" class="main-nav" aria-label="${bn ? "প্রধান নেভিগেশন" : "Primary navigation"}">
       <a href="${href(lang)}">${bn ? "হোম" : "Home"}</a>
       <a href="${href(lang, "shop/")}">${bn ? "শপ" : "Shop"}</a>
-      <div class="has-submenu"><button type="button" aria-expanded="false">${bn ? "ক্যাটাগরি" : "Categories"}<span aria-hidden="true">+</span></button><div class="submenu"><p>${bn ? "জুয়েলারি খুঁজুন" : "Find your jewellery"}</p><ul>${categoryLinks}</ul><a class="menu-all" href="${href(lang, "categories/")}">${bn ? "সব ক্যাটাগরি" : "View all categories"} <span>→</span></a></div></div>
+      <div class="has-submenu"><button type="button" aria-expanded="false">${bn ? "ক্যাটাগরি" : "Categories"}</button><div class="submenu"><p>${bn ? "জুয়েলারি খুঁজুন" : "Find your jewellery"}</p><ul>${categoryLinks}</ul><a class="menu-all" href="${href(lang, "categories/")}">${bn ? "সব ক্যাটাগরি" : "View all categories"} <span>→</span></a></div></div>
       <a href="${href(lang, "occasions/bridal/")}">${bn ? "ব্রাইডাল" : "Bridal"}</a>
-      <div class="has-submenu"><button type="button" aria-expanded="false">${bn ? "অনুষ্ঠান" : "Occasion"}<span aria-hidden="true">+</span></button><div class="submenu"><p>${bn ? "বিশেষ দিনের জন্য" : "For meaningful moments"}</p><ul>${occasionLinks}</ul><a class="menu-all" href="${href(lang, "occasions/")}">${bn ? "সব অনুষ্ঠান" : "View all occasions"} <span>→</span></a></div></div>
+      <div class="has-submenu"><button type="button" aria-expanded="false">${bn ? "অনুষ্ঠান" : "Occasion"}</button><div class="submenu"><p>${bn ? "বিশেষ দিনের জন্য" : "For meaningful moments"}</p><ul>${occasionLinks}</ul><a class="menu-all" href="${href(lang, "occasions/")}">${bn ? "সব অনুষ্ঠান" : "View all occasions"} <span>→</span></a></div></div>
       <a href="${href(lang, "about/")}">${bn ? "আমাদের কথা" : "About Us"}</a>
       <a href="${href(lang, "contact/")}">${bn ? "যোগাযোগ" : "Contact"}</a>
     </nav>
@@ -60,7 +61,7 @@ function breadcrumb(lang, relativePath) {
     categories: bn ? "ক্যাটাগরি" : "Categories",
     occasions: bn ? "অনুষ্ঠান" : "Occasion",
     rings: bn ? "আংটি" : "Rings", earrings: bn ? "কানের দুল" : "Earrings", necklaces: bn ? "হার" : "Necklaces", bracelets: bn ? "ব্রেসলেট" : "Bracelets", bangles: bn ? "চুড়ি" : "Bangles", pendants: bn ? "লকেট" : "Pendants", "jewellery-sets": bn ? "জুয়েলারি সেট" : "Jewellery Sets", "bridal-jewellery": bn ? "ব্রাইডাল জুয়েলারি" : "Bridal Jewellery", "gift-jewellery": bn ? "উপহারের জুয়েলারি" : "Gift Jewellery",
-    puja: bn ? "পূজা" : "Puja", bridal: bn ? "ব্রাইডাল" : "Bridal", wedding: bn ? "বিয়ে" : "Wedding", anniversary: bn ? "বার্ষিকী" : "Anniversary", birthday: bn ? "জন্মদিন" : "Birthday", gifts: bn ? "উপহার" : "Gifts",
+    puja: bn ? "পূজা" : "Puja", eid: bn ? "ঈদ" : "Eid", bridal: bn ? "ব্রাইডাল" : "Bridal", wedding: bn ? "বিয়ে" : "Wedding", anniversary: bn ? "বার্ষিকী" : "Anniversary", birthday: bn ? "জন্মদিন" : "Birthday", gifts: bn ? "উপহার" : "Gifts",
     shop: bn ? "শপ" : "Shop", guides: bn ? "গাইড" : "Guides", care: bn ? "যত্ন ও সহায়তা" : "Care & Support", about: bn ? "আমাদের কথা" : "About Us", contact: bn ? "যোগাযোগ" : "Contact", privacy: bn ? "গোপনীয়তা" : "Privacy", terms: bn ? "শর্তাবলি" : "Terms",
   };
   const crumbs = [`<li><a href="${href(lang)}">${bn ? "হোম" : "Home"}</a></li>`];
@@ -92,7 +93,8 @@ function updateHead(html, lang, route, title, description) {
 function occasionBody(lang, type) {
   const bn = lang === "bn";
   const copy = {
-    hub: bn ? ["বিশেষ মুহূর্তের জন্য জুয়েলারি আবিষ্কার করুন।", "পূজা, বিয়ে, বার্ষিকী, জন্মদিন ও উপহারের জন্য আলাদা আবিষ্কারের পথ তৈরি করা হয়েছে। পণ্যের মিল, মূল্য ও প্রাপ্যতা কেবল যাচাইকৃত তথ্য পাওয়ার পর প্রকাশ করা হবে।"] : ["Jewellery discovery for meaningful moments.", "Explore distinct discovery paths for Puja, weddings, anniversaries, birthdays, and gifting. Product matches, pricing, and availability will only be published after verification."],
+    hub: bn ? ["বিশেষ মুহূর্তের জন্য জুয়েলারি আবিষ্কার করুন।", "পূজা, ঈদ, বিয়ে, বার্ষিকী, জন্মদিন ও উপহারের জন্য আলাদা আবিষ্কারের পথ তৈরি করা হয়েছে। পণ্যের মিল, মূল্য ও প্রাপ্যতা কেবল যাচাইকৃত তথ্য পাওয়ার পর প্রকাশ করা হবে।"] : ["Jewellery discovery for meaningful moments.", "Explore distinct discovery paths for Puja, Eid, weddings, anniversaries, birthdays, and gifting. Product matches, pricing, and availability will only be published after verification."],
+    eid: bn ? ["ঈদের জন্য নিজের মতো করে বেছে নিন।", "ঈদের জন্য পণ্যের মিল, মূল্য ও প্রাপ্যতা যাচাই শেষে প্রকাশ করা হবে। এখন ক্যাটাগরি ও উপহারের ভাবনা ধরে আপনার পছন্দের ধরনগুলো দেখুন।"] : ["Choose with ease for Eid.", "Eid product matches, pricing, and availability will be published after verification. For now, explore category and gifting ideas at your own pace."],
     wedding: bn ? ["বিয়ের দিনের ভাবনা, ধীরে দেখুন।", "বিয়ের জন্য নির্দিষ্ট পণ্যের তথ্য, মূল্য ও প্রাপ্যতা যাচাই শেষে প্রকাশ করা হবে। এখন ক্যাটাগরি ধরে আপনার পছন্দের ধরনগুলো দেখুন।"] : ["Explore wedding ideas with time to choose.", "Specific product detail, pricing, and availability for weddings will be published after verification. For now, explore the jewellery forms that suit your moment."],
     anniversary: bn ? ["বার্ষিকীর জন্য অর্থবহ একটি নির্বাচন।", "বার্ষিকীর জন্য পণ্যের মিল, মূল্য ও প্রাপ্যতা যাচাই শেষে প্রকাশ করা হবে। এখন উপহার ও ক্যাটাগরি ধরে পছন্দের ভাবনা আবিষ্কার করুন।"] : ["A considered choice for an anniversary.", "Anniversary product matches, pricing, and availability will be published after verification. For now, explore gifting and category ideas."],
     birthday: bn ? ["জন্মদিনের উপহারের ভাবনা, সহজভাবে।", "জন্মদিনের জন্য পণ্যের মিল, মূল্য ও প্রাপ্যতা যাচাই শেষে প্রকাশ করা হবে। এখন উপহার ও ক্যাটাগরি ধরে পছন্দের ভাবনা আবিষ্কার করুন।"] : ["A thoughtful starting point for birthday gifting.", "Birthday product matches, pricing, and availability will be published after verification. For now, explore gifting and category ideas."],
@@ -160,6 +162,7 @@ for (const file of files) {
 for (const lang of ["en", "bn"]) {
   const bn = lang === "bn";
   await writeOccasionPage(lang, "hub", bn ? "অনুষ্ঠান | eMarket247" : "Occasions | eMarket247", bn ? "পূজা, বিয়ে, বার্ষিকী, জন্মদিন ও উপহারের জন্য ইমার্কেট২৪৭ জুয়েলারি আবিষ্কার।" : "Discover eMarket247 jewellery ideas for Puja, weddings, anniversaries, birthdays, and gifting.");
+  await writeOccasionPage(lang, "eid", bn ? "ঈদের জুয়েলারি | eMarket247" : "Eid Jewellery | eMarket247", bn ? "ইমার্কেট২৪৭-এ ঈদের জুয়েলারি আবিষ্কারের পথ।" : "A considered eMarket247 discovery path for Eid jewellery.");
   await writeOccasionPage(lang, "wedding", bn ? "বিয়ের জুয়েলারি | eMarket247" : "Wedding Jewellery | eMarket247", bn ? "ইমার্কেট২৪৭-এ বিয়ের জুয়েলারি আবিষ্কারের পথ।" : "A considered eMarket247 discovery path for wedding jewellery.");
   await writeOccasionPage(lang, "anniversary", bn ? "বার্ষিকীর জুয়েলারি | eMarket247" : "Anniversary Jewellery | eMarket247", bn ? "ইমার্কেট২৪৭-এ বার্ষিকীর জুয়েলারি আবিষ্কারের পথ।" : "A considered eMarket247 discovery path for anniversary jewellery.");
   await writeOccasionPage(lang, "birthday", bn ? "জন্মদিনের উপহারের জুয়েলারি | eMarket247" : "Birthday Gift Jewellery | eMarket247", bn ? "ইমার্কেট২৪৭-এ জন্মদিনের উপহারের জুয়েলারি আবিষ্কারের পথ।" : "A considered eMarket247 discovery path for birthday gift jewellery.");
@@ -191,7 +194,7 @@ await writeFile(path.join(source, "assets", "js", "site.js"), js, "utf8");
 let sitemap = await readFile(path.join(source, "sitemap.xml"), "utf8");
 const routes = [
   ...["en", "bn"].flatMap((lang) => [
-    `/${lang}/occasions/`, `/${lang}/occasions/wedding/`, `/${lang}/occasions/anniversary/`, `/${lang}/occasions/birthday/`, `/${lang}/categories/bridal-jewellery/`,
+    `/${lang}/occasions/`, `/${lang}/occasions/eid/`, `/${lang}/occasions/wedding/`, `/${lang}/occasions/anniversary/`, `/${lang}/occasions/birthday/`, `/${lang}/categories/bridal-jewellery/`,
   ]),
 ];
 for (const route of routes) {

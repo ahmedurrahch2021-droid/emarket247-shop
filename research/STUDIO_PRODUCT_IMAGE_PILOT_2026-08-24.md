@@ -21,3 +21,9 @@ The `/en/studio-pilot/` and `/bn/studio-pilot/` routes are intentionally set to 
 The confirmed contact number is **+880 1740-501062**. WhatsApp links use the normalized form `https://wa.me/8801740501062` with product-specific prefilled enquiry text. No checkout, price, stock, material, delivery, or payment claim has been enabled.
 
 The desktop visual review confirmed the top utility bar now presents the phone number without displacing the language switch or customer-care link. It also confirmed the revised product-card styling uses `object-fit: contain`, so each final pilot image remains completely visible rather than being cropped inside the catalog grid.
+
+## Functional collection-page reference
+
+The linked international jewellery collection page was reviewed only for functional principles. Its useful neutral patterns are: a clear collection context, an at-a-glance category discovery row, filter/sort entry points, a visual product grid, product-status/name/price/action hierarchy, and an accessible bag-oriented customer journey. eMarket247 will adapt these functions with an original white/ivory, black/red interface; the user’s own studio product imagery; Bengali/English routes; no copied product content; WhatsApp enquiries; and unpriced/non-ordering states until business facts are approved.
+
+For the user-requested public scope, the verified 48-record source manifest is partitioned into **47 display records** (`src-001` through `src-047`) and **one reserve record** (`src-048`). The reserve is preserved without modification or public display until expressly approved.

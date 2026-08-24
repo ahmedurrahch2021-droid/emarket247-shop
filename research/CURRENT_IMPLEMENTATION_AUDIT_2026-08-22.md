@@ -48,3 +48,11 @@ This audit does **not** recommend a redesign, framework replacement, payment int
 The approved low-risk additions have now been applied without rebuilding the storefront. They add the requested Home, Contact, and Occasion navigation paths; an Occasion hub with Puja, Wedding, Anniversary, Birthday, and Gifts discovery routes in English and Bengali; and a bilingual Bridal Jewellery category page. These pages use the existing design, local editorial imagery, safe no-price language, shared search/bag boundaries, and the existing static architecture.
 
 Breadcrumbs are now present on inner pages and absent from both language homepages. The portable static validator passes against the current source, verifying **51 HTML pages**, bilingual metadata, language alternates, canonical links, skip links, core assets, the new routes, and their shared navigation expectations. The production build copies the same verified static source into `dist/public`.
+
+## Occasion navigation refinement — 24 August 2026
+
+The shared header now uses a balanced three-part desktop grid: logo at the left, primary navigation centered, and language/search/bag controls aligned at the right. Categories and Occasion are displayed as plain labels without the previously visible plus-style marker. The mobile header retains the deliberate menu trigger while keeping submenu labels free of decorative symbols.
+
+The bilingual Occasion structure now contains **Puja, Eid, Wedding, Anniversary, Birthday, and Gifts**. Eid is represented by matching `/en/occasions/eid/` and `/bn/occasions/eid/` discovery pages, reciprocal language metadata, breadcrumbs, shared navigation links, and sitemap entries. Desktop and 390px mobile visual review confirmed readable English and Bengali Eid routes, aligned header controls, and no unintended price, stock, delivery, payment, or checkout claim.
+
+Further AI studio-image processing is paused pending manually edited final product assets from the user, as requested.

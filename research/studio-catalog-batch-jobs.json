@@ -1,0 +1,479 @@
+{
+  "status": "ready-for-non-destructive-studio-treatment",
+  "source_count": 47,
+  "reserve_catalog_record": "src-048",
+  "reserve_source_filename": "WhatsApp Image 2026-08-21 at 18.46.17.jpeg",
+  "excluded_files": "One non-catalog image in the source folder is excluded because it is absent from the existing 48-record source manifest. The 48th verified catalog record is retained as a non-displayed reserve to meet the requested 47-product storefront scope.",
+  "jobs": [
+    {
+      "id": "src-001",
+      "index": 1,
+      "source_filename": "WhatsApp Image 2026-08-21 at 18.45.47 (1).jpeg",
+      "source_path": "/home/ubuntu/projects/emarket247-pandora-clone-7f5043cd/WhatsApp Image 2026-08-21 at 18.45.47 (1).jpeg",
+      "target_filename": "emarket247-studio-product-01.png",
+      "target_path": "/home/ubuntu/webdev-static-assets/studio-catalog-full/emarket247-studio-product-01.png",
+      "catalog_category": "jewellery-detail",
+      "catalog_title": "Jewellery detail 01"
+    },
+    {
+      "id": "src-002",
+      "index": 2,
+      "source_filename": "WhatsApp Image 2026-08-21 at 18.45.47.jpeg",
+      "source_path": "/home/ubuntu/projects/emarket247-pandora-clone-7f5043cd/WhatsApp Image 2026-08-21 at 18.45.47.jpeg",
+      "target_filename": "emarket247-studio-product-02.png",
+      "target_path": "/home/ubuntu/webdev-static-assets/studio-catalog-full/emarket247-studio-product-02.png",
+      "catalog_category": "jewellery-detail",
+      "catalog_title": "Jewellery detail 02"
+    },
+    {
+      "id": "src-003",
+      "index": 3,
+      "source_filename": "WhatsApp Image 2026-08-21 at 18.45.48.jpeg",
+      "source_path": "/home/ubuntu/projects/emarket247-pandora-clone-7f5043cd/WhatsApp Image 2026-08-21 at 18.45.48.jpeg",
+      "target_filename": "emarket247-studio-product-03.png",
+      "target_path": "/home/ubuntu/webdev-static-assets/studio-catalog-full/emarket247-studio-product-03.png",
+      "catalog_category": "jewellery-detail",
+      "catalog_title": "Jewellery detail 03"
+    },
+    {
+      "id": "src-004",
+      "index": 4,
+      "source_filename": "WhatsApp Image 2026-08-21 at 18.45.49.jpeg",
+      "source_path": "/home/ubuntu/projects/emarket247-pandora-clone-7f5043cd/WhatsApp Image 2026-08-21 at 18.45.49.jpeg",
+      "target_filename": "emarket247-studio-product-04.png",
+      "target_path": "/home/ubuntu/webdev-static-assets/studio-catalog-full/emarket247-studio-product-04.png",
+      "catalog_category": "jewellery-detail",
+      "catalog_title": "Jewellery detail 04"
+    },
+    {
+      "id": "src-005",
+      "index": 5,
+      "source_filename": "WhatsApp Image 2026-08-21 at 18.45.50 (1).jpeg",
+      "source_path": "/home/ubuntu/projects/emarket247-pandora-clone-7f5043cd/WhatsApp Image 2026-08-21 at 18.45.50 (1).jpeg",
+      "target_filename": "emarket247-studio-product-05.png",
+      "target_path": "/home/ubuntu/webdev-static-assets/studio-catalog-full/emarket247-studio-product-05.png",
+      "catalog_category": "jewellery-detail",
+      "catalog_title": "Jewellery detail 05"
+    },
+    {
+      "id": "src-006",
+      "index": 6,
+      "source_filename": "WhatsApp Image 2026-08-21 at 18.45.50.jpeg",
+      "source_path": "/home/ubuntu/projects/emarket247-pandora-clone-7f5043cd/WhatsApp Image 2026-08-21 at 18.45.50.jpeg",
+      "target_filename": "emarket247-studio-product-06.png",
+      "target_path": "/home/ubuntu/webdev-static-assets/studio-catalog-full/emarket247-studio-product-06.png",
+      "catalog_category": "jewellery-detail",
+      "catalog_title": "Jewellery detail 06"
+    },
+    {
+      "id": "src-007",
+      "index": 7,
+      "source_filename": "WhatsApp Image 2026-08-21 at 18.45.52.jpeg",
+      "source_path": "/home/ubuntu/projects/emarket247-pandora-clone-7f5043cd/WhatsApp Image 2026-08-21 at 18.45.52.jpeg",
+      "target_filename": "emarket247-studio-product-07.png",
+      "target_path": "/home/ubuntu/webdev-static-assets/studio-catalog-full/emarket247-studio-product-07.png",
+      "catalog_category": "jewellery-detail",
+      "catalog_title": "Jewellery detail 07"
+    },
+    {
+      "id": "src-008",
+      "index": 8,
+      "source_filename": "WhatsApp Image 2026-08-21 at 18.45.53.jpeg",
+      "source_path": "/home/ubuntu/projects/emarket247-pandora-clone-7f5043cd/WhatsApp Image 2026-08-21 at 18.45.53.jpeg",
+      "target_filename": "emarket247-studio-product-08.png",
+      "target_path": "/home/ubuntu/webdev-static-assets/studio-catalog-full/emarket247-studio-product-08.png",
+      "catalog_category": "jewellery-detail",
+      "catalog_title": "Jewellery detail 08"
+    },
+    {
+      "id": "src-009",
+      "index": 9,
+      "source_filename": "WhatsApp Image 2026-08-21 at 18.45.54.jpeg",
+      "source_path": "/home/ubuntu/projects/emarket247-pandora-clone-7f5043cd/WhatsApp Image 2026-08-21 at 18.45.54.jpeg",
+      "target_filename": "emarket247-studio-product-09.png",
+      "target_path": "/home/ubuntu/webdev-static-assets/studio-catalog-full/emarket247-studio-product-09.png",
+      "catalog_category": "jewellery-detail",
+      "catalog_title": "Jewellery detail 09"
+    },
+    {
+      "id": "src-010",
+      "index": 10,
+      "source_filename": "WhatsApp Image 2026-08-21 at 18.45.56.jpeg",
+      "source_path": "/home/ubuntu/projects/emarket247-pandora-clone-7f5043cd/WhatsApp Image 2026-08-21 at 18.45.56.jpeg",
+      "target_filename": "emarket247-studio-product-10.png",
+      "target_path": "/home/ubuntu/webdev-static-assets/studio-catalog-full/emarket247-studio-product-10.png",
+      "catalog_category": "jewellery-detail",
+      "catalog_title": "Jewellery detail 10"
+    },
+    {
+      "id": "src-011",
+      "index": 11,
+      "source_filename": "WhatsApp Image 2026-08-21 at 18.45.57 (1).jpeg",
+      "source_path": "/home/ubuntu/projects/emarket247-pandora-clone-7f5043cd/WhatsApp Image 2026-08-21 at 18.45.57 (1).jpeg",
+      "target_filename": "emarket247-studio-product-11.png",
+      "target_path": "/home/ubuntu/webdev-static-assets/studio-catalog-full/emarket247-studio-product-11.png",
+      "catalog_category": "jewellery-detail",
+      "catalog_title": "Jewellery detail 11"
+    },
+    {
+      "id": "src-012",
+      "index": 12,
+      "source_filename": "WhatsApp Image 2026-08-21 at 18.45.57 (2).jpeg",
+      "source_path": "/home/ubuntu/projects/emarket247-pandora-clone-7f5043cd/WhatsApp Image 2026-08-21 at 18.45.57 (2).jpeg",
+      "target_filename": "emarket247-studio-product-12.png",
+      "target_path": "/home/ubuntu/webdev-static-assets/studio-catalog-full/emarket247-studio-product-12.png",
+      "catalog_category": "jewellery-detail",
+      "catalog_title": "Jewellery detail 12"
+    },
+    {
+      "id": "src-013",
+      "index": 13,
+      "source_filename": "WhatsApp Image 2026-08-21 at 18.45.57.jpeg",
+      "source_path": "/home/ubuntu/projects/emarket247-pandora-clone-7f5043cd/WhatsApp Image 2026-08-21 at 18.45.57.jpeg",
+      "target_filename": "emarket247-studio-product-13.png",
+      "target_path": "/home/ubuntu/webdev-static-assets/studio-catalog-full/emarket247-studio-product-13.png",
+      "catalog_category": "jewellery-detail",
+      "catalog_title": "Jewellery detail 13"
+    },
+    {
+      "id": "src-014",
+      "index": 14,
+      "source_filename": "WhatsApp Image 2026-08-21 at 18.45.58.jpeg",
+      "source_path": "/home/ubuntu/projects/emarket247-pandora-clone-7f5043cd/WhatsApp Image 2026-08-21 at 18.45.58.jpeg",
+      "target_filename": "emarket247-studio-product-14.png",
+      "target_path": "/home/ubuntu/webdev-static-assets/studio-catalog-full/emarket247-studio-product-14.png",
+      "catalog_category": "bracelets",
+      "catalog_title": "Bracelet-style jewellery detail 14"
+    },
+    {
+      "id": "src-015",
+      "index": 15,
+      "source_filename": "WhatsApp Image 2026-08-21 at 18.45.59 (1).jpeg",
+      "source_path": "/home/ubuntu/projects/emarket247-pandora-clone-7f5043cd/WhatsApp Image 2026-08-21 at 18.45.59 (1).jpeg",
+      "target_filename": "emarket247-studio-product-15.png",
+      "target_path": "/home/ubuntu/webdev-static-assets/studio-catalog-full/emarket247-studio-product-15.png",
+      "catalog_category": "bracelets",
+      "catalog_title": "Bracelet-style jewellery detail 15"
+    },
+    {
+      "id": "src-016",
+      "index": 16,
+      "source_filename": "WhatsApp Image 2026-08-21 at 18.45.59 (2).jpeg",
+      "source_path": "/home/ubuntu/projects/emarket247-pandora-clone-7f5043cd/WhatsApp Image 2026-08-21 at 18.45.59 (2).jpeg",
+      "target_filename": "emarket247-studio-product-16.png",
+      "target_path": "/home/ubuntu/webdev-static-assets/studio-catalog-full/emarket247-studio-product-16.png",
+      "catalog_category": "necklaces",
+      "catalog_title": "Necklace-style jewellery detail 16"
+    },
+    {
+      "id": "src-017",
+      "index": 17,
+      "source_filename": "WhatsApp Image 2026-08-21 at 18.45.59.jpeg",
+      "source_path": "/home/ubuntu/projects/emarket247-pandora-clone-7f5043cd/WhatsApp Image 2026-08-21 at 18.45.59.jpeg",
+      "target_filename": "emarket247-studio-product-17.png",
+      "target_path": "/home/ubuntu/webdev-static-assets/studio-catalog-full/emarket247-studio-product-17.png",
+      "catalog_category": "bangles",
+      "catalog_title": "Circular jewellery detail 17"
+    },
+    {
+      "id": "src-018",
+      "index": 18,
+      "source_filename": "WhatsApp Image 2026-08-21 at 18.46.00.jpeg",
+      "source_path": "/home/ubuntu/projects/emarket247-pandora-clone-7f5043cd/WhatsApp Image 2026-08-21 at 18.46.00.jpeg",
+      "target_filename": "emarket247-studio-product-18.png",
+      "target_path": "/home/ubuntu/webdev-static-assets/studio-catalog-full/emarket247-studio-product-18.png",
+      "catalog_category": "bangles",
+      "catalog_title": "Circular jewellery detail 18"
+    },
+    {
+      "id": "src-019",
+      "index": 19,
+      "source_filename": "WhatsApp Image 2026-08-21 at 18.46.01 (1).jpeg",
+      "source_path": "/home/ubuntu/projects/emarket247-pandora-clone-7f5043cd/WhatsApp Image 2026-08-21 at 18.46.01 (1).jpeg",
+      "target_filename": "emarket247-studio-product-19.png",
+      "target_path": "/home/ubuntu/webdev-static-assets/studio-catalog-full/emarket247-studio-product-19.png",
+      "catalog_category": "bangles",
+      "catalog_title": "Circular jewellery detail 19"
+    },
+    {
+      "id": "src-020",
+      "index": 20,
+      "source_filename": "WhatsApp Image 2026-08-21 at 18.46.01.jpeg",
+      "source_path": "/home/ubuntu/projects/emarket247-pandora-clone-7f5043cd/WhatsApp Image 2026-08-21 at 18.46.01.jpeg",
+      "target_filename": "emarket247-studio-product-20.png",
+      "target_path": "/home/ubuntu/webdev-static-assets/studio-catalog-full/emarket247-studio-product-20.png",
+      "catalog_category": "bangles",
+      "catalog_title": "Circular jewellery detail 20"
+    },
+    {
+      "id": "src-021",
+      "index": 21,
+      "source_filename": "WhatsApp Image 2026-08-21 at 18.46.03.jpeg",
+      "source_path": "/home/ubuntu/projects/emarket247-pandora-clone-7f5043cd/WhatsApp Image 2026-08-21 at 18.46.03.jpeg",
+      "target_filename": "emarket247-studio-product-21.png",
+      "target_path": "/home/ubuntu/webdev-static-assets/studio-catalog-full/emarket247-studio-product-21.png",
+      "catalog_category": "bangles",
+      "catalog_title": "Circular jewellery detail 21"
+    },
+    {
+      "id": "src-022",
+      "index": 22,
+      "source_filename": "WhatsApp Image 2026-08-21 at 18.46.04 (1).jpeg",
+      "source_path": "/home/ubuntu/projects/emarket247-pandora-clone-7f5043cd/WhatsApp Image 2026-08-21 at 18.46.04 (1).jpeg",
+      "target_filename": "emarket247-studio-product-22.png",
+      "target_path": "/home/ubuntu/webdev-static-assets/studio-catalog-full/emarket247-studio-product-22.png",
+      "catalog_category": "bangles",
+      "catalog_title": "Circular jewellery detail 22"
+    },
+    {
+      "id": "src-023",
+      "index": 23,
+      "source_filename": "WhatsApp Image 2026-08-21 at 18.46.04.jpeg",
+      "source_path": "/home/ubuntu/projects/emarket247-pandora-clone-7f5043cd/WhatsApp Image 2026-08-21 at 18.46.04.jpeg",
+      "target_filename": "emarket247-studio-product-23.png",
+      "target_path": "/home/ubuntu/webdev-static-assets/studio-catalog-full/emarket247-studio-product-23.png",
+      "catalog_category": "bangles",
+      "catalog_title": "Circular jewellery detail 23"
+    },
+    {
+      "id": "src-024",
+      "index": 24,
+      "source_filename": "WhatsApp Image 2026-08-21 at 18.46.05 (1).jpeg",
+      "source_path": "/home/ubuntu/projects/emarket247-pandora-clone-7f5043cd/WhatsApp Image 2026-08-21 at 18.46.05 (1).jpeg",
+      "target_filename": "emarket247-studio-product-24.png",
+      "target_path": "/home/ubuntu/webdev-static-assets/studio-catalog-full/emarket247-studio-product-24.png",
+      "catalog_category": "bangles",
+      "catalog_title": "Circular jewellery detail 24"
+    },
+    {
+      "id": "src-025",
+      "index": 25,
+      "source_filename": "WhatsApp Image 2026-08-21 at 18.46.05 (2).jpeg",
+      "source_path": "/home/ubuntu/projects/emarket247-pandora-clone-7f5043cd/WhatsApp Image 2026-08-21 at 18.46.05 (2).jpeg",
+      "target_filename": "emarket247-studio-product-25.png",
+      "target_path": "/home/ubuntu/webdev-static-assets/studio-catalog-full/emarket247-studio-product-25.png",
+      "catalog_category": "bangles",
+      "catalog_title": "Circular jewellery detail 25"
+    },
+    {
+      "id": "src-026",
+      "index": 26,
+      "source_filename": "WhatsApp Image 2026-08-21 at 18.46.05.jpeg",
+      "source_path": "/home/ubuntu/projects/emarket247-pandora-clone-7f5043cd/WhatsApp Image 2026-08-21 at 18.46.05.jpeg",
+      "target_filename": "emarket247-studio-product-26.png",
+      "target_path": "/home/ubuntu/webdev-static-assets/studio-catalog-full/emarket247-studio-product-26.png",
+      "catalog_category": "bangles",
+      "catalog_title": "Circular jewellery detail 26"
+    },
+    {
+      "id": "src-027",
+      "index": 27,
+      "source_filename": "WhatsApp Image 2026-08-21 at 18.46.06 (1).jpeg",
+      "source_path": "/home/ubuntu/projects/emarket247-pandora-clone-7f5043cd/WhatsApp Image 2026-08-21 at 18.46.06 (1).jpeg",
+      "target_filename": "emarket247-studio-product-27.png",
+      "target_path": "/home/ubuntu/webdev-static-assets/studio-catalog-full/emarket247-studio-product-27.png",
+      "catalog_category": "bangles",
+      "catalog_title": "Circular jewellery detail 27"
+    },
+    {
+      "id": "src-028",
+      "index": 28,
+      "source_filename": "WhatsApp Image 2026-08-21 at 18.46.06 (2).jpeg",
+      "source_path": "/home/ubuntu/projects/emarket247-pandora-clone-7f5043cd/WhatsApp Image 2026-08-21 at 18.46.06 (2).jpeg",
+      "target_filename": "emarket247-studio-product-28.png",
+      "target_path": "/home/ubuntu/webdev-static-assets/studio-catalog-full/emarket247-studio-product-28.png",
+      "catalog_category": "bangles",
+      "catalog_title": "Circular jewellery detail 28"
+    },
+    {
+      "id": "src-029",
+      "index": 29,
+      "source_filename": "WhatsApp Image 2026-08-21 at 18.46.06.jpeg",
+      "source_path": "/home/ubuntu/projects/emarket247-pandora-clone-7f5043cd/WhatsApp Image 2026-08-21 at 18.46.06.jpeg",
+      "target_filename": "emarket247-studio-product-29.png",
+      "target_path": "/home/ubuntu/webdev-static-assets/studio-catalog-full/emarket247-studio-product-29.png",
+      "catalog_category": "bangles",
+      "catalog_title": "Circular jewellery detail 29"
+    },
+    {
+      "id": "src-030",
+      "index": 30,
+      "source_filename": "WhatsApp Image 2026-08-21 at 18.46.07 (1).jpeg",
+      "source_path": "/home/ubuntu/projects/emarket247-pandora-clone-7f5043cd/WhatsApp Image 2026-08-21 at 18.46.07 (1).jpeg",
+      "target_filename": "emarket247-studio-product-30.png",
+      "target_path": "/home/ubuntu/webdev-static-assets/studio-catalog-full/emarket247-studio-product-30.png",
+      "catalog_category": "bangles",
+      "catalog_title": "Circular jewellery detail 30"
+    },
+    {
+      "id": "src-031",
+      "index": 31,
+      "source_filename": "WhatsApp Image 2026-08-21 at 18.46.07.jpeg",
+      "source_path": "/home/ubuntu/projects/emarket247-pandora-clone-7f5043cd/WhatsApp Image 2026-08-21 at 18.46.07.jpeg",
+      "target_filename": "emarket247-studio-product-31.png",
+      "target_path": "/home/ubuntu/webdev-static-assets/studio-catalog-full/emarket247-studio-product-31.png",
+      "catalog_category": "jewellery-detail",
+      "catalog_title": "Jewellery detail 31"
+    },
+    {
+      "id": "src-032",
+      "index": 32,
+      "source_filename": "WhatsApp Image 2026-08-21 at 18.46.08 (1).jpeg",
+      "source_path": "/home/ubuntu/projects/emarket247-pandora-clone-7f5043cd/WhatsApp Image 2026-08-21 at 18.46.08 (1).jpeg",
+      "target_filename": "emarket247-studio-product-32.png",
+      "target_path": "/home/ubuntu/webdev-static-assets/studio-catalog-full/emarket247-studio-product-32.png",
+      "catalog_category": "earrings",
+      "catalog_title": "Earring-style jewellery detail 32"
+    },
+    {
+      "id": "src-033",
+      "index": 33,
+      "source_filename": "WhatsApp Image 2026-08-21 at 18.46.08.jpeg",
+      "source_path": "/home/ubuntu/projects/emarket247-pandora-clone-7f5043cd/WhatsApp Image 2026-08-21 at 18.46.08.jpeg",
+      "target_filename": "emarket247-studio-product-33.png",
+      "target_path": "/home/ubuntu/webdev-static-assets/studio-catalog-full/emarket247-studio-product-33.png",
+      "catalog_category": "jewellery-detail",
+      "catalog_title": "Jewellery detail 33"
+    },
+    {
+      "id": "src-034",
+      "index": 34,
+      "source_filename": "WhatsApp Image 2026-08-21 at 18.46.10 (1).jpeg",
+      "source_path": "/home/ubuntu/projects/emarket247-pandora-clone-7f5043cd/WhatsApp Image 2026-08-21 at 18.46.10 (1).jpeg",
+      "target_filename": "emarket247-studio-product-34.png",
+      "target_path": "/home/ubuntu/webdev-static-assets/studio-catalog-full/emarket247-studio-product-34.png",
+      "catalog_category": "jewellery-detail",
+      "catalog_title": "Jewellery detail 34"
+    },
+    {
+      "id": "src-035",
+      "index": 35,
+      "source_filename": "WhatsApp Image 2026-08-21 at 18.46.10.jpeg",
+      "source_path": "/home/ubuntu/projects/emarket247-pandora-clone-7f5043cd/WhatsApp Image 2026-08-21 at 18.46.10.jpeg",
+      "target_filename": "emarket247-studio-product-35.png",
+      "target_path": "/home/ubuntu/webdev-static-assets/studio-catalog-full/emarket247-studio-product-35.png",
+      "catalog_category": "jewellery-detail",
+      "catalog_title": "Jewellery detail 35"
+    },
+    {
+      "id": "src-036",
+      "index": 36,
+      "source_filename": "WhatsApp Image 2026-08-21 at 18.46.12 (1).jpeg",
+      "source_path": "/home/ubuntu/projects/emarket247-pandora-clone-7f5043cd/WhatsApp Image 2026-08-21 at 18.46.12 (1).jpeg",
+      "target_filename": "emarket247-studio-product-36.png",
+      "target_path": "/home/ubuntu/webdev-static-assets/studio-catalog-full/emarket247-studio-product-36.png",
+      "catalog_category": "jewellery-detail",
+      "catalog_title": "Jewellery detail 36"
+    },
+    {
+      "id": "src-037",
+      "index": 37,
+      "source_filename": "WhatsApp Image 2026-08-21 at 18.46.12 (2).jpeg",
+      "source_path": "/home/ubuntu/projects/emarket247-pandora-clone-7f5043cd/WhatsApp Image 2026-08-21 at 18.46.12 (2).jpeg",
+      "target_filename": "emarket247-studio-product-37.png",
+      "target_path": "/home/ubuntu/webdev-static-assets/studio-catalog-full/emarket247-studio-product-37.png",
+      "catalog_category": "jewellery-detail",
+      "catalog_title": "Jewellery detail 37"
+    },
+    {
+      "id": "src-038",
+      "index": 38,
+      "source_filename": "WhatsApp Image 2026-08-21 at 18.46.12 (3).jpeg",
+      "source_path": "/home/ubuntu/projects/emarket247-pandora-clone-7f5043cd/WhatsApp Image 2026-08-21 at 18.46.12 (3).jpeg",
+      "target_filename": "emarket247-studio-product-38.png",
+      "target_path": "/home/ubuntu/webdev-static-assets/studio-catalog-full/emarket247-studio-product-38.png",
+      "catalog_category": "jewellery-detail",
+      "catalog_title": "Jewellery detail 38"
+    },
+    {
+      "id": "src-039",
+      "index": 39,
+      "source_filename": "WhatsApp Image 2026-08-21 at 18.46.12.jpeg",
+      "source_path": "/home/ubuntu/projects/emarket247-pandora-clone-7f5043cd/WhatsApp Image 2026-08-21 at 18.46.12.jpeg",
+      "target_filename": "emarket247-studio-product-39.png",
+      "target_path": "/home/ubuntu/webdev-static-assets/studio-catalog-full/emarket247-studio-product-39.png",
+      "catalog_category": "jewellery-detail",
+      "catalog_title": "Jewellery detail 39"
+    },
+    {
+      "id": "src-040",
+      "index": 40,
+      "source_filename": "WhatsApp Image 2026-08-21 at 18.46.14 (1).jpeg",
+      "source_path": "/home/ubuntu/projects/emarket247-pandora-clone-7f5043cd/WhatsApp Image 2026-08-21 at 18.46.14 (1).jpeg",
+      "target_filename": "emarket247-studio-product-40.png",
+      "target_path": "/home/ubuntu/webdev-static-assets/studio-catalog-full/emarket247-studio-product-40.png",
+      "catalog_category": "jewellery-detail",
+      "catalog_title": "Jewellery detail 40"
+    },
+    {
+      "id": "src-041",
+      "index": 41,
+      "source_filename": "WhatsApp Image 2026-08-21 at 18.46.14.jpeg",
+      "source_path": "/home/ubuntu/projects/emarket247-pandora-clone-7f5043cd/WhatsApp Image 2026-08-21 at 18.46.14.jpeg",
+      "target_filename": "emarket247-studio-product-41.png",
+      "target_path": "/home/ubuntu/webdev-static-assets/studio-catalog-full/emarket247-studio-product-41.png",
+      "catalog_category": "jewellery-detail",
+      "catalog_title": "Jewellery detail 41"
+    },
+    {
+      "id": "src-042",
+      "index": 42,
+      "source_filename": "WhatsApp Image 2026-08-21 at 18.46.15 (1).jpeg",
+      "source_path": "/home/ubuntu/projects/emarket247-pandora-clone-7f5043cd/WhatsApp Image 2026-08-21 at 18.46.15 (1).jpeg",
+      "target_filename": "emarket247-studio-product-42.png",
+      "target_path": "/home/ubuntu/webdev-static-assets/studio-catalog-full/emarket247-studio-product-42.png",
+      "catalog_category": "jewellery-detail",
+      "catalog_title": "Jewellery detail 42"
+    },
+    {
+      "id": "src-043",
+      "index": 43,
+      "source_filename": "WhatsApp Image 2026-08-21 at 18.46.15.jpeg",
+      "source_path": "/home/ubuntu/projects/emarket247-pandora-clone-7f5043cd/WhatsApp Image 2026-08-21 at 18.46.15.jpeg",
+      "target_filename": "emarket247-studio-product-43.png",
+      "target_path": "/home/ubuntu/webdev-static-assets/studio-catalog-full/emarket247-studio-product-43.png",
+      "catalog_category": "jewellery-detail",
+      "catalog_title": "Jewellery detail 43"
+    },
+    {
+      "id": "src-044",
+      "index": 44,
+      "source_filename": "WhatsApp Image 2026-08-21 at 18.46.16 (1).jpeg",
+      "source_path": "/home/ubuntu/projects/emarket247-pandora-clone-7f5043cd/WhatsApp Image 2026-08-21 at 18.46.16 (1).jpeg",
+      "target_filename": "emarket247-studio-product-44.png",
+      "target_path": "/home/ubuntu/webdev-static-assets/studio-catalog-full/emarket247-studio-product-44.png",
+      "catalog_category": "jewellery-detail",
+      "catalog_title": "Jewellery detail 44"
+    },
+    {
+      "id": "src-045",
+      "index": 45,
+      "source_filename": "WhatsApp Image 2026-08-21 at 18.46.16 (2).jpeg",
+      "source_path": "/home/ubuntu/projects/emarket247-pandora-clone-7f5043cd/WhatsApp Image 2026-08-21 at 18.46.16 (2).jpeg",
+      "target_filename": "emarket247-studio-product-45.png",
+      "target_path": "/home/ubuntu/webdev-static-assets/studio-catalog-full/emarket247-studio-product-45.png",
+      "catalog_category": "jewellery-detail",
+      "catalog_title": "Jewellery detail 45"
+    },
+    {
+      "id": "src-046",
+      "index": 46,
+      "source_filename": "WhatsApp Image 2026-08-21 at 18.46.16.jpeg",
+      "source_path": "/home/ubuntu/projects/emarket247-pandora-clone-7f5043cd/WhatsApp Image 2026-08-21 at 18.46.16.jpeg",
+      "target_filename": "emarket247-studio-product-46.png",
+      "target_path": "/home/ubuntu/webdev-static-assets/studio-catalog-full/emarket247-studio-product-46.png",
+      "catalog_category": "necklaces",
+      "catalog_title": "Necklace-style jewellery detail 46"
+    },
+    {
+      "id": "src-047",
+      "index": 47,
+      "source_filename": "WhatsApp Image 2026-08-21 at 18.46.17 (1).jpeg",
+      "source_path": "/home/ubuntu/projects/emarket247-pandora-clone-7f5043cd/WhatsApp Image 2026-08-21 at 18.46.17 (1).jpeg",
+      "target_filename": "emarket247-studio-product-47.png",
+      "target_path": "/home/ubuntu/webdev-static-assets/studio-catalog-full/emarket247-studio-product-47.png",
+      "catalog_category": "necklaces",
+      "catalog_title": "Necklace-style jewellery detail 47"
+    }
+  ]
+}
