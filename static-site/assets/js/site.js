@@ -138,7 +138,18 @@
     const names = { bangles: language === "bn" ? "চুড়ি" : "Bangles", bracelets: language === "bn" ? "ব্রেসলেট" : "Bracelets", earrings: language === "bn" ? "কানের দুল" : "Earrings", necklaces: language === "bn" ? "হার" : "Necklaces", pendants: language === "bn" ? "লকেট" : "Pendants", rings: language === "bn" ? "আংটি" : "Rings", "jewellery-sets": language === "bn" ? "জুয়েলারি সেট" : "Jewellery Sets", "bridal-jewellery": language === "bn" ? "ব্রাইডাল জুয়েলারি" : "Bridal Jewellery", "gift-jewellery": language === "bn" ? "উপহারের জুয়েলারি" : "Gift Jewellery", "jewellery-detail": language === "bn" ? "জুয়েলারি আইটেম" : "Jewellery detail", unassigned: language === "bn" ? "সব আইটেম" : "All details" };
     return names[category] || category;
   };
-  const sortProducts = (products, value) => [...products].sort((a, b) => value === "az" ? a.title.localeCompare(b.title, language) : value === "category" ? a.categoryLabel.localeCompare(b.categoryLabel, language) : Number(a.id || 0) - Number(b.id || 0));
+  // Catalog ids are strings such as "src-001", so Number(id) is NaN and cannot be compared.
+  // Record order therefore uses the numeric part of the id, and falls back to the original
+  // catalog position so the intended catalogue sequence is always preserved.
+  const recordOrder = (product) => {
+    const digits = String(product.id ?? "").match(/\d+/);
+    return digits ? Number(digits[0]) : Number.MAX_SAFE_INTEGER;
+  };
+  const sortProducts = (products, value) => [...products].sort((a, b) => {
+    if (value === "az") return a.title.localeCompare(b.title, language);
+    if (value === "category") return a.categoryLabel.localeCompare(b.categoryLabel, language);
+    return recordOrder(a) - recordOrder(b) || a.catalogIndex - b.catalogIndex;
+  });
   const buildControls = (host, products, pageCategory) => {
     const toolbar = host.previousElementSibling;
     const target = toolbar?.classList.contains("catalog-toolbar") ? toolbar : host.parentElement;
@@ -166,7 +177,9 @@
       const response = await fetch(`/assets/data/catalog.${language}.json`);
       const catalog = await response.json();
       const pageCategory = host.dataset.category || "";
-      const products = (catalog.products || []).filter((product) => !pageCategory || product.category === pageCategory);
+      const products = (catalog.products || [])
+        .map((product, catalogIndex) => ({ ...product, catalogIndex }))
+        .filter((product) => !pageCategory || product.category === pageCategory);
       if (!products.length) {
         host.innerHTML = `<p class="catalog-empty">${language === "bn" ? "এই বিভাগের জন্য নিশ্চিত পণ্যের তথ্য এখনও প্রকাশের অপেক্ষায় আছে। সব পণ্য দেখতে শপ পেজে যান।" : "Verified product records for this category are awaiting publication. Visit Shop to browse all supplied images under review."}</p>`;
         return;

@@ -1,48 +1,54 @@
 {
-  "status": "studio-image-pilot-pending-approval",
+  "status": "studio-image-pilot-pending-approval-images-repointed-to-committed-assets",
   "copyright": "© eMarket247. All rights reserved.",
   "products": [
     {
-      "id": "pilot-crossed-band-ring",
-      "filename": "emarket247-studio-pilot-crossed-band-ring.png",
-      "title": "Crossed-Band Ring | eMarket247 Studio Pilot",
-      "alt": "Crossed-band ring with clear stone detailing on a warm-white studio background",
+      "id": "pilot-interwoven-band-ring",
+      "filename": "emarket247-studio-product-04-1600.webp",
+      "title": "Interwoven Band Ring | eMarket247 Studio Pilot",
+      "alt": "Gold-tone ring with interwoven open bands on a warm-white studio background",
       "caption": "Studio-image pilot. Product details, price, and availability are awaiting approval.",
-      "bn_alt": "উষ্ণ-সাদা স্টুডিও ব্যাকগ্রাউন্ডে স্বচ্ছ পাথরের ডিটেইলসহ ক্রসড-ব্যান্ড আংটি",
+      "bn_alt": "উষ্ণ-সাদা স্টুডিও ব্যাকগ্রাউন্ডে ওপেন ইন্টারউভেন ব্যান্ডের সোনালি আংটি",
       "bn_caption": "স্টুডিও ইমেজ পাইলট। পণ্যের বিস্তারিত, মূল্য ও প্রাপ্যতা অনুমোদনের অপেক্ষায় আছে।",
       "category": "rings",
-      "local_published_source": "/manus-storage/emarket247-studio-pilot-crossed-band-ring_edbabd9d.png",
       "rights": "© eMarket247. All rights reserved.",
       "price_status": "pending-approval",
-      "availability_status": "pending-approval"
+      "availability_status": "pending-approval",
+      "image_800": "/assets/images/products-studio/emarket247-studio-product-04-800.webp",
+      "image_1600": "/assets/images/products-studio/emarket247-studio-product-04-1600.webp",
+      "image_source_note": "Repointed to an existing committed studio derivative. The original externally generated pilot PNG was never committed to the repository."
     },
     {
       "id": "pilot-floral-ring",
-      "filename": "emarket247-studio-pilot-floral-ring.png",
+      "filename": "emarket247-studio-product-37-1600.webp",
       "title": "Floral Motif Ring | eMarket247 Studio Pilot",
-      "alt": "Floral-motif ring with clear stone accents on a warm-white studio background",
+      "alt": "Gold-tone ring with a layered floral motif on a warm-white studio background",
       "caption": "Studio-image pilot. Product details, price, and availability are awaiting approval.",
-      "bn_alt": "উষ্ণ-সাদা স্টুডিও ব্যাকগ্রাউন্ডে স্বচ্ছ পাথরের অ্যাকসেন্টসহ ফুলেল নকশার আংটি",
+      "bn_alt": "উষ্ণ-সাদা স্টুডিও ব্যাকগ্রাউন্ডে স্তরে সাজানো ফুলেল নকশার সোনালি আংটি",
       "bn_caption": "স্টুডিও ইমেজ পাইলট। পণ্যের বিস্তারিত, মূল্য ও প্রাপ্যতা অনুমোদনের অপেক্ষায় আছে।",
       "category": "rings",
-      "local_published_source": "/manus-storage/emarket247-studio-pilot-floral-ring_f3fa0884.png",
       "rights": "© eMarket247. All rights reserved.",
       "price_status": "pending-approval",
-      "availability_status": "pending-approval"
+      "availability_status": "pending-approval",
+      "image_800": "/assets/images/products-studio/emarket247-studio-product-37-800.webp",
+      "image_1600": "/assets/images/products-studio/emarket247-studio-product-37-1600.webp",
+      "image_source_note": "Repointed to an existing committed studio derivative. The original externally generated pilot PNG was never committed to the repository."
     },
     {
-      "id": "pilot-pave-components",
-      "filename": "emarket247-studio-pilot-pave-components.png",
-      "title": "Pavé Jewellery Components | eMarket247 Studio Pilot",
-      "alt": "Three pavé-set jewellery components on a warm-white studio background",
+      "id": "pilot-stone-set-leaf-ring",
+      "filename": "emarket247-studio-product-43-1600.webp",
+      "title": "Stone-Set Leaf Ring | eMarket247 Studio Pilot",
+      "alt": "Ring with twin leaf-shaped panels set with clear stones on a warm-white studio background",
       "caption": "Studio-image pilot. Product details, price, and availability are awaiting approval.",
-      "bn_alt": "উষ্ণ-সাদা স্টুডিও ব্যাকগ্রাউন্ডে তিনটি পাভে-সেট জুয়েলারি কম্পোনেন্ট",
+      "bn_alt": "উষ্ণ-সাদা স্টুডিও ব্যাকগ্রাউন্ডে স্বচ্ছ পাথরবসানো যুগল পাতা নকশার আংটি",
       "bn_caption": "স্টুডিও ইমেজ পাইলট। পণ্যের বিস্তারিত, মূল্য ও প্রাপ্যতা অনুমোদনের অপেক্ষায় আছে।",
-      "category": "jewellery-sets",
-      "local_published_source": "/manus-storage/emarket247-studio-pilot-pave-components_f68812f4.png",
+      "category": "rings",
       "rights": "© eMarket247. All rights reserved.",
       "price_status": "pending-approval",
-      "availability_status": "pending-approval"
+      "availability_status": "pending-approval",
+      "image_800": "/assets/images/products-studio/emarket247-studio-product-43-800.webp",
+      "image_1600": "/assets/images/products-studio/emarket247-studio-product-43-1600.webp",
+      "image_source_note": "Repointed to an existing committed studio derivative. The original externally generated pilot PNG was never committed to the repository."
     }
   ]
 }
