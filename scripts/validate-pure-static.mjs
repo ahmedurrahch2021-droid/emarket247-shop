@@ -43,6 +43,35 @@ const htaccess = await readFile(path.join(root, ".htaccess"), "utf8");
 if (!/^\s*ErrorDocument\s+404\s+\/404\.html\s*$/m.test(htaccess)) errors.push(".htaccess: missing ErrorDocument 404 /404.html");
 if (/RewriteRule\s+\^\s+index\.html/.test(htaccess)) errors.push(".htaccess: single-page-application catch-all rewrite would create soft-404s");
 
+// Phase 1 guard: the stylesheet must be complete on first paint. Re-introducing a
+// runtime-injected <style> element brings back the flash of re-laid-out content.
+const siteJs = await readFile(path.join(root, "assets/js/site.js"), "utf8");
+if (/createElement\((["'])style\1\)/.test(siteJs)) {
+  errors.push("assets/js/site.js: injects CSS at runtime; move those rules into assets/css/site.css");
+}
+
+// Phase 1 guard: css/js are cached for a year, so every reference must carry the
+// ?v= content hash. A missing hash means a returning visitor can be served a
+// stale stylesheet alongside an updated script.
+const versionedFiles = [];
+async function walkVersioned(folder) {
+  for (const entry of await readdir(folder)) {
+    const file = path.join(folder, entry);
+    const info = await stat(file);
+    if (info.isDirectory()) await walkVersioned(file);
+    else if (entry.endsWith(".html")) versionedFiles.push(file);
+  }
+}
+await walkVersioned(root);
+for (const file of versionedFiles) {
+  const html = await readFile(file, "utf8");
+  const relative = path.relative(root, file);
+  for (const reference of html.match(/(?:href|src)="(\/assets\/(?:css|js)\/[^"]*)"/g) || []) {
+    const url = reference.replace(/^(?:href|src)="/, "").replace(/"$/, "");
+    if (!/\?v=[0-9a-f]{6,}$/.test(url)) errors.push(`${relative}: asset reference without ?v= content hash: ${url}`);
+  }
+}
+
 // Every root-relative reference inside a served file must resolve to a file in the package.
 const servedFiles = [];
 async function walkAll(folder) {

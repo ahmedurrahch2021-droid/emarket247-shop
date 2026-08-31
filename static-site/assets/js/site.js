@@ -27,10 +27,6 @@
     }
   }
 
-  const utilityStyle = document.createElement("style");
-  utilityStyle.textContent = `/* CONTACT_PHONE_WHATSAPP */.utility{height:34px;gap:14px;background:#fff;border-bottom:1px solid var(--line);font-size:10px;letter-spacing:.015em}.utility p{flex:1;text-align:center;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.utility-language{order:-1;color:var(--ink)!important;text-decoration:none!important;border-right:1px solid var(--line);padding-right:14px;font-weight:700}.utility-phone{color:var(--ink)!important;text-decoration:none!important;font-weight:700;white-space:nowrap}.utility a:not(.utility-language):not(.utility-phone){text-decoration:none;border-bottom:1px solid var(--red);padding-bottom:1px}@media(max-width:700px){.utility{height:32px}.utility p{display:none}.utility{justify-content:space-between}.utility-language{padding-right:0;border-right:0}.utility-phone{font-size:9px}.utility a:not(.utility-language):not(.utility-phone){font-size:9px}}`;
-  document.head.append(utilityStyle);
-
   const toast = one(".toast");
   let toastTimer;
   const showToast = (message) => {
@@ -105,32 +101,6 @@
   hero?.addEventListener("focusin", () => window.clearInterval(sliderTimer));
   hero?.addEventListener("focusout", startSlider);
   startSlider();
-
-  const style = document.createElement("style");
-  style.textContent = ".product-card{overflow:hidden;border:1px solid var(--line);background:#fff}.product-card>img{width:100%;aspect-ratio:4/5;object-fit:cover;background:var(--warm);transition:transform .35s var(--ease)}.product-card:hover>img{transform:scale(1.025)}.product-card>div{padding:15px}.product-card p{margin:0 0 5px;color:var(--red-dark);font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase}.product-card h3{margin:0;font:22px/1.05 var(--serif);letter-spacing:-.03em}.product-card small{display:block;margin-top:10px;color:var(--muted);font-size:10px;line-height:1.4}.product-card footer{display:flex;justify-content:space-between;gap:8px;padding:10px 15px;border-top:1px solid var(--line);color:var(--muted);font-size:8px;letter-spacing:.04em;text-transform:uppercase}";
-  document.head.append(style);
-
-  const squareCatalogStyle = document.createElement("style");
-  squareCatalogStyle.textContent = `.product-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}.product-card>img{aspect-ratio:1/1;object-fit:contain;padding:8px;background:#fffdfb}.product-card h3{font-size:20px}@media(max-width:900px){.product-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}}@media(max-width:520px){.product-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.product-card>div{padding:11px}.product-card h3{font-size:17px}.product-card small{font-size:9px}.product-card footer{padding:9px 11px;font-size:7px}}`;
-  document.head.append(squareCatalogStyle);
-
-  const heroStyle = document.createElement("style");
-  heroStyle.textContent = `
-    .hero-slider{min-height:clamp(620px,74vh,860px);background:#1f1f1f}
-    .slide{display:block!important;position:absolute!important;inset:0!important}
-    .slide.is-active{position:relative!important}
-    .slide img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover!important}
-    .slide-shade{display:block!important;position:absolute;inset:0;background:linear-gradient(90deg,rgba(17,17,17,.74) 0%,rgba(17,17,17,.45) 34%,rgba(17,17,17,.08) 70%,rgba(17,17,17,.12) 100%)!important}
-    .slide-copy{position:absolute!important;left:0;bottom:0;max-width:min(650px,70vw);padding:clamp(46px,8vw,130px)!important;color:#fff!important}
-    .slide-copy .eyebrow,.slide-copy p:not(.eyebrow){color:#fff!important}.slide h1{color:#fff!important;text-shadow:0 2px 22px rgba(0,0,0,.18)}
-    .slider-controls{left:clamp(36px,7vw,115px)!important;bottom:28px!important;color:#fff}.slider-controls button{color:#fff!important}.slider-controls p{color:#fff}
-    @media(max-width:900px){.hero-slider{min-height:680px}.slide-shade{background:linear-gradient(0deg,rgba(17,17,17,.8) 0%,rgba(17,17,17,.26) 65%,rgba(17,17,17,.2) 100%)!important}.slide-copy{max-width:100%;padding:34px 24px 86px!important}.slider-controls{left:24px!important}}
-  `;
-  document.head.append(heroStyle);
-
-  const catalogStyle = document.createElement("style");
-  catalogStyle.textContent = `.catalog-controls{display:flex;flex-wrap:wrap;gap:9px;align-items:center;margin:0 0 22px}.catalog-controls button,.catalog-controls select{border:1px solid var(--line);background:#fff;color:var(--ink);padding:10px 12px;font-size:10px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}.catalog-controls button{cursor:pointer}.catalog-controls button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff}.catalog-controls select{margin-left:auto;text-transform:none;letter-spacing:0}.catalog-result-count{color:var(--muted);font-size:10px;margin-right:auto}.catalog-empty{grid-column:1/-1;margin:0;padding:28px;border:1px solid var(--line);background:var(--warm);color:var(--muted)}@media(max-width:620px){.catalog-controls select{margin-left:0;width:100%}.catalog-result-count{width:100%}}`;
-  document.head.append(catalogStyle);
 
   const skeletons = () => `<div class="product-empty">${Array.from({ length: 4 }, (_, index) => `<article class="product-proof"><div class="placeholder"><span>0${index + 1}</span></div><div class="meta"><b>${language === "bn" ? "পণ্যের তথ্য যাচাই চলছে" : "Product record in preparation"}</b><i></i></div><footer><span>Metadata</span><span>Review required</span></footer></article>`).join("")}</div>`;
   const productCard = (product) => `<article class="product-card"><img src="${esc(product.image.src)}" srcset="${esc(product.image.srcset || product.image.src)}" sizes="(max-width: 680px) 50vw, (max-width: 1000px) 50vw, 33vw" width="${esc(product.image.width)}" height="${esc(product.image.height)}" loading="lazy" alt="${esc(product.image.alt)}"><div><p>${esc(product.categoryLabel)}</p><h3>${esc(product.title)}</h3><small>${esc(product.image.caption)}</small></div><footer><span>${esc(product.status)}</span><span>© eMarket247</span></footer></article>`;
