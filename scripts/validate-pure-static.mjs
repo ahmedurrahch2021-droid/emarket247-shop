@@ -104,5 +104,47 @@ for (const file of servedFiles) {
 for (const filename of ["emarket247-jewellery-detail-01-600-square.webp", "emarket247-jewellery-detail-01-1200-square.webp"]) {
   try { await stat(path.join(root, "assets/images/products-square", filename)); } catch { errors.push(`missing catalog image asset: ${filename}`); }
 }
+
+// Phase 2 guard: the bilingual catalogue must keep the extended product schema without
+// invented commerce data. Prices, SKUs, availability, materials, sizes, variants, and
+// gallery images stay null / empty until the business provides approved values.
+const phase2Fields = ["id", "slug", "sku", "category", "categoryLabel", "title", "description", "price", "compareAtPrice", "currency", "availability", "materials", "sizes", "variants", "image", "gallery", "seo"];
+const nullFields = ["sku", "price", "compareAtPrice", "availability"];
+const arrayFields = ["materials", "sizes", "variants", "gallery"];
+const enCatalog = JSON.parse(await readFile(path.join(root, "assets/data/catalog.en.json"), "utf8"));
+const bnCatalog = JSON.parse(await readFile(path.join(root, "assets/data/catalog.bn.json"), "utf8"));
+if (enCatalog.products.length !== 48) errors.push(`catalog.en.json: expected 48 products, found ${enCatalog.products.length}`);
+if (bnCatalog.products.length !== 48) errors.push(`catalog.bn.json: expected 48 products, found ${bnCatalog.products.length}`);
+if (JSON.stringify(enCatalog.products.map((p) => p.id)) !== JSON.stringify(bnCatalog.products.map((p) => p.id))) errors.push("catalog.en.json / catalog.bn.json: product id lists differ");
+const expectedCategoryCounts = { "jewellery-detail": 27, bangles: 14, necklaces: 4, bracelets: 2, earrings: 1 };
+const enCategoryCounts = {};
+for (const product of enCatalog.products) enCategoryCounts[product.category] = (enCategoryCounts[product.category] || 0) + 1;
+for (const [category, expected] of Object.entries(expectedCategoryCounts)) {
+  if (enCategoryCounts[category] !== expected) errors.push(`catalog.en.json: category ${category} count ${enCategoryCounts[category] ?? 0} !== expected ${expected}`);
+}
+const emptyCategories = ["rings", "pendants", "jewellery-sets", "gift-jewellery", "bridal-jewellery"];
+for (const category of emptyCategories) {
+  if (enCategoryCounts[category]) errors.push(`catalog.en.json: category ${category} should stay empty pending a business decision`);
+  for (const lang of ["en", "bn"]) {
+    const page = path.join(root, lang, "categories", category, "index.html");
+    const html = await readFile(page, "utf8");
+    if (!/<meta name="robots" content="noindex,follow">/.test(html)) errors.push(`${lang}/categories/${category}/: expected temporary noindex,follow on empty category`);
+  }
+}
+const sitemapText = await readFile(path.join(root, "sitemap.xml"), "utf8");
+for (const category of emptyCategories) {
+  for (const lang of ["en", "bn"]) {
+    if (sitemapText.includes(`/${lang}/categories/${category}/`)) errors.push(`sitemap.xml: empty category /${lang}/categories/${category}/ should be excluded while noindexed`);
+  }
+}
+for (const [label, catalog] of [["en", enCatalog], ["bn", bnCatalog]]) {
+  for (const product of catalog.products) {
+    for (const field of phase2Fields) if (!(field in product)) errors.push(`catalog.${label}.json ${product.id}: missing phase 2 field "${field}"`);
+    if (product.currency !== "BDT") errors.push(`catalog.${label}.json ${product.id}: currency must be "BDT"`);
+    for (const field of nullFields) if (product[field] !== null) errors.push(`catalog.${label}.json ${product.id}: "${field}" must be null until approved`);
+    for (const field of arrayFields) if (!Array.isArray(product[field]) || product[field].length !== 0) errors.push(`catalog.${label}.json ${product.id}: "${field}" must be an empty array until approved`);
+    if (!product.seo || typeof product.seo.title !== "string" || !product.seo.title || typeof product.seo.description !== "string") errors.push(`catalog.${label}.json ${product.id}: seo.title and seo.description must be non-empty strings`);
+  }
+}
 if (errors.length) { console.error(errors.join("\n")); process.exit(1); }
 console.log(`Validated ${htmlFiles.length} HTML pages, language alternates, baseline metadata, accessibility skip links, and core static assets.`);

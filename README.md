@@ -30,7 +30,7 @@ deliberately no fabricated prices, SKUs, materials, or stock figures.
 
 ### Not yet implemented
 
-- Product prices and a real product data model (Phase 2)
+- Real product prices, SKUs, materials, availability and stock (Phase 2 established the schema; values await business approval)
 - Product detail pages (Phase 3)
 - Cart (Phase 4)
 - Checkout, WhatsApp ordering, payment (Phase 5)
@@ -56,8 +56,22 @@ All routes exist under both `/en/` and `/bn/`. No query parameters are used for 
 
 - **Storage**: none. Static JSON files read by the browser; no database, no server.
 - **Catalogue**: `assets/data/catalog.en.json` and `catalog.bn.json`, 48 records each.
-  Record keys: `id`, `slug`, `category`, `categoryLabel`, `title`, `status`,
-  `copyright`, `original_filename`, `image{src,srcset,width,height,alt,caption}`.
+  Record keys (model `2.0`): `id`, `slug`, `sku`, `category`, `categoryLabel`,
+  `title`, `description`, `price`, `compareAtPrice`, `currency`, `availability`,
+  `materials`, `sizes`, `variants`, `image{src,srcset,width,height,alt,caption}`,
+  `gallery`, `seo{title,description}`, `status`, `copyright`, `original_filename`.
+  `currency` is fixed to `"BDT"`; every commerce field without an approved value
+  (`sku`, `price`, `compareAtPrice`, `availability`, `materials`, `sizes`,
+  `variants`, `gallery`) is `null` / an empty array and is **never** fabricated.
+  `image` is the primary-image metadata (with alt text) and `gallery` holds approved
+  additional views once they exist.
+- **Mapping**: 21 of 48 records are mapped into real categories — `bangles` (14),
+  `necklaces` (4), `bracelets` (2), `earrings` (1). The other **27** records remain
+  in the `jewellery-detail` bucket pending a business category decision.
+- **Empty categories**: `rings`, `pendants`, `jewellery-sets`, `gift-jewellery`,
+  and `bridal-jewellery` hold no products. They stay empty (no guessing) and their
+  category pages are temporarily `noindex,follow` and excluded from `sitemap.xml`
+  until approved products arrive.
 - **Flow**: `site.js` fetches `/assets/data/catalog.<lang>.json`, builds cards via
   `productCard()`, injects them into `.product-grid`, then wires filter and sort.
 - **Known data issue**: catalogue records declare `image.width/height` of 1200×1200
@@ -124,7 +138,7 @@ md5sum assets/js/site.js  | cut -c1-8
 | --- | --- | --- |
 | 0 | Deployment-correctness safe fixes | ✅ Complete (`4b6a217`) |
 | 1 | CSS consolidation + basic performance | ✅ Complete (`0535497`) |
-| 2 | Product data model + real categories/prices | Pending |
+| 2 | Product data model + real categories/prices | In progress — schema established, 21/48 mapped, 27 awaiting business decision, prices pending |
 | 3 | Product detail pages | Pending |
 | 4 | Cart | Pending |
 | 5 | Checkout + WhatsApp + payment | Pending |
@@ -173,6 +187,36 @@ early and late snapshots (no layout shift).
 
 Also removed two provably-dead CSS rules and added the two validator regression guards
 listed above. `site.js` shrank 16,795 → 11,886 bytes (−29%).
+
+### Phase 2 (in progress)
+
+**Product data model.** Extended the bilingual catalogue schema (`modelVersion: "2.0"`)
+with eCommerce-ready fields on all 48 records in both `catalog.en.json` and
+`catalog.bn.json`: `sku`, `description`, `price`, `compareAtPrice`, `currency: "BDT"`,
+`availability`, `materials`, `sizes`, `variants`, `gallery`, and `seo{title,description}`.
+`image` is documented as the primary-image metadata (incl. alt text). No prices, SKUs,
+materials, sizes, variants, gallery images, ratings, or stock figures were invented —
+every unapproved commerce field is `null`/empty, keeping the site's honest
+"details in preparation" presentation intact.
+
+**Category mapping.** 21 records already sit in real categories — `bangles` (14),
+`necklaces` (4), `bracelets` (2), `earrings` (1). The remaining **27** `jewellery-detail`
+records (`src-001..013`, `src-031`, `src-033..045`) need the business's category
+decision; none were guessed.
+
+**Empty categories.** `rings`, `pendants`, `jewellery-sets`, `gift-jewellery`, and
+`bridal-jewellery` have no products. They stay empty and their pages are temporarily
+`noindex,follow` with their URLs removed from `sitemap.xml` until approved products are
+assigned.
+
+**Visual design unchanged.** No CSS or page markup changed; the catalogue continues to
+render from the same `image`/`title`/`categoryLabel`/`caption`/`status` fields via
+`site.js`. Product images are untouched pending the later optimised uploads.
+
+**Validation.** `validate-pure-static.mjs` now asserts the Phase 2 schema: 48 records per
+language, identical id order, `currency === "BDT"`, null/empty commerce fields, exact
+category counts (27 / 14 / 4 / 2 / 1), empty categories stay empty with `noindex`, and the
+sitemap excludes the 10 empty-category URLs.
 
 ## Deployment
 
