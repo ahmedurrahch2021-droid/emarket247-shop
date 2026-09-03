@@ -1,0 +1,50 @@
+# eMarket247.shop — Active Delivery Tasks
+
+- [x] Keep the visual system predominantly white/ivory, using eMarket247 black and red as the brand hierarchy rather than changing the storefront to a dark or Pandora-like color scheme.
+- [x] Keep prices, SKUs, material claims, availability, delivery promises, and product-specific purchase data absent until the business provides approved values.
+- [ ] Complete confirmed subject-to-product mapping for the 48 source photographs before any bulk final rename, metadata write, or product-card publication.
+- [ ] Create approved production image derivatives with subject-based filenames, embedded eMarket247 copyright metadata, title, alt text, caption, and code/catalog references.
+- [x] Keep the production output compatible with Hostinger File Manager upload by delivering the static `dist/public` build contents with required routing guidance.
+- [x] Verify the white-layout black/red brand system, mobile behavior, accessibility, SEO, and performance before handoff.
+- [x] Convert the existing React/TypeScript source into a pure multi-page HTML, CSS, and vanilla-JavaScript folder structure while preserving the saved checkpoint.
+- [x] Confirm the keyword-data source for Bangladesh research before generating a country-scoped keyword and competitor-gap report.
+- [x] Research Bengali and English search intent, customer psychology, seasonal demand, and trust requirements for Bangladesh jewelry buyers.
+- [x] Build individual Bengali/English category pages and submenu routes for rings, earrings, necklaces, bracelets, bangles, pendants, jewellery sets, and gift jewellery.
+- [x] Create a September Puja collection route and supporting bilingual content without making unsupported product or delivery claims.
+- [x] Build a full-width image hero slider with accessible manual controls, reduced-motion support, and no autoplay video requirement.
+- [x] Add a cookie-preferences notice only if non-essential analytics, marketing, or third-party cookies are enabled; never show an automatic sign-in prompt.
+- [x] Process the supplied product images as unpriced catalog assets with bilingual title, alt text, caption, copyright metadata, stable filenames, and code references.
+- [x] Use public Bangladesh-focused sources for keyword, seasonal, competitor, and customer-intent research; label all unavailable volume, difficulty, and competitive metrics as qualitative or estimated rather than presenting invented figures as measured data.
+- [x] Convert the homepage image hero into a full-width responsive composition with an accessible contrast overlay and reduced-motion-safe slider behavior.
+- [x] Create separate, non-destructive background-cleaned and visually enhanced product-image derivatives while preserving all originals and the existing metadata trail.
+- [x] Enrich unpriced product records with conservative, visually supported bilingual details and retain the absence of unconfirmed materials, prices, stock, ratings, and delivery claims.
+- [x] Add lightweight keyboard-accessible category filtering and sorting that works locally in the Hostinger static package.
+- [x] Research official Bangladesh payment and delivery options, recommend a secure integration approach, and wait for merchant-account/provider approval before activation.
+- [x] Audit the final Hostinger-ready static route tree against every category link promised in the navigation and category submenu.
+- [x] Verify that the production-facing homepage hero is genuinely full-width in the pure static package, not only in an earlier preview implementation.
+- [x] Correct any missing, hidden, or mislinked category pages and regenerate the deployable Hostinger package.
+- [x] Replace the root language-selector landing page with direct English entry and retain Bengali/English switching in the utility bar.
+- [x] Add a professional utility bar that supports confirmed contact and delivery information without inventing a phone number or delivery promise.
+- [x] Rebuild the enhanced product-image derivatives as consistent square catalog assets and present products in a responsive three-column desktop grid.
+- [x] Rewrite the Bengali interface and catalog microcopy for natural Bangladeshi Bengali.
+- [x] Remove machine-specific absolute paths from the static build workflow so the deployment can succeed in the cloud publishing environment.
+- [x] Prepare a client-ready 48-item inventory with stable published product-image URLs for price collection and product approval.
+- [x] Package the final square product images for download and document the local static-asset folders.
+- [x] Document every English and Bengali category-page URL for client review.
+- [x] Audit the current static storefront against the uploaded navigation, frontend, bilingual, accessibility, SEO, image, and Hostinger requirements.
+- [x] Record verified coverage and genuine omissions before modifying the current implementation.
+- [x] Apply only low-risk fixes that are supported by the existing requirements and do not assume unapproved pricing, payments, inventory, delivery, or backend decisions.
+- [x] Produce a text-free, professional warm-white studio-image pilot from the user-provided jewellery samples, preserving the exact product subject and adding only realistic photographic presentation refinements.
+- [x] Add embedded rights metadata plus conservative titles, alt text, captions, and client-review identifiers for the pilot product images.
+- [x] Create a responsive product-grid and category-page mock-up that uses the pilot imagery and the confirmed WhatsApp/phone number, while retaining unpriced and availability-pending states.
+- [ ] Await pilot approval before applying the revised image treatment to the remaining catalogue images.
+- [ ] Inventory every supplied catalog source image and partition the complete treatment workload into safe repeatable batches without overwriting originals.
+- [ ] Create text-free warm-white studio derivatives for all supplied product images, preserving each visible product design and adding restrained contact shadows.
+- [ ] Embed conservative rights metadata and update English/Bengali catalog image, title, alt text, and caption records for the processed catalogue.
+- [ ] Integrate the full refined catalogue across Shop and only visually appropriate category pages with unpriced Add-to-Bag placeholders and product-specific WhatsApp enquiries.
+- [ ] Visually verify the full catalogue at desktop and mobile widths before publishing the updated static site.
+- [ ] Display exactly 47 processed product records in the public Shop and category collection pages; preserve the remaining source/catalog record outside the public collection until the user approves it for display.
+- [ ] Pause remaining AI studio-image processing until manually edited final product images are supplied by the user.
+- [x] Audit and correct header alignment across desktop and mobile storefront pages.
+- [x] Deliver a consistent bilingual Occasion menu and route structure containing Puja, Eid, Wedding, Anniversary, and Birthday.
+- [x] Remove decorative plus/asterisk-style symbols from visible navigation labels while retaining accessible submenu affordances.
