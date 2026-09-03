@@ -1,0 +1,6 @@
+{
+  "name": "eMarket247 | Fashion & Jewellery in Bangladesh",
+  "description": "Discover eMarket247's considered jewellery edit with bilingual category pages, product detail standards, and seasonal Puja discovery.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
