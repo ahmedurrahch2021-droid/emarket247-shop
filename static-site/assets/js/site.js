@@ -37,20 +37,126 @@
     toastTimer = window.setTimeout(() => toast.classList.remove("is-open"), 3500);
   };
 
+  // Mobile Menu & Submenu Navigation
   const menuToggle = one(".menu-toggle");
   const mainNav = one(".main-nav");
-  menuToggle?.addEventListener("click", () => {
-    const opening = menuToggle.getAttribute("aria-expanded") !== "true";
-    menuToggle.setAttribute("aria-expanded", String(opening));
-    mainNav.classList.toggle("is-open", opening);
-  });
 
-  all(".has-submenu > button").forEach((button) => button.addEventListener("click", () => {
-    if (window.innerWidth > 900) return;
-    const opening = button.getAttribute("aria-expanded") !== "true";
-    button.setAttribute("aria-expanded", String(opening));
-    button.parentElement.classList.toggle("is-open", opening);
-  }));
+  if (menuToggle && mainNav) {
+    // Ensure hamburger icon has 3 distinct stacked horizontal lines inside .menu-hamburger
+    let hamburger = one(".menu-hamburger", menuToggle);
+    if (!hamburger) {
+      const existingSpans = all(":scope > span:not(.menu-hamburger)", menuToggle);
+      hamburger = document.createElement("span");
+      hamburger.className = "menu-hamburger";
+      hamburger.setAttribute("aria-hidden", "true");
+      if (existingSpans.length >= 3) {
+        existingSpans.slice(0, 3).forEach((s) => hamburger.appendChild(s));
+      } else {
+        hamburger.innerHTML = "<span></span><span></span><span></span>";
+      }
+      menuToggle.prepend(hamburger);
+    }
+
+    // Create backdrop for mobile drawer if not already in DOM
+    let backdrop = one(".nav-backdrop");
+    if (!backdrop) {
+      backdrop = document.createElement("div");
+      backdrop.className = "nav-backdrop";
+      backdrop.setAttribute("aria-hidden", "true");
+      mainNav.parentElement ? mainNav.parentElement.appendChild(backdrop) : document.body.appendChild(backdrop);
+    }
+
+    const toggleMenu = (open) => {
+      const willOpen = typeof open === "boolean" ? open : menuToggle.getAttribute("aria-expanded") !== "true";
+      menuToggle.setAttribute("aria-expanded", String(willOpen));
+      mainNav.classList.toggle("is-open", willOpen);
+      backdrop.classList.toggle("is-open", willOpen);
+      document.body.classList.toggle("menu-open", willOpen);
+      
+      // If closing the menu, also collapse open submenus
+      if (!willOpen) {
+        all(".has-submenu > button", mainNav).forEach((btn) => {
+          btn.setAttribute("aria-expanded", "false");
+          btn.parentElement?.classList.remove("is-open");
+        });
+      }
+    };
+
+    menuToggle.addEventListener("click", (e) => {
+      e.stopPropagation();
+      toggleMenu();
+    });
+
+    // Close menu when clicking on the backdrop
+    backdrop.addEventListener("click", () => toggleMenu(false));
+
+    // Close menu when clicking anywhere outside
+    document.addEventListener("click", (e) => {
+      if (!mainNav.classList.contains("is-open")) return;
+      if (!mainNav.contains(e.target) && !menuToggle.contains(e.target)) {
+        toggleMenu(false);
+      }
+    });
+
+    // Close menu on Escape key
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && mainNav.classList.contains("is-open")) {
+        toggleMenu(false);
+        menuToggle.focus();
+      }
+    });
+
+    // Close mobile nav when clicking a link inside it
+    all("a", mainNav).forEach((link) => {
+      link.addEventListener("click", () => {
+        if (window.innerWidth <= 900) {
+          toggleMenu(false);
+        }
+      });
+    });
+  }
+
+  // Setup Accessible Submenu Toggles
+  all(".has-submenu").forEach((parent, index) => {
+    const button = one(":scope > button", parent);
+    const submenu = one(":scope > .submenu", parent);
+    if (!button || !submenu) return;
+
+    if (!submenu.id) {
+      submenu.id = `nav-submenu-${index + 1}`;
+    }
+    button.setAttribute("aria-controls", submenu.id);
+    button.setAttribute("aria-haspopup", "true");
+
+    // Ensure chevron toggle indicator exists
+    if (!one(".submenu-toggle-icon", button)) {
+      const icon = document.createElement("span");
+      icon.className = "submenu-toggle-icon";
+      icon.setAttribute("aria-hidden", "true");
+      icon.innerHTML = `<svg width="12" height="8" viewBox="0 0 12 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 1.75L6 6.25L10.5 1.75"/></svg>`;
+      button.appendChild(icon);
+    }
+
+    button.addEventListener("click", (e) => {
+      if (window.innerWidth > 900) return; // Desktop dropdown handles hover/focus
+      e.preventDefault();
+      e.stopPropagation();
+      const opening = button.getAttribute("aria-expanded") !== "true";
+
+      // If opening, close other submenus (clean accordion behavior)
+      if (opening) {
+        all(".has-submenu > button").forEach((otherBtn) => {
+          if (otherBtn !== button) {
+            otherBtn.setAttribute("aria-expanded", "false");
+            otherBtn.parentElement?.classList.remove("is-open");
+          }
+        });
+      }
+
+      button.setAttribute("aria-expanded", String(opening));
+      parent.classList.toggle("is-open", opening);
+    });
+  });
 
   const searchPanel = one(".search-panel");
   one("[data-search-open]")?.addEventListener("click", () => {
