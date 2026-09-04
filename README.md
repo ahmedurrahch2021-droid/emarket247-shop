@@ -35,7 +35,12 @@ deliberately no fabricated prices, SKUs, materials, or stock figures.
 - Cart (Phase 4)
 - Checkout, WhatsApp ordering, payment (Phase 5)
 - Full SEO/AEO pass, incl. Product / BreadcrumbList JSON-LD (Phase 6)
-- Image replacement and optimisation, deployment cleanup (Phase 7)
+- Image replacement and optimisation for the remaining 38 records, deployment cleanup (Phase 7)
+
+> Note on Phase 3A scope: the client's 29 final product images were integrated for the
+> 10 records that could be matched on reliable evidence (see Phase 3A below). The other
+> 19 uploaded images have **no matching catalogue record yet** and were intentionally
+> left unmapped — none of those products or records were changed.
 
 ## Route Map
 
@@ -138,7 +143,8 @@ md5sum assets/js/site.js  | cut -c1-8
 | --- | --- | --- |
 | 0 | Deployment-correctness safe fixes | ✅ Complete (`4b6a217`) |
 | 1 | CSS consolidation + basic performance | ✅ Complete (`0535497`) |
-| 2 | Product data model + real categories/prices | In progress — schema established, 21/48 mapped, 27 awaiting business decision, prices pending |
+| 2 | Product data model + real categories/prices | ✅ Complete (`4383c22`) — schema established, 21/48 in real categories, 27 awaiting business decision, prices pending |
+| 3A | Final product-image integration | ✅ This commit — 10/48 products now use the client's final images; 38 still await approved final images |
 | 3 | Product detail pages | Pending |
 | 4 | Cart | Pending |
 | 5 | Checkout + WhatsApp + payment | Pending |
@@ -188,7 +194,7 @@ early and late snapshots (no layout shift).
 Also removed two provably-dead CSS rules and added the two validator regression guards
 listed above. `site.js` shrank 16,795 → 11,886 bytes (−29%).
 
-### Phase 2 (in progress)
+### Phase 2 (complete)
 
 **Product data model.** Extended the bilingual catalogue schema (`modelVersion: "2.0"`)
 with eCommerce-ready fields on all 48 records in both `catalog.en.json` and
@@ -217,6 +223,54 @@ render from the same `image`/`title`/`categoryLabel`/`caption`/`status` fields v
 language, identical id order, `currency === "BDT"`, null/empty commerce fields, exact
 category counts (27 / 14 / 4 / 2 / 1), empty categories stay empty with `noindex`, and the
 sitemap excludes the 10 empty-category URLs.
+
+### Phase 3A (complete — this commit)
+
+**Final product-image integration.** The client supplied 29 final optimised WebP images
+(commit `38c4e63`, uploaded into the folder `01. emarket247_Optimized Images`). The
+previous `products-square/` and `products-studio/` image folders had meanwhile been
+removed by the client (`b4186ba`, `f348c57`), leaving every catalogue image reference
+broken at HEAD. Phase 3A restores the 10 records whose final image could be proven.
+
+- **Asset home.** The 29 supplied WebP files were moved **byte-for-byte** (via `git mv`,
+  no re-encode, no crop) into `static-site/assets/images/products/`, so final paths
+  resolve at `/assets/images/products/<file>.webp`. (`product` vs `products` naming was
+  confirmed as `products` to satisfy the required `/assets/images/products/` resolution.)
+- **Matching method.** Each final image was matched to the 48 catalogue records by
+  recovering the deleted catalogue images from git history (`4383c22`) and running ORB
+  feature detection + RANSAC homography + normalised pixel correlation. Results were
+  bimodal: true matches scored **0.54–0.94 correlation with 54–652 inliers**; everything
+  else scored ~0.0. The 10 one-to-one matches below are the only assignments made; no
+  image was matched on filename numbering or by guessing.
+
+| Product (id/slug kept) | Final image |
+| --- | --- |
+| src-001 `emarket247-jewellery-detail-01` | `emarket247-gold-lattice-dome-ring.webp` |
+| src-004 `emarket247-jewellery-detail-04` | `emarket247-gold-infinity-crossed-band-ring.webp` |
+| src-006 `emarket247-jewellery-detail-06` | `emarket247-gold-double-heart-ring.webp` |
+| src-008 `emarket247-jewellery-detail-08` | `emarket247-gold-heart-ring-pair.webp` |
+| src-014 `emarket247-bracelets-14` | `emarket247-gold-beaded-charm-chain.webp` |
+| src-015 `emarket247-bracelets-15` | `emarket247-gold-floral-charm-chain.webp` |
+| src-016 `emarket247-necklaces-16` | `emarket247-gold-dangling-bead-statement-necklace.webp` |
+| src-017 `emarket247-bangles-17` | `emarket247-gold-braided-link-chain-bracelet.webp` |
+| src-019 `emarket247-bangles-19` | `emarket247-gold-ornate-open-bangle.webp` |
+| src-021 `emarket247-bangles-21` | `emarket247-gold-engraved-open-bangle.webp` |
+
+- **Record changes (both languages, in lockstep).** Only `image.src`, `image.srcset`
+  (single candidate, `… 1920w`), `image.width`, and `image.height` (1920×1920, matching
+  the actual files) were updated. `id`, `slug`, category, category label, title,
+  description, seo, alt/caption copy, and all commerce fields are **unchanged**; EN and
+  BN were edited identically (validator-confirmed, 0 mismatched `src` pairs).
+- **Left unchanged, by design.** The 19 uploaded images that matched **no** catalogue
+  record (correlation ≈ 0 across all 48) were not mapped, and no product record or new
+  product was created for them. 38 catalogue records still carry the withdrawn
+  `products-square/` reference and await approved final images.
+- **Validation.** `validate-pure-static.mjs` drops the obsolete `products-square` asset
+  requirement, adds a Phase 3A guard (every `/assets/images/products/` reference must
+  exist, match its declared WebP dimensions via a built-in RIFF/VP8x parser, and be
+  identical across languages), and now **counts** references to the withdrawn square/studio
+  folders as deferred instead of failing. Output summary: 10 products with final images,
+  38 pending, 170 deferred references.
 
 ## Deployment
 

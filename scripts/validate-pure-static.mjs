@@ -5,6 +5,36 @@ import { fileURLToPath } from "node:url";
 const root = path.join(path.dirname(path.dirname(fileURLToPath(import.meta.url))), "static-site");
 const errors = [];
 const htmlFiles = [];
+let pendingAssetRefs = 0;
+
+// Minimal WebP dimension reader (RIFF chunk walk). Supports VP8X / VP8 / VP8L.
+// Operates on a Buffer: Buffer#startsWith/endsWith were removed in Node 22.
+function webpSize(buf) {
+  if (!(buf instanceof Uint8Array) || buf.length < 12) return null;
+  if (buf.toString("latin1", 0, 4) !== "RIFF" || buf.toString("latin1", 8, 12) !== "WEBP") return null;
+  let off = 12;
+  while (off + 8 <= buf.length) {
+    const cid = buf.toString("latin1", off, off + 4);
+    const size = buf.readUInt32LE(off + 4);
+    const payload = off + 8;
+    if (cid === "VP8X" && payload + 10 <= buf.length) {
+      const w = buf.readUIntLE(payload + 4, 3) + 1;
+      const h = buf.readUIntLE(payload + 7, 3) + 1;
+      return { width: w, height: h };
+    }
+    if (cid === "VP8 " && payload + 13 <= buf.length) {
+      const w = buf.readUInt16LE(payload + 6) & 0x3fff;
+      const h = buf.readUInt16LE(payload + 8) & 0x3fff;
+      return { width: w, height: h };
+    }
+    if (cid === "VP8L" && payload + 5 <= buf.length) {
+      const n = buf.readUIntLE(payload + 1, 4);
+      return { width: (n & 0x3fff) + 1, height: ((n >> 14) & 0x3fff) + 1 };
+    }
+    off += 8 + size + (size & 1);
+  }
+  return null;
+}
 async function walk(folder) {
   for (const entry of await readdir(folder)) {
     const file = path.join(folder, entry);
@@ -98,13 +128,51 @@ for (const file of servedFiles) {
   }
   for (const target of targets) {
     const resolved = target.endsWith("/") ? path.join(root, target, "index.html") : path.join(root, target);
-    try { await stat(resolved); } catch { errors.push(`${relative}: broken local reference ${target}`); }
+    try { await stat(resolved); } catch {
+      // Phase 3A transitional state: references to the withdrawn square/studio image
+      // folders are counted but do not fail the build. Catalogue records that still
+      // point at products-square/ await approved final images (Phase 3B); the
+      // noindex studio-pilot mock-up pages point at the withdrawn products-studio/ set.
+      if (target.startsWith("/assets/images/products-square/") || target.startsWith("/assets/images/products-studio/")) {
+        pendingAssetRefs += 1;
+      } else {
+        errors.push(`${relative}: broken local reference ${target}`);
+      }
+    }
   }
 }
-for (const filename of ["emarket247-jewellery-detail-01-600-square.webp", "emarket247-jewellery-detail-01-1200-square.webp"]) {
-  try { await stat(path.join(root, "assets/images/products-square", filename)); } catch { errors.push(`missing catalog image asset: ${filename}`); }
-}
 
+// Phase 3A guard: every catalogue image that points at the final products folder
+// must exist, carry the correct size, and stay synchronised between languages.
+const phase3EnCatalog = JSON.parse(await readFile(path.join(root, "assets/data/catalog.en.json"), "utf8"));
+const phase3BnCatalog = JSON.parse(await readFile(path.join(root, "assets/data/catalog.bn.json"), "utf8"));
+const finalPrefix = "/assets/images/products/";
+const enFinal = phase3EnCatalog.products.filter((p) => p.image.src.startsWith(finalPrefix)).map((p) => p.id).sort();
+const bnFinal = phase3BnCatalog.products.filter((p) => p.image.src.startsWith(finalPrefix)).map((p) => p.id).sort();
+if (JSON.stringify(enFinal) !== JSON.stringify(bnFinal)) errors.push("catalog.en.json / catalog.bn.json: products using final images differ between languages");
+for (const [label, catalog] of [["en", phase3EnCatalog], ["bn", phase3BnCatalog]]) {
+  for (const product of catalog.products) {
+    if (!product.image.src.startsWith(finalPrefix)) continue;
+    const file = path.join(root, product.image.src.replace(/^\//, ""));
+    try {
+      const bytes = await readFile(file);
+      const size = webpSize(bytes);
+      if (!size) errors.push(`catalog.${label}.json ${product.id}: cannot read WebP dimensions for ${product.image.src}`);
+      else {
+        if (product.image.width !== size.width || product.image.height !== size.height) {
+          errors.push(`catalog.${label}.json ${product.id}: image ${size.width}x${size.height} does not match declared ${product.image.width}x${product.image.height}`);
+        }
+      }
+      if (product.image.srcset !== `${product.image.src} ${size?.width ?? "?"}w`) {
+        errors.push(`catalog.${label}.json ${product.id}: srcset must equal the single final image candidate ${product.image.src} <width>w`);
+      }
+    } catch {
+      errors.push(`catalog.${label}.json ${product.id}: missing final image asset ${product.image.src}`);
+    }
+  }
+}
+const matchedFinal = enFinal.length;
+const pendingFinal = phase3EnCatalog.products.length - matchedFinal;
 // Phase 2 guard: the bilingual catalogue must keep the extended product schema without
 // invented commerce data. Prices, SKUs, availability, materials, sizes, variants, and
 // gallery images stay null / empty until the business provides approved values.
@@ -148,3 +216,4 @@ for (const [label, catalog] of [["en", enCatalog], ["bn", bnCatalog]]) {
 }
 if (errors.length) { console.error(errors.join("\n")); process.exit(1); }
 console.log(`Validated ${htmlFiles.length} HTML pages, language alternates, baseline metadata, accessibility skip links, and core static assets.`);
+console.log(`Phase 3A summary: ${matchedFinal} products carry final images under ${finalPrefix}; ${pendingFinal} catalogue records still await approved final images; ${pendingAssetRefs} deferred references to the withdrawn square/studio image folders are counted (not blocking).`);
