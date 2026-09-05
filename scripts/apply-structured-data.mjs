@@ -75,6 +75,7 @@ function classify(relative) {
   const lang = parts[0] === "bn" ? "bn" : "en";
   const seg = parts.slice(1, -1); // drop lang + index.html
 
+  if (seg[0] === "products" && seg.length === 2) return { kind: "product", lang, slug: seg[1] };
   if (seg[0] === "categories" && seg.length === 2) return { kind: "category", lang, category: seg[1] };
   if (seg[0] === "shop") return { kind: "listing", lang, pageType: "CollectionPage" };
   if (seg[0] === "categories") return { kind: "page", lang, pageType: "CollectionPage" };
@@ -193,6 +194,30 @@ async function buildGraph(cls, facts) {
   if (cls.kind === "home") {
     graph.push(organizationNode(), websiteNode());
     graph.push(webPageNode(url, "WebPage", facts.title, facts.lang, false, facts.ogImage));
+    return graph;
+  }
+
+  if (cls.kind === "product") {
+    const products = await catalogFor(cls.lang);
+    const product = products.find((p) => p.slug === cls.slug);
+    graph.push(webPageNode(url, "ItemPage", facts.title, facts.lang, !!facts.crumbs, facts.ogImage));
+    if (facts.crumbs?.length) graph.push(breadcrumbNode(url, facts.crumbs));
+    if (product) {
+      const pNode = {
+        "@type": "Product",
+        "@id": `${url}#product`,
+        name: decodeEntities(product.title),
+        description: decodeEntities(product.seo?.description || product.description || ""),
+        image: abs(product.image?.src),
+        category: decodeEntities(product.categoryLabel),
+        sku: product.id,
+        brand: {
+          "@type": "Brand",
+          name: "eMarket247",
+        },
+      };
+      graph.push(pNode);
+    }
     return graph;
   }
 
