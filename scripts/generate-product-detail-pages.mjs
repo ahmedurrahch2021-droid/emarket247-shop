@@ -275,7 +275,7 @@ export function generatePdpHtml(product, lang, relatedProducts = []) {
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&family=Noto+Sans+Bengali:wght@400;500;600;700&family=Noto+Serif+Bengali:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/css/site.css?v=bbcba228">
+  <link rel="stylesheet" href="/assets/css/site.css?v=20260906-fixed">
   <script type="application/ld+json">${JSON.stringify(jsonLd)}</script>
   <title>${attr(title)}</title>
 </head>
@@ -386,162 +386,39 @@ export function generatePdpHtml(product, lang, relatedProducts = []) {
       </div>
     </section>
 
-    <!-- SECTION D: Product Specifications -->
-    <section class="pdp-specs wrap">
-      <div class="pdp-section-head">
-        <h2>${isBn ? "পণ্যের তথ্য ও বিবরণ" : "Product details & specifications"}</h2>
-      </div>
-      <div class="pdp-specs-card">
-        <dl class="pdp-specs-list">
-          <div class="pdp-spec-row">
-            <dt>${isBn ? "ক্যাটালগ রেফারেন্স আইডি" : "Catalogue Reference ID"}</dt>
-            <dd><code>${attr(product.id)}</code></dd>
-          </div>
-          <div class="pdp-spec-row">
-            <dt>${isBn ? "ক্যাটাগরি" : "Category"}</dt>
-            <dd>${attr(categoryLabel)}</dd>
-          </div>
-          <div class="pdp-spec-row">
-            <dt>${isBn ? "ডিজাইন সিলুয়েট" : "Silhouette Style"}</dt>
-            <dd>${attr(context.silhouetteName)}</dd>
-          </div>
-          <div class="pdp-spec-row">
-            <dt>${isBn ? "ক্যাটালগ স্ট্যাটাস" : "Catalog Status"}</dt>
-            <dd>${isBn ? "অনুমোদিত ও অনুসন্ধানের জন্য প্রস্তুত (Ready)" : "Approved & Ready for Consultation"}</dd>
-          </div>
-          <div class="pdp-spec-row">
-            <dt>${isBn ? "মুদ্রা" : "Currency"}</dt>
-            <dd>BDT (বাংলাদেশি টাকা)</dd>
-          </div>
-          <div class="pdp-spec-row">
-            <dt>${isBn ? "তালিকাভুক্ত মূল্য" : "Published Price"}</dt>
-            <dd class="pdp-spec-pending">${isBn ? "অনুমোদনের অপেক্ষায় (অনুসন্ধান করুন)" : "Pending Official Approval (Inquire)"}</dd>
-          </div>
-          <div class="pdp-spec-row">
-            <dt>${isBn ? "যত্ন ও সংরক্ষণ" : "Care Guidance"}</dt>
-            <dd>${isBn ? "শুকনো নরম কাপড়ে মুছুন; পারফিউম ও আর্দ্রতা থেকে দূরে রাখুন" : "Soft dry cloth wipe; store dry away from moisture & perfumes"}</dd>
-          </div>
-        </dl>
-      </div>
-    </section>
-
-    <!-- SECTION E: Product Story & Editorial Narrative -->
-    <section class="pdp-story wrap">
-      <div class="pdp-story-grid">
-        <div class="pdp-story-copy">
-          <h2>${isBn ? "কারুকাজ ও নান্দনিক দৃষ্টিভঙ্গি" : "The craftsmanship behind the form"}</h2>
-          <p class="pdp-story-lead">${attr(context.story)}</p>
-          <p>${isBn ? "eMarket247-এর কালেকশনে প্রতিটি পণ্য নির্বাচনের ক্ষেত্রে আমরা নান্দনিক ভারসাম্য, দীর্ঘস্থায়ী আকর্ষণ এবং আধুনিক পরিধানযোগ্যতাকে সর্বোচ্চ গুরুত্ব দিয়ে থাকি।" : "At eMarket247, every selected design is scrutinized for its visual balance, tactile presence, and enduring wearable charm across life's most meaningful moments."}</p>
+    
+    <!-- SECTION: Product Information Accordion -->
+    <section class="pdp-accordion-section wrap">
+      <details class="pdp-accordion" id="pdp-details">
+        <summary>${isBn ? 'পণ্যের তথ্য' : 'Product Details'}</summary>
+        <div class="pdp-accordion-content">
+          <dl class="pdp-specs-list">
+            <div class="pdp-spec-row"><dt>${isBn ? 'ক্যাটালগ রেফারেন্স আইডি' : 'Catalogue Reference ID'}</dt><dd><code>${attr(product.id)}</code></dd></div>
+            <div class="pdp-spec-row"><dt>${isBn ? 'ক্যাটাগরি' : 'Category'}</dt><dd>${attr(categoryLabel)}</dd></div>
+            <div class="pdp-spec-row"><dt>${isBn ? 'ডিজাইন সিলুয়েট' : 'Silhouette Style'}</dt><dd>${attr(context.silhouetteName)}</dd></div>
+          </dl>
         </div>
-        <figure class="pdp-story-figure">
-          <img src="${product.image.src}" alt="${attr(product.image.alt)}" loading="lazy">
-          <figcaption>${isBn ? "eMarket247 জুয়েলারি আর্কাইভ" : "eMarket247 Jewellery Archive"}</figcaption>
-        </figure>
-      </div>
+      </details>
+      <details class="pdp-accordion" id="pdp-care">
+        <summary>${isBn ? 'যত্ন ও স্টাইলিং নির্দেশিকা' : 'Care & Styling Guidance'}</summary>
+        <div class="pdp-accordion-content">
+          <p>${isBn ? 'শুকনো নরম কাপড়ে মুছুন; পারফিউম ও আর্দ্রতা থেকে দূরে রাখুন' : 'Soft dry cloth wipe; store dry away from moisture & perfumes'}</p>
+        </div>
+      </details>
+      <details class="pdp-accordion" id="pdp-shipping">
+        <summary>${isBn ? 'শিপিং ও ডেলিভারি' : 'Shipping & Delivery'}</summary>
+        <div class="pdp-accordion-content">
+          <p>${isBn ? 'সারাদেশে কুরিয়ার সার্ভিসের মাধ্যমে ডেলিভারি' : 'Nationwide courier delivery across Bangladesh'}</p>
+        </div>
+      </details>
+      <details class="pdp-accordion" id="pdp-faq">
+        <summary>${isBn ? 'সচরাচর জিজ্ঞাসিত প্রশ্নাবলী' : 'Frequently Asked Questions'}</summary>
+        <div class="pdp-accordion-content">
+          <p>${isBn ? 'আমাদের কাস্টমার কেয়ার টিম আপনাকে সব ধরণের সহায়তা করবে।' : 'Our customer care team is here to assist you.'}</p>
+        </div>
+      </details>
     </section>
-
-    <!-- SECTION F: Styling & Occasions -->
-    <section class="pdp-styling wrap">
-      <div class="pdp-section-head">
-        <h2>${isBn ? "উপলক্ষ অনুযায়ী সাজের ভাবনা" : "Occasions & thoughtful styling"}</h2>
-      </div>
-      <div class="pdp-styling-grid">
-        <a class="pdp-styling-card" href="/${lang}/occasions/puja/">
-          <h3>${isBn ? "পূজা ও পারিবারিক উৎসব" : "Puja & Festive Gatherings"}</h3>
-          <p>${isBn ? "উৎসবের উজ্জ্বল শাড়ি ও সাজের সাথে নিখুঁত সোনালী সঙ্গ।" : "Deep gold tones that effortlessly match festive sarees and traditional silks."}</p>
-          <span class="pdp-styling-link">${isBn ? "পূজা কালেকশন দেখুন" : "Explore Puja edit"}</span>
-        </a>
-        <a class="pdp-styling-card" href="/${lang}/occasions/wedding/">
-          <h3>${isBn ? "বিয়ে ও বিবাহোত্তর অনুষ্ঠান" : "Weddings & Celebrations"}</h3>
-          <p>${isBn ? "সঙ্গীত, মেহেন্দি কিংবা অভ্যর্থনা রাতের জন্য মানানসই আভিজাত্য।" : "Sophisticated presence for weddings, receptions, and family functions."}</p>
-          <span class="pdp-styling-link">${isBn ? "বিয়ের কালেকশন দেখুন" : "Explore Wedding edit"}</span>
-        </a>
-        <a class="pdp-styling-card" href="/${lang}/occasions/gifts/">
-          <h3>${isBn ? "স্মরণীয় উপহারের ভাবনা" : "Meaningful Jewellery Gifts"}</h3>
-          <p>${isBn ? "প্রিয়জনের জন্মদিন, বার্ষিকী বা বিশেষ দিনে উপহারের সুন্দর নির্বাচন।" : "A memorable and cherished gift for birthdays, anniversaries, or milestones."}</p>
-          <span class="pdp-styling-link">${isBn ? "উপহার গাইড দেখুন" : "Explore Gifting edit"}</span>
-        </a>
-        <a class="pdp-styling-card" href="/${lang}/shop/">
-          <h3>${isBn ? "মার্জিত আধুনিক সাজ" : "Contemporary Daily Wear"}</h3>
-          <p>${isBn ? "অফিসিয়াল মিলনমেলা কিংবা সান্ধ্যকালীন অনুষ্ঠানে মার্জিত লুক।" : "Understated elegance suited for dinner gatherings and fusion wear."}</p>
-          <span class="pdp-styling-link">${isBn ? "শপ কালেকশন দেখুন" : "Browse all pieces"}</span>
-        </a>
-      </div>
-    </section>
-
-    <!-- SECTION G: Delivery, Ordering & Payment Guidance -->
-    <section class="pdp-ordering wrap">
-      <div class="pdp-section-head">
-        <p class="eyebrow">${isBn ? "স্বচ্ছ প্রক্রিয়া" : "Transparent Process"}</p>
-        <h2>${isBn ? "অর্ডার, ডেলিভারি ও পেমেন্ট নির্দেশিকা" : "Ordering, delivery & payment guidance"}</h2>
-      </div>
-      <div class="pdp-steps-grid">
-        <article class="pdp-step-card">
-          <span class="pdp-step-badge">01</span>
-          <h3>${isBn ? "অনুসন্ধান বা অর্ডার প্লেসমেন্ট" : "Direct Inquiry & Order"}</h3>
-          <p>${isBn ? "পণ্য রেফারেন্স (" + product.id + ") সহ আমাদের WhatsApp নম্বরে বার্তা দিন অথবা ফোনে কথা বলুন।" : "Message our team on WhatsApp or call with the product reference ID (" + product.id + ")."}</p>
-        </article>
-        <article class="pdp-step-card">
-          <span class="pdp-step-badge">02</span>
-          <h3>${isBn ? "বিস্তারিত ও ঠিকানা যাচাই" : "Order & Delivery Confirmation"}</h3>
-          <p>${isBn ? "আমাদের কাস্টমার কেয়ার প্রতিনিধি প্রাপ্যতা নিশ্চিত করে আপনার নাম, ঠিকানা ও যোগাযোগের তথ্য লিখে নেবেন।" : "Our team verifies item readiness, answers questions, and confirms your delivery details."}</p>
-        </article>
-        <article class="pdp-step-card">
-          <span class="pdp-step-badge">03</span>
-          <h3>${isBn ? "সারাদেশে ডেলিভারি ও পার্সেল চেক" : "Courier Dispatch & Handover"}</h3>
-          <p>${isBn ? "কুরিয়ার সার্ভিসের মাধ্যমে পৌঁছে দেওয়া হবে। পার্সেল দেখে সন্তুষ্ট হয়ে পেমেন্ট সম্পন্ন করতে পারবেন।" : "Dispatched via nationwide courier across Bangladesh with parcel inspection before handover."}</p>
-        </article>
-      </div>
-    </section>
-
-    <!-- SECTION H: Jewellery Care Guide -->
-    <section class="pdp-care wrap">
-      <div class="care-note">
-        <p class="eyebrow">${isBn ? "যত্ন নির্দেশিকা" : "Jewellery Care Standard"}</p>
-        <h2>${isBn ? "অলংকারের দীর্ঘস্থায়ী সৌন্দর্য ও উজ্জ্বলতা ধরে রাখতে" : "Preserving the finish and luster of your jewellery"}</h2>
-        <ul class="pdp-care-list">
-          <li><strong>${isBn ? "কেমিক্যাল থেকে দূরে রাখুন:" : "Avoid Moisture & Chemicals:"}</strong> ${isBn ? "পারফিউম, হেয়ার স্প্রে, বডি লোশন বা হ্যান্ড স্যানিটাইজারের সরাসরি সংস্পর্শ থেকে দূরে রাখুন।" : "Keep away from perfumes, hairsprays, lotions, and harsh household chemicals."}</li>
-          <li><strong>${isBn ? "পৃথকভাবে সংরক্ষণ করুন:" : "Separate Storage:"}</strong> ${isBn ? "স্ক্র্যাচ বা ঘর্ষণ এড়াতে নরম কাপড়ের পাউচ বা পৃথক বক্সে শুকনা স্থানে রাখুন।" : "Store in a soft fabric pouch or individual compartment to prevent surface scratching."}</li>
-          <li><strong>${isBn ? "ব্যবহারের পর মুছুন:" : "Post-Wear Cleaning:"}</strong> ${isBn ? "পড়ার পর নরম ও পরিষ্কার মাইক্রোফাইবার কাপড় দিয়ে হালকা করে মুছে রাখুন।" : "Gently wipe down with a dry, soft lint-free cloth after wear to remove surface oils."}</li>
-          <li><strong>${isBn ? "গোসল বা সাঁতারের পূর্বে খুলুন:" : "Remove Before Water Activity:"}</strong> ${isBn ? "গোসল, সাঁতার বা ব্যায়ামের আগে অলংকার খুলে নিরাপদ স্থানে রাখুন।" : "Remove prior to showering, swimming, or vigorous physical exercise."}</li>
-        </ul>
-      </div>
-    </section>
-
-    <!-- SECTION I: Frequently Asked Questions -->
-    <section class="pdp-faq wrap">
-      <div class="pdp-section-head">
-        <h2>${isBn ? "সচরাচর জিজ্ঞাসিত প্রশ্নোত্তর" : "Frequently asked questions"}</h2>
-      </div>
-      <div class="pdp-faq-grid">
-        <article class="pdp-faq-item">
-          <h3>${isBn ? "১. এই অলংকারটি কীভাবে অর্ডার করব?" : "1. How do I order this jewellery piece?"}</h3>
-          <p>${isBn ? "পেজে থাকা 'WhatsApp-এ অর্ডার বা তথ্য জানুন' বাটনে ক্লিক করে অথবা সরাসরি +880 1740-501062 নম্বরে কল করে আইটেম রেফারেন্স " + product.id + " উল্লেখ করে অর্ডার সম্পন্ন করতে পারেন।" : "Click 'Order / Inquire on WhatsApp' or call our care line at +880 1740-501062 referencing ID " + product.id + ". Our team will assist you personally."}</p>
-        </article>
-        <article class="pdp-faq-item">
-          <h3>${isBn ? "২. মূল্য কেন অনুমোদনের অপেক্ষায় দেখানো হচ্ছে?" : "2. Why is the price shown as pending approval?"}</h3>
-          <p>${isBn ? "eMarket247 স্বচ্ছতা বজায় রাখতে যাচাইকৃত তথ্য ছাড়া কোনো দাম প্রদর্শন করে না। ক্যাটালগ পর্যালোচনার এই ধাপে সরাসরি যোগাযোগের মাধ্যমে সঠিক অফার ও মূল্য জানানো হয়।" : "eMarket247 strictly avoids publishing unverified numbers. During this catalog review stage, our customer team provides approved real-time pricing upon inquiry."}</p>
-        </article>
-        <article class="pdp-faq-item">
-          <h3>${isBn ? "৩. সারাদেশে ডেলিভারি হতে কত দিন সময় লাগে?" : "3. What is the delivery timeframe across Bangladesh?"}</h3>
-          <p>${isBn ? "সাধারণত ঢাকা শহরের ভিতরে ২–৩ কার্যদিবস এবং ঢাকার বাইরে ৩–৫ কার্যদিবসের মধ্যে কুরিয়ার সার্ভিসের মাধ্যমে ডেলিভারি সম্পন্ন হয়।" : "Deliveries typically reach customers within 2–3 business days inside Dhaka and 3–5 business days nationwide via verified courier."}</p>
-        </article>
-        <article class="pdp-faq-item">
-          <h3>${isBn ? "৪. ডেলিভারির সময় পার্সেল পরীক্ষা করার সুযোগ আছে কি?" : "4. Can I inspect the product upon delivery?"}</h3>
-          <p>${isBn ? "হ্যাঁ, ডেলিভারি গ্রহণের সময় কুরিয়ার প্রতিনিধির উপস্থিতিতে পার্সেল খুলে সঠিক পণ্য যাচাই করার সুযোগ রয়েছে।" : "Yes, parcel inspection in the presence of the courier delivery agent is supported so you can verify your order before final handover."}</p>
-        </article>
-        <article class="pdp-faq-item">
-          <h3>${isBn ? "৫. মাপ বা সাইজ যাচাই কীভাবে করব?" : "5. How do I confirm sizing for rings or bangles?"}</h3>
-          <p>${isBn ? "আমাদের কাস্টমার কেয়ার প্রতিনিধি WhatsApp বা ফোনে আপনার বর্তমান মাপ অনুযায়ী সঠিক পরামর্শ দেবেন।" : "Our customer support team will guide you through simple measurement steps over WhatsApp or phone to ensure the right fit."}</p>
-        </article>
-        <article class="pdp-faq-item">
-          <h3>${isBn ? "৬. এই ওয়েবসাইটে পেমেন্ট তথ্য সংরক্ষণ করা হয় কি?" : "6. Is financial or card data stored on this site?"}</h3>
-          <p>${isBn ? "না, এই ওয়েবসাইট কোনো কার্ড বা পেমেন্ট তথ্য সংগ্রহ করে না। সব যোগাযোগ ও লেনদেন অনুমোদিত ও নিরাপদ চ্যানেলে সম্পন্ন হয়।" : "No, this static storefront never collects card numbers or sensitive payment credentials. Orders are coordinated through direct verified channels."}</p>
-        </article>
-      </div>
-    </section>
-
-    <!-- SECTION J: Related Products -->
+<!-- SECTION J: Related Products -->
     ${relatedHtml ? `
     <section class="pdp-related wrap">
       <div class="pdp-section-head">

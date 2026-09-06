@@ -1987,6 +1987,12 @@ b.brand-name {
     padding-top: 20px;
     padding-bottom: 30px;
   }
+  .pdp-gallery {
+    order: -1;
+  }
+  .pdp-info {
+    order: 1;
+  }
   .pdp-story-grid {
     grid-template-columns: 1fr;
     gap: 24px;
@@ -4707,4 +4713,39 @@ b.brand-name {
     gap: 12px;
     padding: 10px 0;
   }
+}
+
+/* Accordion Styles for PDP */
+.pdp-accordion-section {
+  padding: 40px 0;
+  border-top: 1px solid var(--line);
+}
+.pdp-accordion {
+  border-bottom: 1px solid var(--line);
+  padding: 20px 0;
+}
+.pdp-accordion[open] {
+  padding-bottom: 30px;
+}
+.pdp-accordion summary {
+  font: 18px/1 var(--serif);
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.pdp-accordion summary::after {
+  content: "+";
+  font-size: 24px;
+  color: var(--red);
+}
+.pdp-accordion[open] summary::after {
+  content: "−";
+}
+.pdp-accordion-content {
+  padding-top: 20px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
 }
