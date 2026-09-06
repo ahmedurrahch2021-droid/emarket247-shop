@@ -1981,6 +1981,12 @@ b.brand-name {
 
 /* --- Responsive Breakpoints for PDP System --- */
 @media (max-width: 900px) {
+  .pdp-hero {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding-top: 20px;
+    padding-bottom: 30px;
+  }
   .pdp-story-grid {
     grid-template-columns: 1fr;
     gap: 24px;
