@@ -40,11 +40,30 @@ function checkAdmin() {
     }
 }
 
-define('DB_HOST', getenv('DB_HOST') ?: 'localhost');
-define('DB_PORT', getenv('DB_PORT') ?: '3306');
-define('DB_NAME', getenv('DB_NAME') ?: 'u123456789_emarket247');
-define('DB_USER', getenv('DB_USER') ?: 'u123456789_emarket_user');
-define('DB_PASS', getenv('DB_PASS') ?: 'YourStrongPasswordHere');
+// Database Configuration
+// Must be set via environment variables in production
+$dbHost = getenv('DB_HOST');
+$dbPort = getenv('DB_PORT') ?: '3306';
+$dbName = getenv('DB_NAME');
+$dbUser = getenv('DB_USER');
+$dbPass = getenv('DB_PASS');
+
+if (!$dbHost || !$dbName || !$dbUser || !$dbPass) {
+    if (PHP_SAPI !== 'cli') {
+        header('Content-Type: application/json; charset=utf-8');
+        http_response_code(500);
+        echo json_encode(['status' => 'error', 'message' => 'Database environment configuration missing.']);
+        exit;
+    } else {
+        die("Error: Database environment configuration missing.\n");
+    }
+}
+
+define('DB_HOST', $dbHost);
+define('DB_PORT', $dbPort);
+define('DB_NAME', $dbName);
+define('DB_USER', $dbUser);
+define('DB_PASS', $dbPass);
 define('DB_PREFIX', 'emk_');
 
 function getDbConnection() {

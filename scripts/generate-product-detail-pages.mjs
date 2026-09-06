@@ -182,8 +182,13 @@ export function generatePdpHtml(product, lang, relatedProducts = []) {
   const categorySlug = product.category;
   const context = getCategoryEditorialContext(product.category, lang);
 
+  const genericDesc = isBn ? "ক্যাটালগ রেকর্ড প্রস্তুত হচ্ছে। স্পেসিফিকেশন, মূল্য ও প্রাপ্যতা অনুমোদনের অপেক্ষায়।" : "Catalog record in preparation. Specifications, price, and availability are pending approval.";
+
   const title = isBn ? (product.seo?.title || `${product.title} | eMarket247`) : (product.seo?.title || `${product.title} | eMarket247`);
-  const description = product.seo?.description || product.description;
+  const description = (product.seo?.description && product.seo.description !== genericDesc) ? product.seo.description :
+                      (product.description && product.description !== genericDesc) ? product.description :
+                      `${product.title} - ${context.lead}`;
+
   const canonical = `${siteUrl}/${lang}/products/${product.slug}/`;
   const altEn = `${siteUrl}/en/products/${product.slug}/`;
   const altBn = `${siteUrl}/bn/products/${product.slug}/`;
