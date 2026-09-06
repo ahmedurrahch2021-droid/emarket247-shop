@@ -224,7 +224,7 @@ export function generatePdpHtml(product, lang, relatedProducts = []) {
         <a class="product-card-wa-btn" href="${relWaUrl}" target="_blank" rel="noopener noreferrer" aria-label="${isBn ? "WhatsApp-এ অনুসন্ধান" : "Inquire on WhatsApp"}" title="${isBn ? "WhatsApp-এ অনুসন্ধান" : "Inquire on WhatsApp"}">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.888 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
         </a>
-        <a class="product-card-cta" href="${relUrl}">${isBn ? "বিস্তারিত দেখুন →" : "View detail →"}</a>
+        <a class="product-card-cta" href="${relUrl}">${isBn ? "বিস্তারিত দেখুন" : "View detail"}</a>
       </div>
     </article>`;
   }).join("");
@@ -274,85 +274,38 @@ export function generatePdpHtml(product, lang, relatedProducts = []) {
         </figure>
       </div>
 
-      <!-- Right Column: Product Details & Ecommerce Actions -->
+      <!-- Right column: identity, price, action, assurance -->
       <div class="pdp-info">
-        <!-- Badges & Rating Row -->
-        <div class="pdp-top-meta">
-          <div class="pdp-badges-group">
-            <span class="pdp-badge-promo">${isBn ? "বিশেষ ক্যাটালগ কালেকশন" : "FREE BRACELET OFFER"}</span>
-            <span class="pdp-badge-tag">${isBn ? "টপ চয়েস | খাঁটি নকশা" : "BEST SELLER | TOP GIFT"}</span>
-          </div>
-          <div class="pdp-rating" aria-label="Rating: 4.9 out of 5 stars">
-            <span class="pdp-stars">★★★★★</span>
-            <span class="pdp-rating-score">4.9</span>
-            <span class="pdp-rating-count">(38)</span>
-          </div>
-        </div>
-
-        <!-- Product Title -->
+        <!-- 1 / Identity -->
+        <p class="pdp-kicker">${attr(categoryLabel)}</p>
         <h1 class="pdp-title">${attr(product.title)}</h1>
+        <p class="pdp-ref">${isBn ? "রেফারেন্স" : "Reference"} <span>${attr(product.id)}</span></p>
 
-        <!-- Subtitle Material & SKU -->
-        <div class="pdp-sub-row">
-          <span class="pdp-material">${attr(categoryLabel)} · ${isBn ? "স্বর্ণাভ লাস্টার ও ঐতিহ্যবাহী ফিনিশ" : "Sterling Silver & Warm South Asian Gold Luster"}</span>
-          <span class="pdp-sku">SKU: <strong>${attr(product.id)}</strong></span>
-        </div>
+        <!-- 2 / Description -->
+        <p class="pdp-short-desc">${attr(context.lead)}</p>
 
-        <!-- Price Display Area (Dedicated space for price, ready for dynamic update) -->
+        <!-- 3 / Price -->
         <div class="pdp-price-section" data-product-price-container>
           <div class="pdp-price-row">
             <span class="pdp-price-val" id="pdp-price-display">৳ 8,500 <small class="pdp-price-note">(${isBn ? "আনুমানিক / কোটেশন সাপেক্ষে" : "Est. / Quote on Inquiry"})</small></span>
-            <span class="pdp-price-chip">${isBn ? "অনুমোদিত ক্যাটালগ" : "Verified Piece"}</span>
           </div>
-          <p class="pdp-price-hint">${isBn ? "সরাসরি কাস্টমার কেয়ারে যোগাযোগ করে বর্তমান অফার ও নিশ্চিত মূল্য যাচাই করুন" : "Inquire directly with customer care for verified pricing, gold weight & availability"}</p>
+          <p class="pdp-price-hint">${isBn ? "নিশ্চিত মূল্য ও সরবরাহ জানতে কাস্টমার কেয়ারে যোগাযোগ করুন" : "Contact customer care for confirmed pricing and availability."}</p>
         </div>
 
-        <!-- Metal / Variant Swatches (matching luxury jewelry standard) -->
-        <div class="pdp-variants-section">
-          <div class="pdp-variants-header">
-            <span class="pdp-variant-label">${isBn ? "ধাতু / ফিনিশ:" : "Metal:"}</span>
-            <span class="pdp-variant-active" id="pdp-active-metal">${isBn ? "২২ ক্যারেট স্বর্ণাভ ফিনিশ" : "22K Gold Luster"}</span>
-          </div>
-          <div class="pdp-swatches" role="radiogroup" aria-label="${isBn ? "ধাতুর বিকল্প নির্বাচন করুন" : "Select metal finish"}">
-            <button type="button" class="pdp-swatch is-active" data-metal-name="${isBn ? "২২ ক্যারেট স্বর্ণাভ ফিনিশ" : "22K Gold Luster"}" aria-label="22K Gold" style="background: linear-gradient(135deg, #e6ca65, #c89d38);"></button>
-            <button type="button" class="pdp-swatch" data-metal-name="${isBn ? "রোজ গোল্ড ফিনিশ" : "Rose Gold Luster"}" aria-label="Rose Gold" style="background: linear-gradient(135deg, #f4c2b2, #d98877);"></button>
-            <button type="button" class="pdp-swatch" data-metal-name="${isBn ? "স্টার্লিং সিলভার ফিনিশ" : "Sterling Silver"}" aria-label="Sterling Silver" style="background: linear-gradient(135deg, #e8e8e8, #c4c4c4);"></button>
-            <button type="button" class="pdp-swatch" data-metal-name="${isBn ? "অ্যান্টিক টু-টোন ফিনিশ" : "Antique Two-Tone"}" aria-label="Antique Two-Tone" style="background: linear-gradient(135deg, #d4af37 50%, #b8b8b8 50%);"></button>
-          </div>
-        </div>
-
-        <!-- Short Description -->
-        <div class="pdp-short-desc-wrap">
-          <p class="pdp-short-desc">${attr(context.lead)}</p>
-          <a href="#pdp-specs" class="pdp-view-details-link">${isBn ? "অলংকারের বিস্তারিত বিবরণ ও স্পেসিফিকেশন দেখুন ›" : "View product details ›"}</a>
-        </div>
-
-        <!-- Option Boxes (Style Your Own & Size Guide) -->
-        <div class="pdp-option-boxes">
-          <a href="tel:${phone}" class="pdp-option-box">
-            <span>${isBn ? "কাস্টমাইজ বা বিশেষ চাহিদা" : "STYLE YOUR OWN"}</span>
-          </a>
-          <a href="#pdp-specs" class="pdp-option-box">
-            <span>${isBn ? "সাইজ ও পরিমাপ দেখুন" : "FIND YOUR SIZE"}</span>
-            <span class="pdp-option-chevron">›</span>
-          </a>
-        </div>
-
-        <!-- Primary Action: Full-Width ADD TO BAG Button -->
-        <button class="pdp-btn-add-bag-primary" id="pdp-add-bag" type="button" data-pdp-add-bag="${attr(product.id)}" data-title="${attr(product.title)}" data-slug="${attr(product.slug)}" data-img="${attr(product.image.src)}" data-cat="${attr(categoryLabel)}">
-          <span class="pdp-add-bag-tag">৳ 8,500</span>
-          <span class="pdp-bag-text pdp-add-bag-label">${isBn ? "ব্যাগে যোগ করুন" : "ADD TO BAG"}</span>
-        </button>
-
-        <!-- Secondary Actions: Quantity Stepper, WhatsApp Order, and Share -->
-        <div class="pdp-secondary-actions">
-          <div class="pdp-qty-stepper-wrap">
-            <span class="pdp-qty-title">${isBn ? "পরিমাণ:" : "Qty:"}</span>
-            <div class="pdp-qty-stepper">
-              <button type="button" data-pdp-qty-change="-1" aria-label="${isBn ? "পরিমাণ কমান" : "Decrease quantity"}">−</button>
-              <span id="pdp-qty-display">1</span>
-              <button type="button" data-pdp-qty-change="1" aria-label="${isBn ? "পরিমাণ বাড়ান" : "Increase quantity"}">+</button>
+        <!-- 4 / Actions -->
+        <div class="pdp-actions">
+          <div class="pdp-actions-row">
+            <div class="pdp-qty-stepper-wrap">
+              <span class="pdp-qty-title">${isBn ? "পরিমাণ" : "Qty"}</span>
+              <div class="pdp-qty-stepper">
+                <button type="button" data-pdp-qty-change="-1" aria-label="${isBn ? "পরিমাণ কমান" : "Decrease quantity"}">−</button>
+                <span id="pdp-qty-display">1</span>
+                <button type="button" data-pdp-qty-change="1" aria-label="${isBn ? "পরিমাণ বাড়ান" : "Increase quantity"}">+</button>
+              </div>
             </div>
+            <button class="pdp-btn-add-bag-primary" id="pdp-add-bag" type="button" data-pdp-add-bag="${attr(product.id)}" data-title="${attr(product.title)}" data-slug="${attr(product.slug)}" data-img="${attr(product.image.src)}" data-cat="${attr(categoryLabel)}">
+              <span class="pdp-bag-text pdp-add-bag-label">${isBn ? "ব্যাগে যোগ করুন" : "Add to bag"}</span>
+            </button>
           </div>
 
           <a class="pdp-btn-whatsapp-action" id="pdp-whatsapp-cta" href="${whatsappUrl}" target="_blank" rel="noopener noreferrer">
@@ -360,44 +313,46 @@ export function generatePdpHtml(product, lang, relatedProducts = []) {
             <span>${isBn ? "WhatsApp-এ অর্ডার" : "Order on WhatsApp"}</span>
           </a>
 
-          <button class="pdp-btn-share-icon" type="button" data-share-url="${canonical}" data-share-title="${attr(title)}" aria-label="${isBn ? "অলংকারের লিঙ্ক শেয়ার করুন" : "Share this piece"}">
-            <span aria-hidden="true">🔗</span>
-          </button>
+          <div class="pdp-action-links">
+            <a href="#pdp-specs">${isBn ? "সাইজ ও পরিমাপ" : "Size and measurements"}</a>
+            <a href="tel:${phone}">${isBn ? "কাস্টমাইজের অনুরোধ" : "Ask about customising"}</a>
+            <button type="button" class="pdp-share-link" data-share-url="${canonical}" data-share-title="${attr(title)}">${isBn ? "লিঙ্ক শেয়ার" : "Share this piece"}</button>
+          </div>
         </div>
 
-        <!-- Store Pickup & Delivery Reassurance -->
-        <div class="pdp-pickup-card">
-          <div class="pdp-pickup-head">
-            <span class="pdp-pickup-icon" aria-hidden="true">📍</span>
-            <strong>${isBn ? "পিক-আপ ও হোম ডেলিভারি" : "PICK UP & DOORSTEP DELIVERY"}</strong>
+        <!-- 5 / Delivery assurance -->
+        <dl class="pdp-assurance">
+          <div>
+            <dt>${isBn ? "ডেলিভারি" : "Delivery"}</dt>
+            <dd>${isBn ? "সারাদেশে কুরিয়ারে পৌঁছে দেওয়া হয়" : "Nationwide courier across Bangladesh"}</dd>
           </div>
-          <p class="pdp-pickup-status">● ${isBn ? "স্টকে প্রস্তুত · গ্রহণের পূর্বে পার্সেল যাচাই করার সুযোগ" : "In stock for immediate dispatch · Inspect parcel upon delivery"}</p>
-          <div class="pdp-pickup-footer">
-            <span>${isBn ? "সারাদেশে ডেলিভারি ও পরামর্শ সহায়তা:" : "Nationwide delivery across Bangladesh · Care line:"} <a href="tel:${phone}">${phoneDisplay}</a></span>
+          <div>
+            <dt>${isBn ? "যাচাই" : "Inspection"}</dt>
+            <dd>${isBn ? "গ্রহণের আগে পার্সেল খুলে দেখে নিন" : "Open the parcel before you accept it"}</dd>
           </div>
-        </div>
+          <div>
+            <dt>${isBn ? "সহায়তা" : "Care line"}</dt>
+            <dd><a href="tel:${phone}">${phoneDisplay}</a></dd>
+          </div>
+        </dl>
       </div>
     </section>
 
     <!-- SECTION C: Why You'll Love It -->
     <section class="pdp-why-love wrap">
       <div class="pdp-section-head">
-        <p class="eyebrow">${isBn ? "বিশেষত্ব ও আকর্ষণ" : "Craft & Distinction"}</p>
         <h2>${isBn ? "কেন এই ডিজাইনটি আপনার ভালো লাগবে" : "Why you'll love this piece"}</h2>
       </div>
       <div class="pdp-benefit-grid">
         <article class="pdp-benefit-card">
-          <span class="pdp-card-num">01</span>
           <h3>${isBn ? "অনন্য নকশা ও ভারসাম্য" : "Distinctive Silhouette & Contour"}</h3>
           <p>${attr(context.benefitSilhouette)}</p>
         </article>
         <article class="pdp-benefit-card">
-          <span class="pdp-card-num">02</span>
           <h3>${isBn ? "উজ্জ্বল সোনালী দীপ্তি" : "Warm South Asian Gold Luster"}</h3>
           <p>${isBn ? "উৎসবের শাড়ি, রেশমি পোশাক কিংবা যেকোনো আধুনিক সান্ধ্যকালীন সাজের সাথে নিখুঁতভাবে মানিয়ে যাওয়ার মতো গভীর সোনালী আভা।" : "A rich, warm gold-tone luster inspired by heritage South Asian jewellery traditions, flattering ethnic silks and modern styling alike."}</p>
         </article>
         <article class="pdp-benefit-card">
-          <span class="pdp-card-num">03</span>
           <h3>${isBn ? "দায়িত্বশীল সংরক্ষণ মানদণ্ড" : "Transparent Curation Standard"}</h3>
           <p>${isBn ? "ইমার্কেট২৪৭ প্রতিটি অলংকার আলাদাভাবে ক্যাটালগভুক্ত ও যাচাই করে উপস্থাপন করে, কোনো ভিত্তিহীন প্রতিশ্রুতি ছাড়া।" : "Each piece in the eMarket247 edit is individually archived and photographed, upholding verified quality and transparent care."}</p>
         </article>
@@ -407,7 +362,6 @@ export function generatePdpHtml(product, lang, relatedProducts = []) {
     <!-- SECTION D: Product Specifications -->
     <section class="pdp-specs wrap">
       <div class="pdp-section-head">
-        <p class="eyebrow">${isBn ? "স্পেসিফিকেশন" : "Specifications"}</p>
         <h2>${isBn ? "পণ্যের তথ্য ও বিবরণ" : "Product details & specifications"}</h2>
       </div>
       <div class="pdp-specs-card">
@@ -448,7 +402,6 @@ export function generatePdpHtml(product, lang, relatedProducts = []) {
     <section class="pdp-story wrap">
       <div class="pdp-story-grid">
         <div class="pdp-story-copy">
-          <p class="eyebrow">${isBn ? "ডিজাইন দর্শন" : "Editorial Perspective"}</p>
           <h2>${isBn ? "কারুকাজ ও নান্দনিক দৃষ্টিভঙ্গি" : "The craftsmanship behind the form"}</h2>
           <p class="pdp-story-lead">${attr(context.story)}</p>
           <p>${isBn ? "ইমার্কেট২৪৭-এর কালেকশনে প্রতিটি পণ্য নির্বাচনের ক্ষেত্রে আমরা নান্দনিক ভারসাম্য, দীর্ঘস্থায়ী আকর্ষণ এবং আধুনিক পরিধানযোগ্যতাকে সর্বোচ্চ গুরুত্ব দিয়ে থাকি।" : "At eMarket247, every selected design is scrutinized for its visual balance, tactile presence, and enduring wearable charm across life's most meaningful moments."}</p>
@@ -463,33 +416,28 @@ export function generatePdpHtml(product, lang, relatedProducts = []) {
     <!-- SECTION F: Styling & Occasions -->
     <section class="pdp-styling wrap">
       <div class="pdp-section-head">
-        <p class="eyebrow">${isBn ? "স্টাইলিং আইডিয়া" : "Styling Context"}</p>
         <h2>${isBn ? "উপলক্ষ অনুযায়ী সাজের ভাবনা" : "Occasions & thoughtful styling"}</h2>
       </div>
       <div class="pdp-styling-grid">
         <a class="pdp-styling-card" href="/${lang}/occasions/puja/">
-          <p class="eyebrow">${isBn ? "শরৎ ও উৎসব" : "Autumn & Festivals"}</p>
           <h3>${isBn ? "পূজা ও পারিবারিক উৎসব" : "Puja & Festive Gatherings"}</h3>
           <p>${isBn ? "উৎসবের উজ্জ্বল শাড়ি ও সাজের সাথে নিখুঁত সোনালী সঙ্গ।" : "Deep gold tones that effortlessly match festive sarees and traditional silks."}</p>
-          <span class="pdp-styling-link">${isBn ? "পূজা কালেকশন দেখুন →" : "Explore Puja edit →"}</span>
+          <span class="pdp-styling-link">${isBn ? "পূজা কালেকশন দেখুন" : "Explore Puja edit"}</span>
         </a>
         <a class="pdp-styling-card" href="/${lang}/occasions/wedding/">
-          <p class="eyebrow">${isBn ? "বিবাহ ও আড়ম্বর" : "Celebrations"}</p>
           <h3>${isBn ? "বিয়ে ও বিবাহোত্তর অনুষ্ঠান" : "Weddings & Celebrations"}</h3>
           <p>${isBn ? "সঙ্গীত, মেহেন্দি কিংবা অভ্যর্থনা রাতের জন্য মানানসই আভিজাত্য।" : "Sophisticated presence for weddings, receptions, and family functions."}</p>
-          <span class="pdp-styling-link">${isBn ? "বিয়ের কালেকশন দেখুন →" : "Explore Wedding edit →"}</span>
+          <span class="pdp-styling-link">${isBn ? "বিয়ের কালেকশন দেখুন" : "Explore Wedding edit"}</span>
         </a>
         <a class="pdp-styling-card" href="/${lang}/occasions/gifts/">
-          <p class="eyebrow">${isBn ? "অর্থবহ পছন্দ" : "Thoughtful Gifting"}</p>
           <h3>${isBn ? "স্মরণীয় উপহারের ভাবনা" : "Meaningful Jewellery Gifts"}</h3>
           <p>${isBn ? "প্রিয়জনের জন্মদিন, বার্ষিকী বা বিশেষ দিনে উপহারের সুন্দর নির্বাচন।" : "A memorable and cherished gift for birthdays, anniversaries, or milestones."}</p>
-          <span class="pdp-styling-link">${isBn ? "উপহার গাইড দেখুন →" : "Explore Gifting edit →"}</span>
+          <span class="pdp-styling-link">${isBn ? "উপহার গাইড দেখুন" : "Explore Gifting edit"}</span>
         </a>
         <a class="pdp-styling-card" href="/${lang}/shop/">
-          <p class="eyebrow">${isBn ? "দৈনন্দিন মার্জিত রূপ" : "Everyday Refinement"}</p>
           <h3>${isBn ? "মার্জিত আধুনিক সাজ" : "Contemporary Daily Wear"}</h3>
           <p>${isBn ? "অফিসিয়াল মিলনমেলা কিংবা সান্ধ্যকালীন অনুষ্ঠানে মার্জিত লুক।" : "Understated elegance suited for dinner gatherings and fusion wear."}</p>
-          <span class="pdp-styling-link">${isBn ? "শপ কালেকশন দেখুন →" : "Browse all pieces →"}</span>
+          <span class="pdp-styling-link">${isBn ? "শপ কালেকশন দেখুন" : "Browse all pieces"}</span>
         </a>
       </div>
     </section>
@@ -536,7 +484,6 @@ export function generatePdpHtml(product, lang, relatedProducts = []) {
     <!-- SECTION I: Frequently Asked Questions -->
     <section class="pdp-faq wrap">
       <div class="pdp-section-head">
-        <p class="eyebrow">${isBn ? "সাধারণ জিজ্ঞাসা" : "Customer Inquiries"}</p>
         <h2>${isBn ? "সচরাচর জিজ্ঞাসিত প্রশ্নোত্তর" : "Frequently asked questions"}</h2>
       </div>
       <div class="pdp-faq-grid">
@@ -571,7 +518,6 @@ export function generatePdpHtml(product, lang, relatedProducts = []) {
     ${relatedHtml ? `
     <section class="pdp-related wrap">
       <div class="pdp-section-head">
-        <p class="eyebrow">${isBn ? "কালেকশন থেকে" : "Considered Selection"}</p>
         <h2>${isBn ? "সম্পর্কিত অন্যান্য জুয়েলারি ডিজাইন" : "Related pieces from this collection"}</h2>
       </div>
       <div class="product-grid">
@@ -583,7 +529,6 @@ export function generatePdpHtml(product, lang, relatedProducts = []) {
     <section class="pdp-final-cta wrap">
       <div class="pdp-final-card">
         <div class="pdp-final-copy">
-          <p class="eyebrow">${isBn ? "পছন্দ হয়েছে?" : "Assistance & Orders"}</p>
           <h2>${isBn ? "এই ডিজাইনটি কি আপনার পছন্দ হয়েছে?" : "Ready to order or have questions about this piece?"}</h2>
           <p>${isBn ? "আমাদের কাস্টমার কেয়ার টিম আপনাকে প্রাপ্যতা, সাইজ ও সহজ অর্ডারের ক্ষেত্রে আন্তরিক সহায়তা প্রদান করবে।" : "Our customer care team is here to assist you with availability, styling guidance, and effortless order processing."}</p>
         </div>
@@ -595,7 +540,7 @@ export function generatePdpHtml(product, lang, relatedProducts = []) {
             ${isBn ? "কল করুন: " + phoneDisplay : "Call " + phoneDisplay}
           </a>
           <a class="text-link" href="/${lang}/shop/">
-            ${isBn ? "সব কালেকশন দেখুন →" : "Browse all pieces →"}
+            ${isBn ? "সব কালেকশন দেখুন" : "Browse all pieces"}
           </a>
         </div>
       </div>

@@ -624,17 +624,6 @@
       });
     });
 
-    all(".pdp-swatch").forEach((swatch) => {
-      swatch.addEventListener("click", () => {
-        all(".pdp-swatch").forEach((s) => s.classList.remove("is-active"));
-        swatch.classList.add("is-active");
-        const activeLabel = one("#pdp-active-metal");
-        if (activeLabel && swatch.dataset.metalName) {
-          activeLabel.textContent = swatch.dataset.metalName;
-        }
-      });
-    });
-
     if (pdpAddBtn) {
       pdpAddBtn.addEventListener("click", () => {
         const id = pdpAddBtn.dataset.pdpAddBag;

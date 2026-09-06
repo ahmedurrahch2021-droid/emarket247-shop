@@ -4286,3 +4286,315 @@ b.brand-name {
     grid-template-columns: 1fr;
   }
 }
+
+/* ==========================================================================
+   PDP EDITORIAL REFINEMENT
+   Restores the hairline-grid language used on the homepage (.category-grid,
+   .trust-grid) to the product detail page. The buy box is now five ordered
+   blocks: identity, description, price, action, assurance. Appended last so
+   these rules win over the earlier boxed treatment.
+   ========================================================================== */
+
+:root {
+  /* Was referenced 14 times but never defined; declarations silently fell
+     back to the browser default monospace. */
+  --mono: "DM Mono", ui-monospace, monospace;
+}
+
+/* --- Buy box rhythm: space by relationship, not uniform gap --- */
+.pdp-info {
+  gap: 0;
+}
+
+/* 1 / Identity */
+.pdp-kicker {
+  margin: 0 0 10px;
+  color: var(--muted);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.pdp-title {
+  margin: 0;
+  font: clamp(30px, 3.3vw, 46px) / 1.04 var(--serif);
+  letter-spacing: -0.035em;
+  color: var(--ink);
+  text-wrap: balance;
+}
+.pdp-ref {
+  margin: 12px 0 0;
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+.pdp-ref span {
+  font-family: var(--mono);
+  letter-spacing: 0.04em;
+  color: var(--ink);
+}
+
+/* 2 / Description */
+.pdp-short-desc {
+  max-width: 46ch;
+  margin: 20px 0 0;
+  color: #423d39;
+  font-size: 15px;
+  line-height: 1.62;
+}
+
+/* 3 / Price — hairline rules instead of a tinted card */
+.pdp-price-section {
+  margin-top: 26px;
+  padding: 18px 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: none;
+  border-radius: 0;
+}
+.pdp-price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+.pdp-price-val {
+  font: 26px/1 var(--serif);
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+.pdp-price-note {
+  margin-left: 2px;
+  color: var(--muted);
+  font: 11px/1 var(--sans);
+  letter-spacing: 0.02em;
+}
+.pdp-price-hint {
+  max-width: 44ch;
+  margin: 9px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+/* 4 / Actions */
+.pdp-actions {
+  margin-top: 22px;
+}
+.pdp-actions-row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 10px;
+  align-items: stretch;
+}
+.pdp-qty-stepper-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 14px;
+  border: 1px solid var(--line);
+}
+.pdp-qty-title {
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+.pdp-qty-stepper {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.pdp-qty-stepper button {
+  width: 26px;
+  height: 26px;
+  border: 0;
+  background: none;
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 1;
+  cursor: pointer;
+  transition: color 0.15s var(--ease);
+}
+.pdp-qty-stepper button:hover {
+  color: var(--red);
+}
+#pdp-qty-display {
+  min-width: 20px;
+  font-family: var(--mono);
+  font-size: 13px;
+  text-align: center;
+}
+
+.pdp-btn-add-bag-primary {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 52px;
+  padding: 0 22px;
+  border: 1px solid var(--ink);
+  background: var(--ink);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.18s var(--ease), border-color 0.18s var(--ease);
+}
+.pdp-btn-add-bag-primary:hover {
+  background: var(--red-dark);
+  border-color: var(--red-dark);
+}
+
+.pdp-btn-whatsapp-action {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 9px;
+  min-height: 48px;
+  margin-top: 10px;
+  border: 1px solid var(--ink);
+  background: none;
+  color: var(--ink);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  transition: background 0.18s var(--ease), color 0.18s var(--ease);
+}
+.pdp-btn-whatsapp-action:hover {
+  background: var(--ink);
+  color: #fff;
+}
+
+.pdp-action-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 20px;
+  margin-top: 16px;
+}
+.pdp-action-links a,
+.pdp-share-link {
+  padding: 0 0 3px;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  background: none;
+  color: var(--muted);
+  font-size: 12px;
+  cursor: pointer;
+  transition: color 0.15s var(--ease), border-color 0.15s var(--ease);
+}
+.pdp-action-links a:hover,
+.pdp-share-link:hover {
+  color: var(--ink);
+  border-color: var(--red);
+}
+
+/* 5 / Assurance — the truth-line idiom, not a tinted card with an emoji */
+.pdp-assurance {
+  display: grid;
+  gap: 0;
+  margin: 26px 0 0;
+  border-top: 1px solid var(--line);
+}
+.pdp-assurance > div {
+  display: grid;
+  grid-template-columns: 108px minmax(0, 1fr);
+  gap: 16px;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--line);
+}
+.pdp-assurance dt {
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+.pdp-assurance dd {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.45;
+  color: #383431;
+}
+.pdp-assurance dd a {
+  border-bottom: 1px solid var(--line);
+}
+.pdp-assurance dd a:hover {
+  border-color: var(--red);
+}
+
+/* --- Benefits: hairline columns, no boxes, no false numbering --- */
+.pdp-benefit-grid {
+  border-top: 1px solid var(--line);
+  gap: 0;
+}
+.pdp-benefit-card {
+  padding: 22px clamp(18px, 2.2vw, 30px) 24px 0;
+  border: 0;
+  background: none;
+  gap: 8px;
+}
+.pdp-benefit-card + .pdp-benefit-card {
+  padding-left: clamp(18px, 2.2vw, 30px);
+  border-left: 1px solid var(--line);
+}
+
+/* --- Specs: rules only --- */
+.pdp-specs-card {
+  border: 0;
+  border-top: 1px solid var(--line);
+  background: none;
+}
+.pdp-spec-row {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+}
+.pdp-spec-row:last-child {
+  border-bottom: 1px solid var(--line);
+}
+.pdp-spec-row dt {
+  font-size: 10px;
+  letter-spacing: 0.09em;
+  color: var(--muted);
+  font-weight: 500;
+}
+.pdp-spec-row dd code {
+  font-family: var(--mono);
+  font-size: 13px;
+}
+
+/* --- Section heads: let the serif carry it --- */
+.pdp-section-head {
+  margin-bottom: 20px;
+}
+
+/* --- One motion moment: the gallery only. Cards stay still. --- */
+.pdp-styling-card:hover,
+.pdp-benefit-card:hover,
+.pdp-step-card:hover {
+  transform: none;
+}
+
+@media (max-width: 900px) {
+  .pdp-actions-row {
+    grid-template-columns: 1fr;
+  }
+  .pdp-qty-stepper-wrap {
+    justify-content: space-between;
+    padding: 10px 14px;
+  }
+  .pdp-benefit-grid {
+    border-top: 1px solid var(--line);
+  }
+  .pdp-benefit-card {
+    padding: 20px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .pdp-benefit-card + .pdp-benefit-card {
+    padding-left: 0;
+    border-left: 0;
+  }
+  .pdp-assurance > div {
+    grid-template-columns: 96px minmax(0, 1fr);
+  }
+}
