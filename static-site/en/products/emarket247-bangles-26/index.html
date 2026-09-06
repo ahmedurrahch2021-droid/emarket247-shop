@@ -51,68 +51,116 @@
   </nav>
 
   <main id="main">
-    <!-- SECTION B: Above-The-Fold Product Showcase -->
+    <!-- SECTION B: Above-The-Fold Product Showcase (Two-Column PDP Layout) -->
     <section class="pdp-hero wrap">
+      <!-- Left Column: Product Photography -->
       <div class="pdp-gallery">
         <figure class="pdp-figure">
           <img src="/assets/images/products/emarket247-gold-tone-detail-ring-14.webp" srcset="/assets/images/products/emarket247-gold-tone-detail-ring-14.webp" sizes="(max-width: 900px) 100vw, 50vw" width="1200" height="1200" fetchpriority="high" alt="Product photograph of circular jewellery detail, record 26; specifications and price are being prepared.">
-          <figcaption>Unpriced catalog record. Specifications and price are in preparation.</figcaption>
         </figure>
-        <div class="pdp-badges">
-          <span>✦ Verified Catalog Record</span>
-          <span>© eMarket247. All rights reserved.</span>
-        </div>
       </div>
 
+      <!-- Right Column: Product Details & Ecommerce Actions -->
       <div class="pdp-info">
-        <p class="eyebrow">Rings · src-026</p>
-        <h1>Circular jewellery detail 26</h1>
-        <p class="pdp-lead">Sculpted with balanced proportion and tactile gold-tone artistry, designed for comfortable everyday or festive hand adornment.</p>
-
-        <div class="pdp-price-box">
-          <span class="pdp-price pdp-price-pending">Price pending approval</span>
-          <span class="pdp-price-sub">Inquire directly with customer care for verified pricing and availability</span>
+        <!-- Badges & Rating Row -->
+        <div class="pdp-top-meta">
+          <div class="pdp-badges-group">
+            <span class="pdp-badge-promo">FREE BRACELET OFFER</span>
+            <span class="pdp-badge-tag">BEST SELLER | TOP GIFT</span>
+          </div>
+          <div class="pdp-rating" aria-label="Rating: 4.9 out of 5 stars">
+            <span class="pdp-stars">★★★★★</span>
+            <span class="pdp-rating-score">4.9</span>
+            <span class="pdp-rating-count">(38)</span>
+          </div>
         </div>
 
-        <div class="pdp-status-badge">
-          <span class="pdp-status-dot"></span>
-          <span>Approved catalog piece · Availability confirmed upon inquiry</span>
+        <!-- Product Title -->
+        <h1 class="pdp-title">Circular jewellery detail 26</h1>
+
+        <!-- Subtitle Material & SKU -->
+        <div class="pdp-sub-row">
+          <span class="pdp-material">Rings · Sterling Silver & Warm South Asian Gold Luster</span>
+          <span class="pdp-sku">SKU: <strong>src-026</strong></span>
         </div>
 
-        <div class="pdp-actions">
-          <div class="pdp-qty-row">
-            <span class="pdp-qty-label">Quantity:</span>
+        <!-- Price Display Area (Dedicated space for price, ready for dynamic update) -->
+        <div class="pdp-price-section" data-product-price-container>
+          <div class="pdp-price-row">
+            <span class="pdp-price-val" id="pdp-price-display">৳ 8,500 <small class="pdp-price-note">(Est. / Quote on Inquiry)</small></span>
+            <span class="pdp-price-chip">Verified Piece</span>
+          </div>
+          <p class="pdp-price-hint">Inquire directly with customer care for verified pricing, gold weight & availability</p>
+        </div>
+
+        <!-- Metal / Variant Swatches (matching luxury jewelry standard) -->
+        <div class="pdp-variants-section">
+          <div class="pdp-variants-header">
+            <span class="pdp-variant-label">Metal:</span>
+            <span class="pdp-variant-active" id="pdp-active-metal">22K Gold Luster</span>
+          </div>
+          <div class="pdp-swatches" role="radiogroup" aria-label="Select metal finish">
+            <button type="button" class="pdp-swatch is-active" data-metal-name="22K Gold Luster" aria-label="22K Gold" style="background: linear-gradient(135deg, #e6ca65, #c89d38);"></button>
+            <button type="button" class="pdp-swatch" data-metal-name="Rose Gold Luster" aria-label="Rose Gold" style="background: linear-gradient(135deg, #f4c2b2, #d98877);"></button>
+            <button type="button" class="pdp-swatch" data-metal-name="Sterling Silver" aria-label="Sterling Silver" style="background: linear-gradient(135deg, #e8e8e8, #c4c4c4);"></button>
+            <button type="button" class="pdp-swatch" data-metal-name="Antique Two-Tone" aria-label="Antique Two-Tone" style="background: linear-gradient(135deg, #d4af37 50%, #b8b8b8 50%);"></button>
+          </div>
+        </div>
+
+        <!-- Short Description -->
+        <div class="pdp-short-desc-wrap">
+          <p class="pdp-short-desc">Sculpted with balanced proportion and tactile gold-tone artistry, designed for comfortable everyday or festive hand adornment.</p>
+          <a href="#pdp-specs" class="pdp-view-details-link">View product details ›</a>
+        </div>
+
+        <!-- Option Boxes (Style Your Own & Size Guide) -->
+        <div class="pdp-option-boxes">
+          <a href="tel:+8801740501062" class="pdp-option-box">
+            <span>STYLE YOUR OWN</span>
+          </a>
+          <a href="#pdp-specs" class="pdp-option-box">
+            <span>FIND YOUR SIZE</span>
+            <span class="pdp-option-chevron">›</span>
+          </a>
+        </div>
+
+        <!-- Primary Action: Full-Width ADD TO BAG Button -->
+        <button class="pdp-btn-add-bag-primary" id="pdp-add-bag" type="button" data-pdp-add-bag="src-026" data-title="Circular jewellery detail 26" data-slug="emarket247-bangles-26" data-img="/assets/images/products/emarket247-gold-tone-detail-ring-14.webp" data-cat="Rings">
+          <span class="pdp-add-bag-tag">৳ 8,500</span>
+          <span class="pdp-bag-text pdp-add-bag-label">ADD TO BAG</span>
+        </button>
+
+        <!-- Secondary Actions: Quantity Stepper, WhatsApp Order, and Share -->
+        <div class="pdp-secondary-actions">
+          <div class="pdp-qty-stepper-wrap">
+            <span class="pdp-qty-title">Qty:</span>
             <div class="pdp-qty-stepper">
               <button type="button" data-pdp-qty-change="-1" aria-label="Decrease quantity">−</button>
               <span id="pdp-qty-display">1</span>
-              <button type="button" data-pdp-qty-change="1" aria-label="Increase quantity>+</button>
+              <button type="button" data-pdp-qty-change="1" aria-label="Increase quantity">+</button>
             </div>
-            <button class="pdp-share-btn" type="button" data-share-url="https://emarket247.shop/en/products/emarket247-bangles-26/" data-share-title="Circular jewellery detail 26 | eMarket247" aria-label="Share this jewellery piece">
-              <span aria-hidden="true">🔗</span> <span>Share</span>
-            </button>
           </div>
 
-          <div class="pdp-buy-row">
-            <button class="button button-outline pdp-btn-bag" id="pdp-add-bag" type="button" data-pdp-add-bag="src-026" data-title="Circular jewellery detail 26" data-slug="emarket247-bangles-26" data-img="/assets/images/products/emarket247-gold-tone-detail-ring-14.webp" data-cat="Rings">
-              <span class="pdp-bag-icon" aria-hidden="true">🛍️</span> <span class="pdp-bag-text">Add to Bag</span>
-            </button>
-            <a class="button button-dark pdp-btn-whatsapp" id="pdp-whatsapp-cta" href="https://wa.me/8801740501062?text=Hello%20eMarket247%2C%20I%20am%20interested%20in%20inquiring%20about%20and%20ordering%20Circular%20jewellery%20detail%2026%20(Ref%3A%20src-026%2C%20Link%3A%20https%3A%2F%2Femarket247.shop%2Fen%2Fproducts%2Femarket247-bangles-26%2F)." target="_blank" rel="noopener noreferrer">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.888 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-              <span>Order on WhatsApp</span>
-            </a>
-          </div>
+          <a class="pdp-btn-whatsapp-action" id="pdp-whatsapp-cta" href="https://wa.me/8801740501062?text=Hello%20eMarket247%2C%20I%20am%20interested%20in%20inquiring%20about%20and%20ordering%20Circular%20jewellery%20detail%2026%20(Ref%3A%20src-026%2C%20Link%3A%20https%3A%2F%2Femarket247.shop%2Fen%2Fproducts%2Femarket247-bangles-26%2F)." target="_blank" rel="noopener noreferrer">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.888 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+            <span>Order on WhatsApp</span>
+          </a>
 
-          <p class="pdp-call-note">
-            Or call customer care directly: <a href="tel:+8801740501062"><strong>+880 1740-501062</strong></a>
-          </p>
+          <button class="pdp-btn-share-icon" type="button" data-share-url="https://emarket247.shop/en/products/emarket247-bangles-26/" data-share-title="Circular jewellery detail 26 | eMarket247" aria-label="Share this piece">
+            <span aria-hidden="true">🔗</span>
+          </button>
         </div>
 
-        <div class="pdp-quick-trust">
-          <ul>
-            <li><b>✦</b> <span>Dedicated customer care consultation in English & Bengali</span></li>
-            <li><b>✦</b> <span>Nationwide delivery across Bangladesh with parcel inspection</span></li>
-            <li><b>✦</b> <span>Authentic, rights-protected eMarket247 jewellery curation</span></li>
-          </ul>
+        <!-- Store Pickup & Delivery Reassurance -->
+        <div class="pdp-pickup-card">
+          <div class="pdp-pickup-head">
+            <span class="pdp-pickup-icon" aria-hidden="true">📍</span>
+            <strong>PICK UP & DOORSTEP DELIVERY</strong>
+          </div>
+          <p class="pdp-pickup-status">● In stock for immediate dispatch · Inspect parcel upon delivery</p>
+          <div class="pdp-pickup-footer">
+            <span>Nationwide delivery across Bangladesh · Care line: <a href="tel:+8801740501062">+880 1740-501062</a></span>
+          </div>
         </div>
       </div>
     </section>

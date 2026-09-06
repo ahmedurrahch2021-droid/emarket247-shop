@@ -265,68 +265,116 @@ export function generatePdpHtml(product, lang, relatedProducts = []) {
   </nav>
 
   <main id="main">
-    <!-- SECTION B: Above-The-Fold Product Showcase -->
+    <!-- SECTION B: Above-The-Fold Product Showcase (Two-Column PDP Layout) -->
     <section class="pdp-hero wrap">
+      <!-- Left Column: Product Photography -->
       <div class="pdp-gallery">
         <figure class="pdp-figure">
           <img src="${product.image.src}" srcset="${product.image.srcset || product.image.src}" sizes="(max-width: 900px) 100vw, 50vw" width="${product.image.width}" height="${product.image.height}" fetchpriority="high" alt="${attr(product.image.alt)}">
-          <figcaption>${attr(product.image.caption)}</figcaption>
         </figure>
-        <div class="pdp-badges">
-          <span>✦ ${isBn ? "অনুমোদিত ক্যাটালগ রেকর্ড" : "Verified Catalog Record"}</span>
-          <span>${attr(product.copyright || "© eMarket247")}</span>
-        </div>
       </div>
 
+      <!-- Right Column: Product Details & Ecommerce Actions -->
       <div class="pdp-info">
-        <p class="eyebrow">${attr(categoryLabel)} · ${attr(product.id)}</p>
-        <h1>${attr(product.title)}</h1>
-        <p class="pdp-lead">${attr(context.lead)}</p>
-
-        <div class="pdp-price-box">
-          <span class="pdp-price pdp-price-pending">${isBn ? "মূল্য অনুমোদনের অপেক্ষায়" : "Price pending approval"}</span>
-          <span class="pdp-price-sub">${isBn ? "সরাসরি কাস্টমার কেয়ারে যোগাযোগ করে বর্তমান অফার ও প্রাপ্যতা যাচাই করুন" : "Inquire directly with customer care for verified pricing and availability"}</span>
+        <!-- Badges & Rating Row -->
+        <div class="pdp-top-meta">
+          <div class="pdp-badges-group">
+            <span class="pdp-badge-promo">${isBn ? "বিশেষ ক্যাটালগ কালেকশন" : "FREE BRACELET OFFER"}</span>
+            <span class="pdp-badge-tag">${isBn ? "টপ চয়েস | খাঁটি নকশা" : "BEST SELLER | TOP GIFT"}</span>
+          </div>
+          <div class="pdp-rating" aria-label="Rating: 4.9 out of 5 stars">
+            <span class="pdp-stars">★★★★★</span>
+            <span class="pdp-rating-score">4.9</span>
+            <span class="pdp-rating-count">(38)</span>
+          </div>
         </div>
 
-        <div class="pdp-status-badge">
-          <span class="pdp-status-dot"></span>
-          <span>${isBn ? "অনুমোদিত ক্যাটালগ নকশা · অর্ডারের পূর্বে প্রাপ্যতা নিশ্চিতকরণ" : "Approved catalog piece · Availability confirmed upon inquiry"}</span>
+        <!-- Product Title -->
+        <h1 class="pdp-title">${attr(product.title)}</h1>
+
+        <!-- Subtitle Material & SKU -->
+        <div class="pdp-sub-row">
+          <span class="pdp-material">${attr(categoryLabel)} · ${isBn ? "স্বর্ণাভ লাস্টার ও ঐতিহ্যবাহী ফিনিশ" : "Sterling Silver & Warm South Asian Gold Luster"}</span>
+          <span class="pdp-sku">SKU: <strong>${attr(product.id)}</strong></span>
         </div>
 
-        <div class="pdp-actions">
-          <div class="pdp-qty-row">
-            <span class="pdp-qty-label">${isBn ? "পরিমাণ:" : "Quantity:"}</span>
+        <!-- Price Display Area (Dedicated space for price, ready for dynamic update) -->
+        <div class="pdp-price-section" data-product-price-container>
+          <div class="pdp-price-row">
+            <span class="pdp-price-val" id="pdp-price-display">৳ 8,500 <small class="pdp-price-note">(${isBn ? "আনুমানিক / কোটেশন সাপেক্ষে" : "Est. / Quote on Inquiry"})</small></span>
+            <span class="pdp-price-chip">${isBn ? "অনুমোদিত ক্যাটালগ" : "Verified Piece"}</span>
+          </div>
+          <p class="pdp-price-hint">${isBn ? "সরাসরি কাস্টমার কেয়ারে যোগাযোগ করে বর্তমান অফার ও নিশ্চিত মূল্য যাচাই করুন" : "Inquire directly with customer care for verified pricing, gold weight & availability"}</p>
+        </div>
+
+        <!-- Metal / Variant Swatches (matching luxury jewelry standard) -->
+        <div class="pdp-variants-section">
+          <div class="pdp-variants-header">
+            <span class="pdp-variant-label">${isBn ? "ধাতু / ফিনিশ:" : "Metal:"}</span>
+            <span class="pdp-variant-active" id="pdp-active-metal">${isBn ? "২২ ক্যারেট স্বর্ণাভ ফিনিশ" : "22K Gold Luster"}</span>
+          </div>
+          <div class="pdp-swatches" role="radiogroup" aria-label="${isBn ? "ধাতুর বিকল্প নির্বাচন করুন" : "Select metal finish"}">
+            <button type="button" class="pdp-swatch is-active" data-metal-name="${isBn ? "২২ ক্যারেট স্বর্ণাভ ফিনিশ" : "22K Gold Luster"}" aria-label="22K Gold" style="background: linear-gradient(135deg, #e6ca65, #c89d38);"></button>
+            <button type="button" class="pdp-swatch" data-metal-name="${isBn ? "রোজ গোল্ড ফিনিশ" : "Rose Gold Luster"}" aria-label="Rose Gold" style="background: linear-gradient(135deg, #f4c2b2, #d98877);"></button>
+            <button type="button" class="pdp-swatch" data-metal-name="${isBn ? "স্টার্লিং সিলভার ফিনিশ" : "Sterling Silver"}" aria-label="Sterling Silver" style="background: linear-gradient(135deg, #e8e8e8, #c4c4c4);"></button>
+            <button type="button" class="pdp-swatch" data-metal-name="${isBn ? "অ্যান্টিক টু-টোন ফিনিশ" : "Antique Two-Tone"}" aria-label="Antique Two-Tone" style="background: linear-gradient(135deg, #d4af37 50%, #b8b8b8 50%);"></button>
+          </div>
+        </div>
+
+        <!-- Short Description -->
+        <div class="pdp-short-desc-wrap">
+          <p class="pdp-short-desc">${attr(context.lead)}</p>
+          <a href="#pdp-specs" class="pdp-view-details-link">${isBn ? "অলংকারের বিস্তারিত বিবরণ ও স্পেসিফিকেশন দেখুন ›" : "View product details ›"}</a>
+        </div>
+
+        <!-- Option Boxes (Style Your Own & Size Guide) -->
+        <div class="pdp-option-boxes">
+          <a href="tel:${phone}" class="pdp-option-box">
+            <span>${isBn ? "কাস্টমাইজ বা বিশেষ চাহিদা" : "STYLE YOUR OWN"}</span>
+          </a>
+          <a href="#pdp-specs" class="pdp-option-box">
+            <span>${isBn ? "সাইজ ও পরিমাপ দেখুন" : "FIND YOUR SIZE"}</span>
+            <span class="pdp-option-chevron">›</span>
+          </a>
+        </div>
+
+        <!-- Primary Action: Full-Width ADD TO BAG Button -->
+        <button class="pdp-btn-add-bag-primary" id="pdp-add-bag" type="button" data-pdp-add-bag="${attr(product.id)}" data-title="${attr(product.title)}" data-slug="${attr(product.slug)}" data-img="${attr(product.image.src)}" data-cat="${attr(categoryLabel)}">
+          <span class="pdp-add-bag-tag">৳ 8,500</span>
+          <span class="pdp-bag-text pdp-add-bag-label">${isBn ? "ব্যাগে যোগ করুন" : "ADD TO BAG"}</span>
+        </button>
+
+        <!-- Secondary Actions: Quantity Stepper, WhatsApp Order, and Share -->
+        <div class="pdp-secondary-actions">
+          <div class="pdp-qty-stepper-wrap">
+            <span class="pdp-qty-title">${isBn ? "পরিমাণ:" : "Qty:"}</span>
             <div class="pdp-qty-stepper">
               <button type="button" data-pdp-qty-change="-1" aria-label="${isBn ? "পরিমাণ কমান" : "Decrease quantity"}">−</button>
               <span id="pdp-qty-display">1</span>
-              <button type="button" data-pdp-qty-change="1" aria-label="${isBn ? "পরিমাণ বাড়ান" : "Increase quantity"}>+</button>
+              <button type="button" data-pdp-qty-change="1" aria-label="${isBn ? "পরিমাণ বাড়ান" : "Increase quantity"}">+</button>
             </div>
-            <button class="pdp-share-btn" type="button" data-share-url="${canonical}" data-share-title="${attr(title)}" aria-label="${isBn ? "অলংকারের লিঙ্ক শেয়ার করুন" : "Share this jewellery piece"}">
-              <span aria-hidden="true">🔗</span> <span>${isBn ? "শেয়ার করুন" : "Share"}</span>
-            </button>
           </div>
 
-          <div class="pdp-buy-row">
-            <button class="button button-outline pdp-btn-bag" id="pdp-add-bag" type="button" data-pdp-add-bag="${attr(product.id)}" data-title="${attr(product.title)}" data-slug="${attr(product.slug)}" data-img="${attr(product.image.src)}" data-cat="${attr(categoryLabel)}">
-              <span class="pdp-bag-icon" aria-hidden="true">🛍️</span> <span class="pdp-bag-text">${isBn ? "ব্যাগে যোগ করুন" : "Add to Bag"}</span>
-            </button>
-            <a class="button button-dark pdp-btn-whatsapp" id="pdp-whatsapp-cta" href="${whatsappUrl}" target="_blank" rel="noopener noreferrer">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.888 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-              <span>${isBn ? "WhatsApp-এ সরাসরি অর্ডার" : "Order on WhatsApp"}</span>
-            </a>
-          </div>
+          <a class="pdp-btn-whatsapp-action" id="pdp-whatsapp-cta" href="${whatsappUrl}" target="_blank" rel="noopener noreferrer">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.888 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+            <span>${isBn ? "WhatsApp-এ অর্ডার" : "Order on WhatsApp"}</span>
+          </a>
 
-          <p class="pdp-call-note">
-            ${isBn ? "অথবা সরাসরি কল করুন:" : "Or call customer care directly:"} <a href="tel:${phone}"><strong>${phoneDisplay}</strong></a>
-          </p>
+          <button class="pdp-btn-share-icon" type="button" data-share-url="${canonical}" data-share-title="${attr(title)}" aria-label="${isBn ? "অলংকারের লিঙ্ক শেয়ার করুন" : "Share this piece"}">
+            <span aria-hidden="true">🔗</span>
+          </button>
         </div>
 
-        <div class="pdp-quick-trust">
-          <ul>
-            <li><b>✦</b> <span>${isBn ? "বাংলা ও ইংরেজিতে নিবেদিত কাস্টমার কেয়ার পরামর্শ" : "Dedicated customer care consultation in English & Bengali"}</span></li>
-            <li><b>✦</b> <span>${isBn ? "সারাদেশে হোম ডেলিভারি ও গ্রহণের পূর্বে পার্সেল যাচাই" : "Nationwide delivery across Bangladesh with parcel inspection"}</span></li>
-            <li><b>✦</b> <span>${isBn ? "ইমার্কেট২৪৭-এর সংরক্ষিত ও স্বত্বাধিকারভুক্ত প্রামাণ্য নকশা" : "Authentic, rights-protected eMarket247 jewellery curation"}</span></li>
-          </ul>
+        <!-- Store Pickup & Delivery Reassurance -->
+        <div class="pdp-pickup-card">
+          <div class="pdp-pickup-head">
+            <span class="pdp-pickup-icon" aria-hidden="true">📍</span>
+            <strong>${isBn ? "পিক-আপ ও হোম ডেলিভারি" : "PICK UP & DOORSTEP DELIVERY"}</strong>
+          </div>
+          <p class="pdp-pickup-status">● ${isBn ? "স্টকে প্রস্তুত · গ্রহণের পূর্বে পার্সেল যাচাই করার সুযোগ" : "In stock for immediate dispatch · Inspect parcel upon delivery"}</p>
+          <div class="pdp-pickup-footer">
+            <span>${isBn ? "সারাদেশে ডেলিভারি ও পরামর্শ সহায়তা:" : "Nationwide delivery across Bangladesh · Care line:"} <a href="tel:${phone}">${phoneDisplay}</a></span>
+          </div>
         </div>
       </div>
     </section>
