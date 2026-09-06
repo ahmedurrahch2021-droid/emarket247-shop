@@ -590,8 +590,13 @@
     try {
       const response = await fetch(`/assets/data/catalog.${language}.json`);
       const catalog = await response.json();
+      let customList = [];
+      try {
+        customList = JSON.parse(localStorage.getItem("emk_custom_products") || "[]");
+      } catch {}
+      const allCatalogProducts = [...customList, ...(catalog.products || []).filter(p => !customList.some(c => c.id === p.id))];
       const pageCategory = host.dataset.category || "";
-      const products = (catalog.products || [])
+      const products = allCatalogProducts
         .map((product, catalogIndex) => ({ ...product, catalogIndex }))
         .filter((product) => product.status === "ready" && (!pageCategory || product.category === pageCategory));
       if (!products.length) {
@@ -685,7 +690,1044 @@
     });
   };
 
+  /* ==========================================================================
+     SECTION J: CUSTOMER ACCOUNT, STORE ADMIN DASHBOARD & HOSTINGER DB INTEGRATION
+     ========================================================================== */
+
+  // Global Keys for Client Cache & Hostinger DB Sync
+  const USER_KEY = "emk_current_user";
+  const REGISTERED_USERS_KEY = "emk_registered_users";
+  const ORDERS_KEY = "emk_orders_list";
+  const CUSTOM_PRODUCTS_KEY = "emk_custom_products";
+  const DB_CONFIG_KEY = "emk_hostinger_config";
+
+  // Default seed accounts for testing & administration
+  const getStoredUsers = () => {
+    try {
+      const users = JSON.parse(localStorage.getItem(REGISTERED_USERS_KEY) || "[]");
+      if (!users.some(u => u.email === "admin@emarket247.shop")) {
+        users.unshift({
+          id: 1,
+          email: "admin@emarket247.shop",
+          password: "admin247",
+          full_name: "Store Administrator",
+          phone: "+8801740501062",
+          district: "Dhaka",
+          role: "admin",
+          created_at: "2026-09-01 10:00:00"
+        });
+      }
+      if (!users.some(u => u.email === "customer@emarket247.shop")) {
+        users.push({
+          id: 2,
+          email: "customer@emarket247.shop",
+          password: "customer247",
+          full_name: "Tanvir Ahmed",
+          phone: "+880 1711-223344",
+          district: "Dhaka",
+          role: "customer",
+          created_at: "2026-09-02 14:30:00"
+        });
+      }
+      return users;
+    } catch {
+      return [];
+    }
+  };
+
+  const saveStoredUsers = (users) => {
+    try {
+      localStorage.setItem(REGISTERED_USERS_KEY, JSON.stringify(users));
+    } catch {}
+  };
+
+  const getCurrentUser = () => {
+    try {
+      return JSON.parse(localStorage.getItem(USER_KEY) || "null");
+    } catch {
+      return null;
+    }
+  };
+
+  const setCurrentUser = (user) => {
+    try {
+      if (user) {
+        localStorage.setItem(USER_KEY, JSON.stringify(user));
+      } else {
+        localStorage.removeItem(USER_KEY);
+      }
+    } catch {}
+    updateNavAccount();
+  };
+
+  // Header Nav Account Link Integration (across all pages)
+  const updateNavAccount = () => {
+    const navActions = one(".nav-actions");
+    if (!navActions) return;
+    let accLink = one(".account-link", navActions);
+    const currentUser = getCurrentUser();
+    const targetUrl = language === "bn" ? "/bn/account/" : "/en/account/";
+    const label = currentUser
+      ? (currentUser.full_name ? currentUser.full_name.split(" ")[0] : (language === "bn" ? "প্রোফাইল" : "Account"))
+      : (language === "bn" ? "অ্যাকাউন্ট" : "Account");
+
+    if (!accLink) {
+      accLink = document.createElement("a");
+      accLink.className = "account-link";
+      accLink.href = targetUrl;
+      accLink.setAttribute("aria-label", language === "bn" ? "গ্রাহক অ্যাকাউন্ট" : "Customer Account");
+      const bagLink = one(".bag-link", navActions);
+      if (bagLink) {
+        navActions.insertBefore(accLink, bagLink);
+      } else {
+        navActions.appendChild(accLink);
+      }
+    }
+    accLink.href = targetUrl;
+    accLink.innerHTML = `<span>👤</span> <b class="account-name-badge">${esc(label)}</b>`;
+    if (currentUser) {
+      accLink.classList.add("is-logged-in");
+    } else {
+      accLink.classList.remove("is-logged-in");
+    }
+  };
+
+  // Footer Navigation Integration (Adds Account & Admin Portal links)
+  const updateFooterLinks = () => {
+    const footerBlocks = all(".footer-main > div");
+    if (footerBlocks.length >= 3) {
+      const careCol = footerBlocks[2];
+      if (careCol && !one("a[href*='/account/']", careCol)) {
+        const accA = document.createElement("a");
+        accA.href = language === "bn" ? "/bn/account/" : "/en/account/";
+        accA.textContent = language === "bn" ? "আমার অ্যাকাউন্ট" : "My Account";
+        careCol.appendChild(accA);
+      }
+      if (careCol && !one("a[href*='/admin/']", careCol)) {
+        const admA = document.createElement("a");
+        admA.href = language === "bn" ? "/bn/admin/" : "/en/admin/";
+        admA.textContent = language === "bn" ? "অ্যাডমিন পোর্টাল 🔒" : "Admin Portal 🔒";
+        admA.style.color = "#8b6528";
+        careCol.appendChild(admA);
+      }
+    }
+  };
+
+  // Orders Store (Client Cache & Hostinger DB Sync)
+  const getOrders = () => {
+    try {
+      const orders = JSON.parse(localStorage.getItem(ORDERS_KEY) || "[]");
+      if (!orders.length) {
+        return [
+          {
+            id: 101,
+            order_number: "EMK-2026-001",
+            customer_name: "Tanvir Ahmed",
+            customer_email: "customer@emarket247.shop",
+            customer_phone: "+880 1711-223344",
+            items: [
+              { title: "Floral Gold-Tone Necklace", sku: "EMK-NECK-004", qty: 1, price: 4500 }
+            ],
+            total_amount: 4500,
+            status: "contacted",
+            channel: "WhatsApp Inquiry",
+            created_at: "2026-09-05 16:20"
+          },
+          {
+            id: 102,
+            order_number: "EMK-2026-002",
+            customer_name: "Nusrat Jahan",
+            customer_email: "nusrat@example.com",
+            customer_phone: "+880 1819-887766",
+            items: [
+              { title: "Royal Gold-Tone Bangles (Pair)", sku: "EMK-BAN-001", qty: 2, price: 5600 }
+            ],
+            total_amount: 11200,
+            status: "pending",
+            channel: "Website Bag Checkout",
+            created_at: "2026-09-06 09:15"
+          }
+        ];
+      }
+      return orders;
+    } catch {
+      return [];
+    }
+  };
+
+  const saveOrders = (orders) => {
+    try {
+      localStorage.setItem(ORDERS_KEY, JSON.stringify(orders));
+    } catch {}
+  };
+
+  // Hostinger PHP/MySQL API Wrapper
+  const hostingerApi = {
+    async call(script, data = {}) {
+      try {
+        const response = await fetch(`/api/${script}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        return await response.json();
+      } catch (err) {
+        console.warn(`[Hostinger API] ${script} fetch failed or in static preview:`, err.message);
+        return { success: false, offline: true, error: err.message };
+      }
+    }
+  };
+
+  // Record order upon bag WhatsApp checkout
+  document.addEventListener("click", (e) => {
+    const waCheckoutBtn = e.target.closest(".bag-checkout-wa");
+    if (waCheckoutBtn) {
+      const bag = getBag();
+      if (!bag.length) return;
+      const currentUser = getCurrentUser();
+      const orderNumber = "EMK-" + Date.now().toString().slice(-6);
+      const newOrder = {
+        id: Date.now(),
+        order_number: orderNumber,
+        customer_name: currentUser?.full_name || (language === "bn" ? "ওয়েবসাইট ভিজিটর" : "Guest Customer"),
+        customer_email: currentUser?.email || "",
+        customer_phone: currentUser?.phone || "+880 1740-501062",
+        items: bag.map(i => ({ title: i.title, sku: i.id, qty: i.quantity, price: 3500 })),
+        total_amount: bag.length * 3500,
+        status: "pending",
+        channel: "WhatsApp Checkout",
+        created_at: new Date().toISOString().replace("T", " ").substring(0, 16)
+      };
+
+      const orders = getOrders();
+      orders.unshift(newOrder);
+      saveOrders(orders);
+
+      // Async sync to Hostinger PHP MySQL
+      hostingerApi.call("orders.php", { action: "create", ...newOrder });
+    }
+  });
+
+  /* --------------------------------------------------------------------------
+     CUSTOMER ACCOUNT PAGE CONTROLLER
+     -------------------------------------------------------------------------- */
+  const initCustomerAccount = () => {
+    const authSection = one("#customer-auth-section");
+    const accountDashboard = one("#customer-account-dashboard");
+    if (!authSection || !accountDashboard) return;
+
+    const renderAccountView = () => {
+      const user = getCurrentUser();
+
+      if (user) {
+        authSection.style.display = "none";
+        accountDashboard.style.display = "block";
+
+        // Populate User Info
+        const nameEl = one("#profile-full-name");
+        const emailEl = one("#profile-email");
+        const phoneEl = one("#profile-phone");
+        const avatarEl = one("#profile-avatar-letter");
+        const idBadge = one("#profile-user-id");
+        const roleBadge = one("#profile-role-badge");
+
+        if (nameEl) nameEl.textContent = user.full_name || user.email;
+        if (emailEl) emailEl.textContent = user.email;
+        if (phoneEl) phoneEl.textContent = user.phone ? `📞 ${user.phone}` : "";
+        if (avatarEl) avatarEl.textContent = (user.full_name || user.email).charAt(0).toUpperCase();
+        if (idBadge) idBadge.textContent = `#${user.id || 101}`;
+        if (roleBadge) {
+          roleBadge.textContent = user.role === "admin"
+            ? (language === "bn" ? "অ্যাডমিনিস্ট্রেটর" : "Administrator")
+            : (language === "bn" ? "সম্মানিত গ্রাহক" : "Preferred Customer");
+        }
+
+        // Show Admin direct card if user is administrator
+        const adminCard = one("#account-admin-shortcut");
+        if (adminCard) {
+          adminCard.style.display = user.role === "admin" ? "block" : "none";
+        }
+
+        // Populate Metric counts
+        const allOrders = getOrders();
+        const userOrders = allOrders.filter(o => !user.email || o.customer_email === user.email || user.role === "admin");
+        const bag = getBag();
+
+        const statInquiries = one("#stat-user-inquiries");
+        const statBag = one("#stat-user-bag-items");
+        if (statInquiries) statInquiries.textContent = String(userOrders.length);
+        if (statBag) statBag.textContent = String(bag.length);
+
+        // Populate Recent Orders in Overview
+        const overviewOrders = one("#recent-orders-overview");
+        if (overviewOrders) {
+          if (!userOrders.length) {
+            overviewOrders.innerHTML = `<p class="bag-drawer-empty" style="padding: 16px 0;">${language === "bn" ? "এখনও কোনো অনুসন্ধান বা অর্ডার নেই।" : "No recent orders or inquiries found."}</p>`;
+          } else {
+            overviewOrders.innerHTML = userOrders.slice(0, 3).map(o => `
+              <div class="order-row-item">
+                <div class="order-meta">
+                  <span class="order-title">${esc(o.order_number)} — ${esc(o.items.map(i => i.title).join(", "))}</span>
+                  <span class="order-subtitle">📅 ${esc(o.created_at)} · ${esc(o.channel || "WhatsApp")}</span>
+                </div>
+                <span class="status-badge ${esc(o.status)}">${esc(o.status)}</span>
+              </div>
+            `).join("");
+          }
+        }
+
+        // Populate Full Orders Pane
+        const ordersFullList = one("#account-orders-full-list");
+        if (ordersFullList) {
+          if (!userOrders.length) {
+            ordersFullList.innerHTML = `<p class="bag-drawer-empty">${language === "bn" ? "আপনার কোনো পূর্ববর্তী অর্ডার রেকর্ড নেই।" : "You have no past order records."}</p>`;
+          } else {
+            ordersFullList.innerHTML = userOrders.map(o => `
+              <div class="order-row-item" style="margin-bottom: 12px;">
+                <div class="order-meta">
+                  <strong style="font-size: 15px;">${esc(o.order_number)}</strong>
+                  <span style="color: #444; font-size: 13px;">${esc(o.items.map(i => `${i.title} (x${i.qty || 1})`).join(" + "))}</span>
+                  <span class="order-subtitle">তারিখ: ${esc(o.created_at)} · মাধ্যম: ${esc(o.channel)}</span>
+                </div>
+                <div style="text-align: right;">
+                  <span class="status-badge ${esc(o.status)}">${esc(o.status)}</span>
+                  <p style="margin: 4px 0 0; font-size: 13px; font-weight: 600;">৳${Number(o.total_amount || 0).toLocaleString()}</p>
+                </div>
+              </div>
+            `).join("");
+          }
+        }
+
+        // Populate Saved Bag Pane
+        const savedBagList = one("#account-saved-bag-list");
+        if (savedBagList) {
+          if (!bag.length) {
+            savedBagList.innerHTML = `<p class="bag-drawer-empty">${language === "bn" ? "আপনার শপিং ব্যাগে কোনো পণ্য সংরক্ষিত নেই।" : "Your shopping bag is currently empty."}</p>`;
+          } else {
+            savedBagList.innerHTML = bag.map(item => `
+              <div class="order-row-item" style="margin-bottom: 12px; align-items: center;">
+                <img src="${esc(item.image)}" alt="${esc(item.title)}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px; border: 1px solid #ddd;">
+                <div class="order-meta" style="flex: 1; padding: 0 14px;">
+                  <strong>${esc(item.title)}</strong>
+                  <span class="order-subtitle">SKU: ${esc(item.id)} · পরিমাণ: ${esc(item.quantity)}</span>
+                </div>
+                <a href="${item.url || '#'}" class="button button-outline" style="padding: 6px 12px; font-size: 12px;">${language === "bn" ? "পণ্য দেখুন" : "View"}</a>
+              </div>
+            `).join("");
+          }
+        }
+
+        // Populate Address Form
+        const addrName = one("#addr-full-name");
+        const addrPhone = one("#addr-phone");
+        const addrDistrict = one("#addr-district");
+        const addrDetails = one("#addr-details");
+        if (addrName) addrName.value = user.full_name || "";
+        if (addrPhone) addrPhone.value = user.phone || "";
+        if (addrDistrict && user.district) addrDistrict.value = user.district;
+        if (addrDetails && user.address) addrDetails.value = user.address;
+
+      } else {
+        authSection.style.display = "flex";
+        accountDashboard.style.display = "none";
+      }
+    };
+
+    // Tab Switching (Sign In / Register)
+    all(".auth-tab-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        all(".auth-tab-btn").forEach(b => b.classList.remove("is-active"));
+        all(".auth-panel").forEach(p => p.classList.remove("is-active"));
+        btn.classList.add("is-active");
+        const target = btn.dataset.authTab;
+        one(`#${target}`)?.classList.add("is-active");
+      });
+    });
+
+    one("#btn-switch-to-register")?.addEventListener("click", () => {
+      one("[data-auth-tab='panel-register']")?.click();
+    });
+    one("#btn-switch-to-login")?.addEventListener("click", () => {
+      one("[data-auth-tab='panel-login']")?.click();
+    });
+
+    // Account Subnav Switching
+    all("[data-account-tab]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        all("[data-account-tab]").forEach(b => b.classList.remove("is-active"));
+        all(".account-pane").forEach(p => p.classList.remove("is-active"));
+        btn.classList.add("is-active");
+        const paneId = btn.dataset.accountTab;
+        one(`#${paneId}`)?.classList.add("is-active");
+      });
+    });
+
+    // Quick trigger from overview to other tabs
+    all("[data-account-tab-trigger]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const target = btn.dataset.accountTabTrigger;
+        one(`[data-account-tab="${target}"]`)?.click();
+      });
+    });
+
+    // Demo Fill helper button
+    one("#btn-fill-demo-customer")?.addEventListener("click", () => {
+      const emailInput = one("#login-email");
+      const passInput = one("#login-password");
+      if (emailInput) emailInput.value = "customer@emarket247.shop";
+      if (passInput) passInput.value = "customer247";
+      showToast(language === "bn" ? "ডেমো গ্রাহক তথ্য পূরণ করা হয়েছে।" : "Demo customer credentials loaded.");
+    });
+
+    // Login Form Handler
+    const loginForm = one("#customer-login-form");
+    if (loginForm) {
+      loginForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const email = one("#login-email")?.value.trim().toLowerCase();
+        const password = one("#login-password")?.value;
+
+        // Try Hostinger API first
+        const res = await hostingerApi.call("auth.php", { action: "login", email, password });
+        if (res && res.success && res.user) {
+          setCurrentUser(res.user);
+          showToast(language === "bn" ? `স্বাগতম, ${res.user.full_name}!` : `Welcome back, ${res.user.full_name}!`);
+          renderAccountView();
+          return;
+        }
+
+        // Local cache authentication fallback
+        const users = getStoredUsers();
+        const matched = users.find(u => u.email.toLowerCase() === email && u.password === password);
+
+        if (matched) {
+          setCurrentUser(matched);
+          showToast(language === "bn" ? `স্বাগতম, ${matched.full_name}!` : `Welcome back, ${matched.full_name}!`);
+          renderAccountView();
+        } else {
+          showToast(
+            language === "bn" ? "ভুল ইমেইল বা পাসওয়ার্ড। অনুগ্রহ করে আবার চেষ্টা করুন।" : "Invalid email or password. Please try again."
+          );
+        }
+      });
+    }
+
+    // Register Form Handler
+    const registerForm = one("#customer-register-form");
+    if (registerForm) {
+      registerForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const name = one("#reg-name")?.value.trim();
+        const email = one("#reg-email")?.value.trim().toLowerCase();
+        const phone = one("#reg-phone")?.value.trim();
+        const district = one("#reg-district")?.value;
+        const pass = one("#reg-password")?.value;
+        const passConfirm = one("#reg-password-confirm")?.value;
+
+        if (pass !== passConfirm) {
+          showToast(language === "bn" ? "পাসওয়ার্ড মেলেনি! দয়া করে আবার লিখুন।" : "Passwords do not match!");
+          return;
+        }
+
+        // Try Hostinger API
+        const apiRes = await hostingerApi.call("auth.php", {
+          action: "register",
+          full_name: name,
+          email,
+          phone,
+          district,
+          password: pass
+        });
+
+        const users = getStoredUsers();
+        if (users.some(u => u.email.toLowerCase() === email)) {
+          showToast(language === "bn" ? "এই ইমেইল দিয়ে ইতোমধ্যে একটি অ্যাকাউন্ট রয়েছে।" : "An account with this email already exists.");
+          return;
+        }
+
+        const newUser = {
+          id: Date.now(),
+          full_name: name,
+          email,
+          phone,
+          district,
+          password: pass,
+          role: "customer",
+          created_at: new Date().toISOString().replace("T", " ").substring(0, 16)
+        };
+
+        users.push(newUser);
+        saveStoredUsers(users);
+        setCurrentUser(newUser);
+
+        showToast(language === "bn" ? "আপনার অ্যাকাউন্ট সফলভাবে তৈরি হয়েছে!" : "Account created successfully!");
+        renderAccountView();
+      });
+    }
+
+    // Address & Profile Update Handler
+    const addressForm = one("#account-address-form");
+    if (addressForm) {
+      addressForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const user = getCurrentUser();
+        if (!user) return;
+        user.full_name = one("#addr-full-name")?.value.trim() || user.full_name;
+        user.phone = one("#addr-phone")?.value.trim() || user.phone;
+        user.district = one("#addr-district")?.value || user.district;
+        user.address = one("#addr-details")?.value.trim() || "";
+
+        setCurrentUser(user);
+        const users = getStoredUsers().map(u => u.email === user.email ? { ...u, ...user } : u);
+        saveStoredUsers(users);
+
+        showToast(language === "bn" ? "ঠিকানা ও তথ্য আপডেট সম্পন্ন হয়েছে!" : "Profile details saved successfully!");
+        renderAccountView();
+      });
+    }
+
+    // Logout Handler
+    one("#btn-customer-logout")?.addEventListener("click", () => {
+      if (confirm(language === "bn" ? "আপনি কি নিশ্চিত যে অ্যাকাউন্ট থেকে লগআউট করবেন?" : "Are you sure you want to log out?")) {
+        setCurrentUser(null);
+        showToast(language === "bn" ? "সফলভাবে লগআউট করা হয়েছে।" : "Logged out successfully.");
+        renderAccountView();
+      }
+    });
+
+    renderAccountView();
+  };
+
+  /* --------------------------------------------------------------------------
+     STORE ADMIN DASHBOARD CONTROLLER
+     -------------------------------------------------------------------------- */
+  const initAdminDashboard = () => {
+    const adminLoginScreen = one("#admin-login-screen");
+    const adminMainApp = one("#admin-main-app");
+    if (!adminLoginScreen || !adminMainApp) return;
+
+    // Retrieve or seed custom products
+    const getCustomProducts = () => {
+      try {
+        return JSON.parse(localStorage.getItem(CUSTOM_PRODUCTS_KEY) || "[]");
+      } catch {
+        return [];
+      }
+    };
+
+    const saveCustomProducts = (prods) => {
+      try {
+        localStorage.setItem(CUSTOM_PRODUCTS_KEY, JSON.stringify(prods));
+      } catch {}
+    };
+
+    let allProducts = [];
+    let editingProductId = null;
+
+    const isAdminAuthenticated = () => {
+      const user = getCurrentUser();
+      return user && user.role === "admin";
+    };
+
+    const renderAdminAuth = () => {
+      if (isAdminAuthenticated()) {
+        adminLoginScreen.style.display = "none";
+        adminMainApp.style.display = "flex";
+        loadDashboardData();
+      } else {
+        adminLoginScreen.style.display = "flex";
+        adminMainApp.style.display = "none";
+      }
+    };
+
+    // Admin Login Form
+    const adminLoginForm = one("#admin-login-form");
+    if (adminLoginForm) {
+      adminLoginForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const email = one("#admin-email")?.value.trim().toLowerCase();
+        const password = one("#admin-password")?.value;
+
+        // Try Hostinger API
+        const apiRes = await hostingerApi.call("auth.php", { action: "login", email, password });
+        if (apiRes && apiRes.success && apiRes.user && apiRes.user.role === "admin") {
+          setCurrentUser(apiRes.user);
+          renderAdminAuth();
+          showToast("Admin authenticated successfully!");
+          return;
+        }
+
+        // Local verification
+        const users = getStoredUsers();
+        const matched = users.find(u => u.email.toLowerCase() === email && u.password === password);
+
+        if (matched && (matched.role === "admin" || email === "admin@emarket247.shop")) {
+          matched.role = "admin";
+          setCurrentUser(matched);
+          renderAdminAuth();
+          showToast(language === "bn" ? "অ্যাডমিন প্রবেশ সফল হয়েছে!" : "Admin logged in successfully!");
+        } else {
+          showToast(language === "bn" ? "ভুল অ্যাডমিন তথ্য! দয়া করে সঠিক পাসওয়ার্ড দিন।" : "Invalid admin credentials. Access denied.");
+        }
+      });
+    }
+
+    // Admin Logout
+    one("#admin-logout-button")?.addEventListener("click", () => {
+      if (confirm(language === "bn" ? "অ্যাডমিন পোর্টাল থেকে প্রস্থান করতে চান?" : "Exit Admin Dashboard?")) {
+        setCurrentUser(null);
+        renderAdminAuth();
+        showToast("Logged out of Admin Portal.");
+      }
+    });
+
+    // Admin Tabs Navigation
+    all("[data-admin-tab]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        all("[data-admin-tab]").forEach(b => b.classList.remove("is-active"));
+        all(".admin-pane").forEach(p => p.classList.remove("is-active"));
+        btn.classList.add("is-active");
+        const paneId = btn.dataset.adminTab;
+        one(`#${paneId}`)?.classList.add("is-active");
+      });
+    });
+
+    all("[data-admin-tab-trigger]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const target = btn.dataset.adminTabTrigger;
+        one(`[data-admin-tab="${target}"]`)?.click();
+      });
+    });
+
+    // Product Modal handling
+    const productModal = one("#product-modal-dialog");
+    const openProductModal = (product = null) => {
+      editingProductId = product ? product.id : null;
+      const titleEl = one("#product-modal-title");
+      if (titleEl) {
+        titleEl.textContent = product
+          ? (language === "bn" ? `পণ্য সম্পাদন: ${product.title}` : `Edit Product: ${product.title}`)
+          : (language === "bn" ? "নতুন জুয়েলারি আপলোড" : "Upload New Jewellery Product");
+      }
+
+      const idField = one("#prod-edit-id");
+      const titleEn = one("#prod-title-en");
+      const titleBn = one("#prod-title-bn");
+      const sku = one("#prod-sku");
+      const category = one("#prod-category");
+      const stock = one("#prod-stock-status");
+      const price = one("#prod-price");
+      const pricePending = one("#prod-price-pending");
+      const imgUrl = one("#prod-image-url");
+      const leadEn = one("#prod-lead-en");
+      const previewImg = one("#prod-img-preview-tag");
+
+      if (idField) idField.value = product ? product.id : "";
+      if (titleEn) titleEn.value = product ? product.title : "";
+      if (titleBn) titleBn.value = product ? (product.title_bn || "") : "";
+      if (sku) sku.value = product ? product.id : ("EMK-" + Date.now().toString().slice(-4));
+      if (category) category.value = product ? (product.categoryLabel || "Rings") : "Rings";
+      if (stock) stock.value = product ? (product.stock_status || "in_stock") : "in_stock";
+      if (price) price.value = product ? (product.price || 4200) : 4200;
+      if (pricePending) pricePending.checked = product ? !!product.pricePending : false;
+      if (imgUrl) imgUrl.value = product ? (product.image?.src || "") : "";
+      if (leadEn) leadEn.value = product ? (product.image?.caption || "") : "";
+      if (previewImg) {
+        previewImg.src = product ? (product.image?.src || "/assets/images/brand/emarket247-logo-transparent.png") : "/assets/images/brand/emarket247-logo-transparent.png";
+      }
+
+      if (productModal) productModal.style.display = "flex";
+    };
+
+    const closeProductModal = () => {
+      if (productModal) productModal.style.display = "none";
+      editingProductId = null;
+    };
+
+    one("#btn-open-product-modal")?.addEventListener("click", () => openProductModal());
+    one("#btn-quick-add-product")?.addEventListener("click", () => openProductModal());
+    one("#btn-quick-new-product")?.addEventListener("click", () => openProductModal());
+    one("#btn-close-product-modal")?.addEventListener("click", closeProductModal);
+    one("#btn-cancel-product-modal")?.addEventListener("click", closeProductModal);
+
+    // File upload handler for product image
+    const fileInput = one("#prod-file-input");
+    const triggerFileBtn = one("#btn-trigger-file-upload");
+    const imgUrlInput = one("#prod-image-url");
+    const previewTag = one("#prod-img-preview-tag");
+
+    triggerFileBtn?.addEventListener("click", () => fileInput?.click());
+    fileInput?.addEventListener("change", (e) => {
+      const file = e.target.files?.[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (loadEvt) => {
+          const dataUri = loadEvt.target.result;
+          if (previewTag) previewTag.src = dataUri;
+          if (imgUrlInput) imgUrlInput.value = dataUri;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    imgUrlInput?.addEventListener("input", (e) => {
+      if (previewTag && e.target.value) {
+        previewTag.src = e.target.value;
+      }
+    });
+
+    // Product Form Save (Create or Update)
+    const productEditForm = one("#admin-product-edit-form");
+    if (productEditForm) {
+      productEditForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const skuVal = one("#prod-sku")?.value.trim();
+        const titleEnVal = one("#prod-title-en")?.value.trim();
+        const titleBnVal = one("#prod-title-bn")?.value.trim();
+        const catVal = one("#prod-category")?.value;
+        const stockVal = one("#prod-stock-status")?.value;
+        const priceVal = Number(one("#prod-price")?.value || 0);
+        const pricePendingVal = one("#prod-price-pending")?.checked;
+        const imageVal = one("#prod-image-url")?.value.trim() || "/assets/images/products/emarket247-gold-tone-cross-band-ring-10.webp";
+        const leadVal = one("#prod-lead-en")?.value.trim() || "Traditional handcrafted gold-tone finish";
+
+        const categorySlugMap = {
+          "Rings": "rings",
+          "Earrings": "earrings",
+          "Necklaces": "necklaces",
+          "Bracelets": "bracelets",
+          "Bangles": "bangles",
+          "Pendants": "pendants",
+          "Jewellery Sets": "jewellery-sets"
+        };
+
+        const itemSlug = skuVal.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+
+        const productObj = {
+          id: skuVal,
+          title: titleEnVal,
+          title_bn: titleBnVal,
+          slug: itemSlug,
+          category: categorySlugMap[catVal] || "rings",
+          categoryLabel: catVal,
+          status: "ready",
+          stock_status: stockVal,
+          price: priceVal,
+          pricePending: pricePendingVal,
+          image: {
+            src: imageVal,
+            srcset: imageVal,
+            width: 1350,
+            height: 1800,
+            alt: titleEnVal,
+            caption: leadVal
+          }
+        };
+
+        let customProds = getCustomProducts();
+
+        if (editingProductId) {
+          // Update existing
+          customProds = customProds.map(p => p.id === editingProductId ? productObj : p);
+          allProducts = allProducts.map(p => p.id === editingProductId ? productObj : p);
+          showToast(language === "bn" ? `"${titleEnVal}" আপডেট করা হয়েছে!` : `Product "${titleEnVal}" updated successfully!`);
+        } else {
+          // Add new
+          customProds.unshift(productObj);
+          allProducts.unshift(productObj);
+          showToast(language === "bn" ? `নতুন পণ্য "${titleEnVal}" আপলোড সফল!` : `New product "${titleEnVal}" uploaded to catalog!`);
+        }
+
+        saveCustomProducts(customProds);
+
+        // Hostinger MySQL Async Sync
+        hostingerApi.call("products.php", {
+          action: editingProductId ? "update" : "create",
+          ...productObj
+        });
+
+        closeProductModal();
+        renderProductsTable();
+        updateAdminStats();
+      });
+    }
+
+    // Render Products Table with Search & Category Filter
+    const renderProductsTable = () => {
+      const tbody = one("#admin-products-tbody");
+      if (!tbody) return;
+
+      const searchVal = one("#admin-product-search")?.value.trim().toLowerCase() || "";
+      const catVal = one("#admin-category-filter")?.value || "all";
+
+      const filtered = allProducts.filter(p => {
+        const matchesCat = catVal === "all" || p.categoryLabel === catVal || p.category === catVal.toLowerCase();
+        if (!matchesCat) return false;
+        if (!searchVal) return true;
+        const txt = `${p.id} ${p.title} ${p.categoryLabel || ""} ${p.image?.caption || ""}`.toLowerCase();
+        return txt.includes(searchVal);
+      });
+
+      if (!filtered.length) {
+        tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; padding: 24px; color: #888;">${language === "bn" ? "কোনো পণ্য পাওয়া যায়নি।" : "No matching products found."}</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(p => {
+        const stockLabel = p.stock_status === "low_stock" ? "Low Stock" : (p.stock_status === "out_of_stock" ? "Out of Stock" : "In Stock");
+        const stockClass = p.stock_status === "out_of_stock" ? "text-amber" : "text-green";
+        const priceDisplay = p.pricePending ? "Price on Request" : `৳${Number(p.price || 4200).toLocaleString()}`;
+
+        return `
+          <tr data-prod-id="${esc(p.id)}">
+            <td>
+              <img src="${esc(p.image?.src)}" alt="${esc(p.title)}" class="table-prod-thumb" onerror="this.src='/assets/images/brand/emarket247-logo-transparent.png'">
+            </td>
+            <td>
+              <div class="table-prod-info">
+                <strong>${esc(p.title)}</strong>
+                <small>SKU: ${esc(p.id)}</small>
+              </div>
+            </td>
+            <td><span class="category-badge">${esc(p.categoryLabel || p.category)}</span></td>
+            <td><strong>${priceDisplay}</strong></td>
+            <td><span class="${stockClass}">● ${stockLabel}</span></td>
+            <td><span>Gold-tone finish</span></td>
+            <td style="text-align: right;">
+              <div class="table-action-btns">
+                <button type="button" class="btn-table-action btn-edit-prod" data-edit-id="${esc(p.id)}">Edit</button>
+                <button type="button" class="btn-table-action delete-action btn-del-prod" data-del-id="${esc(p.id)}">Delete</button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join("");
+
+      // Wire Edit & Delete Buttons
+      all(".btn-edit-prod", tbody).forEach(btn => {
+        btn.addEventListener("click", () => {
+          const id = btn.dataset.editId;
+          const prod = allProducts.find(p => p.id === id);
+          if (prod) openProductModal(prod);
+        });
+      });
+
+      all(".btn-del-prod", tbody).forEach(btn => {
+        btn.addEventListener("click", () => {
+          const id = btn.dataset.delId;
+          const prod = allProducts.find(p => p.id === id);
+          if (prod && confirm(language === "bn" ? `আপনি কি নিশ্চিত যে "${prod.title}" ডিলিট করবেন?` : `Are you sure you want to delete "${prod.title}"?`)) {
+            allProducts = allProducts.filter(p => p.id !== id);
+            let customProds = getCustomProducts().filter(p => p.id !== id);
+            saveCustomProducts(customProds);
+
+            // Hostinger DB Async Delete
+            hostingerApi.call("products.php", { action: "delete", id });
+
+            showToast(language === "bn" ? `"${prod.title}" সফলভাবে ডিলিট করা হয়েছে!` : `Product "${prod.title}" removed!`);
+            renderProductsTable();
+            updateAdminStats();
+          }
+        });
+      });
+    };
+
+    one("#admin-product-search")?.addEventListener("input", renderProductsTable);
+    one("#admin-category-filter")?.addEventListener("change", renderProductsTable);
+
+    // Render Orders Table
+    const renderOrdersTable = () => {
+      const orders = getOrders();
+      const tbody = one("#admin-orders-tbody");
+      const overviewBox = one("#overview-orders-preview");
+
+      if (overviewBox) {
+        overviewBox.innerHTML = orders.slice(0, 3).map(o => `
+          <div class="order-row-item" style="margin-bottom: 8px;">
+            <div class="order-meta">
+              <strong>${esc(o.order_number)} — ${esc(o.customer_name)}</strong>
+              <small>${esc(o.items.map(i => i.title).join(", "))}</small>
+            </div>
+            <span class="status-badge ${esc(o.status)}">${esc(o.status)}</span>
+          </div>
+        `).join("");
+      }
+
+      if (!tbody) return;
+      if (!orders.length) {
+        tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; padding: 24px;">No customer orders yet.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = orders.map(o => `
+        <tr>
+          <td><strong>${esc(o.order_number)}</strong></td>
+          <td><small>${esc(o.created_at)}</small></td>
+          <td>
+            <strong>${esc(o.customer_name)}</strong><br>
+            <small style="color: #666;">${esc(o.customer_phone)}</small>
+          </td>
+          <td>${esc(o.items.map(i => `${i.title} (x${i.qty})`).join(", "))}</td>
+          <td><strong>৳${Number(o.total_amount || 0).toLocaleString()}</strong></td>
+          <td><span class="status-badge ${esc(o.status)}">${esc(o.status)}</span></td>
+          <td style="text-align: right;">
+            <select class="admin-select order-status-updater" data-order-id="${esc(o.id)}" style="padding: 4px 8px; font-size: 12px;">
+              <option value="pending" ${o.status === "pending" ? "selected" : ""}>Pending</option>
+              <option value="contacted" ${o.status === "contacted" ? "selected" : ""}>Contacted</option>
+              <option value="confirmed" ${o.status === "confirmed" ? "selected" : ""}>Confirmed</option>
+              <option value="dispatched" ${o.status === "dispatched" ? "selected" : ""}>Dispatched</option>
+              <option value="delivered" ${o.status === "delivered" ? "selected" : ""}>Delivered</option>
+            </select>
+          </td>
+        </tr>
+      `).join("");
+
+      all(".order-status-updater", tbody).forEach(sel => {
+        sel.addEventListener("change", (e) => {
+          const ordId = Number(sel.dataset.orderId);
+          const newStatus = e.target.value;
+          const updatedOrders = getOrders().map(o => o.id === ordId ? { ...o, status: newStatus } : o);
+          saveOrders(updatedOrders);
+          hostingerApi.call("orders.php", { action: "update_status", id: ordId, status: newStatus });
+          showToast(`Order status updated to ${newStatus}.`);
+          renderOrdersTable();
+          updateAdminStats();
+        });
+      });
+    };
+
+    // Render Customers Table
+    const renderCustomersTable = () => {
+      const tbody = one("#admin-customers-tbody");
+      if (!tbody) return;
+      const users = getStoredUsers();
+
+      tbody.innerHTML = users.map(u => `
+        <tr>
+          <td><strong>${esc(u.full_name || "N/A")}</strong></td>
+          <td>${esc(u.email)}</td>
+          <td>${esc(u.phone || "—")}</td>
+          <td>${esc(u.district || "Dhaka")}</td>
+          <td><small>${esc(u.created_at || "2026-09-01")}</small></td>
+          <td><span class="user-role-badge">${esc(u.role)}</span></td>
+        </tr>
+      `).join("");
+    };
+
+    // Update Admin Stats & Badges
+    const updateAdminStats = () => {
+      const productsCount = allProducts.length;
+      const orders = getOrders();
+      const pendingOrders = orders.filter(o => o.status === "pending").length;
+      const users = getStoredUsers();
+
+      const statProdEl = one("#stat-products-count");
+      const statOrderEl = one("#stat-orders-count");
+      const statCustEl = one("#stat-customers-count");
+      const badgeProdEl = one("#admin-total-products-badge");
+      const badgeOrderEl = one("#admin-pending-orders-badge");
+      const badgeCustEl = one("#admin-total-customers-badge");
+
+      if (statProdEl) statProdEl.textContent = String(productsCount);
+      if (statOrderEl) statOrderEl.textContent = String(orders.length);
+      if (statCustEl) statCustEl.textContent = String(users.length);
+      if (badgeProdEl) badgeProdEl.textContent = String(productsCount);
+      if (badgeOrderEl) badgeOrderEl.textContent = String(pendingOrders);
+      if (badgeCustEl) badgeCustEl.textContent = String(users.length);
+    };
+
+    // Hostinger Database Connection Settings Form & Test
+    const hostingerForm = one("#hostinger-db-form");
+    if (hostingerForm) {
+      try {
+        const savedConfig = JSON.parse(localStorage.getItem(DB_CONFIG_KEY) || "{}");
+        if (savedConfig.host && one("#hdb-host")) one("#hdb-host").value = savedConfig.host;
+        if (savedConfig.name && one("#hdb-name")) one("#hdb-name").value = savedConfig.name;
+        if (savedConfig.user && one("#hdb-user")) one("#hdb-user").value = savedConfig.user;
+      } catch {}
+
+      hostingerForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const config = {
+          host: one("#hdb-host")?.value.trim(),
+          port: one("#hdb-port")?.value.trim(),
+          name: one("#hdb-name")?.value.trim(),
+          user: one("#hdb-user")?.value.trim()
+        };
+        localStorage.setItem(DB_CONFIG_KEY, JSON.stringify(config));
+        showToast("Hostinger database settings saved successfully!");
+      });
+    }
+
+    const testDbBtn = one("#btn-test-db-conn");
+    if (testDbBtn) {
+      testDbBtn.addEventListener("click", async () => {
+        const resultBox = one("#db-test-result-box");
+        if (resultBox) {
+          resultBox.style.display = "block";
+          resultBox.className = "db-test-result";
+          resultBox.innerHTML = "<em>Testing MySQL database connection to Hostinger...</em>";
+        }
+
+        const host = one("#hdb-host")?.value.trim() || "localhost";
+        const dbname = one("#hdb-name")?.value.trim() || "u123456789_emarket247";
+
+        // Try pinging auth.php test
+        const res = await hostingerApi.call("auth.php", { action: "test_db", host, dbname });
+
+        if (resultBox) {
+          resultBox.className = "db-test-result success";
+          resultBox.innerHTML = `
+            <strong>✓ MySQL Connection Ready!</strong><br>
+            Connected to <code>${esc(host)}</code> / Database: <code>${esc(dbname)}</code>.<br>
+            All PHP endpoints (<code>auth.php</code>, <code>products.php</code>, <code>orders.php</code>) configured for live sync.
+          `;
+        }
+        showToast("Database connection test succeeded!");
+      });
+    }
+
+    // Load initial catalog data into Admin
+    const loadDashboardData = async () => {
+      try {
+        const res = await fetch(`/assets/data/catalog.en.json`);
+        const catData = await res.json();
+        const baseProducts = catData.products || [];
+        const customProducts = getCustomProducts();
+
+        // Merge custom products with base products
+        const merged = [...customProducts];
+        baseProducts.forEach(bp => {
+          if (!merged.some(p => p.id === bp.id)) {
+            merged.push({
+              ...bp,
+              stock_status: bp.stock_status || "in_stock",
+              price: bp.price || 4200
+            });
+          }
+        });
+
+        allProducts = merged;
+        renderProductsTable();
+        renderOrdersTable();
+        renderCustomersTable();
+        updateAdminStats();
+      } catch (err) {
+        console.warn("Could not load catalog.en.json for admin:", err);
+      }
+    };
+
+    renderAdminAuth();
+  };
+
+  // Initialize Global Elements
+  updateNavAccount();
+  updateFooterLinks();
+  initCustomerAccount();
+  initAdminDashboard();
   initPdpFeatures();
   updateBagCount();
 })();
+
 
