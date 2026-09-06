@@ -70,28 +70,21 @@ if ($action === 'login' && $method === 'POST') {
     $user = $stmt->fetch();
 
     if (!$user || !password_verify($password, $user['password_hash'])) {
-        // Built-in fallback for initial admin setup if db table was just imported
-        if ($email === 'admin@emarket247.shop' && $password === 'admin247') {
-            sendJsonResponse([
-                'status' => 'success',
-                'message' => 'Welcome back, Administrator!',
-                'user' => [
-                    'id' => 1,
-                    'full_name' => 'Store Administrator',
-                    'email' => 'admin@emarket247.shop',
-                    'role' => 'admin'
-                ]
-            ]);
-        }
         sendJsonResponse(['status' => 'error', 'message' => 'Invalid email or password credentials.'], 401);
     }
 
     unset($user['password_hash']);
+    $_SESSION['user'] = $user;
     sendJsonResponse([
         'status' => 'success',
         'message' => 'Sign in successful.',
         'user' => $user
     ]);
+}
+
+if ($action === 'logout' && $method === 'POST') {
+    session_destroy();
+    sendJsonResponse(['status' => 'success', 'message' => 'Signed out.']);
 }
 
 if ($action === 'test_db' && $method === 'GET') {

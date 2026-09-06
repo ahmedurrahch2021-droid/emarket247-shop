@@ -13,6 +13,7 @@ if (!$pdo) {
 
 // GET: List all customer orders & inquiries (for Admin Dashboard)
 if ($method === 'GET') {
+    checkAdmin();
     $status = $_GET['status'] ?? '';
     $sql = "SELECT * FROM emk_orders";
     $params = [];
@@ -73,12 +74,13 @@ if ($method === 'POST') {
             'order_id' => (int)$orderId
         ], 201);
     } catch (PDOException $e) {
-        sendJsonResponse(['status' => 'error', 'message' => 'Failed to record order: ' . $e->getMessage()], 500);
+        sendJsonResponse(['status' => 'error', 'message' => 'Failed to record order.'], 500);
     }
 }
 
 // PATCH: Update order status (Admin)
 if ($method === 'PATCH' || $method === 'PUT') {
+    checkAdmin();
     $input = json_decode(file_get_contents('php://input'), true);
     $orderId = (int)($input['id'] ?? 0);
     $status = trim($input['status'] ?? '');

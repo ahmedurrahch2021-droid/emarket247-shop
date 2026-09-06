@@ -9,7 +9,7 @@
  */
 
 header('Content-Type: application/json; charset=utf-8');
-header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Origin: https://emarket247.shop');
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With');
 
@@ -18,7 +18,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit;
 }
 
-// Database Credentials (Update these with your Hostinger database details)
+if (session_status() === PHP_SESSION_NONE) {
+    session_start([
+        'cookie_httponly' => true,
+        'cookie_secure' => true, // Ensure production Hostinger uses HTTPS
+        'cookie_samesite' => 'Strict',
+    ]);
+}
+
+// Authorization Helper Functions
+function checkAuth() {
+    if (!isset($_SESSION['user'])) {
+        sendJsonResponse(['status' => 'error', 'message' => 'Unauthorized Access.'], 401);
+    }
+}
+
+function checkAdmin() {
+    checkAuth();
+    if ($_SESSION['user']['role'] !== 'admin') {
+        sendJsonResponse(['status' => 'error', 'message' => 'Admin Access Required.'], 403);
+    }
+}
+
 define('DB_HOST', getenv('DB_HOST') ?: 'localhost');
 define('DB_PORT', getenv('DB_PORT') ?: '3306');
 define('DB_NAME', getenv('DB_NAME') ?: 'u123456789_emarket247');

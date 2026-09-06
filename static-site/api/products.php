@@ -46,6 +46,7 @@ if ($method === 'GET') {
 
 // POST: Upload / Create a new product
 if ($method === 'POST') {
+    checkAdmin();
     $input = json_decode(file_get_contents('php://input'), true) ?? $_POST;
 
     $titleEn = trim($input['title_en'] ?? '');
@@ -106,12 +107,13 @@ if ($method === 'POST') {
             ]
         ], 201);
     } catch (PDOException $e) {
-        sendJsonResponse(['status' => 'error', 'message' => 'Failed to insert product: ' . $e->getMessage()], 500);
+        sendJsonResponse(['status' => 'error', 'message' => 'Failed to insert product.'], 500);
     }
 }
 
 // PUT / PATCH: Update existing product
 if ($method === 'PUT') {
+    checkAdmin();
     $input = json_decode(file_get_contents('php://input'), true);
     $id = (int)($input['id'] ?? 0);
 
@@ -144,6 +146,7 @@ if ($method === 'PUT') {
 
 // DELETE: Soft delete or remove product
 if ($method === 'DELETE') {
+    checkAdmin();
     $id = (int)($_GET['id'] ?? 0);
     if ($id <= 0) {
         sendJsonResponse(['status' => 'error', 'message' => 'Product ID is required.'], 400);
