@@ -4612,10 +4612,11 @@ b.brand-name {
 }
 
 /* --- Cohesive Responsive System for PDP Hero --- */
+/* Optimized for screens < 1024px */
 @media (max-width: 1024px) {
   .pdp-hero {
-    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
-    gap: clamp(24px, 3.2vw, 36px);
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    gap: 28px;
     padding-top: 20px;
     padding-bottom: 40px;
   }
@@ -4624,11 +4625,12 @@ b.brand-name {
   }
 }
 
-@media (max-width: 960px) {
+/* Tablet Transition (900px) */
+@media (max-width: 900px) {
   .pdp-hero {
     grid-template-columns: 1fr;
     gap: 32px;
-    padding-top: 16px;
+    padding-top: 24px;
     padding-bottom: 40px;
   }
   .pdp-gallery {
@@ -4660,11 +4662,12 @@ b.brand-name {
   }
 }
 
+/* Mobile (< 600px) */
 @media (max-width: 600px) {
   .pdp-hero {
     gap: 20px;
-    padding-top: 12px;
-    padding-bottom: 32px;
+    padding-top: 16px;
+    padding-bottom: 24px;
   }
   .pdp-gallery {
     max-width: 100%;
@@ -4681,18 +4684,14 @@ b.brand-name {
     grid-template-columns: 1fr;
     gap: 10px;
   }
-  .pdp-qty-stepper-wrap {
-    width: 100%;
-    justify-content: space-between;
-    height: 48px;
-  }
-  .pdp-btn-add-bag-primary {
-    width: 100%;
-    min-height: 48px;
-  }
+  .pdp-qty-stepper-wrap,
+  .pdp-btn-add-bag-primary,
   .pdp-btn-whatsapp-action {
     width: 100%;
     min-height: 48px;
+  }
+  .pdp-qty-stepper-wrap {
+    justify-content: space-between;
   }
   .pdp-action-links {
     gap: 8px 16px;

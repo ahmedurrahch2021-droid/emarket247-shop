@@ -189,6 +189,27 @@ export function generatePdpHtml(product, lang, relatedProducts = []) {
   const altBn = `${siteUrl}/bn/products/${product.slug}/`;
   const productImageUrl = `${siteUrl}${product.image.src}`;
 
+  // JSON-LD structured data
+  const jsonLd = {
+    "@context": "https://schema.org/",
+    "@type": "Product",
+    "name": product.title,
+    "image": productImageUrl,
+    "description": description,
+    "sku": product.id,
+    "brand": {
+      "@type": "Brand",
+      "name": "eMarket247"
+    },
+    "offers": {
+      "@type": "Offer",
+      "url": canonical,
+      "priceCurrency": "BDT",
+      "price": "0.00",
+      "availability": "https://schema.org/PreOrder"
+    }
+  };
+
   // WhatsApp order text
   const waMessage = isBn
     ? `হ্যালো eMarket247, আমি ${product.title} (রেফারেন্স: ${product.id}, লিঙ্ক: ${canonical}) সম্পর্কে জানতে এবং অর্ডার করতে আগ্রহী।`
@@ -250,6 +271,7 @@ export function generatePdpHtml(product, lang, relatedProducts = []) {
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&family=Noto+Sans+Bengali:wght@400;500;600;700&family=Noto+Serif+Bengali:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/css/site.css?v=bbcba228">
+  <script type="application/ld+json">${JSON.stringify(jsonLd)}</script>
   <title>${attr(title)}</title>
 </head>
 <body data-language="${lang}" data-cookie-mode="essential-only">
