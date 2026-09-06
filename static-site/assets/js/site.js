@@ -5,26 +5,12 @@
   const esc = (value) => String(value ?? "").replace(/[&<>'"]/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" })[char]);
 
   // Keep language choice visible in the top utility bar rather than forcing an opening language gate.
+  // The WhatsApp contact link is authored directly in the markup, so it needs no scripting here.
   const utility = one(".utility");
   const languageLink = one(".lang-link");
   if (utility && languageLink) {
     languageLink.classList.add("utility-language");
     utility.prepend(languageLink);
-    const message = one("p", utility);
-    if (message) message.textContent = language === "bn"
-      ? "পণ্যের তথ্য, পেমেন্ট ও ডেলিভারির বিস্তারিত চেকআউট চালুর আগে পরিষ্কারভাবে জানানো হবে।"
-      : "Product, payment, and delivery details will be stated clearly before checkout goes live.";
-    const phoneLink = document.createElement("a");
-    phoneLink.className = "utility-phone";
-    phoneLink.href = "tel:+8801740501062";
-    phoneLink.textContent = "+880 1740-501062";
-    phoneLink.setAttribute("aria-label", language === "bn" ? "কাস্টমার কেয়ারের ফোন নম্বর" : "Customer care phone number");
-    utility.insertBefore(phoneLink, message);
-    const careLink = one("a:not(.utility-language):not(.utility-phone)", utility);
-    if (careLink) {
-      careLink.href = language === "bn" ? "/bn/contact/" : "/en/contact/";
-      careLink.textContent = language === "bn" ? "কাস্টমার কেয়ার" : "Customer care";
-    }
   }
 
   const toast = one(".toast");

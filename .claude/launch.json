@@ -1,0 +1,30 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "start",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "run",
+        "start"
+      ],
+      "port": 5173
+    },
+    {
+      "name": "static-site",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "scripts/serve-pure-static.mjs"
+      ],
+      "port": 4173
+    },
+    {
+      "name": "qa-preview",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        ".claude/serve-preview.mjs"
+      ],
+      "port": 4180
+    }
+  ]
+}

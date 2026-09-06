@@ -8,6 +8,7 @@
 @media(min-width:901px){.nav-wrap{grid-template-columns:minmax(170px,1fr) auto minmax(170px,1fr);gap:clamp(18px,2.5vw,42px)}.brand{justify-self:start}.main-nav{justify-self:center;gap:clamp(14px,1.5vw,24px);white-space:nowrap}.nav-actions{justify-self:end;min-width:170px;justify-content:flex-end}.main-nav>a,.has-submenu>button{min-height:84px;display:inline-flex;align-items:center;padding:0}.has-submenu>button{cursor:pointer}.submenu{top:calc(100% - 1px)}}
 
 
+/* ==========================================================================
    Consolidated stylesheet sections
    --------------------------------------------------------------------------
    These rules were previously injected at runtime by assets/js/site.js as
@@ -18,6 +19,7 @@
    They are placed at the end of the file, in their original injection
    order, because that is exactly where they sat in the cascade before.
    Order is significant: later sections deliberately override earlier ones.
+   ========================================================================== */
 
 /* --- Utility bar (language link, customer-care phone, notice line) --- */
 /* CONTACT_PHONE_WHATSAPP */
@@ -1114,7 +1116,9 @@ b.brand-name {
   }
 }
 
+/* ==========================================================================
    PRODUCT DETAIL PAGE (PDP) SYSTEM - eMarket247 EDITORIAL ARCHITECTURE
+   ========================================================================== */
 
 /* --- Card Link Interactivity Enhancements --- */
 .product-card a {
@@ -2014,7 +2018,9 @@ b.brand-name {
   }
 }
 
+/* ==========================================================================
    ECOMMERCE STOREFRONT ENHANCEMENTS: PRODUCT CARDS, CART & PDP REFINEMENTS
+   ========================================================================== */
 
 /* --- Enhanced Product Card --- */
 .product-card {
@@ -2766,7 +2772,9 @@ b.brand-name {
   }
 }
 
+/* ==========================================================================
    SECTION H: CUSTOMER ACCOUNT & AUTHENTICATION STYLES
+   ========================================================================== */
 
 .account-link {
   display: inline-flex;
@@ -3307,7 +3315,9 @@ b.brand-name {
   background: #075e54;
 }
 
+/* ==========================================================================
    SECTION I: PROFESSIONAL STORE ADMIN DASHBOARD
+   ========================================================================== */
 
 .admin-body {
   background: #f4f2ee;
@@ -4092,197 +4102,6 @@ b.brand-name {
     grid-template-columns: 1fr;
   }
   .account-metrics-grid {
-
-/* --- Direct contact, real cart symbol, light footer ground --- */
-
-/* Utility bar: the contact route sits hard right, opposite the language link. */
-.utility-whatsapp {
-  margin-left: auto;
-  gap: 6px;
-}
-.utility-whatsapp svg {
-  flex: none;
-}
-.utility-whatsapp b {
-  font-weight: 700;
-  letter-spacing: .03em;
-  color: var(--ink);
-}
-.utility-whatsapp:hover b,
-.utility-whatsapp:focus-visible b {
-  color: var(--red-dark);
-}
-@media (max-width: 400px) {
-  .utility-whatsapp span {
-    display: none;
-  }
-}
-
-/* Cart link: a real bag symbol replaces the placeholder glyph. */
-.bag-link svg {
-  flex: none;
-}
-
-/* Footer: a light warm ground so the brand logo keeps its own red and ink. */
-.site-footer {
-  background: var(--warm);
-  color: var(--ink);
-}
-.footer-main {
-  border-top: 1px solid var(--line);
-}
-.footer-main img {
-  filter: none;
-}
-.footer-main p,
-.footer-main a {
-  color: var(--muted);
-}
-.footer-main h3 {
-  color: var(--ink);
-}
-.footer-main a:hover,
-.footer-main a:focus-visible {
-  color: var(--red-dark);
-  text-decoration: underline;
-}
-.footer-bottom {
-  border-top: 1px solid var(--line);
-  color: var(--muted);
-}
-
-/* Homepage assurance strip, directly beneath the hero. */
-.assurance-strip {
-  background: var(--warm);
-  border-bottom: 1px solid var(--line);
-}
-.assurance-strip ul {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 1px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  background: var(--line);
-}
-.assurance-strip li {
-  display: flex;
-  gap: 12px;
-  align-items: flex-start;
-  padding: 22px clamp(14px, 1.6vw, 26px);
-  background: var(--warm);
-}
-.assurance-strip svg {
-  flex: none;
-  margin-top: 1px;
-  color: var(--red-dark);
-}
-.assurance-strip strong {
-  display: block;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: .07em;
-  text-transform: uppercase;
-}
-.assurance-strip span {
-  display: block;
-  margin-top: 5px;
-  color: var(--muted);
-  font-size: 12px;
-  line-height: 1.45;
-}
-@media (max-width: 900px) {
-  .assurance-strip ul {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-@media (max-width: 520px) {
-  .assurance-strip li {
-    padding: 16px 14px;
-  }
-  .assurance-strip span {
-    font-size: 11px;
-  }
-}
-
-/* Contact page: the direct WhatsApp and call route. */
-.contact-direct {
-  display: grid;
-  grid-template-columns: 1.05fr .95fr;
-  gap: clamp(28px, 6vw, 90px);
-  align-items: center;
-  padding-block: clamp(45px, 6vw, 82px);
-  border-top: 1px solid var(--line);
-}
-.contact-direct h2 {
-  margin: 0;
-  font: clamp(32px, 3.6vw, 52px)/1 var(--serif);
-  letter-spacing: -.04em;
-}
-.contact-direct > div > p:not(.eyebrow) {
-  max-width: 470px;
-  margin: 18px 0 0;
-  color: var(--muted);
-}
-.contact-actions {
-  display: grid;
-  gap: 12px;
-}
-.contact-whatsapp {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  min-height: 54px;
-  padding: 0 22px;
-  background: #25d366;
-  color: #fff;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: .09em;
-  text-transform: uppercase;
-  transition: background .2s var(--ease);
-}
-.contact-whatsapp:hover,
-.contact-whatsapp:focus-visible {
-  background: #1da851;
-}
-.contact-whatsapp svg {
-  flex: none;
-}
-.contact-call {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 14px;
-  min-height: 54px;
-  padding: 0 22px;
-  border: 1px solid var(--ink);
-  transition: background .2s var(--ease);
-}
-.contact-call:hover,
-.contact-call:focus-visible {
-  background: var(--warm);
-}
-.contact-call strong {
-  font: 21px var(--serif);
-  letter-spacing: -.02em;
-}
-.contact-call small {
-  color: var(--muted);
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: .09em;
-  text-transform: uppercase;
-}
-.contact-caution {
-  margin: 4px 0 0;
-  color: var(--muted);
-  font-size: 11px;
-  line-height: 1.5;
-}
-@media (max-width: 900px) {
-  .contact-direct {
     grid-template-columns: 1fr;
   }
 }
