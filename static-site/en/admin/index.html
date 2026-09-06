@@ -1,0 +1,634 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Store Administration & Catalog Management — eMarket247 Fashion & Jewellery.">
+  <meta name="robots" content="noindex,nofollow">
+  <link rel="canonical" href="https://emarket247.shop/en/admin/">
+  <link rel="icon" href="/assets/images/brand/emarket247-favicon-master.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/site.css?v=bbcba228">
+  <title>Admin Dashboard | eMarket247 Fashion & Jewellery</title>
+</head>
+<body class="admin-body" data-language="en">
+  <!-- Unauthenticated Admin Screen -->
+  <div class="admin-auth-overlay" id="admin-login-screen">
+    <div class="admin-auth-box">
+      <div class="admin-auth-brand">
+        <img src="/assets/images/brand/emarket247-logo-transparent.png" width="160" height="83" alt="eMarket247 Logo">
+        <span class="admin-security-badge">🔒 Store Management Portal</span>
+      </div>
+      <h2>Store Administrator Login</h2>
+      <p class="admin-auth-desc">Sign in with your verified administrative credentials or Hostinger database access.</p>
+
+      <form id="admin-login-form" class="auth-form">
+        <div class="form-group">
+          <label for="admin-email">Admin Email or Username</label>
+          <input type="email" id="admin-email" value="admin@emarket247.shop" required autocomplete="username">
+        </div>
+        <div class="form-group">
+          <label for="admin-password">Password</label>
+          <input type="password" id="admin-password" value="admin247" required autocomplete="current-password">
+        </div>
+        <div class="form-sub-row">
+          <label class="checkbox-label">
+            <input type="checkbox" id="admin-remember" checked>
+            <span>Stay signed in on this workstation</span>
+          </label>
+        </div>
+        <button type="submit" class="button button-dark admin-submit-btn">
+          <span>Authenticate & Open Dashboard</span> →
+        </button>
+      </form>
+
+      <div class="admin-auth-hint">
+        <p><strong>Store Owner Quick Access:</strong><br>Default Login: <code>admin@emarket247.shop</code> · Password: <code>admin247</code></p>
+        <p><a href="/en/shop/">← Return to Public Storefront</a></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Authenticated Admin Application Shell -->
+  <div class="admin-wrapper" id="admin-main-app" style="display: none;">
+    <!-- Top Admin Header -->
+    <header class="admin-topbar">
+      <div class="admin-topbar-left">
+        <a href="/en/admin/" class="admin-logo-link">
+          <img src="/assets/images/brand/emarket247-logo-transparent.png" width="130" height="68" alt="eMarket247 Logo">
+          <span class="admin-console-tag">Console</span>
+        </a>
+        <div class="db-status-badge" id="admin-db-status-pill" title="Hostinger MySQL Database status">
+          <span class="status-dot is-online"></span>
+          <span class="status-label" id="db-status-text">Hostinger DB: Connected</span>
+        </div>
+      </div>
+
+      <div class="admin-topbar-right">
+        <a href="/en/shop/" target="_blank" class="admin-btn-preview" title="View live shop in new tab">
+          <span>↗</span> View Storefront
+        </a>
+        <div class="admin-user-profile">
+          <div class="admin-avatar">ADM</div>
+          <div class="admin-user-info">
+            <strong id="admin-display-name">Store Administrator</strong>
+            <small>Owner / Full Access</small>
+          </div>
+          <button type="button" class="admin-logout-btn" id="admin-logout-button" title="Sign out">Sign Out</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Workspace -->
+    <div class="admin-workspace">
+      <!-- Sidebar Navigation -->
+      <aside class="admin-nav-sidebar">
+        <nav class="admin-sidebar-menu">
+          <button type="button" class="admin-menu-item is-active" data-admin-tab="pane-overview">
+            <span class="menu-icon">📊</span>
+            <span class="menu-text">Overview & Stats</span>
+          </button>
+          <button type="button" class="admin-menu-item" data-admin-tab="pane-products">
+            <span class="menu-icon">💎</span>
+            <span class="menu-text">Product Catalogue</span>
+            <span class="menu-count" id="admin-total-products-badge">48</span>
+          </button>
+          <button type="button" class="admin-menu-item" data-admin-tab="pane-orders">
+            <span class="menu-icon">📦</span>
+            <span class="menu-text">Orders & Inquiries</span>
+            <span class="menu-count count-highlight" id="admin-pending-orders-badge">2</span>
+          </button>
+          <button type="button" class="admin-menu-item" data-admin-tab="pane-customers">
+            <span class="menu-icon">👥</span>
+            <span class="menu-text">Registered Customers</span>
+            <span class="menu-count" id="admin-total-customers-badge">1</span>
+          </button>
+          <button type="button" class="admin-menu-item" data-admin-tab="pane-hostinger">
+            <span class="menu-icon">🗄️</span>
+            <span class="menu-text">Hostinger Database</span>
+          </button>
+          <button type="button" class="admin-menu-item" data-admin-tab="pane-settings">
+            <span class="menu-icon">⚙️</span>
+            <span class="menu-text">Store Settings</span>
+          </button>
+        </nav>
+
+        <div class="sidebar-footer-note">
+          <p><strong>eMarket247 Store Engine</strong></p>
+          <p>Optimized for Hostinger PHP & MySQL</p>
+        </div>
+      </aside>
+
+      <!-- Main Admin Content Panes -->
+      <main class="admin-content-viewport">
+        <!-- 1. OVERVIEW & STATS PANE -->
+        <section class="admin-pane is-active" id="pane-overview">
+          <div class="admin-pane-header">
+            <div>
+              <p class="admin-eyebrow">Dashboard Overview</p>
+              <h1>Storefront Performance & Inventory</h1>
+            </div>
+            <div class="admin-header-actions">
+              <button type="button" class="button button-dark" id="btn-quick-add-product">
+                <span>+ Upload New Product</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Metric Cards Grid -->
+          <div class="admin-stats-grid">
+            <div class="admin-stat-card">
+              <div class="stat-icon-wrap bg-gold">💎</div>
+              <div class="stat-content">
+                <span class="stat-label">Total Catalog Products</span>
+                <strong class="stat-value" id="stat-products-count">48</strong>
+                <span class="stat-subtext"><span class="text-green">● All Active</span> in shop</span>
+              </div>
+            </div>
+
+            <div class="admin-stat-card">
+              <div class="stat-icon-wrap bg-red">📦</div>
+              <div class="stat-content">
+                <span class="stat-label">Active Orders & Inquiries</span>
+                <strong class="stat-value" id="stat-orders-count">2</strong>
+                <span class="stat-subtext"><span class="text-amber">● 1 Pending</span> review</span>
+              </div>
+            </div>
+
+            <div class="admin-stat-card">
+              <div class="stat-icon-wrap bg-blue">👥</div>
+              <div class="stat-content">
+                <span class="stat-label">Registered Customers</span>
+                <strong class="stat-value" id="stat-customers-count">1</strong>
+                <span class="stat-subtext">Verified Bangladesh accounts</span>
+              </div>
+            </div>
+
+            <div class="admin-stat-card">
+              <div class="stat-icon-wrap bg-green">🗄️</div>
+              <div class="stat-content">
+                <span class="stat-label">Hostinger MySQL</span>
+                <strong class="stat-value text-green" id="stat-db-status">Active</strong>
+                <span class="stat-subtext">Schema ready in phpMyAdmin</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Action & Recent Activity Section -->
+          <div class="admin-two-col">
+            <div class="admin-card">
+              <div class="admin-card-header">
+                <h3>Recent Customer Inquiries</h3>
+                <button type="button" class="text-link" data-admin-tab-trigger="pane-orders">View all orders →</button>
+              </div>
+              <div class="admin-recent-orders" id="overview-orders-preview">
+                <!-- Rendered dynamically -->
+              </div>
+            </div>
+
+            <div class="admin-card">
+              <div class="admin-card-header">
+                <h3>Store Quick Actions</h3>
+              </div>
+              <div class="quick-action-list">
+                <button type="button" class="quick-action-btn" id="btn-quick-new-product">
+                  <span class="qa-icon">💎</span>
+                  <div class="qa-text">
+                    <strong>Add New Jewellery Item</strong>
+                    <small>Upload photo, set price, SKU, category</small>
+                  </div>
+                  <span class="qa-arrow">→</span>
+                </button>
+
+                <button type="button" class="quick-action-btn" data-admin-tab-trigger="pane-hostinger">
+                  <span class="qa-icon">🗄️</span>
+                  <div class="qa-text">
+                    <strong>Hostinger Database Suite</strong>
+                    <small>Configure MySQL credentials & download SQL</small>
+                  </div>
+                  <span class="qa-arrow">→</span>
+                </button>
+
+                <button type="button" class="quick-action-btn" id="btn-export-catalog-json">
+                  <span class="qa-icon">📥</span>
+                  <div class="qa-text">
+                    <strong>Export Catalogue JSON</strong>
+                    <small>Download current products for backup</small>
+                  </div>
+                  <span class="qa-arrow">→</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2. PRODUCTS MANAGER PANE -->
+        <section class="admin-pane" id="pane-products">
+          <div class="admin-pane-header">
+            <div>
+              <p class="admin-eyebrow">Jewellery Catalogue</p>
+              <h1>Product Management</h1>
+            </div>
+            <div class="admin-header-actions">
+              <button type="button" class="button button-dark" id="btn-open-product-modal">
+                <span>+ Upload / Add New Product</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Product Filter Toolbar -->
+          <div class="admin-toolbar">
+            <div class="admin-search-input-wrap">
+              <span class="search-ico">🔍</span>
+              <input type="search" id="admin-product-search" placeholder="Search by SKU, title, metal...">
+            </div>
+
+            <div class="admin-filter-group">
+              <label for="admin-category-filter" class="sr-only">Category</label>
+              <select id="admin-category-filter" class="admin-select">
+                <option value="all">All Categories</option>
+                <option value="Rings">Rings (আংটি)</option>
+                <option value="Earrings">Earrings (কানের দুল)</option>
+                <option value="Necklaces">Necklaces (হার)</option>
+                <option value="Bracelets">Bracelets (ব্রেসলেট)</option>
+                <option value="Bangles">Bangles (চুড়ি)</option>
+                <option value="Pendants">Pendants (লকেট)</option>
+                <option value="Jewellery Sets">Jewellery Sets</option>
+                <option value="Bridal Jewellery">Bridal Jewellery</option>
+                <option value="Gift Jewellery">Gift Jewellery</option>
+              </select>
+
+              <select id="admin-stock-filter" class="admin-select">
+                <option value="all">All Stock Statuses</option>
+                <option value="in_stock">In Stock</option>
+                <option value="low_stock">Low Stock</option>
+                <option value="made_to_order">Made to Order</option>
+                <option value="out_of_stock">Out of Stock</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Product Table -->
+          <div class="admin-table-container">
+            <table class="admin-data-table" id="admin-products-table">
+              <thead>
+                <tr>
+                  <th style="width: 70px;">Image</th>
+                  <th>Product & SKU</th>
+                  <th>Category</th>
+                  <th>Price (BDT)</th>
+                  <th>Stock Status</th>
+                  <th>Material</th>
+                  <th style="width: 140px; text-align: right;">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="admin-products-tbody">
+                <!-- Dynamically populated via site.js -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- 3. ORDERS & INQUIRIES PANE -->
+        <section class="admin-pane" id="pane-orders">
+          <div class="admin-pane-header">
+            <div>
+              <p class="admin-eyebrow">Customer Orders</p>
+              <h1>Orders & WhatsApp Inquiries</h1>
+            </div>
+          </div>
+
+          <div class="admin-toolbar">
+            <div class="admin-search-input-wrap">
+              <span class="search-ico">🔍</span>
+              <input type="search" id="admin-order-search" placeholder="Search customer, phone, or order ref...">
+            </div>
+
+            <div class="admin-filter-group">
+              <select id="admin-order-status-filter" class="admin-select">
+                <option value="all">All Statuses</option>
+                <option value="pending">Pending Review</option>
+                <option value="contacted">Customer Contacted</option>
+                <option value="confirmed">Confirmed</option>
+                <option value="dispatched">Dispatched</option>
+                <option value="delivered">Delivered</option>
+                <option value="cancelled">Cancelled</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="admin-table-container">
+            <table class="admin-data-table" id="admin-orders-table">
+              <thead>
+                <tr>
+                  <th>Order Ref</th>
+                  <th>Date</th>
+                  <th>Customer Info</th>
+                  <th>Items Requested</th>
+                  <th>Est. Total</th>
+                  <th>Status</th>
+                  <th style="text-align: right;">Update Status</th>
+                </tr>
+              </thead>
+              <tbody id="admin-orders-tbody">
+                <!-- Dynamically populated via site.js -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- 4. CUSTOMERS DIRECTORY PANE -->
+        <section class="admin-pane" id="pane-customers">
+          <div class="admin-pane-header">
+            <div>
+              <p class="admin-eyebrow">Client Base</p>
+              <h1>Registered Customers</h1>
+            </div>
+          </div>
+
+          <div class="admin-table-container">
+            <table class="admin-data-table" id="admin-customers-table">
+              <thead>
+                <tr>
+                  <th>Customer Name</th>
+                  <th>Email</th>
+                  <th>Phone Number</th>
+                  <th>District / City</th>
+                  <th>Registered Date</th>
+                  <th>Role</th>
+                </tr>
+              </thead>
+              <tbody id="admin-customers-tbody">
+                <!-- Dynamically populated via site.js -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- 5. HOSTINGER DATABASE SUITE PANE -->
+        <section class="admin-pane" id="pane-hostinger">
+          <div class="admin-pane-header">
+            <div>
+              <p class="admin-eyebrow">Hosting & Infrastructure</p>
+              <h1>Hostinger MySQL Database Integration</h1>
+            </div>
+          </div>
+
+          <div class="hostinger-integration-grid">
+            <!-- Hostinger DB Configuration Form -->
+            <div class="admin-card">
+              <div class="admin-card-header">
+                <h3>Hostinger MySQL Connection Settings</h3>
+              </div>
+              <p class="card-desc">Enter the database details from your Hostinger hPanel (Databases → Management). These are saved in <code>api/config.php</code> and synchronized with the frontend.</p>
+
+              <form id="hostinger-db-form" class="admin-form">
+                <div class="form-row-2">
+                  <div class="form-group">
+                    <label for="hdb-host">MySQL Host</label>
+                    <input type="text" id="hdb-host" value="localhost" placeholder="localhost (standard for Hostinger)" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="hdb-port">Port</label>
+                    <input type="text" id="hdb-port" value="3306" required>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="hdb-name">Database Name (from Hostinger)</label>
+                  <input type="text" id="hdb-name" value="u123456789_emarket247" placeholder="e.g. u123456789_emarket247" required>
+                </div>
+
+                <div class="form-row-2">
+                  <div class="form-group">
+                    <label for="hdb-user">Database Username</label>
+                    <input type="text" id="hdb-user" value="u123456789_emarket_user" placeholder="e.g. u123456789_emarket_user" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="hdb-pass">Database Password</label>
+                    <input type="password" id="hdb-pass" value="••••••••••••" placeholder="Your Hostinger DB Password" required>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="hdb-prefix">Table Prefix</label>
+                  <input type="text" id="hdb-prefix" value="emk_" required>
+                </div>
+
+                <div class="form-btn-row">
+                  <button type="button" class="button button-dark" id="btn-test-db-conn">
+                    <span>⚡ Test Database Connection</span>
+                  </button>
+                  <button type="submit" class="button button-outline">
+                    <span>Save Credentials</span>
+                  </button>
+                </div>
+
+                <div class="db-test-result" id="db-test-result-box" style="display: none;">
+                  <!-- Dynamic response message -->
+                </div>
+              </form>
+            </div>
+
+            <!-- Hostinger Deployment & Schema Kit -->
+            <div class="admin-card">
+              <div class="admin-card-header">
+                <h3>Hostinger phpMyAdmin Schema</h3>
+              </div>
+              <p class="card-desc">Execute this SQL schema in your Hostinger phpMyAdmin (SQL tab or Import tab) to create the tables instantly.</p>
+
+              <div class="sql-code-box">
+                <pre><code>-- 1. Users Table
+CREATE TABLE IF NOT EXISTS `emk_users` (...);
+
+-- 2. Products Table
+CREATE TABLE IF NOT EXISTS `emk_products` (...);
+
+-- 3. Orders & Inquiries Table
+CREATE TABLE IF NOT EXISTS `emk_orders` (...);
+
+-- 4. Settings Table
+CREATE TABLE IF NOT EXISTS `emk_settings` (...);</code></pre>
+              </div>
+
+              <div class="schema-action-buttons">
+                <a href="/api/database.sql" download="database.sql" class="button button-dark">
+                  <span>📥 Download database.sql</span>
+                </a>
+                <button type="button" class="button button-outline" id="btn-copy-sql">
+                  <span>📋 Copy Full SQL Script</span>
+                </button>
+              </div>
+
+              <div class="hostinger-steps-summary">
+                <h4>Deployment Steps to Hostinger:</h4>
+                <ol>
+                  <li>Create MySQL Database in Hostinger hPanel.</li>
+                  <li>Click <strong>Enter phpMyAdmin</strong> and import <code>database.sql</code>.</li>
+                  <li>Upload the site files to your <code>public_html/</code> directory.</li>
+                  <li>Verify <code>public_html/api/config.php</code> matches your DB user and password.</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 6. STORE SETTINGS PANE -->
+        <section class="admin-pane" id="pane-settings">
+          <div class="admin-pane-header">
+            <div>
+              <p class="admin-eyebrow">General Preferences</p>
+              <h1>Store & Concierge Settings</h1>
+            </div>
+          </div>
+
+          <div class="admin-card max-w-700">
+            <form id="store-settings-form" class="admin-form">
+              <div class="form-group">
+                <label for="set-store-name">Storefront Brand Name</label>
+                <input type="text" id="set-store-name" value="eMarket247 Fashion & Jewellery">
+              </div>
+
+              <div class="form-row-2">
+                <div class="form-group">
+                  <label for="set-phone">Customer Care Phone</label>
+                  <input type="tel" id="set-phone" value="+8801740501062">
+                </div>
+                <div class="form-group">
+                  <label for="set-whatsapp">Concierge WhatsApp Number</label>
+                  <input type="tel" id="set-whatsapp" value="+8801740501062">
+                </div>
+              </div>
+
+              <div class="form-row-2">
+                <div class="form-group">
+                  <label for="set-currency">Primary Currency</label>
+                  <input type="text" id="set-currency" value="BDT (৳)" readonly>
+                </div>
+                <div class="form-group">
+                  <label for="set-catalog-mode">Catalog Pricing Mode</label>
+                  <select id="set-catalog-mode" class="admin-select">
+                    <option value="mixed">Published Prices with Inquire Option</option>
+                    <option value="inquiry_only">Inquiry / Quote Only (All Unpriced)</option>
+                    <option value="direct_price">Standard eCommerce Pricing</option>
+                  </select>
+                </div>
+              </div>
+
+              <button type="submit" class="button button-dark">Save Store Settings</button>
+            </form>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- ADD / EDIT PRODUCT MODAL DIALOG -->
+  <div class="admin-modal-backdrop" id="product-modal-dialog" style="display: none;">
+    <div class="admin-modal-window">
+      <div class="modal-header">
+        <h2 id="product-modal-title">Upload / Add New Product</h2>
+        <button type="button" class="modal-close-btn" id="btn-close-product-modal">×</button>
+      </div>
+
+      <form id="admin-product-edit-form" class="admin-form modal-body">
+        <input type="hidden" id="prod-edit-id" value="">
+
+        <div class="form-row-2">
+          <div class="form-group">
+            <label for="prod-title-en">Product Title (English) *</label>
+            <input type="text" id="prod-title-en" placeholder="e.g. Royal Gold-Tone Floral Bangle" required>
+          </div>
+          <div class="form-group">
+            <label for="prod-title-bn">Product Title (Bengali)</label>
+            <input type="text" id="prod-title-bn" placeholder="e.g. রাজকীয় গোল্ড-টোন ফ্লোরাল চুড়ি">
+          </div>
+        </div>
+
+        <div class="form-row-3">
+          <div class="form-group">
+            <label for="prod-sku">SKU / Code *</label>
+            <input type="text" id="prod-sku" placeholder="e.g. EMK-BAN-204" required>
+          </div>
+          <div class="form-group">
+            <label for="prod-category">Category *</label>
+            <select id="prod-category" class="admin-select" required>
+              <option value="Rings">Rings (আংটি)</option>
+              <option value="Earrings">Earrings (কানের দুল)</option>
+              <option value="Necklaces">Necklaces (হার)</option>
+              <option value="Bracelets">Bracelets (ব্রেসলেট)</option>
+              <option value="Bangles">Bangles (চুড়ি)</option>
+              <option value="Pendants">Pendants (লকেট)</option>
+              <option value="Jewellery Sets">Jewellery Sets</option>
+              <option value="Bridal Jewellery">Bridal Jewellery</option>
+              <option value="Gift Jewellery">Gift Jewellery</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="prod-stock-status">Stock Status</label>
+            <select id="prod-stock-status" class="admin-select">
+              <option value="in_stock">In Stock</option>
+              <option value="low_stock">Low Stock</option>
+              <option value="made_to_order">Made to Order</option>
+              <option value="out_of_stock">Out of Stock</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row-2">
+          <div class="form-group">
+            <label for="prod-price">Price (BDT ৳)</label>
+            <input type="number" id="prod-price" min="0" step="50" placeholder="e.g. 4500">
+          </div>
+          <div class="form-group" style="display: flex; align-items: flex-end; padding-bottom: 8px;">
+            <label class="checkbox-label">
+              <input type="checkbox" id="prod-price-pending">
+              <span>Price Pending Approval (Display "Inquire for Quote")</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="prod-material">Material & Craftsmanship</label>
+          <input type="text" id="prod-material" placeholder="e.g. 22K Gold Luster & Sterling Silver with Cubic Zirconia">
+        </div>
+
+        <!-- Product Image Upload Section -->
+        <div class="form-group">
+          <label>Product Photograph / Visual *</label>
+          <div class="image-upload-wrapper">
+            <div class="image-preview-box" id="prod-img-preview-box">
+              <img id="prod-img-preview-tag" src="/assets/images/brand/emarket247-logo-transparent.png" alt="Product preview">
+            </div>
+            <div class="upload-controls">
+              <input type="file" id="prod-file-input" accept="image/*" class="file-input-hidden">
+              <button type="button" class="button button-outline" id="btn-trigger-file-upload">
+                <span>📁 Upload Image from Computer</span>
+              </button>
+              <span class="upload-or-divider">or enter image path / URL:</span>
+              <input type="text" id="prod-image-url" placeholder="/assets/images/products/... or https://...">
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="prod-lead-en">Description / Editorial Notes</label>
+          <textarea id="prod-lead-en" rows="2" placeholder="Design features, silhouette, styling notes..."></textarea>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="button button-outline" id="btn-cancel-product-modal">Cancel</button>
+          <button type="submit" class="button button-dark" id="btn-save-product">
+            <span>Publish Product to Catalog</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="toast" role="status" aria-live="polite"></div>
+  <script src="/assets/js/site.js?v=9cad191d" defer></script>
+</body>
+</html>
