@@ -12,8 +12,4 @@ await cp(path.join(source, "en", "index.html"), path.join(source, "index.html"))
 await rm(output, { recursive: true, force: true });
 await mkdir(path.dirname(output), { recursive: true });
 await cp(source, output, { recursive: true });
-
-// Remove sensitive database file from production distribution
-await rm(path.join(output, "api", "database.sql"), { force: true });
-
 console.log(`Managed static deployment prepared at ${output}`);
