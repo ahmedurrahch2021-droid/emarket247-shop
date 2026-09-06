@@ -8,6 +8,7 @@
 @media(min-width:901px){.nav-wrap{grid-template-columns:minmax(170px,1fr) auto minmax(170px,1fr);gap:clamp(18px,2.5vw,42px)}.brand{justify-self:start}.main-nav{justify-self:center;gap:clamp(14px,1.5vw,24px);white-space:nowrap}.nav-actions{justify-self:end;min-width:170px;justify-content:flex-end}.main-nav>a,.has-submenu>button{min-height:84px;display:inline-flex;align-items:center;padding:0}.has-submenu>button{cursor:pointer}.submenu{top:calc(100% - 1px)}}
 
 
+/*
    Consolidated stylesheet sections
    --------------------------------------------------------------------------
    These rules were previously injected at runtime by assets/js/site.js as
@@ -18,6 +19,7 @@
    They are placed at the end of the file, in their original injection
    order, because that is exactly where they sat in the cascade before.
    Order is significant: later sections deliberately override earlier ones.
+*/
 
 /* --- Utility bar (language link, customer-care phone, notice line) --- */
 /* CONTACT_PHONE_WHATSAPP */
@@ -1114,7 +1116,9 @@ b.brand-name {
   }
 }
 
+/* ==========================================================================
    PRODUCT DETAIL PAGE (PDP) SYSTEM - eMarket247 EDITORIAL ARCHITECTURE
+   ========================================================================== */
 
 /* --- Card Link Interactivity Enhancements --- */
 .product-card a {
@@ -1174,34 +1178,43 @@ b.brand-name {
 
 /* --- Section B: Above-The-Fold Product Area --- */
 .pdp-hero {
-  display: grid !important;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr) !important;
-  gap: clamp(24px, 4vw, 56px) !important;
-  align-items: start !important;
-  padding-top: clamp(16px, 2.5vw, 32px);
-  padding-bottom: clamp(36px, 4vw, 60px);
+  max-width: 1240px;
+  width: 100%;
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1.18fr) minmax(0, 0.95fr);
+  gap: clamp(36px, 4.5vw, 64px);
+  align-items: start;
+  padding-top: clamp(20px, 3vw, 36px);
+  padding-bottom: clamp(40px, 5vw, 64px);
+  box-sizing: border-box;
 }
 
 .pdp-gallery {
-  grid-column: 1 !important;
+  grid-column: 1;
+  min-width: 0;
   position: sticky;
   top: 96px;
 }
 .pdp-figure {
   margin: 0;
-  border: 1px solid #efeae4;
+  border: 1px solid var(--line);
   background: #ffffff;
   overflow: hidden;
   border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
 }
 .pdp-figure img {
   display: block;
   width: 100%;
+  max-width: 100%;
+  height: auto;
   aspect-ratio: 1 / 1;
   object-fit: contain;
-  padding: clamp(16px, 3.5vw, 36px);
+  padding: clamp(20px, 3.5vw, 40px);
   background: #ffffff;
-  transition: transform 0.4s var(--ease);
+  box-sizing: border-box;
+  transition: transform 0.35s var(--ease);
 }
 .pdp-figure:hover img {
   transform: scale(1.02);
@@ -1214,10 +1227,11 @@ b.brand-name {
 }
 
 .pdp-info {
-  grid-column: 2 !important;
+  grid-column: 2;
+  min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 0;
 }
 
 /* Row 1: Badges & Star Rating */
@@ -1967,18 +1981,6 @@ b.brand-name {
 
 /* --- Responsive Breakpoints for PDP System --- */
 @media (max-width: 900px) {
-  .pdp-hero {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
-    gap: 24px;
-  }
-  .pdp-gallery {
-    grid-column: 1;
-    position: sticky;
-    top: 76px;
-  }
-  .pdp-info {
-    grid-column: 2;
-  }
   .pdp-story-grid {
     grid-template-columns: 1fr;
     gap: 24px;
@@ -2014,7 +2016,9 @@ b.brand-name {
   }
 }
 
+/* ==========================================================================
    ECOMMERCE STOREFRONT ENHANCEMENTS: PRODUCT CARDS, CART & PDP REFINEMENTS
+   ========================================================================== */
 
 /* --- Enhanced Product Card --- */
 .product-card {
@@ -2756,17 +2760,9 @@ b.brand-name {
   }
 }
 
-@media (max-width: 520px) {
-  .pdp-hero {
-    grid-template-columns: 1fr !important;
-    gap: 20px !important;
-  }
-  .pdp-gallery {
-    position: static !important;
-  }
-}
-
+/* ==========================================================================
    SECTION H: CUSTOMER ACCOUNT & AUTHENTICATION STYLES
+   ========================================================================== */
 
 .account-link {
   display: inline-flex;
@@ -3307,7 +3303,9 @@ b.brand-name {
   background: #075e54;
 }
 
+/* ==========================================================================
    SECTION I: PROFESSIONAL STORE ADMIN DASHBOARD
+   ========================================================================== */
 
 .admin-body {
   background: #f4f2ee;
@@ -4311,44 +4309,49 @@ b.brand-name {
 
 /* 1 / Identity */
 .pdp-kicker {
-  margin: 0 0 10px;
+  margin: 0 0 8px;
   color: var(--muted);
   font-size: 11px;
+  font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 .pdp-title {
-  margin: 0;
-  font: clamp(30px, 3.3vw, 46px) / 1.04 var(--serif);
-  letter-spacing: -0.035em;
+  margin: 0 0 10px;
+  font: clamp(28px, 2.8vw, 36px) / 1.18 var(--serif);
+  letter-spacing: -0.025em;
   color: var(--ink);
   text-wrap: balance;
 }
 .pdp-ref {
-  margin: 12px 0 0;
+  margin: 0 0 18px;
   color: var(--muted);
-  font-size: 10px;
-  letter-spacing: 0.09em;
+  font-size: 12px;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
 }
 .pdp-ref span {
   font-family: var(--mono);
-  letter-spacing: 0.04em;
+  font-weight: 600;
+  letter-spacing: 0.03em;
   color: var(--ink);
 }
 
 /* 2 / Description */
 .pdp-short-desc {
-  max-width: 46ch;
-  margin: 20px 0 0;
+  max-width: 48ch;
+  margin: 0 0 24px;
   color: #423d39;
   font-size: 15px;
-  line-height: 1.62;
+  line-height: 1.6;
 }
 
-/* 3 / Price — hairline rules instead of a tinted card */
+/* 3 / Price — hairline rules with clear hierarchy */
 .pdp-price-section {
-  margin-top: 26px;
+  margin: 0 0 24px;
   padding: 18px 0;
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
@@ -4358,48 +4361,59 @@ b.brand-name {
 .pdp-price-row {
   display: flex;
   align-items: baseline;
-  gap: 12px;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 .pdp-price-val {
-  font: 26px/1 var(--serif);
-  letter-spacing: -0.02em;
+  font: 24px/1.1 var(--serif);
+  letter-spacing: -0.015em;
+  font-weight: 600;
   color: var(--ink);
 }
 .pdp-price-note {
-  margin-left: 2px;
+  margin-left: 4px;
   color: var(--muted);
-  font: 11px/1 var(--sans);
+  font: 12px/1 var(--sans);
   letter-spacing: 0.02em;
+  font-weight: 400;
 }
 .pdp-price-hint {
   max-width: 44ch;
-  margin: 9px 0 0;
+  margin: 8px 0 0;
   color: var(--muted);
   font-size: 12px;
-  line-height: 1.5;
+  line-height: 1.45;
 }
 
 /* 4 / Actions */
 .pdp-actions {
-  margin-top: 22px;
+  margin: 0 0 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 .pdp-actions-row {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
-  gap: 10px;
+  gap: 12px;
   align-items: stretch;
 }
 .pdp-qty-stepper-wrap {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 10px;
+  height: 50px;
   padding: 0 14px;
   border: 1px solid var(--line);
+  background: #ffffff;
+  border-radius: 3px;
+  box-sizing: border-box;
 }
 .pdp-qty-title {
   color: var(--muted);
   font-size: 10px;
-  letter-spacing: 0.09em;
+  font-weight: 600;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 .pdp-qty-stepper {
@@ -4408,12 +4422,16 @@ b.brand-name {
   gap: 4px;
 }
 .pdp-qty-stepper button {
-  width: 26px;
-  height: 26px;
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border: 0;
-  background: none;
+  background: transparent;
   color: var(--ink);
-  font-size: 15px;
+  font-size: 16px;
+  font-weight: 600;
   line-height: 1;
   cursor: pointer;
   transition: color 0.15s var(--ease);
@@ -4422,26 +4440,30 @@ b.brand-name {
   color: var(--red);
 }
 #pdp-qty-display {
-  min-width: 20px;
+  min-width: 22px;
   font-family: var(--mono);
-  font-size: 13px;
+  font-size: 14px;
+  font-weight: 600;
   text-align: center;
 }
 
 .pdp-btn-add-bag-primary {
-  display: flex;
+  display: inline-flex;
   justify-content: center;
   align-items: center;
-  min-height: 52px;
-  padding: 0 22px;
+  height: 50px;
+  min-height: 50px;
+  padding: 0 24px;
   border: 1px solid var(--ink);
   background: var(--ink);
-  color: #fff;
-  font-size: 11px;
+  color: #ffffff;
+  font-size: 12px;
   font-weight: 700;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.09em;
   text-transform: uppercase;
   cursor: pointer;
+  border-radius: 3px;
+  box-sizing: border-box;
   transition: background 0.18s var(--ease), border-color 0.18s var(--ease);
 }
 .pdp-btn-add-bag-primary:hover {
@@ -4450,41 +4472,48 @@ b.brand-name {
 }
 
 .pdp-btn-whatsapp-action {
-  display: flex;
+  display: inline-flex;
   justify-content: center;
   align-items: center;
   gap: 9px;
+  height: 48px;
   min-height: 48px;
-  margin-top: 10px;
+  margin: 0;
+  padding: 0 20px;
   border: 1px solid var(--ink);
-  background: none;
+  background: transparent;
   color: var(--ink);
-  font-size: 11px;
+  font-size: 11.5px;
   font-weight: 700;
-  letter-spacing: 0.09em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  transition: background 0.18s var(--ease), color 0.18s var(--ease);
+  text-decoration: none;
+  border-radius: 3px;
+  box-sizing: border-box;
+  transition: all 0.18s var(--ease);
 }
 .pdp-btn-whatsapp-action:hover {
   background: var(--ink);
-  color: #fff;
+  color: #ffffff;
 }
 
 .pdp-action-links {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px 20px;
-  margin-top: 16px;
+  gap: 8px 22px;
+  margin-top: 4px;
 }
 .pdp-action-links a,
 .pdp-share-link {
-  padding: 0 0 3px;
+  padding: 0 0 2px;
   border: 0;
   border-bottom: 1px solid var(--line);
   background: none;
   color: var(--muted);
   font-size: 12px;
+  line-height: 1.4;
   cursor: pointer;
+  text-decoration: none;
   transition: color 0.15s var(--ease), border-color 0.15s var(--ease);
 }
 .pdp-action-links a:hover,
@@ -4493,18 +4522,18 @@ b.brand-name {
   border-color: var(--red);
 }
 
-/* 5 / Assurance — the truth-line idiom, not a tinted card with an emoji */
+/* 5 / Assurance — the truth-line idiom, structured definition list */
 .pdp-assurance {
   display: grid;
   gap: 0;
-  margin: 26px 0 0;
+  margin: 0;
   border-top: 1px solid var(--line);
 }
 .pdp-assurance > div {
   display: grid;
-  grid-template-columns: 108px minmax(0, 1fr);
+  grid-template-columns: 110px minmax(0, 1fr);
   gap: 16px;
-  padding: 11px 0;
+  padding: 12px 0;
   border-bottom: 1px solid var(--line);
 }
 .pdp-assurance dt {
@@ -4512,6 +4541,7 @@ b.brand-name {
   font-size: 10px;
   letter-spacing: 0.09em;
   text-transform: uppercase;
+  font-weight: 500;
 }
 .pdp-assurance dd {
   margin: 0;
@@ -4521,9 +4551,12 @@ b.brand-name {
 }
 .pdp-assurance dd a {
   border-bottom: 1px solid var(--line);
+  color: inherit;
+  text-decoration: none;
 }
 .pdp-assurance dd a:hover {
   border-color: var(--red);
+  color: var(--red);
 }
 
 /* --- Benefits: hairline columns, no boxes, no false numbering --- */
@@ -4571,20 +4604,48 @@ b.brand-name {
   margin-bottom: 20px;
 }
 
-/* --- One motion moment: the gallery only. Cards stay still. --- */
+/* --- Motion restraint: the gallery subtle zoom only. Cards stay still. --- */
 .pdp-styling-card:hover,
 .pdp-benefit-card:hover,
 .pdp-step-card:hover {
   transform: none;
 }
 
-@media (max-width: 900px) {
-  .pdp-actions-row {
-    grid-template-columns: 1fr;
+/* --- Cohesive Responsive System for PDP Hero --- */
+@media (max-width: 1024px) {
+  .pdp-hero {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    gap: clamp(24px, 3.2vw, 36px);
+    padding-top: 20px;
+    padding-bottom: 40px;
   }
-  .pdp-qty-stepper-wrap {
-    justify-content: space-between;
-    padding: 10px 14px;
+  .pdp-gallery {
+    top: 84px;
+  }
+}
+
+@media (max-width: 960px) {
+  .pdp-hero {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding-top: 16px;
+    padding-bottom: 40px;
+  }
+  .pdp-gallery {
+    grid-column: 1;
+    position: static;
+    width: 100%;
+    max-width: 480px;
+    margin-inline: auto;
+  }
+  .pdp-info {
+    grid-column: 1;
+    width: 100%;
+    max-width: 540px;
+    margin-inline: auto;
+  }
+  .pdp-figure img {
+    padding: clamp(16px, 3.5vw, 28px);
   }
   .pdp-benefit-grid {
     border-top: 1px solid var(--line);
@@ -4597,7 +4658,48 @@ b.brand-name {
     padding-left: 0;
     border-left: 0;
   }
+}
+
+@media (max-width: 600px) {
+  .pdp-hero {
+    gap: 20px;
+    padding-top: 12px;
+    padding-bottom: 32px;
+  }
+  .pdp-gallery {
+    max-width: 100%;
+  }
+  .pdp-info {
+    max-width: 100%;
+  }
+  .pdp-title {
+    font-size: 24px;
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+  .pdp-actions-row {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .pdp-qty-stepper-wrap {
+    width: 100%;
+    justify-content: space-between;
+    height: 48px;
+  }
+  .pdp-btn-add-bag-primary {
+    width: 100%;
+    min-height: 48px;
+  }
+  .pdp-btn-whatsapp-action {
+    width: 100%;
+    min-height: 48px;
+  }
+  .pdp-action-links {
+    gap: 8px 16px;
+  }
   .pdp-assurance > div {
-    grid-template-columns: 96px minmax(0, 1fr);
+    grid-template-columns: 88px minmax(0, 1fr);
+    gap: 12px;
+    padding: 10px 0;
   }
 }

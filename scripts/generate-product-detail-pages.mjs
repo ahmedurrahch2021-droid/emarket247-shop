@@ -354,7 +354,7 @@ export function generatePdpHtml(product, lang, relatedProducts = []) {
         </article>
         <article class="pdp-benefit-card">
           <h3>${isBn ? "দায়িত্বশীল সংরক্ষণ মানদণ্ড" : "Transparent Curation Standard"}</h3>
-          <p>${isBn ? "ইমার্কেট২৪৭ প্রতিটি অলংকার আলাদাভাবে ক্যাটালগভুক্ত ও যাচাই করে উপস্থাপন করে, কোনো ভিত্তিহীন প্রতিশ্রুতি ছাড়া।" : "Each piece in the eMarket247 edit is individually archived and photographed, upholding verified quality and transparent care."}</p>
+          <p>${isBn ? "eMarket247 প্রতিটি অলংকার আলাদাভাবে ক্যাটালগভুক্ত ও যাচাই করে উপস্থাপন করে, কোনো ভিত্তিহীন প্রতিশ্রুতি ছাড়া।" : "Each piece in the eMarket247 edit is individually archived and photographed, upholding verified quality and transparent care."}</p>
         </article>
       </div>
     </section>
@@ -404,11 +404,11 @@ export function generatePdpHtml(product, lang, relatedProducts = []) {
         <div class="pdp-story-copy">
           <h2>${isBn ? "কারুকাজ ও নান্দনিক দৃষ্টিভঙ্গি" : "The craftsmanship behind the form"}</h2>
           <p class="pdp-story-lead">${attr(context.story)}</p>
-          <p>${isBn ? "ইমার্কেট২৪৭-এর কালেকশনে প্রতিটি পণ্য নির্বাচনের ক্ষেত্রে আমরা নান্দনিক ভারসাম্য, দীর্ঘস্থায়ী আকর্ষণ এবং আধুনিক পরিধানযোগ্যতাকে সর্বোচ্চ গুরুত্ব দিয়ে থাকি।" : "At eMarket247, every selected design is scrutinized for its visual balance, tactile presence, and enduring wearable charm across life's most meaningful moments."}</p>
+          <p>${isBn ? "eMarket247-এর কালেকশনে প্রতিটি পণ্য নির্বাচনের ক্ষেত্রে আমরা নান্দনিক ভারসাম্য, দীর্ঘস্থায়ী আকর্ষণ এবং আধুনিক পরিধানযোগ্যতাকে সর্বোচ্চ গুরুত্ব দিয়ে থাকি।" : "At eMarket247, every selected design is scrutinized for its visual balance, tactile presence, and enduring wearable charm across life's most meaningful moments."}</p>
         </div>
         <figure class="pdp-story-figure">
           <img src="${product.image.src}" alt="${attr(product.image.alt)}" loading="lazy">
-          <figcaption>${isBn ? "ইমার্কেট২৪৭ জুয়েলারি আর্কাইভ" : "eMarket247 Jewellery Archive"}</figcaption>
+          <figcaption>${isBn ? "eMarket247 জুয়েলারি আর্কাইভ" : "eMarket247 Jewellery Archive"}</figcaption>
         </figure>
       </div>
     </section>
@@ -493,7 +493,7 @@ export function generatePdpHtml(product, lang, relatedProducts = []) {
         </article>
         <article class="pdp-faq-item">
           <h3>${isBn ? "২. মূল্য কেন অনুমোদনের অপেক্ষায় দেখানো হচ্ছে?" : "2. Why is the price shown as pending approval?"}</h3>
-          <p>${isBn ? "ইমার্কেট২৪৭ স্বচ্ছতা বজায় রাখতে যাচাইকৃত তথ্য ছাড়া কোনো দাম প্রদর্শন করে না। ক্যাটালগ পর্যালোচনার এই ধাপে সরাসরি যোগাযোগের মাধ্যমে সঠিক অফার ও মূল্য জানানো হয়।" : "eMarket247 strictly avoids publishing unverified numbers. During this catalog review stage, our customer team provides approved real-time pricing upon inquiry."}</p>
+          <p>${isBn ? "eMarket247 স্বচ্ছতা বজায় রাখতে যাচাইকৃত তথ্য ছাড়া কোনো দাম প্রদর্শন করে না। ক্যাটালগ পর্যালোচনার এই ধাপে সরাসরি যোগাযোগের মাধ্যমে সঠিক অফার ও মূল্য জানানো হয়।" : "eMarket247 strictly avoids publishing unverified numbers. During this catalog review stage, our customer team provides approved real-time pricing upon inquiry."}</p>
         </article>
         <article class="pdp-faq-item">
           <h3>${isBn ? "৩. সারাদেশে ডেলিভারি হতে কত দিন সময় লাগে?" : "3. What is the delivery timeframe across Bangladesh?"}</h3>
