@@ -29,14 +29,14 @@ if (session_status() === PHP_SESSION_NONE) {
 // Authorization Helper Functions
 function checkAuth() {
     if (!isset($_SESSION['user'])) {
-        sendJsonResponse(['status' => 'error', 'message' => 'Unauthorized Access.'], 401);
+        sendJsonResponse(['success' => false, 'error' => 'Unauthorized Access.'], 401);
     }
 }
 
 function checkAdmin() {
     checkAuth();
     if ($_SESSION['user']['role'] !== 'admin') {
-        sendJsonResponse(['status' => 'error', 'message' => 'Admin Access Required.'], 403);
+        sendJsonResponse(['success' => false, 'error' => 'Admin Access Required.'], 403);
     }
 }
 

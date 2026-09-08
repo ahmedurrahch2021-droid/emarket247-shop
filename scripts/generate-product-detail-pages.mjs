@@ -7,7 +7,9 @@
  * - Complete AEO / SEO metadata, Open Graph, canonicals, hreflang, and JSON-LD
  * - Mobile responsive 2-panel conversion-focused layout
  */
+import { createHash } from "node:crypto";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -16,6 +18,20 @@ const root = path.join(project, "static-site");
 const siteUrl = "https://emarket247.shop";
 const phone = "+8801740501062";
 const phoneDisplay = "+880 1740-501062";
+
+// Content-hash cache busters. Computed from the physical asset files so that
+// every regenerated page carries a version that changes ONLY when the file
+// actually changes, and matches the hash applied to the non-product pages by
+// apply-content-design-refresh.mjs. This keeps the whole site on one version
+// and avoids serving stale cached CSS/JS. Falls back to a fixed token if the
+// file is missing (build order edge case).
+function assetHash(rel) {
+  const p = path.join(root, rel);
+  if (!existsSync(p)) return "20260907-site";
+  return createHash("md5").update(readFileSync(p)).digest("hex").slice(0, 8);
+}
+const CSS_VERSION = assetHash("assets/css/site.css");
+const JS_VERSION = assetHash("assets/js/site.js");
 
 const categories = [
   ["rings", "Rings", "আংটি"],
@@ -270,7 +286,7 @@ export function generatePdpHtml(product, lang, relatedProducts = []) {
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&family=Noto+Sans+Bengali:wght@400;500;600;700&family=Noto+Serif+Bengali:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/css/site.css?v=20260906-fixed">
+  <link rel="stylesheet" href="/assets/css/site.css?v=${CSS_VERSION}">
   <script type="application/ld+json">${JSON.stringify(jsonLd)}</script>
   <title>${attr(title)}</title>
 </head>
@@ -449,7 +465,7 @@ export function generatePdpHtml(product, lang, relatedProducts = []) {
   ${renderFooter(lang)}
 
   <div class="toast" role="status" aria-live="polite"></div>
-  <script src="/assets/js/site.js?v=9cad191d" defer></script>
+  <script src="/assets/js/site.js?v=${JS_VERSION}" defer></script>
 </body>
 </html>`;
 }

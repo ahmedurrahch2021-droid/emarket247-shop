@@ -12,4 +12,9 @@ await cp(path.join(source, "en", "index.html"), path.join(source, "index.html"))
 await rm(output, { recursive: true, force: true });
 await mkdir(path.dirname(output), { recursive: true });
 await cp(source, output, { recursive: true });
+
+// Exclude sensitive database and deployment artifacts from production build
+await rm(path.join(output, "api", "database.sql"), { force: true });
+await rm(path.join(output, "api", "README_HOSTINGER_DB.md"), { force: true });
+
 console.log(`Managed static deployment prepared at ${output}`);
