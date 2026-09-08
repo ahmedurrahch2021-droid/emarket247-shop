@@ -44,17 +44,17 @@ if ($method === 'GET') {
     ]);
 }
 
-// POST: Upload / Create a new product
+// POST: Upload / Create or Update a product
 if ($method === 'POST') {
     checkAdmin();
     $input = json_decode(file_get_contents('php://input'), true) ?? $_POST;
+    $action = $input['action'] ?? 'create';
 
     $titleEn = trim($input['title'] ?? $input['title_en'] ?? '');
     $titleBn = trim($input['title_bn'] ?? '');
     $sku = trim($input['sku'] ?? $input['id'] ?? '');
     $category = trim($input['category'] ?? 'Rings');
     $price = (float)($input['price'] ?? 0);
-    // ...
     $isPricePending = isset($input['is_price_pending']) ? (int)$input['is_price_pending'] : ($price > 0 ? 0 : 1);
     $material = trim($input['material'] ?? '22K Gold Luster & Sterling Silver');
     $stockStatus = trim($input['stock_status'] ?? 'in_stock');
@@ -68,47 +68,96 @@ if ($method === 'POST') {
         sendJsonResponse(['success' => false, 'error' => 'Product title in English is required.'], 400);
     }
 
-    if (empty($sku)) {
-        $sku = 'EMK-' . strtoupper(substr($category, 0, 3)) . '-' . rand(1000, 9999);
-    }
+    if ($action === 'update') {
+        // Update existing product
+        $id = isset($input['id']) && is_numeric($input['id']) ? (int)$input['id'] : 0;
 
-    if (empty($imageUrl)) {
-        $imageUrl = '/assets/images/brand/emarket247-logo-transparent.png';
-    }
+        $fields = [];
+        $params = [];
+        $updatable = ['title_en', 'title_bn', 'category', 'price', 'is_price_pending', 'material', 'stock_status', 'stock_qty', 'lead_en', 'lead_bn', 'image_url', 'metal_options'];
 
-    $slug = strtolower(preg_replace('/[^A-Za-z0-9-]+/', '-', $titleEn));
-    $slug = trim($slug, '-') . '-' . substr(md5($sku), 0, 6);
+        // Map input keys to DB columns
+        $inputMap = [
+            'title' => 'title_en',
+            'id' => 'sku'
+        ];
 
-    try {
-        $stmt = $pdo->prepare("INSERT INTO emk_products
-            (sku, slug, title_en, title_bn, category, price, is_price_pending, material, stock_status, stock_qty, lead_en, lead_bn, image_url, metal_options, is_active)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)");
+        foreach ($updatable as $col) {
+            $inputKey = $inputMap[$col] ?? $col;
+            if (isset($input[$inputKey])) {
+                $fields[] = "`$col` = ?";
+                $params[] = $input[$inputKey];
+            }
+        }
 
-        $stmt->execute([
-            $sku, $slug, $titleEn, $titleBn, $category, $price, $isPricePending,
-            $material, $stockStatus, $stockQty, $leadEn, $leadBn, $imageUrl, $metalOptions
-        ]);
+        // Ensure is_active is 1 if price is set
+        if ($price > 0) {
+            $fields[] = "`is_active` = 1";
+        }
 
-        $newId = $pdo->lastInsertId();
+        if (empty($fields)) {
+            sendJsonResponse(['success' => false, 'error' => 'No fields provided to update.'], 400);
+        }
 
-        sendJsonResponse([
-            'success' => true,
-            'message' => 'Product published successfully to Hostinger database.',
-            'product' => [
-                'id' => (int)$newId,
-                'sku' => $sku,
-                'slug' => $slug,
-                'title_en' => $titleEn,
-                'title_bn' => $titleBn,
-                'category' => $category,
-                'price' => $price,
-                'is_price_pending' => $isPricePending,
-                'stock_status' => $stockStatus,
-                'image_url' => $imageUrl
-            ]
-        ], 201);
-    } catch (PDOException $e) {
-        sendJsonResponse(['success' => false, 'error' => 'Failed to insert product.'], 500);
+        if ($id > 0) {
+            $params[] = $id;
+            $sql = "UPDATE emk_products SET " . implode(', ', $fields) . " WHERE id = ?";
+        } else {
+            $params[] = $sku;
+            $sql = "UPDATE emk_products SET " . implode(', ', $fields) . " WHERE sku = ?";
+        }
+
+        try {
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute($params);
+            sendJsonResponse(['success' => true, 'message' => 'Product updated successfully.']);
+        } catch (PDOException $e) {
+            sendJsonResponse(['success' => false, 'error' => 'Update failed: ' . $e->getMessage()], 500);
+        }
+    } else {
+        // Create new product
+        if (empty($sku)) {
+            $sku = 'EMK-' . strtoupper(substr($category, 0, 3)) . '-' . rand(1000, 9999);
+        }
+
+        if (empty($imageUrl)) {
+            $imageUrl = '/assets/images/brand/emarket247-logo-transparent.png';
+        }
+
+        $slug = strtolower(preg_replace('/[^A-Za-z0-9-]+/', '-', $titleEn));
+        $slug = trim($slug, '-') . '-' . substr(md5($sku), 0, 6);
+
+        try {
+            $stmt = $pdo->prepare("INSERT INTO emk_products
+                (sku, slug, title_en, title_bn, category, price, is_price_pending, material, stock_status, stock_qty, lead_en, lead_bn, image_url, metal_options, is_active)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)");
+
+            $stmt->execute([
+                $sku, $slug, $titleEn, $titleBn, $category, $price, $isPricePending,
+                $material, $stockStatus, $stockQty, $leadEn, $leadBn, $imageUrl, $metalOptions
+            ]);
+
+            $newId = $pdo->lastInsertId();
+
+            sendJsonResponse([
+                'success' => true,
+                'message' => 'Product published successfully to Hostinger database.',
+                'product' => [
+                    'id' => (int)$newId,
+                    'sku' => $sku,
+                    'slug' => $slug,
+                    'title_en' => $titleEn,
+                    'title_bn' => $titleBn,
+                    'category' => $category,
+                    'price' => $price,
+                    'is_price_pending' => $isPricePending,
+                    'stock_status' => $stockStatus,
+                    'image_url' => $imageUrl
+                ]
+            ], 201);
+        } catch (PDOException $e) {
+            sendJsonResponse(['success' => false, 'error' => 'Failed to insert product.'], 500);
+        }
     }
 }
 
