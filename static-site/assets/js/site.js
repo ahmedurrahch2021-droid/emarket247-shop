@@ -347,7 +347,7 @@
             <span>${isBn ? "হোয়াটসঅ্যাপে সম্পূর্ণ ব্যাগ অর্ডার করুন" : "Inquire / Order Bag on WhatsApp"}</span>
           </a>
           <a class="bag-call-link" href="tel:+8801740501062">
-            ${isBn ? "📞 কাস্টমার কেয়ারে কল: +880 1740-501062" : "📞 Customer Care Call: +880 1740-501062"}
+            ${isBn ? "কাস্টমার কেয়ারে কল: +880 1740-501062" : "Customer Care Call: +880 1740-501062"}
           </a>
           <div class="bag-clear-row">
             <button type="button" class="bag-clear-btn">${isBn ? "সম্পূর্ণ ব্যাগ খালি করুন" : "Clear entire bag"}</button>
@@ -724,7 +724,7 @@
       }
     }
     accLink.href = targetUrl;
-    accLink.innerHTML = `<span>👤</span> <b class="account-name-badge">${esc(label)}</b>`;
+    accLink.innerHTML = `<span class="nav-ic"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.8"/><path d="M4.5 20c1.3-3.4 4-5 7.5-5s6.2 1.6 7.5 5"/></svg></span> <b class="account-name-badge">${esc(label)}</b>`;
     if (currentUser) {
       accLink.classList.add("is-logged-in");
     } else {
@@ -746,7 +746,7 @@
       if (careCol && !one("a[href*='/admin/']", careCol)) {
         const admA = document.createElement("a");
         admA.href = language === "bn" ? "/bn/admin/" : "/en/admin/";
-        admA.textContent = language === "bn" ? "অ্যাডমিন পোর্টাল 🔒" : "Admin Portal 🔒";
+        admA.textContent = language === "bn" ? "অ্যাডমিন পোর্টাল" : "Admin Portal";
         admA.style.color = "#8b6528";
         careCol.appendChild(admA);
       }
@@ -758,36 +758,7 @@
     try {
       const orders = JSON.parse(localStorage.getItem(ORDERS_KEY) || "[]");
       if (!orders.length) {
-        return [
-          {
-            id: 101,
-            order_number: "EMK-2026-001",
-            customer_name: "Tanvir Ahmed",
-            customer_email: "customer@emarket247.shop",
-            customer_phone: "+880 1711-223344",
-            items: [
-              { title: "Floral Gold-Tone Necklace", sku: "EMK-NECK-004", qty: 1, price: 4500 }
-            ],
-            total_amount: 4500,
-            status: "contacted",
-            channel: "WhatsApp Inquiry",
-            created_at: "2026-09-05 16:20"
-          },
-          {
-            id: 102,
-            order_number: "EMK-2026-002",
-            customer_name: "Nusrat Jahan",
-            customer_email: "nusrat@example.com",
-            customer_phone: "+880 1819-887766",
-            items: [
-              { title: "Royal Gold-Tone Bangles (Pair)", sku: "EMK-BAN-001", qty: 2, price: 5600 }
-            ],
-            total_amount: 11200,
-            status: "pending",
-            channel: "Website Bag Checkout",
-            created_at: "2026-09-06 09:15"
-          }
-        ];
+        return [];
       }
       return orders;
     } catch {
@@ -899,7 +870,7 @@
 
         if (nameEl) nameEl.textContent = user.full_name || user.email;
         if (emailEl) emailEl.textContent = user.email;
-        if (phoneEl) phoneEl.textContent = user.phone ? `📞 ${user.phone}` : "";
+        if (phoneEl) phoneEl.textContent = user.phone ? `${user.phone}` : "";
         if (avatarEl) avatarEl.textContent = (user.full_name || user.email).charAt(0).toUpperCase();
         if (idBadge) idBadge.textContent = `#${user.id || 101}`;
         if (roleBadge) {
@@ -934,7 +905,7 @@
               <div class="order-row-item">
                 <div class="order-meta">
                   <span class="order-title">${esc(o.order_number)} — ${esc(o.items.map(i => i.title).join(", "))}</span>
-                  <span class="order-subtitle">📅 ${esc(o.created_at)} · ${esc(o.channel || "WhatsApp")}</span>
+                  <span class="order-subtitle">${esc(o.created_at)} · ${esc(o.channel || "WhatsApp")}</span>
                 </div>
                 <span class="status-badge ${esc(o.status)}">${esc(o.status)}</span>
               </div>
@@ -1034,11 +1005,6 @@
         const target = btn.dataset.accountTabTrigger;
         one(`[data-account-tab="${target}"]`)?.click();
       });
-    });
-
-    // Demo Fill helper button
-    one("#btn-fill-demo-customer")?.addEventListener("click", () => {
-      showToast(language === "bn" ? "ডেমো তথ্য এখন আর উপলব্ধ নয়।" : "Demo credentials are no longer available.");
     });
 
   // Customer Authentication Handler

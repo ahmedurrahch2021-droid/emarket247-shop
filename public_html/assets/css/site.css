@@ -3119,6 +3119,22 @@ b.brand-name {
   font-weight: 600;
 }
 
+/* --- Inline SVG icon sizing & alignment (replaces emoji glyphs) --- */
+.nav-ic,
+.menu-icon,
+.admin-security-badge {
+  display: inline-flex;
+  align-items: center;
+}
+.nav-ic svg,
+.menu-icon svg,
+.admin-security-badge svg {
+  display: block;
+}
+.admin-security-badge {
+  gap: 5px;
+}
+
 .account-admin-card {
   margin-top: 24px;
   padding: 16px;
