@@ -221,8 +221,8 @@ export function generatePdpHtml(product, lang, relatedProducts = []) {
       "@type": "Offer",
       "url": canonical,
       "priceCurrency": "BDT",
-      "price": "0.00",
-      "availability": "https://schema.org/PreOrder"
+      "price": product.price ? String(product.price) : "0.00",
+      "availability": product.availability ? `https://schema.org/${product.availability}` : "https://schema.org/PreOrder"
     }
   };
 
@@ -277,7 +277,7 @@ export function generatePdpHtml(product, lang, relatedProducts = []) {
   <link rel="alternate" hreflang="en" href="${altEn}">
   <link rel="alternate" hreflang="bn" href="${altBn}">
   <link rel="alternate" hreflang="x-default" href="${altEn}">
-  <meta property="og:type" content="og:product">
+  <meta property="og:type" content="product">
   <meta property="og:title" content="${attr(title)}">
   <meta property="og:description" content="${attr(description)}">
   <meta property="og:url" content="${canonical}">
