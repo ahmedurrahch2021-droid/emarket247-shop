@@ -80,7 +80,7 @@ function renderHeader(lang) {
   return `<header class="site-header">
   <div class="utility-row">
     <a class="utility-whatsapp" href="https://wa.me/8801740501062?text=${encodeURIComponent(bn ? "নমস্কার, আমি eMarket247 জুয়েলারি সম্পর্কে জানতে চাই" : "Hello, I would like to enquire about eMarket247 jewellery.")}" target="_blank" rel="noopener" aria-label="${bn ? "WhatsApp-এ চ্যাট করুন" : "Chat with us on WhatsApp"}">${ICON.whatsapp} <span>WhatsApp</span> <b>${phoneDisplay}</b></a>
-    <p class="utility-tagline">${bn ? "জুয়েলারি যা মুহূর্তকে বহন করে" : "Jewellery that carries the moment"}</p>
+    <p class="utility-tagline">${bn ? "সারা বাংলাদেশে ডেলিভারি · ১৫ দিনের রিফান্ড গ্যারান্টি · প্রতিটি অর্ডারে ফ্রি গিফট" : "Pan-Bangladesh Delivery · 15-Day Refund Promise · Free Gift with Every Order"}</p>
     <a href="/${altLang}/" class="lang-link" lang="${altLang}">${altLabel}</a>
   </div>
   <div class="main-header">
