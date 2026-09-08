@@ -30,7 +30,9 @@ function assetHash(rel) {
   if (!existsSync(p)) return "20260907-site";
   return createHash("md5").update(readFileSync(p)).digest("hex").slice(0, 8);
 }
+const VARIABLES_VERSION = assetHash("assets/css/variables.css");
 const CSS_VERSION = assetHash("assets/css/site.css");
+const PDP_VERSION = assetHash("assets/css/pdp.css");
 const JS_VERSION = assetHash("assets/js/site.js");
 
 const categories = [
@@ -64,7 +66,7 @@ function renderHeader(lang) {
   const categoryLinks = categories.map(([slug, en, bnName]) => `<li><a href="${href(lang, `categories/${slug}/`)}">${bn ? bnName : en}<small>${bn ? en : bnName}</small></a></li>`).join("");
   const occasionLinks = occasions.map(([slug, en, bnName]) => `<li><a href="${href(lang, `occasions/${slug}/`)}">${bn ? bnName : en}<small>${bn ? en : bnName}</small></a></li>`).join("");
   return `<header class="site-header">
-  <div class="utility"><p>${bn ? "জুয়েলারি আবিষ্কার করুন, আপনার বিশেষ প্রতিটি মুহূর্তের জন্য।" : "Thoughtful jewellery discovery, built for every meaningful moment."}</p><a href="${href(lang, "contact/")}">${bn ? "সাহায্য লাগবে?" : "Need help choosing?"}</a></div>
+  <div class="utility"><a class="utility-phone utility-whatsapp" href="https://wa.me/8801740501062?text=${encodeURIComponent(bn ? "নমস্কার, আমি eMarket247 জুয়েলারি সম্পর্কে জানতে চাই" : "Hello, I would like to enquire about eMarket247 jewellery.")}" target="_blank" rel="noopener" aria-label="${bn ? "WhatsApp-এ চ্যাট করুন" : "Chat with us on WhatsApp"}"><svg viewBox="0 0 24 24" width="13" height="13" aria-hidden="true" focusable="false" fill="currentColor"><path d="M12.04 2.016c-5.495 0-9.958 4.463-9.96 9.957 0 1.758.46 3.472 1.332 4.983L2 22.02l5.19-1.362a9.94 9.94 0 0 0 4.75 1.21h.005c5.49 0 9.954-4.463 9.956-9.957a9.9 9.9 0 0 0-2.914-7.04 9.9 9.9 0 0 0-7.042-2.917Zm0 18.19h-.004a8.26 8.26 0 0 1-4.208-1.152l-.302-.18-3.128.82.835-3.05-.196-.313a8.25 8.25 0 0 1-1.264-4.4c.002-4.565 3.718-8.28 8.29-8.28a8.23 8.23 0 0 1 5.854 2.43 8.23 8.23 0 0 1 2.424 5.86c-.002 4.566-3.718 8.28-8.3 8.28Zm4.544-6.2c-.25-.124-1.475-.727-1.703-.81-.229-.084-.395-.125-.561.125-.166.25-.644.81-.79.977-.144.166-.29.187-.539.062-.25-.125-1.052-.388-2.004-1.237-.74-.66-1.24-1.477-1.386-1.727-.145-.25-.015-.384.11-.508.112-.112.29-.291.436-.437.146-.145.194-.25.29-.416.098-.167.05-.312-.011-.437-.062-.125-.561-1.353-.769-1.852-.203-.486-.409-.42-.561-.428-.146-.007-.312-.008-.478-.008-.166 0-.436.062-.664.312-.229.25-.873.853-.873 2.08 0 1.228.894 2.414 1.018 2.58.125.167 1.758 2.686 4.26 3.767.595.257 1.06.41 1.422.525.597.19 1.14.163 1.57.099.48-.072 1.475-.603 1.683-1.185.208-.583.208-1.082.146-1.186-.063-.104-.229-.166-.478-.29Z"/></svg><span>WhatsApp</span> <b>${phoneDisplay}</b></a></div>
   <div class="nav-wrap">
     <a class="brand" href="${href(lang)}" aria-label="eMarket247 Fashion & Jewellery"><img src="/assets/images/brand/emarket247-logo-transparent.png" width="190" height="99" alt="eMarket247 Fashion & Jewellery"></a>
     <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-menu"><span></span><span></span><span></span><b>${bn ? "মেনু" : "Menu"}</b></button>
@@ -77,7 +79,7 @@ function renderHeader(lang) {
       <a href="${href(lang, "about/")}">${bn ? "আমাদের কথা" : "About Us"}</a>
       <a href="${href(lang, "contact/")}">${bn ? "যোগাযোগ" : "Contact"}</a>
     </nav>
-    <div class="nav-actions"><a href="${lang === "en" ? "/bn/" : "/en/"}" class="lang-link" lang="${lang === "en" ? "bn" : "en"}">${lang === "en" ? "বাংলা" : "EN"}</a><button class="search-button" type="button" aria-label="${bn ? "সার্চ" : "Search"}" data-search-open>⌕</button><a class="bag-link" href="${href(lang, "shop/")}" aria-label="${bn ? "ব্যাগ" : "Bag"}">▢ <span>${bn ? "ব্যাগ" : "Bag"}</span><i>0</i></a></div>
+    <div class="nav-actions"><a href="${lang === "en" ? "/bn/" : "/en/"}" class="lang-link" lang="${lang === "en" ? "bn" : "en"}">${lang === "en" ? "বাংলা" : "EN"}</a><button class="search-button" type="button" aria-label="${bn ? "সার্চ" : "Search"}" data-search-open>⌕</button><a class="bag-link" href="${href(lang, "shop/")}" aria-label="${bn ? "কার্ট" : "Cart"}"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 7.5h13l-1.1 12.2a1.4 1.4 0 0 1-1.4 1.3H8a1.4 1.4 0 0 1-1.4-1.3L5.5 7.5Z"/><path d="M9 7.5V6a3 3 0 0 1 6 0v1.5"/></svg><span>${bn ? "কার্ট" : "Cart"}</span><i>0</i></a></div>
   </div>
 </header>
 <div class="search-panel" aria-hidden="true"><button type="button" data-search-close aria-label="${bn ? "বন্ধ করুন" : "Close"}">×</button><form role="search"><label for="site-search">${bn ? "আপনি কী খুঁজছেন?" : "What are you looking for?"}</label><input id="site-search" type="search" placeholder="${bn ? "কানের দুল, চুড়ি, পূজা..." : "Earrings, bangles, Puja..."}" autocomplete="off"><p>${bn ? "সার্চ ফিচারটি অনুমোদিত কালেকশনের তথ্যের সাথে যুক্ত হবে।" : "Search will be connected to approved collection records."}</p></form></div>`;
@@ -286,7 +288,9 @@ export function generatePdpHtml(product, lang, relatedProducts = []) {
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&family=Noto+Sans+Bengali:wght@400;500;600;700&family=Noto+Serif+Bengali:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/variables.css?v=${VARIABLES_VERSION}">
   <link rel="stylesheet" href="/assets/css/site.css?v=${CSS_VERSION}">
+  <link rel="stylesheet" href="/assets/css/pdp.css?v=${PDP_VERSION}">
   <script type="application/ld+json">${JSON.stringify(jsonLd)}</script>
   <title>${attr(title)}</title>
 </head>
