@@ -1356,7 +1356,9 @@
           title_bn: titleBnVal,
           category: catVal,
           price: priceVal,
-          is_price_pending: pricePendingVal ? 1 : (priceVal > 0 ? 0 : 1),
+          // A price > 0 always publishes (the server enforces this too); only a
+          // product with no price yet stays pending ("price on request").
+          is_price_pending: priceVal > 0 ? 0 : 1,
           stock_status: stockVal,
           image_url: imageVal,
           lead_en: leadVal

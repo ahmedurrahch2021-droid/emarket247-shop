@@ -89,7 +89,13 @@ if ($op === 'create') {
     $sku = trim($input['sku'] ?? $input['id'] ?? '');
     $category = trim($input['category'] ?? 'Rings');
     $price = (float)($input['price'] ?? 0);
-    $isPricePending = isset($input['is_price_pending']) ? (int)$input['is_price_pending'] : ($price > 0 ? 0 : 1);
+    // A real price (> 0) always publishes — it is never pending. Only fall back
+    // to the caller's flag (or "pending") when no price has been set yet.
+    if ($price > 0) {
+        $isPricePending = 0;
+    } else {
+        $isPricePending = isset($input['is_price_pending']) ? (int)$input['is_price_pending'] : 1;
+    }
     $material = trim($input['material'] ?? '22K Gold Luster & Sterling Silver');
     $stockStatus = trim($input['stock_status'] ?? 'in_stock');
     $stockQty = (int)($input['stock_qty'] ?? 10);
@@ -166,10 +172,12 @@ if ($op === 'update') {
         sendJsonResponse(['success' => false, 'error' => 'Valid product ID or SKU is required.'], 400);
     }
 
-    // If a price is provided, publishing it clears the "price pending" flag
-    // unless the caller explicitly set the flag.
-    if (isset($input['price']) && !isset($input['is_price_pending'])) {
-        $input['is_price_pending'] = ((float)$input['price'] > 0) ? 0 : 1;
+    // Logic reconciliation: a price > 0 MUST clear the pending flag, so a client
+    // can never accidentally leave a priced product hidden as "price on request".
+    if (isset($input['price']) && (float)$input['price'] > 0) {
+        $input['is_price_pending'] = 0;
+    } elseif (!isset($input['is_price_pending'])) {
+        $input['is_price_pending'] = 1;
     }
 
     $fields = [];

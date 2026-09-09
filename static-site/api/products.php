@@ -89,7 +89,12 @@ if ($op === 'create') {
     $sku = trim($input['sku'] ?? $input['id'] ?? '');
     $category = trim($input['category'] ?? 'Rings');
     $price = (float)($input['price'] ?? 0);
-    $isPricePending = isset($input['is_price_pending']) ? (int)$input['is_price_pending'] : ($price > 0 ? 0 : 1);
+    // Systematic fix: If price is set, it's no longer pending.
+    if ($price > 0) {
+        $isPricePending = 0;
+    } else {
+        $isPricePending = isset($input['is_price_pending']) ? (int)$input['is_price_pending'] : 1;
+    }
     $material = trim($input['material'] ?? '22K Gold Luster & Sterling Silver');
     $stockStatus = trim($input['stock_status'] ?? 'in_stock');
     $stockQty = (int)($input['stock_qty'] ?? 10);
@@ -166,10 +171,11 @@ if ($op === 'update') {
         sendJsonResponse(['success' => false, 'error' => 'Valid product ID or SKU is required.'], 400);
     }
 
-    // If a price is provided, publishing it clears the "price pending" flag
-    // unless the caller explicitly set the flag.
-    if (isset($input['price']) && !isset($input['is_price_pending'])) {
-        $input['is_price_pending'] = ((float)$input['price'] > 0) ? 0 : 1;
+    // Logic reconciliation: If price is set > 0, it MUST NOT be pending.
+    if (isset($input['price']) && (float)$input['price'] > 0) {
+        $input['is_price_pending'] = 0;
+    } elseif (!isset($input['is_price_pending'])) {
+        $input['is_price_pending'] = 1;
     }
 
     $fields = [];
