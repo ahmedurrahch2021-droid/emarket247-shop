@@ -82,11 +82,14 @@ CREATE TABLE IF NOT EXISTS `emk_settings` (
   PRIMARY KEY (`setting_key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Default Admin Account (Password: admin247)
--- bcrypt hash for 'admin247' is $2y$10$wN0m.sJt9mGqVwYq4aR.q.K6kKq9D3e8q5TqQ5Y6W8l9p0v7x6o2a
+-- Default Admin Account — email: admin@emarket247.shop  password: admin247
+-- The value below is a REAL bcrypt hash of 'admin247' (verified against PHP
+-- password_verify). Change this password from the admin panel after first login.
+-- On re-import, ON DUPLICATE KEY UPDATE also refreshes the hash so a previously
+-- seeded (or corrupted) admin row is repaired rather than left stale.
 INSERT INTO `emk_users` (`full_name`, `email`, `phone`, `password_hash`, `role`, `city`, `district`)
-VALUES ('Store Administrator', 'admin@emarket247.shop', '+8801740501062', '$2y$10$7zB3vFvAekJd7aUuP2Y/4uXwM0q6b3eG7eL3zM2nK1i8o9p0v7x6o', 'admin', 'Dhaka', 'Dhaka')
-ON DUPLICATE KEY UPDATE `role`='admin';
+VALUES ('Store Administrator', 'admin@emarket247.shop', '+8801740501062', '$2y$10$UmaFzag5dm6JiVAU0JOyf.arp3iCUfogRKrzqqgtbXplvcYixZuUi', 'admin', 'Dhaka', 'Dhaka')
+ON DUPLICATE KEY UPDATE `password_hash`=VALUES(`password_hash`), `role`='admin';
 
 -- Initial Store Settings
 INSERT INTO `emk_settings` (`setting_key`, `setting_value`) VALUES

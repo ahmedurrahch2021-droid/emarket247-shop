@@ -3,7 +3,13 @@ require_once __DIR__ . '/config.php';
 
 $pdo = getDbConnection();
 $method = $_SERVER['REQUEST_METHOD'];
-$action = $_GET['action'] ?? '';
+
+// Resolve the requested action from the query string (?action=) OR the request
+// body. The site/admin frontend sends {action:"login", ...} in the JSON POST
+// body, so reading $_GET alone made every POST action (login, register, logout,
+// test_db) fall through to the 404 "Invalid authentication endpoint" below.
+$input = json_decode(file_get_contents('php://input'), true) ?? $_POST;
+$action = $_GET['action'] ?? (is_array($input) ? ($input['action'] ?? '') : '');
 
 if (!$pdo) {
     sendJsonResponse([
@@ -11,8 +17,6 @@ if (!$pdo) {
         'message' => 'Database connection failed. Please check your Hostinger database credentials in config.php.'
     ], 500);
 }
-
-$input = json_decode(file_get_contents('php://input'), true) ?? $_POST;
 
 if ($action === 'register' && $method === 'POST') {
     $fullName = trim($input['full_name'] ?? '');
