@@ -446,6 +446,12 @@
       : `Hello eMarket247, I want to inquire about ${product.title} (Ref: ${product.id}, Link: https://emarket247.shop/${language}/products/${product.slug}/).`;
     const waUrl = `https://wa.me/8801740501062?text=${encodeURIComponent(waMsg)}`;
 
+    const priceNum = Number(product.price);
+    const isPending = product.pricePending || !(priceNum > 0);
+    const priceText = isPending
+      ? (language === "bn" ? "মূল্য জানতে যোগাযোগ করুন" : "Price on request")
+      : `৳${priceNum.toLocaleString("en-US")}`;
+
     return `<article class="product-card" data-product-id="${esc(product.id)}">
       <a class="product-card-media" href="${pdpUrl}" aria-label="${esc(product.title)}">
         <img src="${esc(product.image.src)}" srcset="${esc(product.image.srcset || product.image.src)}" sizes="(max-width: 680px) 50vw, (max-width: 1000px) 50vw, 33vw" width="${esc(product.image.width)}" height="${esc(product.image.height)}" loading="lazy" alt="${esc(product.image.alt)}">
@@ -458,6 +464,7 @@
         </div>
         <h3 class="product-card-title"><a href="${pdpUrl}">${esc(product.title)}</a></h3>
         <small class="product-card-desc">${esc(product.image.caption)}</small>
+        <p class="product-card-price${isPending ? " is-pending" : ""}">${priceText}</p>
       </div>
       <div class="product-card-actions">
         <button type="button" class="product-card-add-btn" data-add-bag="${esc(product.id)}" data-product-title="${esc(product.title)}" data-product-slug="${esc(product.slug)}" data-product-image="${esc(product.image.src)}" data-product-cat="${esc(product.categoryLabel)}" aria-label="${language === "bn" ? "ব্যাগে যোগ করুন: " + esc(product.title) : "Add to bag: " + esc(product.title)}">
@@ -568,6 +575,15 @@
       render();
     }));
 
+    // Seed the search box from a ?q= param so the header search box can route
+    // visitors straight to a filtered Shop view.
+    const urlQuery = new URLSearchParams(window.location.search).get("q");
+    if (urlQuery && searchInput) {
+      searchQuery = urlQuery;
+      searchInput.value = urlQuery;
+      if (searchClear) searchClear.style.display = "block";
+    }
+
     one("[data-sort]", control).addEventListener("change", render);
     render();
   };
@@ -588,6 +604,7 @@
         category: p.category,
         categoryLabel: p.category,
         price: p.price,
+        pricePending: Number(p.is_price_pending) === 1,
         status: p.is_active ? "ready" : "inactive",
         image: {
           src: p.image_url,
@@ -1330,6 +1347,33 @@
           }
         };
 
+        // Build the database payload with the exact column names products.php
+        // expects. The local productObj uses display-oriented names, so map them.
+        const dbPayload = {
+          action: editingProductId ? "update" : "create",
+          sku: editingProductId || skuVal,
+          title_en: titleEnVal,
+          title_bn: titleBnVal,
+          category: catVal,
+          price: priceVal,
+          is_price_pending: pricePendingVal ? 1 : (priceVal > 0 ? 0 : 1),
+          stock_status: stockVal,
+          image_url: imageVal,
+          lead_en: leadVal
+        };
+
+        // Wait for the live database to confirm before claiming success.
+        const saveBtn = productEditForm.querySelector('[type="submit"]');
+        if (saveBtn) saveBtn.disabled = true;
+        const apiRes = await hostingerApi.call("products.php", dbPayload);
+        if (saveBtn) saveBtn.disabled = false;
+
+        if (!apiRes || !apiRes.success) {
+          const msg = apiRes && apiRes.error ? apiRes.error : (language === "bn" ? "সার্ভারে সংরক্ষণ ব্যর্থ হয়েছে।" : "Saving to the server failed.");
+          showToast((language === "bn" ? "ত্রুটি: " : "Error: ") + msg);
+          return;
+        }
+
         let customProds = getCustomProducts();
 
         if (editingProductId) {
@@ -1346,15 +1390,9 @@
 
         saveCustomProducts(customProds);
 
-        // Hostinger MySQL Async Sync
-        hostingerApi.call("products.php", {
-          action: editingProductId ? "update" : "create",
-          ...productObj
-        });
-
         closeProductModal();
-        renderProductsTable();
-        updateAdminStats();
+        // Reload the table from the live database so the admin sees real state.
+        await loadDashboardData();
       });
     }
 
@@ -1419,20 +1457,25 @@
       });
 
       all(".btn-del-prod", tbody).forEach(btn => {
-        btn.addEventListener("click", () => {
+        btn.addEventListener("click", async () => {
           const id = btn.dataset.delId;
           const prod = allProducts.find(p => p.id === id);
           if (prod && confirm(language === "bn" ? `আপনি কি নিশ্চিত যে "${prod.title}" ডিলিট করবেন?` : `Are you sure you want to delete "${prod.title}"?`)) {
-            allProducts = allProducts.filter(p => p.id !== id);
+            // Confirm the delete on the live database before updating the UI.
+            btn.disabled = true;
+            const apiRes = await hostingerApi.call("products.php", { action: "delete", sku: id });
+            btn.disabled = false;
+            if (!apiRes || !apiRes.success) {
+              showToast("Error: " + (apiRes && apiRes.error ? apiRes.error : "Delete failed on the server."));
+              return;
+            }
             let customProds = getCustomProducts().filter(p => p.id !== id);
             saveCustomProducts(customProds);
-
-            // Hostinger DB Async Delete
-            hostingerApi.call("products.php", { action: "delete", id });
 
             showToast(language === "bn" ? `"${prod.title}" সফলভাবে ডিলিট করা হয়েছে!` : `Product "${prod.title}" removed!`);
             renderProductsTable();
             updateAdminStats();
+            await loadDashboardData();
           }
         });
       });
@@ -1489,12 +1532,18 @@
       `).join("");
 
       all(".order-status-updater", tbody).forEach(sel => {
-        sel.addEventListener("change", (e) => {
+        sel.addEventListener("change", async (e) => {
           const ordId = Number(sel.dataset.orderId);
           const newStatus = e.target.value;
+          sel.disabled = true;
+          const apiRes = await hostingerApi.call("orders.php", { action: "update_status", id: ordId, status: newStatus });
+          sel.disabled = false;
+          if (!apiRes || !apiRes.success) {
+            showToast("Error: " + (apiRes && apiRes.error ? apiRes.error : "Could not update order status on the server."));
+            return;
+          }
           const updatedOrders = getOrders().map(o => o.id === ordId ? { ...o, status: newStatus } : o);
           saveOrders(updatedOrders);
-          hostingerApi.call("orders.php", { action: "update_status", id: ordId, status: newStatus });
           showToast(`Order status updated to ${newStatus}.`);
           renderOrdersTable();
           updateAdminStats();
@@ -1593,37 +1642,107 @@
       });
     }
 
-    // Load initial catalog data into Admin
+    // Load catalog data into the Admin dashboard from the LIVE database.
     const loadDashboardData = async () => {
       try {
-        const res = await fetch(`/assets/data/catalog.en.json`);
-        const catData = await res.json();
-        const baseProducts = catData.products || [];
-        const customProducts = getCustomProducts();
+        // The live MySQL database is the source of truth. `all=1` includes
+        // inactive/soft-deleted rows (admin-only) so the client sees the true
+        // state; the public storefront still only fetches active products.
+        const data = await hostingerApi.get("products.php?all=1");
 
-        // Merge custom products with base products
-        const merged = [...customProducts];
-        baseProducts.forEach(bp => {
-          if (!merged.some(p => p.id === bp.id)) {
-            merged.push({
-              ...bp,
-              stock_status: bp.stock_status || "in_stock",
-              price: bp.price || 4200
-            });
-          }
-        });
+        if (data && data.success && Array.isArray(data.products)) {
+          allProducts = data.products.map(p => ({
+            id: p.sku,
+            dbId: p.id,
+            title: p.title_en,
+            title_bn: p.title_bn,
+            slug: p.slug,
+            category: p.category,
+            categoryLabel: p.category,
+            price: Number(p.price) || 0,
+            pricePending: Number(p.is_price_pending) === 1,
+            stock_status: p.stock_status,
+            status: Number(p.is_active) ? "ready" : "inactive",
+            image: { src: p.image_url, srcset: p.image_url, alt: p.title_en, caption: p.lead_en }
+          }));
+        } else {
+          // Fallback for static preview / not-logged-in: static catalog + local cache.
+          const res = await fetch(`/assets/data/catalog.en.json`);
+          const catData = await res.json();
+          const baseProducts = catData.products || [];
+          const customProducts = getCustomProducts();
+          const merged = [...customProducts];
+          baseProducts.forEach(bp => {
+            if (!merged.some(p => p.id === bp.id)) {
+              merged.push({
+                ...bp,
+                stock_status: bp.stock_status || "in_stock",
+                price: bp.price || 4200
+              });
+            }
+          });
+          allProducts = merged;
+        }
 
-        allProducts = merged;
         renderProductsTable();
         renderOrdersTable();
         renderCustomersTable();
         updateAdminStats();
       } catch (err) {
-        console.warn("Could not load catalog.en.json for admin:", err);
+        console.warn("Could not load dashboard data:", err);
       }
     };
 
     renderAdminAuth();
+  };
+
+  // Hydrate the product-detail-page price from the live database so the PDP
+  // always shows what the client set in admin — never the baked-in placeholder.
+  const hydratePdpPrice = async () => {
+    const priceEl = one("#pdp-price-display");
+    if (!priceEl) return; // Not a product detail page.
+    const isBn = language === "bn";
+    const addBtn = one("#pdp-add-bag");
+    const ref = addBtn ? (addBtn.dataset.pdpAddBag || "") : "";
+    const match = window.location.pathname.match(/\/products\/([^/]+)\/?$/);
+    const slug = match ? decodeURIComponent(match[1]) : "";
+
+    const showPending = () => {
+      priceEl.innerHTML = `${isBn ? "মূল্য জানতে যোগাযোগ করুন" : "Price on request"} <small class="pdp-price-note">(${isBn ? "কোটেশন সাপেক্ষে" : "Quote on inquiry"})</small>`;
+    };
+
+    try {
+      const res = await fetch("/api/products.php");
+      const data = await res.json();
+      if (!data.success || !Array.isArray(data.products)) { showPending(); return; }
+      const product = data.products.find((p) => (slug && p.slug === slug) || (ref && p.sku === ref));
+      const priceNum = product ? Number(product.price) : 0;
+      if (!product || Number(product.is_price_pending) === 1 || !(priceNum > 0)) {
+        showPending();
+      } else {
+        priceEl.innerHTML = `৳${priceNum.toLocaleString("en-US")}`;
+      }
+    } catch (err) {
+      // Never leave the misleading placeholder if the price cannot be verified.
+      console.warn("PDP price hydrate failed:", err);
+      showPending();
+    }
+  };
+
+  // Wire the global header search box to the Shop page with a ?q= query.
+  const initHeaderSearch = () => {
+    const box = one("#main-search");
+    if (!box) return;
+    const go = () => {
+      const q = box.value.trim();
+      const base = `/${language}/shop/`;
+      window.location.href = q ? `${base}?q=${encodeURIComponent(q)}` : base;
+    };
+    box.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") { e.preventDefault(); go(); }
+    });
+    const form = box.closest("form");
+    if (form) form.addEventListener("submit", (e) => { e.preventDefault(); go(); });
   };
 
   // Initialize Global Elements
@@ -1634,6 +1753,8 @@
     initAdminDashboard();
     initPdpFeatures();
   });
+  initHeaderSearch();
+  hydratePdpPrice();
   updateBagCount();
 })();
 

@@ -2115,6 +2115,19 @@ b.brand-name {
   font-size: 11px;
   line-height: 1.45;
 }
+.product-card-price {
+  margin: 10px 0 0;
+  font-weight: 700;
+  font-size: clamp(15px, 1.3vw, 17px);
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.product-card-price.is-pending {
+  font-weight: 500;
+  font-size: 12px;
+  letter-spacing: 0;
+  color: var(--muted);
+}
 .product-card-actions {
   display: grid;
   grid-template-columns: 1fr auto auto;

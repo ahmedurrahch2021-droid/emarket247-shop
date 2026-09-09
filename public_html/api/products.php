@@ -11,25 +11,61 @@ if (!$pdo) {
     ], 500);
 }
 
-// GET: Fetch products with optional filtering
-if ($method === 'GET') {
+// Resolve the request body and the requested action. The admin panel sends
+// {action:"create|update|delete", ...} in the JSON POST body, while the public
+// storefront still uses plain HTTP verbs (GET to list). We therefore derive a
+// single "operation" from the action if present, otherwise from the HTTP method
+// — so both callers work and admin writes are no longer silently misrouted.
+$input = json_decode(file_get_contents('php://input'), true) ?? $_POST;
+$action = $_GET['action'] ?? (is_array($input) ? ($input['action'] ?? '') : '');
+
+$op = $action;
+if ($op === '') {
+    if ($method === 'GET') {
+        $op = 'list';
+    } elseif ($method === 'POST') {
+        $op = 'create';
+    } elseif ($method === 'PUT' || $method === 'PATCH') {
+        $op = 'update';
+    } elseif ($method === 'DELETE') {
+        $op = 'delete';
+    }
+}
+
+// GET / list: Fetch products with optional filtering (public storefront + admin)
+if ($op === 'list') {
     $category = $_GET['category'] ?? '';
     $search = $_GET['search'] ?? '';
+    $includeInactive = ($_GET['all'] ?? '') === '1';
 
-    $sql = "SELECT * FROM emk_products WHERE is_active = 1";
+    // Listing inactive/soft-deleted rows is an admin-only view.
+    if ($includeInactive) {
+        checkAdmin();
+    }
+
+    $sql = "SELECT * FROM emk_products";
+    $where = [];
     $params = [];
 
+    if (!$includeInactive) {
+        $where[] = "is_active = 1";
+    }
+
     if (!empty($category) && $category !== 'all') {
-        $sql .= " AND category = ?";
+        $where[] = "category = ?";
         $params[] = $category;
     }
 
     if (!empty($search)) {
-        $sql .= " AND (title_en LIKE ? OR sku LIKE ? OR material LIKE ?)";
+        $where[] = "(title_en LIKE ? OR sku LIKE ? OR material LIKE ?)";
         $wildcard = "%{$search}%";
         $params[] = $wildcard;
         $params[] = $wildcard;
         $params[] = $wildcard;
+    }
+
+    if ($where) {
+        $sql .= " WHERE " . implode(' AND ', $where);
     }
 
     $sql .= " ORDER BY id DESC";
@@ -44,17 +80,15 @@ if ($method === 'GET') {
     ]);
 }
 
-// POST: Upload / Create a new product
-if ($method === 'POST') {
+// create: Upload / Create a new product (admin only)
+if ($op === 'create') {
     checkAdmin();
-    $input = json_decode(file_get_contents('php://input'), true) ?? $_POST;
 
-    $titleEn = trim($input['title'] ?? $input['title_en'] ?? '');
+    $titleEn = trim($input['title_en'] ?? $input['title'] ?? '');
     $titleBn = trim($input['title_bn'] ?? '');
     $sku = trim($input['sku'] ?? $input['id'] ?? '');
     $category = trim($input['category'] ?? 'Rings');
     $price = (float)($input['price'] ?? 0);
-    // ...
     $isPricePending = isset($input['is_price_pending']) ? (int)$input['is_price_pending'] : ($price > 0 ? 0 : 1);
     $material = trim($input['material'] ?? '22K Gold Luster & Sterling Silver');
     $stockStatus = trim($input['stock_status'] ?? 'in_stock');
@@ -108,21 +142,34 @@ if ($method === 'POST') {
             ]
         ], 201);
     } catch (PDOException $e) {
+        // Duplicate SKU/slug (UNIQUE constraint) or other insert failure.
+        if ($e->getCode() === '23000') {
+            sendJsonResponse(['success' => false, 'error' => 'A product with this SKU already exists.'], 409);
+        }
         sendJsonResponse(['success' => false, 'error' => 'Failed to insert product.'], 500);
     }
 }
 
-// PUT / PATCH: Update existing product
-if ($method === 'PUT') {
+// update: Update an existing product (admin only)
+if ($op === 'update') {
     checkAdmin();
-    $input = json_decode(file_get_contents('php://input'), true);
 
-    // Identify via SKU or ID
+    // Identify via SKU or numeric ID.
     $id = isset($input['id']) && is_numeric($input['id']) ? (int)$input['id'] : 0;
     $sku = trim($input['sku'] ?? '');
+    // The admin panel keys products by SKU and may pass it as `id`.
+    if ($id <= 0 && $sku === '' && isset($input['id']) && !is_numeric($input['id'])) {
+        $sku = trim((string)$input['id']);
+    }
 
     if ($id <= 0 && empty($sku)) {
         sendJsonResponse(['success' => false, 'error' => 'Valid product ID or SKU is required.'], 400);
+    }
+
+    // If a price is provided, publishing it clears the "price pending" flag
+    // unless the caller explicitly set the flag.
+    if (isset($input['price']) && !isset($input['is_price_pending'])) {
+        $input['is_price_pending'] = ((float)$input['price'] > 0) ? 0 : 1;
     }
 
     $fields = [];
@@ -151,15 +198,33 @@ if ($method === 'PUT') {
     $stmt = $pdo->prepare($sql);
     $stmt->execute($params);
 
+    if ($stmt->rowCount() === 0) {
+        // Either the row does not exist or the values were identical. Verify existence.
+        $check = $pdo->prepare($id > 0 ? "SELECT id FROM emk_products WHERE id = ?" : "SELECT id FROM emk_products WHERE sku = ?");
+        $check->execute([$id > 0 ? $id : $sku]);
+        if (!$check->fetch()) {
+            sendJsonResponse(['success' => false, 'error' => 'No product found for the given ID or SKU.'], 404);
+        }
+    }
+
     sendJsonResponse(['success' => true, 'message' => 'Product updated successfully.']);
 }
 
-// DELETE: Soft delete or remove product
-if ($method === 'DELETE') {
+// delete: Soft-delete a product (admin only). Accepts id/sku from body or query.
+if ($op === 'delete') {
     checkAdmin();
-    // Identify via SKU or ID
-    $id = isset($_GET['id']) && is_numeric($_GET['id']) ? (int)$_GET['id'] : 0;
-    $sku = trim($_GET['sku'] ?? '');
+
+    $id = 0;
+    $sku = '';
+    $rawId = $input['id'] ?? $_GET['id'] ?? null;
+    if ($rawId !== null && is_numeric($rawId)) {
+        $id = (int)$rawId;
+    } elseif ($rawId !== null) {
+        $sku = trim((string)$rawId);
+    }
+    if ($sku === '') {
+        $sku = trim($input['sku'] ?? $_GET['sku'] ?? '');
+    }
 
     if ($id <= 0 && empty($sku)) {
         sendJsonResponse(['success' => false, 'error' => 'Product ID or SKU is required.'], 400);
@@ -173,5 +238,11 @@ if ($method === 'DELETE') {
         $stmt->execute([$sku]);
     }
 
-    sendJsonResponse(['success' => true, 'message' => "Product has been deleted."]);
+    if ($stmt->rowCount() === 0) {
+        sendJsonResponse(['success' => false, 'error' => 'No product found to delete.'], 404);
+    }
+
+    sendJsonResponse(['success' => true, 'message' => 'Product has been deleted.']);
 }
+
+sendJsonResponse(['success' => false, 'error' => 'Invalid product endpoint or action.'], 404);

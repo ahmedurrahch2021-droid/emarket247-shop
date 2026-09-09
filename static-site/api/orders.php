@@ -11,8 +11,27 @@ if (!$pdo) {
     ], 500);
 }
 
-// GET: List all customer orders & inquiries (for Admin Dashboard)
-if ($method === 'GET') {
+// Resolve the request body and requested action. The storefront checkout sends
+// {action:"create", ...} and the admin dashboard sends {action:"update_status"}
+// in the JSON POST body; the admin order list uses GET. We derive a single
+// "operation" from the action when present, otherwise from the HTTP method, so
+// body-action callers are no longer misrouted (which silently dropped writes).
+$input = json_decode(file_get_contents('php://input'), true) ?? $_POST;
+$action = $_GET['action'] ?? (is_array($input) ? ($input['action'] ?? '') : '');
+
+$op = $action;
+if ($op === '') {
+    if ($method === 'GET') {
+        $op = 'list';
+    } elseif ($method === 'POST') {
+        $op = 'create';
+    } elseif ($method === 'PATCH' || $method === 'PUT') {
+        $op = 'update_status';
+    }
+}
+
+// list: All customer orders & inquiries (admin dashboard)
+if ($op === 'list') {
     checkAdmin();
     $status = $_GET['status'] ?? '';
     $sql = "SELECT * FROM emk_orders";
@@ -35,10 +54,8 @@ if ($method === 'GET') {
     ]);
 }
 
-// POST: Place a new bag checkout inquiry or order
-if ($method === 'POST') {
-    $input = json_decode(file_get_contents('php://input'), true) ?? $_POST;
-
+// create: Place a new bag checkout inquiry or order (public)
+if ($op === 'create') {
     $customerName = trim($input['customer_name'] ?? '');
     $customerPhone = trim($input['customer_phone'] ?? '');
     $customerEmail = trim($input['customer_email'] ?? '');
@@ -51,14 +68,14 @@ if ($method === 'POST') {
         sendJsonResponse(['success' => false, 'error' => 'Customer name and phone number are required.'], 400);
     }
 
-    // Authoritative Server-Side Total Calculation
+    // Authoritative server-side total calculation.
     $totalAmount = 0;
     foreach ($items as $item) {
         $sku = $item['sku'] ?? null;
         $qty = (int)($item['qty'] ?? 1);
-    if ($qty <= 0) {
-        $qty = 1; // Default to 1 if non-positive provided
-    }
+        if ($qty <= 0) {
+            $qty = 1; // Default to 1 if a non-positive value is provided.
+        }
         if ($sku) {
             $stmt = $pdo->prepare("SELECT price, is_price_pending FROM emk_products WHERE sku = ?");
             $stmt->execute([$sku]);
@@ -96,10 +113,9 @@ if ($method === 'POST') {
     }
 }
 
-// PATCH: Update order status (Admin)
-if ($method === 'PATCH' || $method === 'PUT') {
+// update_status: Change an order's status (admin only)
+if ($op === 'update_status') {
     checkAdmin();
-    $input = json_decode(file_get_contents('php://input'), true);
     $orderId = (int)($input['id'] ?? 0);
     $status = trim($input['status'] ?? '');
 
@@ -111,5 +127,15 @@ if ($method === 'PATCH' || $method === 'PUT') {
     $stmt = $pdo->prepare("UPDATE emk_orders SET status = ? WHERE id = ?");
     $stmt->execute([$status, $orderId]);
 
+    if ($stmt->rowCount() === 0) {
+        $check = $pdo->prepare("SELECT id FROM emk_orders WHERE id = ?");
+        $check->execute([$orderId]);
+        if (!$check->fetch()) {
+            sendJsonResponse(['success' => false, 'error' => "No order found with ID #{$orderId}."], 404);
+        }
+    }
+
     sendJsonResponse(['success' => true, 'message' => "Order #{$orderId} status updated to {$status}."]);
 }
+
+sendJsonResponse(['success' => false, 'error' => 'Invalid order endpoint or action.'], 404);
