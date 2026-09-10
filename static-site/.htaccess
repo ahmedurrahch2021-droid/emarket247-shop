@@ -6,16 +6,15 @@ DirectoryIndex index.html
 # and is served the branded 404 page below instead of a soft-404 homepage.
 ErrorDocument 404 /404.html
 
-# ---- Dynamic Product Detail Pages (fallback when no static file exists) ----
+# ---- Dynamic Product Detail Pages (database is the single source of truth) ----
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
 
-  # Route /{lang}/products/{slug}/ to product.php ONLY if no static index.html exists.
-  # This allows the 27 existing static PDPs to keep serving as-is (zero risk),
-  # while any NEW product added in the admin gets a correct detail page instantly.
-  RewriteCond %{REQUEST_FILENAME} !-f
-  RewriteCond %{REQUEST_FILENAME} !-d
+  # Route EVERY /{lang}/products/{slug}/ to product.php. The live DB row is
+  # rendered when it exists; otherwise product.php falls back to any legacy
+  # static index.html, then to the branded 404. This is what keeps prices on
+  # detail pages in sync with the admin no matter what changed in the DB.
   RewriteRule ^(en|bn)/products/([a-z0-9-]+)/?$ /product.php?lang=$1&slug=$2 [L,QSA]
 </IfModule>
 

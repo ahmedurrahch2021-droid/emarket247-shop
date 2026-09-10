@@ -37,10 +37,18 @@ if ($pdo && $slug !== '') {
 }
 
 if (!$product) {
-    http_response_code(404);
-    $branded = __DIR__ . '/404.html';
-    if (is_file($branded)) { readfile($branded); }
-    else { echo '<!doctype html><meta charset="utf-8"><title>Not found</title><p>Product not found.</p>'; }
+    // Not in the DB: fall back to any pre-generated static page so slugs that
+    // predate the database keep working. DB products are ALWAYS rendered live
+    // above, which is what keeps admin prices on the detail page.
+    header('Content-Type: text/html; charset=utf-8');
+    $static = __DIR__ . "/$lang/products/$slug/index.html";
+    if (is_file($static)) { readfile($static); }
+    else {
+        http_response_code(404);
+        $branded = __DIR__ . '/404.html';
+        if (is_file($branded)) { readfile($branded); }
+        else { echo '<!doctype html><meta charset="utf-8"><title>Not found</title><p>Product not found.</p>'; }
+    }
     exit;
 }
 
@@ -128,7 +136,9 @@ $leadCaption = $isBn ? (string)($product['lead_bn'] ?? '') : (string)($product['
 $metaDescription = $leadCaption !== '' ? $leadCaption : $context['lead'];
 
 $priceNum = (float)$product['price'];
-$pending = ((int)$product['is_price_pending'] === 1) || $priceNum <= 0;
+// Single source of truth (same rule as site.js + products.php write path):
+// a real price (>0) always displays; "pending" only means "no price set yet".
+$pending = $priceNum <= 0;
 $stockStatus = (string)($product['stock_status'] ?? '');
 
 $canonical = "$siteUrl/$lang/products/$slug/";
@@ -282,7 +292,7 @@ foreach ($related as $rel) {
     if ($relImg === '') { $relImg = '/assets/images/brand/emarket247-logo-transparent.png'; }
     $relCaption = $isBn ? (string)($rel['lead_bn'] ?? '') : (string)($rel['lead_en'] ?? '');
     $relPriceNum = (float)$rel['price'];
-    $relPending = ((int)$rel['is_price_pending'] === 1) || $relPriceNum <= 0;
+    $relPending = $relPriceNum <= 0; // Same single rule as the main product.
     $relPrice = $relPending ? ($isBn ? 'মূল্য জানতে যোগাযোগ করুন' : 'Price on request') : '৳' . number_format($relPriceNum);
     $relWaMsg = $isBn
         ? "হ্যালো eMarket247, আমি $relTitle (রেফারেন্স: $relRef, লিঙ্ক: $siteUrl/$lang/products/$relSlug/) অর্ডার বা তথ্য জানতে আগ্রহী।"

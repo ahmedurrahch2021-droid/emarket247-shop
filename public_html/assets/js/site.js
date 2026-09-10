@@ -447,7 +447,10 @@
     const waUrl = `https://wa.me/8801740501062?text=${encodeURIComponent(waMsg)}`;
 
     const priceNum = Number(product.price);
-    const isPending = product.pricePending || !(priceNum > 0);
+    // Single source of truth: a real price (>0) always displays. "Price on
+    // request" only appears when no price has been set yet — the same rule the
+    // backend enforces on write, so a stale legacy flag can never hide a price.
+    const isPending = !(priceNum > 0);
     const priceText = isPending
       ? (language === "bn" ? "মূল্য জানতে যোগাযোগ করুন" : "Price on request")
       : `৳${priceNum.toLocaleString("en-US")}`;
@@ -1251,8 +1254,15 @@
       if (sku) sku.value = product ? product.id : ("EMK-" + Date.now().toString().slice(-4));
       if (category) category.value = product ? (product.categoryLabel || "Rings") : "Rings";
       if (stock) stock.value = product ? (product.stock_status || "in_stock") : "in_stock";
-      if (price) price.value = product ? (product.price || 4200) : 4200;
-      if (pricePending) pricePending.checked = product ? !!product.pricePending : false;
+      // Blank price for a new product (never prefill a fake price that would
+        // look like it was already set to the client); keep the real value on edit.
+        if (price) price.value = product ? (product.price > 0 ? product.price : "") : "";
+      // The pending flag only means something when no price has been set yet.
+      // A legacy row may still carry is_price_pending=1 alongside a real price;
+      // reflect the true state (pending only when price is absent).
+      if (pricePending) pricePending.checked = product ? (!!product.pricePending && !(Number(product.price) > 0)) : false;
+      const material = one("#prod-material");
+      if (material) material.value = product ? (product.material || "") : "";
       if (imgUrl) imgUrl.value = product ? (product.image?.src || "") : "";
       if (leadEn) leadEn.value = product ? (product.image?.caption || "") : "";
       if (previewImg) {
@@ -1280,16 +1290,33 @@
     const previewTag = one("#prod-img-preview-tag");
 
     triggerFileBtn?.addEventListener("click", () => fileInput?.click());
-    fileInput?.addEventListener("change", (e) => {
+    fileInput?.addEventListener("change", async (e) => {
       const file = e.target.files?.[0];
-      if (file) {
+      if (!file) return;
+
+      // Preview immediately
+      if (previewTag) {
         const reader = new FileReader();
-        reader.onload = (loadEvt) => {
-          const dataUri = loadEvt.target.result;
-          if (previewTag) previewTag.src = dataUri;
-          if (imgUrlInput) imgUrlInput.value = dataUri;
-        };
+        reader.onload = (loadEvt) => { previewTag.src = loadEvt.target.result; };
         reader.readAsDataURL(file);
+      }
+
+      // Upload to server
+      showToast(language === "bn" ? "ইমেজ আপলোড হচ্ছে..." : "Uploading image...");
+      const formData = new FormData();
+      formData.append("image", file);
+
+      try {
+        const res = await fetch("/api/upload.php", { method: "POST", body: formData });
+        const data = await res.json();
+        if (data.success && data.path) {
+          if (imgUrlInput) imgUrlInput.value = data.path;
+          showToast(language === "bn" ? "ইমেজ আপলোড সফল!" : "Image uploaded successfully!");
+        } else {
+          showToast(language === "bn" ? "ত্রুটি: " : "Error: " + (data.error || "Upload failed"));
+        }
+      } catch (err) {
+        showToast(language === "bn" ? "সার্ভারে আপলোড ব্যর্থ হয়েছে।" : "Server upload failed.");
       }
     });
 
@@ -1313,6 +1340,7 @@
         const pricePendingVal = one("#prod-price-pending")?.checked;
         const imageVal = one("#prod-image-url")?.value.trim() || "/assets/images/products/emarket247-gold-tone-cross-band-ring-10.webp";
         const leadVal = one("#prod-lead-en")?.value.trim() || "Traditional handcrafted gold-tone finish";
+        const materialVal = one("#prod-material")?.value.trim() || "22K Gold Luster & Sterling Silver";
 
         const categorySlugMap = {
           "Rings": "rings",
@@ -1361,7 +1389,8 @@
           is_price_pending: priceVal > 0 ? 0 : 1,
           stock_status: stockVal,
           image_url: imageVal,
-          lead_en: leadVal
+          lead_en: leadVal,
+          material: materialVal
         };
 
         // Wait for the live database to confirm before claiming success.
@@ -1422,7 +1451,8 @@
       tbody.innerHTML = filtered.map(p => {
         const stockLabel = p.stock_status === "low_stock" ? "Low Stock" : (p.stock_status === "out_of_stock" ? "Out of Stock" : "In Stock");
         const stockClass = p.stock_status === "out_of_stock" ? "text-amber" : "text-green";
-        const priceDisplay = p.pricePending ? "Price on Request" : `৳${Number(p.price || 4200).toLocaleString()}`;
+        // Same single rule as the storefront: only a missing price reads as "pending".
+        const priceDisplay = Number(p.price) > 0 ? `৳${Number(p.price).toLocaleString()}` : "Price on Request";
 
         return `
           <tr data-prod-id="${esc(p.id)}">
@@ -1664,6 +1694,7 @@
             price: Number(p.price) || 0,
             pricePending: Number(p.is_price_pending) === 1,
             stock_status: p.stock_status,
+            material: p.material || "",
             status: Number(p.is_active) ? "ready" : "inactive",
             image: { src: p.image_url, srcset: p.image_url, alt: p.title_en, caption: p.lead_en }
           }));
@@ -1719,7 +1750,8 @@
       if (!data.success || !Array.isArray(data.products)) { showPending(); return; }
       const product = data.products.find((p) => (slug && p.slug === slug) || (ref && p.sku === ref));
       const priceNum = product ? Number(product.price) : 0;
-      if (!product || Number(product.is_price_pending) === 1 || !(priceNum > 0)) {
+      // Same single rule as the cards and the backend: a real price wins.
+      if (!product || !(priceNum > 0)) {
         showPending();
       } else {
         priceEl.innerHTML = `৳${priceNum.toLocaleString("en-US")}`;
