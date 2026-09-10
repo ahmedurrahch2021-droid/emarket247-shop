@@ -1,6 +1,6 @@
 /** Vermilion Atelier: compact, product-led eMarket247 navigation with vermilion used as a measured brand accent. */
 import { Link, useLocation } from "wouter";
-import { Menu, Search, ShoppingBag, X } from "lucide-react";
+import { Globe, Menu, MessageCircle, Search, ShoppingBag, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
 const LOGO_URL = "/manus-storage/emarket247-logo-transparent_c0ae1043.png";
@@ -24,9 +24,28 @@ export function SiteHeader() {
 
   return (
     <>
-      <div className="service-bar">
-        <p>Thoughtful jewellery discovery, built for every meaningful moment.</p>
-        <Link href="/contact">Need help choosing?</Link>
+      <div className="utility-row">
+        <a href="/bn/" className="lang-link" lang="bn" aria-label="বাংলায় পরিবর্তন করুন">
+          <Globe size={13} className="lang-globe-icon" />
+          <span className="lang-switch-wrap">
+            <span className="lang-item is-active">EN</span>
+            <span className="lang-sep">/</span>
+            <span className="lang-item">বাংলা</span>
+          </span>
+        </a>
+        <p className="utility-tagline">
+          Pan-Bangladesh Delivery · 15-Day Refund Promise · Free Gift with Every Order
+        </p>
+        <a
+          className="utility-whatsapp"
+          href="https://wa.me/8801740501062?text=Hello%2C%20I%20would%20like%20to%20enquire%20about%20eMarket247%20jewellery."
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Chat with us on WhatsApp"
+        >
+          <MessageCircle size={14} />
+          <span>WhatsApp</span> <b>+880 1740-501062</b>
+        </a>
       </div>
       <header className="site-header">
         <div className="header-inner">

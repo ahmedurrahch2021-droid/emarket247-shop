@@ -21,6 +21,7 @@ const ICON = {
   cart: '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 8h11l-1 11a1.6 1.6 0 0 1-1.6 1.5H9.1A1.6 1.6 0 0 1 7.5 19L6.5 8Z"/><path d="M9.5 8V6.5a2.5 2.5 0 0 1 5 0V8"/></svg>',
   search: '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="7"/><path d="m15.5 15.5 5 5"/></svg>',
   whatsapp: '<svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" focusable="false" fill="currentColor"><path d="M12.04 2.016c-5.495 0-9.958 4.463-9.96 9.957 0 1.758.46 3.472 1.332 4.983L2 22.02l5.19-1.362a9.94 9.94 0 0 0 4.75 1.21h.005c5.49 0 9.954-4.463 9.956-9.957a9.9 9.9 0 0 0-2.914-7.04 9.9 9.9 0 0 0-7.042-2.917Zm0 18.19h-.004a8.26 8.26 0 0 1-4.208-1.152l-.302-.18-3.128.82.835-3.05-.196-.313a8.25 8.25 0 0 1-1.264-4.4c.002-4.565 3.718-8.28 8.29-8.28a8.23 8.23 0 0 1 5.854 2.43 8.23 8.23 0 0 1 2.424 5.86c-.002 4.566-3.718 8.28-8.3 8.28Zm4.544-6.2c-.25-.124-1.475-.727-1.703-.81-.229-.084-.395-.125-.561.125-.166.25-.644.81-.79.977-.144.166-.29.187-.539.062-.25-.125-1.052-.388-2.004-1.237-.74-.66-1.24-1.477-1.386-1.727-.145-.25-.015-.384.11-.508.112-.112.29-.291.436-.437.146-.145.194-.25.29-.416.098-.167.05-.312-.011-.437-.062-.125-.561-1.353-.769-1.852-.203-.486-.409-.42-.561-.428-.146-.007-.312-.008-.478-.008-.166 0-.436.062-.664.312-.229.25-.873.853-.873 2.08 0 1.228.894 2.414 1.018 2.58.125.167 1.758 2.686 4.26 3.767.595.257 1.06.41 1.422.525.597.19 1.14.163 1.57.099.48-.072 1.475-.603 1.683-1.185.208-.583.208-1.082.146-1.186-.063-.104-.229-.166-.478-.29Z"/></svg>',
+  globe: '<svg class="lang-globe-icon" viewBox="0 0 24 24" width="13" height="13" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20M12 2a14.5 14.5 0 0 1 0 20M2 12h20"/></svg>',
 };
 
 // Categories & occasions (for menu)
@@ -42,7 +43,6 @@ function href(lang, route = '') {
 function renderHeader(lang) {
   const bn = lang === 'bn';
   const altLang = bn ? 'en' : 'bn';
-  const altLabel = bn ? 'English' : 'বাংলা';
   const categoryLinks = categories.map(([slug, en, bnName]) =>
     `<li><a href="${href(lang, `categories/${slug}/`)}">${bn ? bnName : en}<small>${bn ? en : bnName}</small></a></li>`
   ).join('');
@@ -52,9 +52,9 @@ function renderHeader(lang) {
 
   return `<header class="site-header">
   <div class="utility-row">
-    <a class="utility-whatsapp" href="https://wa.me/8801740501062?text=${encodeURIComponent(bn ? 'নমস্কার, আমি eMarket247 জুয়েলারি সম্পর্কে জানতে চাই' : 'Hello, I would like to enquire about eMarket247 jewellery.')}" target="_blank" rel="noopener" aria-label="${bn ? 'WhatsApp-এ চ্যাট করুন' : 'Chat with us on WhatsApp'}">${ICON.whatsapp} <span>WhatsApp</span> <b>+880 1740-501062</b></a>
+    <a href="/${altLang}/" class="lang-link" lang="${altLang}" aria-label="${bn ? 'Switch language to English' : 'বাংলায় পরিবর্তন করুন'}">${ICON.globe} <span class="lang-switch-wrap"><span class="lang-item ${!bn ? 'is-active' : ''}">EN</span><span class="lang-sep">/</span><span class="lang-item ${bn ? 'is-active' : ''}">বাংলা</span></span></a>
     <p class="utility-tagline">${bn ? 'সারা বাংলাদেশে ডেলিভারি · ১৫ দিনের রিফান্ড গ্যারান্টি · প্রতিটি অর্ডারে ফ্রি গিফট' : 'Pan-Bangladesh Delivery · 15-Day Refund Promise · Free Gift with Every Order'}</p>
-    <a href="/${altLang}/" class="lang-link" lang="${altLang}">${altLabel}</a>
+    <a class="utility-whatsapp" href="https://wa.me/8801740501062?text=${encodeURIComponent(bn ? 'নমস্কার, আমি eMarket247 জুয়েলারি সম্পর্কে জানতে চাই' : 'Hello, I would like to enquire about eMarket247 jewellery.')}" target="_blank" rel="noopener" aria-label="${bn ? 'WhatsApp-এ চ্যাট করুন' : 'Chat with us on WhatsApp'}">${ICON.whatsapp} <span>WhatsApp</span> <b>+880 1740-501062</b></a>
   </div>
   <div class="main-header">
     <a class="brand" href="${href(lang)}" aria-label="eMarket247 Fashion & Jewellery"><img src="/assets/images/brand/emarket247-logo-transparent.png" width="190" height="99" alt="eMarket247 Fashion & Jewellery"></a>
@@ -95,9 +95,9 @@ function walk(dir, out = []) {
 
 async function replaceHeader(file) {
   let src = await readFile(file, 'utf8');
-  // Normalize Windows backslashes so the '/en/' segment check works on all OSes.
-  const normalized = file.replace(/\\/g, '/');
-  const lang = normalized.includes('/en/') ? 'en' : 'bn';
+  // Determine language from html lang attribute or path
+  const langMatch = src.match(/<html[^>]*\slang="([^"]+)"/);
+  const lang = langMatch ? langMatch[1] : (normalized.includes('/en/') ? 'en' : 'bn');
 
   // Match the old <header>...</header> block (minified or not)
   const headerRegex = /<header class="site-header">[\s\S]*?<\/header>/;

@@ -4782,7 +4782,7 @@ b.brand-name {
    3-ROW HEADER (Pandora-style, breathable)
    ============================================================ */
 
-/* --- Row 1: Utility bar (WhatsApp · Tagline · Language) --- */
+/* --- Row 1: Utility bar (Language BN/EN · Tagline · WhatsApp) --- */
 .utility-row {
   display: flex;
   align-items: center;
@@ -4793,8 +4793,87 @@ b.brand-name {
   font-size: 10px;
   letter-spacing: 0.05em;
   background: rgba(255,253,251,0.98);
+  position: relative;
 }
 
+/* Left edge: Language change option BN/EN */
+.lang-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--ink);
+  font-weight: 500;
+  text-decoration: none;
+  padding: 4px 6px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  order: 1;
+  flex-shrink: 0;
+}
+
+.lang-link:hover {
+  color: var(--red-dark);
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.lang-globe-icon {
+  color: var(--muted);
+  flex-shrink: 0;
+  transition: color 0.2s ease;
+}
+
+.lang-link:hover .lang-globe-icon {
+  color: var(--red);
+}
+
+.lang-switch-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10.5px;
+  letter-spacing: 0.05em;
+}
+
+.lang-item {
+  color: var(--muted);
+  transition: color 0.2s ease;
+}
+
+.lang-item.is-active {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.lang-sep {
+  color: var(--line);
+  font-weight: 400;
+}
+
+.lang-link:hover .lang-item:not(.is-active) {
+  color: var(--red-dark);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* Center: Assurance tagline positioned in the middle of top bar over search bar */
+.utility-tagline {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
+  text-align: center;
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: 0.07em;
+  white-space: nowrap;
+  max-width: min(560px, calc(100% - 360px));
+  overflow: hidden;
+  text-overflow: ellipsis;
+  pointer-events: none;
+}
+
+/* Right edge: WhatsApp button */
 .utility-whatsapp {
   display: inline-flex;
   align-items: center;
@@ -4802,31 +4881,36 @@ b.brand-name {
   color: var(--ink);
   font-weight: 600;
   text-decoration: none;
-  transition: color 0.2s ease;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  order: 3;
+  flex-shrink: 0;
 }
 
 .utility-whatsapp:hover {
-  color: var(--red-dark);
+  color: #128c7e;
+  background: rgba(37, 211, 102, 0.08);
 }
 
 .utility-whatsapp svg {
   color: #25d366;
+  transition: transform 0.2s ease;
+}
+
+.utility-whatsapp:hover svg {
+  transform: scale(1.08);
 }
 
 .utility-whatsapp span {
   text-transform: uppercase;
+  font-size: 9.5px;
+  letter-spacing: 0.06em;
 }
 
 .utility-whatsapp b {
   font-weight: 700;
-}
-
-.utility-tagline {
-  margin: 0;
-  text-align: center;
-  color: var(--muted);
-  font-size: 10px;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.02em;
 }
 
 /* --- Row 2: Main header (Logo · Search · Icons) --- */
@@ -4993,6 +5077,16 @@ b.brand-name {
 
   .utility-tagline {
     display: none;
+  }
+
+  .utility-whatsapp span {
+    font-size: 9px;
+  }
+
+  @media (max-width: 480px) {
+    .utility-whatsapp b {
+      display: none;
+    }
   }
 
   .main-header {
