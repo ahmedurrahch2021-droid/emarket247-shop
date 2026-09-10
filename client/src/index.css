@@ -14,7 +14,7 @@
 .lang-item.is-active{color:var(--ink);font-weight:700}
 .lang-sep{color:var(--border-strong);font-weight:400}
 .lang-link:hover .lang-item:not(.is-active){color:var(--red-dark);text-decoration:underline;text-underline-offset:2px}
-.utility-tagline{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);margin:0;text-align:center;color:var(--muted);font-size:10px;letter-spacing:.07em;white-space:nowrap;max-width:min(560px,calc(100% - 360px));overflow:hidden;text-overflow:ellipsis;pointer-events:none}
+.utility-tagline{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);margin:0;text-align:center;color:var(--muted);font-size:10px;letter-spacing:.07em;white-space:nowrap;max-width:min(640px,calc(100% - 340px));overflow:hidden;text-overflow:ellipsis;pointer-events:none}
 .utility-whatsapp{display:inline-flex;align-items:center;gap:6px;color:var(--ink);font-weight:600;text-decoration:none;padding:4px 8px;border-radius:4px;transition:all .2s ease;order:3;flex-shrink:0}
 .utility-whatsapp:hover{color:#128c7e;background:rgba(37,211,102,.08)}
 .utility-whatsapp svg{color:#25d366;transition:transform .2s ease}

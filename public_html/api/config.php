@@ -42,9 +42,9 @@ function checkAdmin() {
 
 define('DB_HOST', getenv('DB_HOST') ?: 'localhost');
 define('DB_PORT', getenv('DB_PORT') ?: '3306');
-define('DB_NAME', 'u388927772_emarket247');
-define('DB_USER', 'u388927772_eMarket_admin');
-define('DB_PASS', 'EQu2ypJVvn6m!H');
+define('DB_NAME', getenv('DB_NAME') ?: 'u123456789_emarket247');
+define('DB_USER', getenv('DB_USER') ?: 'u123456789_emarket_user');
+define('DB_PASS', getenv('DB_PASS') ?: 'YourStrongPasswordHere');
 define('DB_PREFIX', 'emk_');
 
 function getDbConnection() {
