@@ -540,36 +540,30 @@ main#main > section:nth-of-type(1) > div:nth-of-type(2),
   }
   
   /* 3-line Stacked Hamburger Icon */
-  .menu-hamburger {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 18px;
-    height: 13px;
+  .menu-toggle > span {
+    display: block;
+    width: 20px;
+    height: 2px;
+    background: var(--ink);
+    border-radius: 2px;
+    transition: transform 0.25s var(--ease), opacity 0.2s var(--ease), background 0.2s var(--ease);
+    transform-origin: center;
     flex-shrink: 0;
   }
-  .menu-hamburger span {
-    display: block !important;
-    width: 100% !important;
-    height: 2px !important;
-    background: var(--ink) !important;
-    border-radius: 2px !important;
-    transition: transform 0.25s var(--ease), opacity 0.2s var(--ease), background 0.2s var(--ease) !important;
-    transform-origin: center;
-  }
-  .menu-toggle:hover .menu-hamburger span {
-    background: var(--red-dark) !important;
-  }
-  .menu-toggle[aria-expanded="true"] .menu-hamburger span:nth-child(1) {
-    transform: translateY(5.5px) rotate(45deg);
+  .menu-toggle > span:nth-child(1) { transform: translateY(-7px); }
+  .menu-toggle > span:nth-child(2) { transform: translateY(0); }
+  .menu-toggle > span:nth-child(3) { transform: translateY(7px); }
+  .menu-toggle:hover > span { background: var(--red-dark) !important; }
+  .menu-toggle[aria-expanded="true"] > span:nth-child(1) {
+    transform: translateY(0) rotate(45deg);
     background: var(--red) !important;
   }
-  .menu-toggle[aria-expanded="true"] .menu-hamburger span:nth-child(2) {
+  .menu-toggle[aria-expanded="true"] > span:nth-child(2) {
     opacity: 0;
-    transform: scaleX(0);
+    transform: scaleX(0) !important;
   }
-  .menu-toggle[aria-expanded="true"] .menu-hamburger span:nth-child(3) {
-    transform: translateY(-5.5px) rotate(-45deg);
+  .menu-toggle[aria-expanded="true"] > span:nth-child(3) {
+    transform: translateY(0) rotate(-45deg);
     background: var(--red) !important;
   }
   .menu-toggle b {
@@ -4155,8 +4149,9 @@ b.brand-name {
   color: var(--red-dark);
 }
 @media (max-width: 400px) {
-  .utility-whatsapp span {
-    display: none;
+  .utility-whatsapp span,
+  .utility-whatsapp b {
+    display: none !important;
   }
 }
 
@@ -5329,10 +5324,10 @@ b.brand-name {
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    width: 42px !important;
-    height: 42px !important;
-    min-width: 42px !important;
-    min-height: 42px !important;
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
     border: none !important;
     background: transparent !important;
     color: var(--ink) !important;
