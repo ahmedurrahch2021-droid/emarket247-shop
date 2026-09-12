@@ -3,7 +3,7 @@ import { createServer } from "node:http";
 import path from "node:path";
 
 // Local, throwaway preview server for read-only visual QA of the pure-static site.
-const root = path.resolve("F:/EMARKET247/Project 011/emarket247-shop-main/static-site");
+const root = path.resolve("F:/EMARKET247/Project 011/emarket247-shop-main/public_html");
 const port = 4180;
 const types = { ".css": "text/css", ".js": "text/javascript", ".json": "application/json", ".webp": "image/webp", ".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".svg": "image/svg+xml", ".xml": "application/xml", ".txt": "text/plain", ".html": "text/html" };
 

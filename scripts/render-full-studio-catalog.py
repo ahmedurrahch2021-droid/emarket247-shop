@@ -11,7 +11,7 @@ from pathlib import Path
 from PIL import Image, ImageFilter, ImageOps, TiffImagePlugin
 
 PROJECT = Path(__file__).resolve().parent.parent
-STATIC = PROJECT / "static-site"
+STATIC = PROJECT / "public_html"
 JOB_MANIFEST = PROJECT / "research" / "studio-catalog-batch-jobs.json"
 CATALOG_PATH = STATIC / "assets" / "data" / "catalog.en.json"
 SOURCE_DIR = STATIC / "assets" / "images" / "products"

@@ -18,8 +18,8 @@ PROJECT = Path("/home/ubuntu/emarket247-shop")
 SOURCE_ROOT = Path("/home/ubuntu/projects/emarket247-pandora-clone-7f5043cd")
 MAPPING = SOURCE_ROOT / "phase2-assets/catalog/asset-mapping.csv"
 OUTPUT_ROOT = Path("/home/ubuntu/webdev-static-assets/emarket247-product-catalog")
-CATALOG_EN = PROJECT / "static-site/assets/data/catalog.en.json"
-CATALOG_BN = PROJECT / "static-site/assets/data/catalog.bn.json"
+CATALOG_EN = PROJECT / "public_html/assets/data/catalog.en.json"
+CATALOG_BN = PROJECT / "public_html/assets/data/catalog.bn.json"
 MANIFEST = OUTPUT_ROOT / "product-image-manifest.csv"
 
 COPYRIGHT = "© eMarket247. All rights reserved."

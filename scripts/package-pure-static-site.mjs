@@ -4,7 +4,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const project = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
-const source = path.join(project, "static-site");
+const source = path.join(project, "public_html");
 const output = path.join(project, "dist", "hostinger-file-manager");
 
 await rm(output, { recursive: true, force: true });

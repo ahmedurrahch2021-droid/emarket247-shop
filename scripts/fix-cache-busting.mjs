@@ -15,7 +15,8 @@ import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const TREES = ['static-site', 'public_html'];
+// public_html/ is the single source of truth — no second tree to sync
+const TREES = ['public_html'];
 
 function hash8(rel) {
   const buf = readFileSync(path.join(ROOT, 'public_html', rel));

@@ -19,7 +19,7 @@ import { readdir, readFile, stat, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-const root = path.join(path.dirname(path.dirname(fileURLToPath(import.meta.url))), "static-site");
+const root = path.join(path.dirname(path.dirname(fileURLToPath(import.meta.url))), "public_html");
 const SITE = "https://emarket247.shop";
 const ORG_ID = `${SITE}/#organization`;
 const SITE_ID = `${SITE}/#website`;

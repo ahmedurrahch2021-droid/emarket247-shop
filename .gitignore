@@ -73,6 +73,15 @@ jspm_packages/
 # Optional REPL history
 .node_repl_history
 
+# Deleted source trees (no longer part of project)
+static-site/
+client/
+server/
+shared/
+research/
+dist/
+Content%20Strategy/
+
 # Output of 'npm pack'
 *.tgz
 
@@ -108,6 +117,4 @@ temp/
 # Webdev artifacts (checkpoint zips, migrations, etc.)
 .webdev/
 
-# Manus version file (auto-generated, not part of source)
-client/public/__manus__/version.json
 .project-config.json

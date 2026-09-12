@@ -2,7 +2,7 @@
 import { mkdir, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 
-const root = path.resolve(import.meta.dirname, "..", "static-site");
+const root = path.resolve(import.meta.dirname, "..", "public_html");
 const siteUrl = "https://emarket247.shop";
 const categories = [
   ["rings", "Rings", "আংটি"], ["earrings", "Earrings", "কানের দুল"], ["necklaces", "Necklaces", "হার"], ["bracelets", "Bracelets", "ব্রেসলেট"],

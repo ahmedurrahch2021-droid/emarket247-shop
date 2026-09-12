@@ -9,9 +9,9 @@ from pathlib import Path
 from PIL import Image, ImageOps
 
 ROOT = Path(__file__).resolve().parents[1]
-SOURCE = ROOT / "static-site" / "assets" / "images" / "products"
-OUTPUT = ROOT / "static-site" / "assets" / "images" / "products-square"
-DATA = ROOT / "static-site" / "assets" / "data"
+SOURCE = ROOT / "public_html" / "assets" / "images" / "products"
+OUTPUT = ROOT / "public_html" / "assets" / "images" / "products-square"
+DATA = ROOT / "public_html" / "assets" / "data"
 BACKGROUND = (255, 253, 251, 255)
 
 

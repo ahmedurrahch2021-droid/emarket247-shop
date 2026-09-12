@@ -4,7 +4,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const project = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
-const source = path.join(project, "static-site");
+const source = path.join(project, "public_html");
 const siteUrl = "https://emarket247.shop";
 const categories = [
   ["rings", "Rings", "আংটি"],
@@ -203,4 +203,4 @@ for (const route of routes) {
 await writeFile(path.join(source, "sitemap.xml"), sitemap, "utf8");
 
 await cp(path.join(source, "en", "index.html"), path.join(source, "index.html"));
-console.log("Applied audited static-site fixes: Occasion routes, Bridal Jewellery category, shared navigation, breadcrumbs, and sitemap.");
+console.log("Applied audited public_html fixes: Occasion routes, Bridal Jewellery category, shared navigation, breadcrumbs, and sitemap.");

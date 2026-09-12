@@ -11,7 +11,7 @@
       "port": 5173
     },
     {
-      "name": "static-site",
+      "name": "public_html",
       "runtimeExecutable": "node",
       "runtimeArgs": [
         "scripts/serve-pure-static.mjs"

@@ -13,7 +13,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 
 const projectRoot = process.cwd();
-const staticSite = path.join(projectRoot, "static-site");
+const staticSite = path.join(projectRoot, "public_html");
 
 const PHONE_DISPLAY = "+880 1740-501062";
 const PHONE_E164 = "8801740501062";

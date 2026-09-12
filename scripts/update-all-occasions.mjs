@@ -570,7 +570,7 @@ async function updateOccasionPage(relPath, lang, occKey) {
   const occData = OCCASIONS_DATA[occKey];
   if (!occData) return;
 
-  const trees = ["public_html", "static-site"];
+  const trees = ["public_html"];
   for (const tree of trees) {
     const fullPath = path.join(root, tree, relPath);
     try {
@@ -601,7 +601,7 @@ async function updateOccasionPage(relPath, lang, occKey) {
 
 // Also update occasions/index.html (the hub)
 async function updateOccasionsHub() {
-  const trees = ["public_html", "static-site"];
+  const trees = ["public_html"];
   const hubData = {
     en: {
       title: "Occasions Jewellery & Celebrations | eMarket247",

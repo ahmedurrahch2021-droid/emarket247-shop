@@ -2,15 +2,15 @@
 /**
  * Step 1 — CSS Repair.
  * Rebuilds a COMPLETE, non-truncated site.css and writes it to BOTH trees
- * (static-site = source of truth, public_html = deployed) so they match.
+ * (public_html = source of truth, public_html = deployed) so they match.
  *
  * What it does:
- *  1. Reads the complete source stylesheet (static-site/assets/css/site.css).
+ *  1. Reads the complete source stylesheet (public_html/assets/css/site.css).
  *  2. Removes the trailing "PDP MASTER LAYOUT" block (the !important-heavy,
  *     redundant override) — PDP layout is owned by pdp.css.
  *  3. Ensures --gold / --gold-light / --mono tokens are defined in :root so no
  *     page has an undefined CSS variable.
- *  4. Writes the result to static-site/assets/css/site.css AND
+ *  4. Writes the result to public_html/assets/css/site.css AND
  *     public_html/assets/css/site.css.
  *
  * It does NOT alter any other styles — it only repairs the truncation and the
@@ -21,9 +21,9 @@ import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const SOURCE = path.join(ROOT, 'static-site', 'assets', 'css', 'site.css');
+const SOURCE = path.join(ROOT, 'public_html', 'assets', 'css', 'site.css');
 const TARGETS = [
-  path.join(ROOT, 'static-site', 'assets', 'css', 'site.css'),
+  path.join(ROOT, 'public_html', 'assets', 'css', 'site.css'),
   path.join(ROOT, 'public_html', 'assets', 'css', 'site.css'),
 ];
 

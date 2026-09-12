@@ -1,24 +1,13 @@
-import { jsxLocPlugin } from "@builder.io/vite-plugin-jsx-loc";
-import tailwindcss from "@tailwindcss/vite";
-import react from "@vitejs/plugin-react";
 import path from "node:path";
 import { defineConfig } from "vite";
 
+// public_html/ is the canonical source tree.
+// This config serves it for local preview (npm run dev / npm run preview).
 export default defineConfig({
-  plugins: [react(), tailwindcss(), jsxLocPlugin()],
-  resolve: {
-    alias: {
-      "@": path.resolve(import.meta.dirname, "client", "src"),
-      "@shared": path.resolve(import.meta.dirname, "shared"),
-      "@assets": path.resolve(import.meta.dirname, "attached_assets"),
-    },
-  },
   envDir: path.resolve(import.meta.dirname),
-  // Serve the self-contained pure static source, including its bundled local assets.
-  // This keeps the managed preview and cloud deployment aligned with the Hostinger upload output.
-  root: path.resolve(import.meta.dirname, "static-site"),
+  root: path.resolve(import.meta.dirname, "public_html"),
   build: {
-    outDir: path.resolve(import.meta.dirname, "dist/public"),
+    outDir: path.resolve(import.meta.dirname, "dist"),
     emptyOutDir: true,
   },
   server: {

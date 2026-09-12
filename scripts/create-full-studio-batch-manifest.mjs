@@ -6,7 +6,7 @@ import { fileURLToPath } from "node:url";
 const project = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const originalRoot = "/home/ubuntu/projects/emarket247-pandora-clone-7f5043cd";
 const enhancedManifest = JSON.parse(await readFile(path.join(project, "research/enhanced-product-image-manifest.json"), "utf8"));
-const catalog = JSON.parse(await readFile(path.join(project, "static-site/assets/data/catalog.en.json"), "utf8"));
+const catalog = JSON.parse(await readFile(path.join(project, "public_html/assets/data/catalog.en.json"), "utf8"));
 const catalogById = new Map(catalog.products.map((product) => [product.id, product]));
 
 const assets = enhancedManifest.images || enhancedManifest.assets || enhancedManifest.products || [];

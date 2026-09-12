@@ -10,8 +10,8 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const FILES = [
-  'static-site/assets/data/catalog.en.json',
-  'static-site/assets/data/catalog.bn.json',
+  'public_html/assets/data/catalog.en.json',
+  'public_html/assets/data/catalog.bn.json',
 ];
 
 async function cleanCatalog(filePath) {

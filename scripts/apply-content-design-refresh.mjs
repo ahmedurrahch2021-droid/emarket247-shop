@@ -16,7 +16,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 
 const projectRoot = process.cwd();
-const staticSite = path.join(projectRoot, "static-site");
+const staticSite = path.join(projectRoot, "public_html");
 const CSS_PATH = path.join(staticSite, "assets", "css", "site.css");
 
 const PHONE_DISPLAY = "+880 1740-501062";

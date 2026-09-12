@@ -4,7 +4,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const project = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
-const source = path.join(project, "static-site");
+const source = path.join(project, "public_html");
 const phoneNational = "8801740501062";
 const phoneDisplay = "+880 1740-501062";
 const images = [

@@ -14,7 +14,7 @@ from PIL.PngImagePlugin import PngInfo
 
 ASSET_ROOT = Path("/home/ubuntu/webdev-static-assets")
 OUT_DIR = ASSET_ROOT / "studio-pilot-final"
-MANIFEST = Path("/home/ubuntu/emarket247-shop/static-site/assets/data/studio-pilot.catalog.json")
+MANIFEST = Path("/home/ubuntu/emarket247-shop/public_html/assets/data/studio-pilot.catalog.json")
 
 PRODUCTS = [
     {

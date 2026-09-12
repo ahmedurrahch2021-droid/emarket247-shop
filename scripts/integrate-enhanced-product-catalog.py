@@ -15,8 +15,8 @@ INPUT_MANIFEST = PROJECT / "research/enhanced-product-image-manifest.json"
 INPUT_IMAGES = Path("/home/ubuntu/webdev-static-assets/emarket247-enhanced-products")
 OUTPUT = Path("/home/ubuntu/webdev-static-assets/emarket247-product-catalog/enhanced-background-cleaned")
 CATALOGS = [
-    PROJECT / "static-site/assets/data/catalog.en.json",
-    PROJECT / "static-site/assets/data/catalog.bn.json",
+    PROJECT / "public_html/assets/data/catalog.en.json",
+    PROJECT / "public_html/assets/data/catalog.bn.json",
 ]
 
 

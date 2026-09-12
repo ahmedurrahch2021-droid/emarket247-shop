@@ -14,7 +14,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const project = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
-const root = path.join(project, "static-site");
+const root = path.join(project, "public_html");
 const siteUrl = "https://emarket247.shop";
 const phone = "+8801740501062";
 const phoneDisplay = "+880 1740-501062";

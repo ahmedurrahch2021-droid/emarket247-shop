@@ -4,7 +4,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const project = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
-const catalogPath = path.join(project, "static-site", "assets", "data", "catalog.bn.json");
+const catalogPath = path.join(project, "public_html", "assets", "data", "catalog.bn.json");
 const catalog = JSON.parse(await readFile(catalogPath, "utf8"));
 
 const labels = {

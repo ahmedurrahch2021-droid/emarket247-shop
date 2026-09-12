@@ -56,7 +56,7 @@ async function updateCatalog(filePath, isEnglish) {
 }
 
 console.log('Updating catalogs with 27 matched images...\n');
-await updateCatalog('static-site/assets/data/catalog.en.json', true);
+await updateCatalog('public_html/assets/data/catalog.en.json', true);
 console.log();
-await updateCatalog('static-site/assets/data/catalog.bn.json', false);
+await updateCatalog('public_html/assets/data/catalog.bn.json', false);
 console.log('\n✓ Catalogs updated');

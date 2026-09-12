@@ -122,7 +122,7 @@ async function replaceHeader(file) {
 }
 
 async function main() {
-  const trees = ['static-site', 'public_html'];
+  const trees = ['public_html', 'public_html'];
   let total = 0;
 
   for (const tree of trees) {
