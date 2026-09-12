@@ -230,6 +230,10 @@
       }
       icon.textContent = `(${count})`;
     });
+    // Also update header cart icon badges (both desktop and mobile)
+    all('.header-icons a[href*="/shop/"] .icon-badge').forEach((badge) => {
+      badge.textContent = String(count);
+    });
     const drawerPill = one(".bag-count-pill");
     if (drawerPill) drawerPill.textContent = `(${count})`;
   };

@@ -217,14 +217,21 @@ function renderHeader($lang, $isBn, $catMap, $occasions, $categories, $I) {
       ' . $I['search'] . '
       <input type="search" id="main-search" class="main-search-input" placeholder="' . attr($searchPh) . '" autocomplete="off">
     </div>
-    <div class="header-icons">
+    <div class="header-icons desktop-header-icons">
       <a href="/' . $lang . '/account/" class="icon-link" aria-label="' . ($isBn ? 'অ্যাকাউন্ট' : 'Account') . '" title="' . ($isBn ? 'অ্যাকাউন্ট' : 'Account') . '">' . $I['user'] . '</a>
       <button type="button" class="icon-link" aria-label="' . ($isBn ? 'উইশলিস্ট' : 'Wishlist') . '" title="' . ($isBn ? 'উইশলিস্ট' : 'Wishlist') . '" data-wishlist-toggle>' . $I['heart'] . '<i class="icon-badge">0</i></button>
       <a href="/' . $lang . '/shop/" class="icon-link" aria-label="' . ($isBn ? 'কার্ট' : 'Cart') . '" title="' . ($isBn ? 'কার্ট' : 'Cart') . '">' . $I['cart'] . '<i class="icon-badge">0</i></a>
     </div>
   </div>
   <div class="nav-header">
-    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-menu"><span></span><span></span><span></span><b>' . ($isBn ? 'মেনু' : 'Menu') . '</b></button>
+    <div class="mobile-nav-bar">
+      <div class="header-icons mobile-header-icons">
+        <a href="/' . $lang . '/account/" class="icon-link" aria-label="' . ($isBn ? 'অ্যাকাউন্ট' : 'Account') . '" title="' . ($isBn ? 'অ্যাকাউন্ট' : 'Account') . '">' . $I['user'] . '</a>
+        <button type="button" class="icon-link" aria-label="' . ($isBn ? 'উইশলিস্ট' : 'Wishlist') . '" title="' . ($isBn ? 'উইশলিস্ট' : 'Wishlist') . '" data-wishlist-toggle>' . $I['heart'] . '<i class="icon-badge">0</i></button>
+        <a href="/' . $lang . '/shop/" class="icon-link" aria-label="' . ($isBn ? 'কার্ট' : 'Cart') . '" title="' . ($isBn ? 'কার্ট' : 'Cart') . '">' . $I['cart'] . '<i class="icon-badge">0</i></a>
+      </div>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-menu"><span class="menu-hamburger"><span></span><span></span><span></span></span><b>' . ($isBn ? 'মেনু' : 'Menu') . '</b></button>
+    </div>
     <nav id="main-menu" class="main-nav" aria-label="' . ($isBn ? 'প্রধান নেভিগেশন' : 'Primary navigation') . '">
       <a href="/' . $lang . '/">' . ($isBn ? 'হোম' : 'Home') . '</a>
       <a href="/' . $lang . '/shop/">' . ($isBn ? 'শপ' : 'Shop') . '</a>

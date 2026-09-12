@@ -63,14 +63,21 @@ function renderHeader(lang) {
       ${ICON.search}
       <input type="search" id="main-search" class="main-search-input" placeholder="${bn ? 'কানের দুল, চুড়ি, পূজা...' : 'Earrings, bangles, Puja...'}" autocomplete="off">
     </div>
-    <div class="header-icons">
+    <div class="header-icons desktop-header-icons">
       <a href="${href(lang, 'account/')}" class="icon-link" aria-label="${bn ? 'অ্যাকাউন্ট' : 'Account'}" title="${bn ? 'অ্যাকাউন্ট' : 'Account'}">${ICON.user}</a>
       <button type="button" class="icon-link" aria-label="${bn ? 'উইশলিস্ট' : 'Wishlist'}" title="${bn ? 'উইশলিস্ট' : 'Wishlist'}" data-wishlist-toggle>${ICON.heart}<i class="icon-badge">0</i></button>
       <a href="${href(lang, 'shop/')}" class="icon-link" aria-label="${bn ? 'কার্ট' : 'Cart'}" title="${bn ? 'কার্ট' : 'Cart'}">${ICON.cart}<i class="icon-badge">0</i></a>
     </div>
   </div>
   <div class="nav-header">
-    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-menu"><span></span><span></span><span></span><b>${bn ? 'মেনু' : 'Menu'}</b></button>
+    <div class="mobile-nav-bar">
+      <div class="header-icons mobile-header-icons">
+        <a href="${href(lang, 'account/')}" class="icon-link" aria-label="${bn ? 'অ্যাকাউন্ট' : 'Account'}" title="${bn ? 'অ্যাকাউন্ট' : 'Account'}">${ICON.user}</a>
+        <button type="button" class="icon-link" aria-label="${bn ? 'উইশলিস্ট' : 'Wishlist'}" title="${bn ? 'উইশলিস্ট' : 'Wishlist'}" data-wishlist-toggle>${ICON.heart}<i class="icon-badge">0</i></button>
+        <a href="${href(lang, 'shop/')}" class="icon-link" aria-label="${bn ? 'কার্ট' : 'Cart'}" title="${bn ? 'কার্ট' : 'Cart'}">${ICON.cart}<i class="icon-badge">0</i></a>
+      </div>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-menu"><span class="menu-hamburger"><span></span><span></span><span></span></span><b>${bn ? 'মেনু' : 'Menu'}</b></button>
+    </div>
     <nav id="main-menu" class="main-nav" aria-label="${bn ? 'প্রধান নেভিগেশন' : 'Primary navigation'}">
       <a href="${href(lang)}">${bn ? 'হোম' : 'Home'}</a>
       <a href="${href(lang, 'shop/')}">${bn ? 'শপ' : 'Shop'}</a>
@@ -95,6 +102,7 @@ function walk(dir, out = []) {
 
 async function replaceHeader(file) {
   let src = await readFile(file, 'utf8');
+  const normalized = file.replace(/\\/g, '/');
   // Determine language from html lang attribute or path
   const langMatch = src.match(/<html[^>]*\slang="([^"]+)"/);
   const lang = langMatch ? langMatch[1] : (normalized.includes('/en/') ? 'en' : 'bn');
