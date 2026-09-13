@@ -35,6 +35,23 @@ const decodeEntities = (s) =>
 
 const abs = (url) => (url?.startsWith("http") ? url : `${SITE}${url || ""}`);
 
+const stripTags = (s) => String(s ?? "").replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+
+// Visible FAQ pairs (homepage .pdp-faq-grid > .pdp-faq-item > h3 + p).
+function extractFaq(html) {
+  const block = html.match(/<div class="pdp-faq-grid">([\s\S]*?)<\/div>/);
+  if (!block) return [];
+  const items = [];
+  const re = /<article class="pdp-faq-item">\s*<h3>([\s\S]*?)<\/h3>\s*<p>([\s\S]*?)<\/p>/g;
+  let m;
+  while ((m = re.exec(block[1]))) {
+    const q = decodeEntities(stripTags(m[1]));
+    const a = decodeEntities(stripTags(m[2]));
+    if (q && a) items.push({ q, a });
+  }
+  return items;
+}
+
 // Serialise JSON-LD compactly and neutralise any "</script>" / "<!--" sequences.
 const serialise = (graph) =>
   JSON.stringify(graph).replace(/</g, "\\u003c").replace(/-->/g, "--\\u003e");
@@ -187,13 +204,25 @@ function webPageNode(url, pageType, title, lang, hasCrumbs, ogImage) {
 }
 
 /* ---------- build the graph for one page ---------- */
-async function buildGraph(cls, facts) {
+async function buildGraph(cls, facts, html) {
   const url = facts.canonical || SITE + "/";
   const graph = [];
 
   if (cls.kind === "home") {
     graph.push(organizationNode(), websiteNode());
     graph.push(webPageNode(url, "WebPage", facts.title, facts.lang, false, facts.ogImage));
+    const faqs = extractFaq(html);
+    if (faqs.length) {
+      graph.push({
+        "@type": "FAQPage",
+        "@id": `${url}#faq`,
+        mainEntity: faqs.map((f) => ({
+          "@type": "Question",
+          name: f.q,
+          acceptedAnswer: { "@type": "Answer", text: f.a },
+        })),
+      });
+    }
     return graph;
   }
 
@@ -261,7 +290,7 @@ for (const file of files.sort()) {
     summary.errors.push(`${relative}: no canonical URL found`);
     continue;
   }
-  const graph = await buildGraph(cls, facts);
+  const graph = await buildGraph(cls, facts, html);
 
   // Validate every emitted node is serialisable / parseable.
   try { JSON.parse(serialise({ "@graph": graph }).replace(/\\u003c/g, "<")); }
