@@ -42,19 +42,20 @@
   const mainNav = one(".main-nav");
 
   if (menuToggle && mainNav) {
-    // Ensure hamburger icon has 3 distinct stacked horizontal lines inside .menu-hamburger
-    let hamburger = one(".menu-hamburger", menuToggle);
-    if (!hamburger) {
-      const existingSpans = all(":scope > span:not(.menu-hamburger)", menuToggle);
-      hamburger = document.createElement("span");
-      hamburger.className = "menu-hamburger";
-      hamburger.setAttribute("aria-hidden", "true");
-      if (existingSpans.length >= 3) {
-        existingSpans.slice(0, 3).forEach((s) => hamburger.appendChild(s));
-      } else {
-        hamburger.innerHTML = "<span></span><span></span><span></span>";
-      }
-      menuToggle.prepend(hamburger);
+    // Remove any legacy span hamburger if present so clean SVG vector icon is used
+    const oldHamburger = one(".menu-hamburger", menuToggle);
+    if (oldHamburger) {
+      oldHamburger.remove();
+    }
+    // Also remove any stray bold text tags inside menu-toggle
+    all(":scope > b", menuToggle).forEach((b) => b.remove());
+
+    // Ensure clean stroke-matched vector SVG icons exist inside menuToggle
+    if (!one(".menu-icon-open", menuToggle)) {
+      menuToggle.insertAdjacentHTML(
+        "afterbegin",
+        '<svg class="menu-icon-open" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/></svg><svg class="menu-icon-close" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>'
+      );
     }
 
     // Create backdrop for mobile drawer if not already in DOM
