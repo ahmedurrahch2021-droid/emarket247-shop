@@ -2,7 +2,7 @@ import { readdir, readFile, stat } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-const root = path.join(path.dirname(path.dirname(fileURLToPath(import.meta.url))), "public_html");
+const root = path.join(path.dirname(path.dirname(fileURLToPath(import.meta.url))), "static-site");
 const errors = [];
 const htmlFiles = [];
 async function walk(folder) {

@@ -1,0 +1,304 @@
+/* =====================================================================
+   PDP MODULE: Luxury Jewelry Product Showcase - FINAL LOCK
+   Standard: Pandora-inspired Balance, High-End Typography, Stable Grid.
+   ===================================================================== */
+
+/* 1. Layout Container - Locked Grid */
+main section.pdp-hero.wrap,
+section.pdp-hero.wrap {
+  max-width: 1240px !important;
+  width: 100% !important;
+  margin-inline: auto !important;
+  display: grid !important;
+  grid-template-columns: 1.18fr 0.95fr !important;
+  gap: clamp(36px, 4.5vw, 64px) !important;
+  align-items: start !important;
+  padding-top: clamp(20px, 3vw, 36px) !important;
+  padding-bottom: clamp(40px, 5vw, 64px) !important;
+  box-sizing: border-box !important;
+  float: none !important;
+  position: relative !important;
+}
+
+/* 2. Gallery (Left Column) - Locked */
+.pdp-gallery {
+  grid-column: 1 !important;
+  grid-row: 1 !important;
+  min-width: 0 !important;
+  width: auto !important;
+  position: sticky !important;
+  top: 96px !important;
+  float: none !important;
+  display: block !important;
+}
+
+.pdp-figure {
+  margin: 0 !important;
+  border: 1px solid var(--line);
+  background: #ffffff;
+  overflow: hidden;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+  width: 100% !important;
+}
+
+.pdp-figure img {
+  display: block !important;
+  width: 100% !important;
+  height: auto !important;
+  aspect-ratio: 1 / 1 !important;
+  object-fit: contain !important;
+  padding: clamp(20px, 3.5vw, 40px);
+  background: #ffffff;
+  box-sizing: border-box;
+  transition: transform 0.4s var(--ease);
+  float: none !important;
+}
+
+.pdp-figure:hover img {
+  transform: scale(1.02);
+}
+
+/* 3. Product Info (Right Column) - Locked */
+.pdp-info {
+  grid-column: 2 !important;
+  grid-row: 1 !important;
+  min-width: 0 !important;
+  width: auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 24px !important;
+  float: none !important;
+  position: relative !important;
+}
+
+.pdp-kicker {
+  margin: 0;
+  color: var(--red-dark);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.pdp-title {
+  margin: 0;
+  font: clamp(26px, 2.5vw, 36px) / 1.1 var(--serif);
+  color: var(--ink);
+  letter-spacing: -0.02em;
+}
+
+.pdp-ref {
+  margin: 0;
+  font-size: 13px;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pdp-ref span {
+  font-family: var(--mono);
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.pdp-short-desc {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+/* 4. Pricing & Buy Box */
+.pdp-price-section {
+  padding: 20px;
+  background: var(--warm);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--gold);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.pdp-price-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.pdp-price-val {
+  font: 24px/1 var(--serif);
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.pdp-price-note {
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 400;
+}
+
+.pdp-price-hint {
+  margin: 0;
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+/* 5. Actions (Qty & Buy) */
+.pdp-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pdp-actions-row {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 12px;
+}
+
+.pdp-qty-stepper-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--line);
+  padding: 4px 12px;
+  background: #fff;
+}
+
+.pdp-qty-title {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.pdp-qty-stepper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pdp-qty-stepper button {
+  width: 24px;
+  height: 24px;
+  border: 1px solid var(--line);
+  background: none;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+}
+
+.pdp-qty-stepper span {
+  font-family: var(--mono);
+  font-weight: 700;
+  min-width: 20px;
+  text-align: center;
+}
+
+.pdp-btn-add-bag-primary {
+  background: var(--ink);
+  color: #fff;
+  border: 1px solid var(--ink);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: background 0.2s var(--ease);
+}
+
+.pdp-btn-add-bag-primary:hover {
+  background: var(--red-dark);
+}
+
+.pdp-btn-whatsapp-action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: #143d31;
+  color: #fff;
+  padding: 14px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  transition: background 0.2s var(--ease);
+}
+
+.pdp-btn-whatsapp-action:hover {
+  background: #0d2820;
+}
+
+.pdp-action-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.pdp-action-links a, .pdp-action-links button {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--muted);
+  text-decoration: underline;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* 6. Assurance */
+.pdp-assurance {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.pdp-assurance div {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  font-size: 12px;
+}
+
+.pdp-assurance dt {
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 10px;
+  color: var(--muted);
+}
+
+.pdp-assurance dd {
+  margin: 0;
+  color: var(--ink);
+}
+
+/* 7. Responsive */
+@media (max-width: 900px) {
+  main section.pdp-hero.wrap,
+  section.pdp-hero.wrap {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+  }
+  .pdp-gallery {
+    position: static !important;
+    width: 100% !important;
+    max-width: 500px !important;
+    margin-inline: auto !important;
+  }
+  .pdp-info {
+    width: 100% !important;
+    max-width: 600px !important;
+    margin-inline: auto !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .pdp-actions-row {
+    grid-template-columns: 1fr !important;
+  }
+}
