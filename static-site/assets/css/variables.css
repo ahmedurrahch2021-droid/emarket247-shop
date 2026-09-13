@@ -1,0 +1,27 @@
+:root {
+  /* Brand Colors */
+  --ink: #1f1f1f;
+  --paper: #fffdfb;
+  --warm: #f6f1ed;
+  --line: #e8dfd8;
+  --red: #ed1c24;
+  --red-dark: #b90f16;
+  --muted: #665f5a;
+  --gold: #8b6528;
+  --gold-light: #faf4eb;
+
+  /* Typography */
+  --sans: "DM Sans", "Noto Sans Bengali", sans-serif;
+  --serif: "DM Serif Display", "Noto Serif Bengali", serif;
+  --mono: "DM Mono", monospace;
+
+  /* Spacing System */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 32px;
+  --space-xl: 64px;
+
+  /* Motion */
+  --ease: cubic-bezier(.23, 1, .32, 1);
+}

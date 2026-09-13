@@ -1,0 +1,21 @@
+/** Vermilion Atelier refinement: white-first canvas, black structure, red identity cues. */
+.service-bar{background:#fff;color:var(--ink);border-bottom:1px solid var(--border)}
+.service-bar a{color:var(--red-dark);font-weight:700}
+.hero-section{background:#fff}
+.hero-copy{background:#fff}
+.launch-note{background:#fff;color:var(--ink);border:1px solid var(--border);border-top:3px solid var(--red);box-shadow:0 24px 65px rgba(44,32,24,.06)}
+.launch-note .eyebrow,.launch-note h2{color:var(--ink)}
+.launch-note>p{color:var(--muted)}
+.launch-note .button-primary{background:var(--ink);color:#fff}
+.launch-note .button-primary:hover{background:var(--red-dark)}
+.page-hero{background:#fff}
+.catalog-staging{background:#fff}
+.manifesto-strip{background:#fff;color:var(--ink);border-top:1px solid var(--red);border-bottom:1px solid var(--border)}
+.manifesto-strip span{color:var(--red-dark)}
+.collection-image-wrap{background:linear-gradient(135deg,#f6f1ed 0%,#fff 58%,#eee4dc 100%)}
+.collection-image-wrap:before{content:"";position:absolute;inset:14px;border:1px solid rgba(185,15,22,.16);z-index:0;pointer-events:none}
+.collection-image-wrap img{position:relative;z-index:1}
+.image-status{z-index:2}
+.header-inner{min-height:84px}
+.brand-link{padding:8px 0}
+@media(max-width:600px){.service-bar{min-height:30px}.service-bar p{font-size:10px}}

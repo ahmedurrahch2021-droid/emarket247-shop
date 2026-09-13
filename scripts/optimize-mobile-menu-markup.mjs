@@ -2,7 +2,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 
 const projectRoot = process.cwd();
-const staticSite = path.join(projectRoot, 'public_html');
+const staticSite = path.join(projectRoot, 'static-site');
 
 async function getHtmlFiles(dir) {
   const entries = await fs.readdir(dir, { withFileTypes: true });

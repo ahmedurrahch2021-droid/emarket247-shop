@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://emarket247.shop/sitemap.xml
