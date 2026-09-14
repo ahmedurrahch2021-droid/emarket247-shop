@@ -5894,3 +5894,394 @@ main#main:nth-of-type(1) > section:nth-of-type(3) .category-desc,
   }
 }
 
+/* ==========================================================================
+   OCCASIONS SHOWCASE SECTION (3x2 Interactive Flip Grid - Cartier Atelier Edition)
+   Scoped to .occasion-showcase-section and .occasion-grid
+   ========================================================================== */
+
+main#main:nth-of-type(1) > section:nth-of-type(4),
+.occasion-showcase-section {
+  padding-top: clamp(44px, 5vw, 76px);
+  padding-bottom: clamp(44px, 5vw, 76px);
+  background: transparent;
+}
+
+.occasion-showcase-section .section-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: clamp(24px, 2.8vw, 36px);
+}
+
+.occasion-showcase-section .section-head h2 {
+  margin: 6px 0 8px 0;
+  font: 500 clamp(28px, 3.2vw, 42px)/1.15 var(--serif);
+  color: var(--ink);
+  letter-spacing: -0.02em;
+}
+
+.occasion-showcase-section .section-subhead {
+  margin: 0;
+  font-size: 14.5px;
+  color: var(--muted);
+  max-width: 62ch;
+  line-height: 1.55;
+}
+
+.occasion-showcase-section .view-all-link {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  text-decoration: none;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding-bottom: 2px;
+  border-bottom: 1.5px solid rgba(44, 27, 20, 0.2);
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.occasion-showcase-section .view-all-link:hover {
+  color: var(--red);
+  border-color: var(--red);
+}
+
+.occasion-showcase-section .view-all-link span {
+  transition: transform 0.2s ease;
+}
+
+.occasion-showcase-section .view-all-link:hover span {
+  transform: translateX(4px);
+}
+
+/* 3x2 Grid (Strict 3 columns on desktop, 2 on tablet, 1 on mobile) */
+.occasion-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(20px, 2.4vw, 32px);
+}
+
+.occasion-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border: 1px solid rgba(44, 27, 20, 0.1);
+  border-radius: 10px;
+  text-decoration: none;
+  color: var(--ink);
+  box-shadow: 0 4px 18px rgba(44, 27, 20, 0.04);
+  transition: border-color 0.35s var(--ease), box-shadow 0.35s var(--ease), transform 0.35s var(--ease);
+  cursor: pointer;
+}
+
+.occasion-card:hover,
+.occasion-card:focus-within {
+  border-color: rgba(44, 27, 20, 0.26);
+  box-shadow: 0 16px 36px -8px rgba(44, 27, 20, 0.12);
+  transform: translateY(-4px);
+}
+
+/* 3D Flip Card Media Stage */
+.occasion-media-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  perspective: 1200px;
+  -webkit-perspective: 1200px;
+  background: #fcfbf9;
+  border-top-left-radius: 9px;
+  border-top-right-radius: 9px;
+  border-bottom: 1px solid rgba(44, 27, 20, 0.08);
+}
+
+.occasion-media-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  transition: transform 0.7s cubic-bezier(0.2, 0.85, 0.25, 1);
+  border-top-left-radius: 9px;
+  border-top-right-radius: 9px;
+}
+
+/* Flip trigger on card hover, media wrap hover, or toggle class */
+@media (hover: hover) {
+  .occasion-card:hover .occasion-media-inner,
+  .occasion-media-wrap:hover .occasion-media-inner {
+    transform: rotateY(180deg);
+  }
+}
+
+.occasion-card.is-flipped .occasion-media-inner {
+  transform: rotateY(180deg);
+}
+
+.occasion-face {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fcfbf9;
+  border-top-left-radius: 9px;
+  border-top-right-radius: 9px;
+  overflow: hidden;
+}
+
+.occasion-front {
+  transform: rotateY(0deg);
+  -webkit-transform: rotateY(0deg);
+  z-index: 2;
+}
+
+.occasion-back {
+  transform: rotateY(180deg);
+  -webkit-transform: rotateY(180deg);
+  z-index: 1;
+}
+
+.occasion-face img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  transition: transform 0.4s var(--ease);
+}
+
+.occasion-front:hover img,
+.occasion-card:hover .occasion-front img {
+  transform: scale(1.03);
+}
+
+/* Occasion Badges & Pills */
+.occasion-pill-tag {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  padding: 5px 11px;
+  border-radius: 3px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: rgba(31, 26, 23, 0.9);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  color: #ffffff;
+  z-index: 4;
+  pointer-events: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.occasion-flip-btn {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(44, 27, 20, 0.14);
+  color: var(--ink);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  z-index: 4;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.2s;
+}
+
+.occasion-flip-btn:hover {
+  background: #ffffff;
+  border-color: var(--ink);
+  transform: scale(1.03);
+}
+
+.occasion-flip-btn svg {
+  color: var(--red);
+  transition: transform 0.3s ease;
+}
+
+.occasion-card.is-flipped .occasion-flip-btn svg {
+  transform: rotate(180deg);
+}
+
+/* Editorial On-Model Banner on Back Face */
+.occasion-model-badge {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  right: 12px;
+  padding: 7px 11px;
+  background: rgba(26, 20, 18, 0.82);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 4px;
+  color: #f7f4ef;
+  font-size: 11px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.occasion-model-badge strong {
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #ffffff;
+}
+
+.occasion-model-badge span {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #ffd8b3;
+}
+
+/* Card Body Typography & Content */
+.occasion-card-body {
+  padding: clamp(16px, 1.8vw, 22px);
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  background: #ffffff;
+  border-bottom-left-radius: 9px;
+  border-bottom-right-radius: 9px;
+}
+
+.occasion-card-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+
+.occasion-card h3 {
+  margin: 0;
+  font: 600 clamp(20px, 1.45vw, 23px)/1.2 var(--serif);
+  color: var(--ink);
+  letter-spacing: -0.015em;
+}
+
+.occasion-card-header small {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--muted);
+  font-size: 13.5px;
+  font-weight: 500;
+}
+
+.occasion-card-header small b {
+  color: var(--red);
+  font-size: 14px;
+  font-weight: 700;
+  transition: transform 0.2s var(--ease);
+}
+
+.occasion-card:hover .occasion-card-header small b {
+  transform: translate(2px, -2px);
+}
+
+.occasion-product-label {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #705e52;
+  margin: 0 0 8px 0;
+  letter-spacing: 0.01em;
+}
+
+.occasion-card-desc {
+  margin: 0;
+  color: #5c554e;
+  font-size: 13px;
+  line-height: 1.5;
+  flex: 1;
+}
+
+.occasion-card-footer {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(44, 27, 20, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.occasion-card-cta {
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: color 0.2s;
+}
+
+.occasion-card:hover .occasion-card-cta {
+  color: var(--red);
+}
+
+.occasion-card-cta span {
+  transition: transform 0.2s var(--ease);
+  color: var(--red);
+}
+
+.occasion-card:hover .occasion-card-cta span {
+  transform: translateX(3px);
+}
+
+.occasion-flip-hint {
+  font-size: 11px;
+  color: var(--muted);
+  font-style: italic;
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 990px) {
+  .occasion-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+  }
+}
+
+@media (max-width: 640px) {
+  .occasion-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .occasion-showcase-section .section-head {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .occasion-media-wrap {
+    aspect-ratio: 4 / 3;
+  }
+  .occasion-flip-btn {
+    min-height: 36px;
+    padding: 7px 13px;
+  }
+}
+
+

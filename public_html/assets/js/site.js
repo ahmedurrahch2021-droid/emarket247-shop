@@ -1784,6 +1784,52 @@
     if (form) form.addEventListener("submit", (e) => { e.preventDefault(); go(); });
   };
 
+  // Wire interactive flip cards for Occasions Section
+  const initOccasionCards = () => {
+    const cards = document.querySelectorAll(".occasion-card");
+    if (!cards.length) return;
+
+    cards.forEach((card) => {
+      const flipBtn = card.querySelector(".occasion-flip-btn");
+      const targetUrl = card.dataset.href;
+
+      if (flipBtn) {
+        flipBtn.addEventListener("click", (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          const flipped = card.classList.toggle("is-flipped");
+          flipBtn.setAttribute("aria-pressed", flipped ? "true" : "false");
+          const pillText = flipBtn.querySelector(".pill-text");
+          if (pillText) {
+            pillText.textContent = flipped ? (language === "bn" ? "প্রোডাক্ট দেখুন" : "Product Shot") : (language === "bn" ? "মডেল দেখুন" : "On Model");
+          }
+        });
+      }
+
+      // Card container click navigates to occasion collection
+      card.addEventListener("click", (e) => {
+        if (e.target.closest(".occasion-flip-btn") || e.target.closest("a")) return;
+        if (targetUrl) {
+          window.location.href = targetUrl;
+        }
+      });
+
+      // Reset flip on mouseleave for pristine state
+      card.addEventListener("mouseleave", () => {
+        if (card.classList.contains("is-flipped")) {
+          card.classList.remove("is-flipped");
+          if (flipBtn) {
+            flipBtn.setAttribute("aria-pressed", "false");
+            const pillText = flipBtn.querySelector(".pill-text");
+            if (pillText) {
+              pillText.textContent = language === "bn" ? "মডেল দেখুন" : "On Model";
+            }
+          }
+        }
+      });
+    });
+  };
+
   // Initialize Global Elements
   syncAuthState().then(() => {
     updateNavAccount();
@@ -1793,6 +1839,7 @@
     initPdpFeatures();
   });
   initHeaderSearch();
+  initOccasionCards();
   hydratePdpPrice();
   updateBagCount();
 })();

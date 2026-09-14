@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="bn" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="আপনার বাছাই করা ইমার্কেট২৪৭ গহনা পর্যালোচনা করুন এবং হোয়াটসঅ্যাপে অর্ডার করুন। সারা বাংলাদেশে ডেলিভারি ও ১৫ দিনের রিফান্ড প্রতিশ্রুতি।">
+  <title>আপনার ব্যাগ — ইমার্কেট২৪৭</title>
+  <link rel="canonical" href="https://emarket247.shop/bn/cart/">
+  <link rel="alternate" hreflang="en" href="https://emarket247.shop/en/cart/">
+  <link rel="icon" href="/assets/images/brand/emarket247-favicon-master.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/variables.css?v=9fcdc491">
+  <link rel="stylesheet" href="/assets/css/site.css?v=ca128acc">
+  <style>
+    :root {
+      --ink: #1f1f1f; --paper: #fffdfb; --warm: #f6f1ed;
+      --line: #e8dfd8; --red: #ed1c24; --red-dark: #b90f16;
+      --muted: #665f5a; --serif: 'DM Serif Display', serif;
+      --sans: 'Noto Sans Bengali', 'DM Sans', sans-serif;
+      --ease: cubic-bezier(.23, 1, .32, 1);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--sans);
+      background: var(--paper); color: var(--ink);
+      line-height: 1.7; min-height: 100vh;
+      display: flex; flex-direction: column;
+    }
+    .skip-link {
+      position: fixed; z-index: 99; left: 15px; top: 15px;
+      padding: 10px; background: var(--ink); color: #fff; transform: translateY(-200%);
+    }
+    .skip-link:focus { transform: none; }
+
+    .utility {
+      height: 36px; display: flex; justify-content: space-between; align-items: center;
+      gap: clamp(12px, 1.8vw, 24px); padding: 0 clamp(18px, 4vw, 60px);
+      background: #faf8f5; border-bottom: 1px solid var(--line);
+      font-size: 10.5px; letter-spacing: .02em;
+    }
+    .utility p { flex: 1; text-align: center; margin: 0; padding: 0 14px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .utility a { color: var(--red-dark); font-weight: 700; text-decoration: underline; }
+    .utility-lang { display: flex; align-items: center; gap: 6px; color: var(--muted); text-decoration: none; }
+    .utility-wa { display: flex; align-items: center; gap: 6px; color: var(--red-dark); font-weight: 700; white-space: nowrap; }
+
+    .nav-wrap {
+      min-height: 84px; display: grid; grid-template-columns: 220px 1fr auto;
+      align-items: center; gap: 24px; padding: 0 clamp(18px, 4vw, 60px);
+      border-bottom: 1px solid var(--line); background: rgba(255,253,251,.96);
+      position: sticky; top: 0; z-index: 12;
+    }
+    .brand img { width: 135px; height: auto; }
+    .main-nav { display: flex; justify-content: center; align-items: center; gap: clamp(16px, 2vw, 30px); }
+    .main-nav > a, .has-submenu > button {
+      border: 0; background: none; padding: 29px 0 26px;
+      text-transform: uppercase; letter-spacing: .08em; font-size: 11px; font-weight: 700; cursor: pointer;
+    }
+    .main-nav > a:hover, .main-nav > a:focus { color: var(--red); }
+    .nav-actions { display: flex; align-items: center; gap: 16px; }
+    .btn-wa-nav {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--red); color: #fff; padding: 10px 20px; border-radius: 50px;
+      font-size: 12px; font-weight: 700; letter-spacing: .04em; text-decoration: none; white-space: nowrap;
+      transition: background .2s;
+    }
+    .btn-wa-nav:hover { background: var(--red-dark); }
+
+    .cart-page { flex: 1; max-width: 1160px; margin: 0 auto; padding: 48px clamp(18px, 4vw, 60px) 80px; width: 100%; }
+    .cart-page-header { margin-bottom: 36px; }
+    .cart-page-header .eyebrow { font-size: 10px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--red); margin-bottom: 8px; }
+    .cart-page-header h1 { font: clamp(28px, 4vw, 44px) / 1.1 var(--serif); letter-spacing: -.03em; color: var(--ink); }
+    .cart-page-header p { color: var(--muted); margin-top: 8px; font-size: 14px; }
+    .cart-layout { display: grid; grid-template-columns: 1fr 340px; gap: 40px; align-items: start; }
+
+    .cart-items-list { display: flex; flex-direction: column; }
+    .cart-item {
+      display: grid; grid-template-columns: 100px 1fr; gap: 20px;
+      padding: 24px 0; border-bottom: 1px solid var(--line);
+    }
+    .cart-item:first-child { border-top: 1px solid var(--line); }
+    .cart-item-thumb { aspect-ratio: 1/1; overflow: hidden; border: 1px solid var(--line); background: #fffdfb; }
+    .cart-item-thumb img { width: 100%; height: 100%; object-fit: contain; padding: 6px; }
+    .cart-item-info { display: flex; flex-direction: column; gap: 6px; }
+    .cart-item-meta { font-size: 9.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--red-dark); font-weight: 700; }
+    .cart-item-meta span { color: var(--muted); font-family: monospace; }
+    .cart-item-title { font: clamp(17px, 1.6vw, 21px) / 1.15 var(--serif); color: var(--ink); }
+    .cart-item-title a { color: inherit; text-decoration: none; }
+    .cart-item-title a:hover { color: var(--red); }
+    .cart-item-note { font-size: 12px; color: #8b6528; font-weight: 600; }
+    .cart-item-actions { display: flex; align-items: center; gap: 16px; margin-top: 4px; flex-wrap: wrap; }
+    .qty-stepper { display: inline-flex; align-items: center; border: 1px solid var(--line); background: #faf8f5; }
+    .qty-stepper button { width: 32px; height: 32px; background: none; border: none; font-size: 16px; cursor: pointer; color: var(--ink); transition: background .15s; }
+    .qty-stepper button:hover { background: #eadecf; }
+    .qty-stepper span { min-width: 32px; text-align: center; font-family: monospace; font-size: 13px; font-weight: 700; }
+    .cart-remove-btn { background: none; border: none; font-size: 12px; color: var(--muted); cursor: pointer; text-decoration: underline; font-family: var(--sans); }
+    .cart-remove-btn:hover { color: var(--red); }
+    .cart-item-price { margin-top: auto; font-size: 12px; color: var(--muted); font-style: italic; }
+
+    .cart-empty { text-align: center; padding: 80px 24px; display: flex; flex-direction: column; align-items: center; gap: 16px; }
+    .cart-empty svg { color: #b5aba0; margin-bottom: 8px; }
+    .cart-empty h2 { font: clamp(24px, 3vw, 36px) / 1.2 var(--serif); color: var(--ink); }
+    .cart-empty p { color: var(--muted); font-size: 15px; max-width: 380px; line-height: 1.6; }
+    .cart-empty-cta { display: inline-flex; align-items: center; background: var(--ink); color: #fff; padding: 14px 28px; font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; text-decoration: none; margin-top: 8px; transition: background .2s; }
+    .cart-empty-cta:hover { background: var(--red-dark); }
+
+    .cart-sidebar { position: sticky; top: 100px; }
+    .cart-summary { background: #faf8f5; border: 1px solid var(--line); padding: 28px; border-radius: 4px; }
+    .cart-summary h3 { font: 20px / 1.15 var(--serif); color: var(--ink); margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--line); }
+    .cart-summary-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; font-size: 14px; }
+    .cart-summary-row .label { color: var(--muted); }
+    .cart-summary-row .value { font-weight: 600; color: var(--ink); }
+    .cart-summary-row.total { border-top: 1px solid var(--line); margin-top: 4px; padding-top: 16px; font-size: 15px; }
+    .cart-summary-row.total .label { color: var(--ink); font-weight: 700; }
+    .cart-summary-note { background: #fff8f0; border-left: 3px solid #c17a3b; padding: 12px 14px; margin: 16px 0; border-radius: 0 4px 4px 0; font-size: 12px; color: #7a5a2a; line-height: 1.5; }
+    .cart-summary-note strong { display: block; margin-bottom: 2px; }
+    .btn-checkout-wa { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; background: var(--red); color: #fff; padding: 16px 24px; border-radius: 4px; border: none; font-size: 13px; font-weight: 700; letter-spacing: .04em; text-decoration: none; margin-top: 16px; cursor: pointer; font-family: var(--sans); transition: background .2s, transform .15s; }
+    .btn-checkout-wa:hover { background: var(--red-dark); transform: translateY(-1px); }
+    .btn-clear-cart { display: block; width: 100%; background: none; border: none; margin-top: 12px; padding: 10px; font-size: 12px; color: var(--muted); cursor: pointer; text-decoration: underline; font-family: var(--sans); }
+    .btn-clear-cart:hover { color: var(--red); }
+
+    .site-footer { background: var(--ink); color: rgba(255,255,255,.6); padding: 48px clamp(18px, 4vw, 60px) 24px; margin-top: auto; }
+    .footer-inner { max-width: 1160px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; }
+    .footer-brand .footer-logo { font: 22px var(--serif); color: #fff; }
+    .footer-brand p { margin-top: 12px; font-size: 13px; line-height: 1.6; color: rgba(255,255,255,.5); }
+    .footer-col h4 { color: #fff; font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: 8px; }
+    .footer-col ul a { color: rgba(255,255,255,.6); text-decoration: none; font-size: 13px; }
+    .footer-col ul a:hover { color: #d4956a; }
+    .footer-bottom { max-width: 1160px; margin: 32px auto 0; padding-top: 20px; border-top: 1px solid rgba(255,255,255,.1); font-size: 12px; color: rgba(255,255,255,.35); display: flex; justify-content: space-between; }
+
+    @media (max-width: 900px) {
+      .nav-wrap { grid-template-columns: 1fr auto; }
+      .main-nav { display: none; }
+      .cart-layout { grid-template-columns: 1fr; }
+      .footer-inner { grid-template-columns: 1fr 1fr; gap: 28px; }
+      .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
+    }
+    @media (max-width: 600px) {
+      .footer-inner { grid-template-columns: 1fr; }
+      .cart-item { grid-template-columns: 80px 1fr; gap: 14px; }
+    }
+  </style>
+</head>
+<body data-language="bn" data-cookie-mode="essential-only">
+  <a class="skip-link" href="#main">প্রধান বিষয়বস্তুতে যান</a>
+
+  <div class="utility">
+    <a href="/en/cart/" class="utility-lang">View in English →</a>
+    <p>সারা বাংলাদেশে ডেলিভারি · ১৫ দিনের রিফান্ড প্রতিশ্রুতি · প্রতিটি অর্ডারে বিনামূল্যে উপহার</p>
+    <a class="utility-wa" href="https://wa.me/8801740501062?text=হাই%20ইমার্কেট২৪৭%2C%20আমার%20ব্যাগ%20সম্পর্কে%20জানতে%20চাই।" target="_blank" rel="noopener">💬 হোয়াটসঅ্যাপ</a>
+  </div>
+
+  <header class="nav-wrap">
+    <a class="brand" href="/bn/">
+      <img src="/assets/images/brand/emarket247-logo-transparent.png" width="135" height="70" alt="ইমার্কেট২৪৭">
+    </a>
+    <nav class="main-nav" aria-label="প্রধান নেভিগেশন">
+      <a href="/bn/shop/">শপ</a>
+      <div class="has-submenu">
+        <button type="button" aria-expanded="false">ক্যাটাগরি <span>▼</span></button>
+        <div class="submenu">
+          <p>আপনার গহনা খুঁজুন</p>
+          <ul>
+            <li><a href="/bn/categories/bangles/">চুড়ি<small>Bangles</small></a></li>
+            <li><a href="/bn/categories/necklaces/">হার<small>Necklaces</small></a></li>
+            <li><a href="/bn/categories/bracelets/">ব্রেসলেট<small>Bracelets</small></a></li>
+            <li><a href="/bn/categories/earrings/">কানের দুল<small>Earrings</small></a></li>
+          </ul>
+          <a class="menu-all" href="/bn/categories/">সব ক্যাটাগরি দেখুন →</a>
+        </div>
+      </div>
+      <a href="/bn/studio-pilot/">স্টুডিও পাইলট</a>
+      <a href="/bn/about/">আমাদের পরিচয়</a>
+      <a href="/bn/contact/">যোগাযোগ</a>
+    </nav>
+    <div class="nav-actions">
+      <a class="btn-wa-nav" href="https://wa.me/8801740501062?text=হাই%20ইমার্কেট২৪৭%2C%20আমার%20অর্ডার%20সম্পর্কে%20সাহায্য%20চাই।" target="_blank" rel="noopener">💬 সাহায্য</a>
+    </div>
+  </header>
+
+  <main id="main">
+    <div class="cart-page">
+      <div class="cart-page-header">
+        <p class="eyebrow">ইমার্কেট২৪৭</p>
+        <h1>আপনার শপিং ব্যাগ</h1>
+        <p>হোয়াটসঅ্যাপে অর্ডার করার আগে আপনার বাছাই করা গহনাগুলো পর্যালোচনা করুন।</p>
+      </div>
+
+      <div class="cart-layout">
+        <div id="cart-items-column">
+          <div class="cart-items-list" id="cart-items-list"></div>
+        </div>
+        <aside class="cart-sidebar" id="cart-sidebar"></aside>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer"><section class="newsletter"><div><p class="eyebrow"><strong class="brand-name">eMarket247</strong> থেকে নোট</p><h2>নতুন কালেকশন, উপহারের ভাবনা এবং বিবেচনাপূর্ণ জুয়েলারি নোট।</h2></div><form data-newsletter><label class="sr-only" for="email">Email</label><input id="email" type="email" placeholder="আপনার ইমেইল" required><button type="submit" aria-label="Submit">↗</button><p>সংবাদ আপডেট পেতে সম্মতি দেওয়ার আগে একটি আনুষ্ঠানিক গোপনীয়তা ব্যবস্থা যুক্ত হবে।</p></form></section><div class="footer-main"><div><img src="/assets/images/brand/emarket247-logo-transparent.png" width="180" height="94" alt="eMarket247 Fashion & Jewellery"><p>প্রতিটি মুহূর্তের জন্য আধুনিক জুয়েলারি গন্তব্য।</p></div><div><h3>আবিষ্কার</h3><a href="/bn/shop/">শপ</a><a href="/bn/categories/">ক্যাটাগরি</a><a href="/bn/occasions/puja/">পূজা</a><a href="/bn/occasions/gifts/">উপহার</a></div><div><h3>যত্ন</h3><a href="/bn/care/">যত্ন ও সহায়তা</a><a href="/bn/guides/">গাইড</a><a href="/bn/contact/">যোগাযোগ</a></div><div><h3>তথ্য</h3><a href="/bn/about/">আমাদের কথা</a><a href="/bn/privacy/">গোপনীয়তা</a><a href="/bn/terms/">শর্তাবলি</a></div></div><div class="footer-bottom"><p>© 2026 <strong class="brand-name">eMarket247</strong>. সর্বস্বত্ব সংরক্ষিত।</p><p>পণ্যের যত্ন, পরিষ্কার তথ্য এবং দায়িত্বশীল প্রকাশের সাথে তৈরি।</p></div></footer>
+
+  <script>
+    (() => {
+      const BAG_KEY = 'emk_bag';
+      const ESC = (v) => String(v ?? '').replace(/[&<>'"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+      const getBag = () => { try { return JSON.parse(localStorage.getItem(BAG_KEY) || '[]'); } catch { return []; } };
+      const saveBag = (bag) => { try { localStorage.setItem(BAG_KEY, JSON.stringify(bag)); } catch {} };
+
+      const renderItems = () => {
+        const bag = getBag();
+        const list = document.getElementById('cart-items-list');
+        if (!bag.length) {
+          list.innerHTML = `
+            <div class="cart-empty">
+              <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4H6zM3 6h18M16 10a4 4 0 01-8 0"/>
+              </svg>
+              <h2>আপনার ব্যাগ বর্তমানে খালি</h2>
+              <p>আমাদের বিশেষ কালেকশন থেকে আপনার পছন্দের অলংকার নির্বাচন করে ব্যাগে যোগ করুন, তারপর হোয়াটসঅ্যাপে অর্ডার করুন।</p>
+              <a class="cart-empty-cta" href="/bn/shop/">কালেকশন দেখুন →</a>
+            </div>`;
+          return;
+        }
+        list.innerHTML = bag.map(item => `
+          <div class="cart-item" data-id="${ESC(item.id)}">
+            <a class="cart-item-thumb" href="${ESC(item.url)}">
+              <img src="${ESC(item.image)}" alt="${ESC(item.title)}" loading="lazy">
+            </a>
+            <div class="cart-item-info">
+              <div class="cart-item-meta">${ESC(item.category)} · <span>${ESC(item.id)}</span></div>
+              <h3 class="cart-item-title"><a href="${ESC(item.url)}">${ESC(item.title)}</a></h3>
+              <p class="cart-item-note">ব্যক্তিগত কাস্টমার কেয়ার পরামর্শে মূল্য নিশ্চিতকরণ</p>
+              <div class="cart-item-actions">
+                <div class="qty-stepper">
+                  <button type="button" onclick="window.__cartChange('${ESC(item.id)}', -1)" aria-label="কমান">−</button>
+                  <span>${item.quantity}</span>
+                  <button type="button" onclick="window.__cartChange('${ESC(item.id)}', 1)" aria-label="বাড়ান">+</button>
+                </div>
+                <button class="cart-remove-btn" onclick="window.__cartRemove('${ESC(item.id)}')">মুছুন</button>
+              </div>
+              <p class="cart-item-price">পরিমাণ: ${item.quantity} — চূড়ান্ত মূল্য হোয়াটসঅ্যাপে নিশ্চিত করা হবে</p>
+            </div>
+          </div>`).join('');
+      };
+
+      const buildWaText = (bag) => {
+        const items = bag.map((item, i) =>
+          `${i + 1}. ${item.title} (রেফারেন্স: ${item.id}, পরিমাণ: ${item.quantity})\n   ${item.url || 'https://emarket247.shop/bn/cart/'}`).join('\n\n');
+        return `হ্যালো eMarket247, আমি আপনার ওয়েবসাইট থেকে নিচের পণ্যগুলো অর্ডার করতে চাই:\n\n${items}\n\nঅনুগ্রহ করে আমার লোকেশনে প্রাপ্যতা, চূড়ান্ত মূল্য (কুরিয়ার চার্জসহ) এবং আনুমানিক ডেলিভারি সময় নিশ্চিত করবেন।\n\nধন্যবাদ!`;
+      };
+
+      const renderSidebar = () => {
+        const bag = getBag();
+        const sidebar = document.getElementById('cart-sidebar');
+        const count = bag.reduce((s, i) => s + (Number(i.quantity) || 1), 0);
+        if (!bag.length) { sidebar.innerHTML = ''; return; }
+        const waUrl = `https://wa.me/8801740501062?text=${encodeURIComponent(buildWaText(bag))}`;
+        sidebar.innerHTML = `
+          <div class="cart-summary">
+            <h3>অর্ডার সারাংশ</h3>
+            <div class="cart-summary-row"><span class="label">পণ্য সংখ্যা</span><span class="value">${count}</span></div>
+            <div class="cart-summary-row"><span class="label">পণ্যের মূল্য</span><span class="value">হোয়াটসঅ্যাপে জানানো হবে</span></div>
+            <div class="cart-summary-row"><span class="label">কুরিয়ার চার্জ</span><span class="value">হোয়াটসঅ্যাপে জানানো হবে</span></div>
+            <div class="cart-summary-row total"><span class="label">মোট</span><span class="value" style="color:var(--red)">হোয়াটসঅ্যাপে জানানো হবে</span></div>
+            <div class="cart-summary-note">
+              <strong>অর্ডার প্রক্রিয়া:</strong>
+              চূড়ান্ত পণ্যের মূল্য ও কুরিয়ার চার্জ হোয়াটসঅ্যাপে নিশ্চিত করার পর আপনি পেমেন্ট করবেন। কুরিয়ার চার্জ পণ্যের মূল্যের বাইরে এবং ডেলিভারির সময় আলাদাভাবে পরিশোধ করতে হবে।
+            </div>
+            <a class="btn-checkout-wa" href="${waUrl}" target="_blank" rel="noopener">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.888 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+              হোয়াটসঅ্যাপে অর্ডার পাঠান
+            </a>
+            <button class="btn-clear-cart" type="button" onclick="window.__cartClear()">সম্পূর্ণ ব্যাগ খালি করুন</button>
+          </div>`;
+      };
+
+      const render = () => { renderItems(); renderSidebar(); };
+      window.__cartChange = (id, delta) => {
+        const bag = getBag();
+        const item = bag.find(i => i.id === id);
+        if (item) {
+          item.quantity = Math.max(0, (Number(item.quantity) || 1) + delta);
+          if (item.quantity === 0) bag.splice(bag.indexOf(item), 1);
+          saveBag(bag); render();
+        }
+      };
+      window.__cartRemove = (id) => { saveBag(getBag().filter(i => i.id !== id)); render(); };
+      window.__cartClear = () => { if (confirm('সম্পূর্ণ ব্যাগ খালি করতে চান?')) { saveBag([]); render(); } };
+      render();
+    })();
+  </script>
+</body>
+</html>

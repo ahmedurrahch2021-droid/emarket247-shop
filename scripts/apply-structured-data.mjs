@@ -70,6 +70,7 @@ function classify(relative) {
   if (rel === "index.html" || rel === "en/index.html" || rel === "bn/index.html") return { kind: "home" };
   if (rel === "404.html") return { kind: "skip" };
   if (/(^|\/)studio-pilot\//.test(rel)) return { kind: "skip" }; // internal noindex,nofollow tool
+  if (/(^|\/)(account|admin)\//.test(rel)) return { kind: "skip" }; // internal account/admin tools
 
   const parts = rel.split("/"); // e.g. en/categories/bangles/index.html
   const lang = parts[0] === "bn" ? "bn" : "en";
