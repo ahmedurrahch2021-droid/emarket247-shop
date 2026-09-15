@@ -9,7 +9,9 @@
     "start": "node dist/server.cjs",
     "preview": "vite preview --host 0.0.0.0 --port 3000",
     "lint": "tsc --noEmit",
-    "check": "tsc --noEmit",
+    "check": "node scripts/validate-public-html.mjs",
+    "check:legacy": "tsc --noEmit",
+    "test": "npm run check",
     "format": "prettier --write ."
   },
   "dependencies": {
