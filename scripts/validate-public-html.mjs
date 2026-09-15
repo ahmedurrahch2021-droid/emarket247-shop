@@ -7,6 +7,7 @@ const project = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const root = path.join(project, "public_html");
 const errors = [];
 const warnings = [];
+const catalogues = {};
 
 async function exists(file) {
   try {
@@ -24,6 +25,14 @@ async function walk(folder, out = []) {
     else out.push(file);
   }
   return out;
+}
+
+function sameValues(left, right) {
+  return JSON.stringify([...left].sort()) === JSON.stringify([...right].sort());
+}
+
+function duplicateValues(values) {
+  return [...new Set(values.filter((value, index) => values.indexOf(value) !== index))];
 }
 
 if (!(await exists(root))) {
@@ -71,19 +80,93 @@ for (const lang of ["en", "bn"]) {
   try {
     const parsed = JSON.parse(await readFile(file, "utf8"));
     if (!Array.isArray(parsed.products)) errors.push(`catalog.${lang}.json: products must be an array`);
+    else catalogues[lang] = parsed.products;
   } catch (error) {
     errors.push(`catalog.${lang}.json: invalid JSON (${error.message})`);
   }
 }
 
+let taxonomy;
 try {
-  const en = JSON.parse(await readFile(path.join(root, "assets/data/catalog.en.json"), "utf8")).products || [];
-  const bn = JSON.parse(await readFile(path.join(root, "assets/data/catalog.bn.json"), "utf8")).products || [];
-  const enKeys = en.map((product) => `${product.id}:${product.slug}`).sort();
-  const bnKeys = bn.map((product) => `${product.id}:${product.slug}`).sort();
-  if (JSON.stringify(enKeys) !== JSON.stringify(bnKeys)) errors.push("catalog EN/BN product ID and slug parity failed");
-} catch {
-  // The individual JSON errors above provide the useful failure message.
+  taxonomy = JSON.parse(await readFile(path.join(root, "assets/data/catalog.taxonomy.json"), "utf8"));
+  if (!Array.isArray(taxonomy.products)) errors.push("catalog.taxonomy.json: products must be an array");
+  if (!taxonomy.categories || typeof taxonomy.categories !== "object") errors.push("catalog.taxonomy.json: categories must be an object");
+} catch (error) {
+  errors.push(`catalog.taxonomy.json: invalid JSON (${error.message})`);
+}
+
+if (catalogues.en && catalogues.bn) {
+  const enKeys = catalogues.en.map((product) => `${product.id}:${product.slug}`);
+  const bnKeys = catalogues.bn.map((product) => `${product.id}:${product.slug}`);
+  if (!sameValues(enKeys, bnKeys)) errors.push("catalog EN/BN product ID and slug parity failed");
+}
+
+if (taxonomy?.products && taxonomy?.categories && catalogues.en && catalogues.bn) {
+  const expectedCount = taxonomy.publishedProductCount;
+  if (expectedCount !== taxonomy.products.length) {
+    errors.push(`catalog.taxonomy.json: publishedProductCount is ${expectedCount}, but ${taxonomy.products.length} products are listed`);
+  }
+  if (expectedCount !== 27) errors.push(`catalog.taxonomy.json: expected 27 published products, found ${expectedCount}`);
+
+  for (const field of ["id", "sku", "slug"]) {
+    const duplicates = duplicateValues(taxonomy.products.map((product) => product[field]));
+    if (duplicates.length) errors.push(`catalog.taxonomy.json: duplicate ${field} values: ${duplicates.join(", ")}`);
+  }
+
+  const taxonomySlugs = taxonomy.products.map((product) => product.slug);
+  const taxonomyBySlug = new Map(taxonomy.products.map((product) => [product.slug, product]));
+
+  for (const item of taxonomy.products) {
+    if (!taxonomy.categories[item.category]) {
+      errors.push(`catalog.taxonomy.json: ${item.slug} uses unknown category ${item.category}`);
+      continue;
+    }
+
+    for (const lang of ["en", "bn"]) {
+      const record = catalogues[lang].find((product) => product.slug === item.slug);
+      if (!record) {
+        errors.push(`catalog.${lang}.json: missing published product ${item.slug}`);
+        continue;
+      }
+      if (record.id !== item.id) errors.push(`catalog.${lang}.json: ${item.slug} ID must be ${item.id}`);
+      if (record.status !== "ready") errors.push(`catalog.${lang}.json: ${item.slug} must have status ready`);
+      if (record.category !== item.category) errors.push(`catalog.${lang}.json: ${item.slug} category must be ${item.category}`);
+      const expectedLabel = taxonomy.categories[item.category][lang];
+      if (record.categoryLabel !== expectedLabel) errors.push(`catalog.${lang}.json: ${item.slug} categoryLabel must be ${expectedLabel}`);
+      if (!record.title || typeof record.title !== "string") errors.push(`catalog.${lang}.json: ${item.slug} needs a localized title`);
+      if (!record.image?.src) errors.push(`catalog.${lang}.json: ${item.slug} needs an image source`);
+      if (record.sku != null && record.sku !== item.sku) errors.push(`catalog.${lang}.json: ${item.slug} SKU conflicts with ${item.sku}`);
+    }
+
+    const enRecord = catalogues.en.find((product) => product.slug === item.slug);
+    const bnRecord = catalogues.bn.find((product) => product.slug === item.slug);
+    if (enRecord?.image?.src && bnRecord?.image?.src && enRecord.image.src !== bnRecord.image.src) {
+      errors.push(`catalog EN/BN image mismatch for ${item.slug}`);
+    }
+  }
+
+  for (const lang of ["en", "bn"]) {
+    const readySlugs = catalogues[lang].filter((product) => product.status === "ready").map((product) => product.slug);
+    if (!sameValues(readySlugs, taxonomySlugs)) errors.push(`catalog.${lang}.json: ready products must match the 27-product taxonomy manifest`);
+
+    const productRoot = path.join(root, lang, "products");
+    const publishedDirs = (await readdir(productRoot, { withFileTypes: true }))
+      .filter((entry) => entry.isDirectory())
+      .map((entry) => entry.name);
+    if (!sameValues(publishedDirs, taxonomySlugs)) errors.push(`${lang}/products: published URL folders must match the taxonomy manifest`);
+
+    for (const category of Object.keys(taxonomy.categories)) {
+      if (!(await exists(path.join(root, lang, "categories", category, "index.html")))) {
+        errors.push(`${lang}/categories/${category}/index.html: missing category page`);
+      }
+    }
+
+    for (const record of catalogues[lang]) {
+      if (record.status === "ready" && !taxonomyBySlug.has(record.slug)) {
+        errors.push(`catalog.${lang}.json: unregistered ready product ${record.slug}`);
+      }
+    }
+  }
 }
 
 for (const file of jsFiles) {
@@ -109,7 +192,7 @@ for (const file of activeTextFiles) {
   if (/\bprice\s*:\s*bp\.price\s*\|\|\s*4200\b/.test(text)) warnings.push(`${rel}: contains the unapproved 4200 price fallback`);
 }
 
-console.log(`Checked ${publicPages.length} public HTML pages, ${jsFiles.length} JavaScript files, ${phpFiles.length} PHP files, and both catalogues.`);
+console.log(`Checked ${publicPages.length} public HTML pages, ${jsFiles.length} JavaScript files, ${phpFiles.length} PHP files, both catalogues, and the canonical taxonomy.`);
 if (warnings.length) {
   console.warn(`\nWARNINGS (${warnings.length})`);
   for (const warning of [...new Set(warnings)]) console.warn(`- ${warning}`);
