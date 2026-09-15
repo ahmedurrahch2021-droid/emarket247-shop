@@ -1,0 +1,27 @@
+# eMarket247 — uploaded media directory.
+#
+# Nothing in this tree may ever be executed. Product images arrive through
+# api/upload.php, which already restricts the stored extension to a verified
+# image type. This file is the second, independent layer: even if a script
+# somehow lands here, the server refuses to run or serve it.
+
+Options -ExecCGI -Indexes
+
+# Strip any handler that would hand these files to an interpreter.
+<IfModule mod_mime.c>
+  RemoveHandler .php .phtml .php3 .php4 .php5 .php6 .php7 .php8 .phps .pl .py .jsp .asp .aspx .sh .cgi
+  RemoveType .php .phtml .php3 .php4 .php5 .php6 .php7 .php8 .phps .pl .py .jsp .asp .aspx .sh .cgi
+</IfModule>
+
+# Refuse to serve executable or script-bearing files outright.
+# SVG is included deliberately: it can carry inline JavaScript, and the
+# storefront does not upload SVG product media.
+<FilesMatch "\.(?:php[0-9]?|phtml|phps|pl|py|jsp|asp|aspx|sh|cgi|htaccess|svg|xml|html?)$">
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
+  <IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+  </IfModule>
+</FilesMatch>
