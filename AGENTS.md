@@ -1,5 +1,9 @@
 # eMarket247 Development Rules
 
+This file defines what you may and may not do. `ENGINEERING_PLAYBOOK.md`
+defines how to prioritise, verify, and report like a senior ecommerce
+developer. Read both before changing anything.
+
 ## Repository and deployment
 
 - `master` is the main development and approved repository branch.
@@ -33,6 +37,26 @@
 9. Do not deploy, rewrite shared history or force-push.
 
 Mistakes are expected during development. They must be visible, corrected with a follow-up commit or reverted, never hidden by rewriting history.
+
+## Non-negotiable security rules
+
+- Never trust client-supplied input for a security decision: not the MIME type,
+  filename, hidden field, posted price, or a role stored in the browser.
+- Uploads are typed by inspecting file contents, stored with a whitelisted
+  extension and a generated filename, and kept in a directory that cannot
+  execute code. Do not weaken `public_html/api/upload.php` or
+  `public_html/assets/images/.htaccess`.
+- Every write endpoint calls `checkAuth()` or `checkAdmin()` before reading
+  input. Every query uses bound parameters.
+- No password, hash, token, or key may be committed in any file, including SQL
+  and documentation. Administrators are created with
+  `database/create-admin.php`.
+- Nothing but the deployable site belongs in `public_html/`. Database dumps,
+  environment files, logs, backups, and setup scripts live in `database/` or
+  elsewhere in the repository and are never uploaded.
+- Never remove the HTTPS redirect, HSTS, Content-Security-Policy, or the other
+  baseline headers in `public_html/.htaccess`.
+- Error responses stay generic; details belong in server logs.
 
 ## Non-negotiable product rules
 

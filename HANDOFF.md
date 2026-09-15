@@ -15,6 +15,19 @@ Read `AGENTS.md` first. `README.md` and `HOSTINGER_STATIC_DEPLOYMENT.md` describ
 
 ## Stabilization work completed
 
+0. Security baseline hardened (see `ENGINEERING_PLAYBOOK.md`):
+   - `api/upload.php` now types uploads by inspecting file contents and stores a
+     whitelisted extension, closing an arbitrary-file-upload path to code
+     execution;
+   - `assets/images/.htaccess` refuses to execute or serve scripts in uploaded
+     media;
+   - database schema, seed data, and setup docs moved to repository-only
+     `database/`, out of the deployed web root;
+   - the published default administrator password was removed from the schema;
+     administrators are now created with `database/create-admin.php`;
+   - `public_html/.htaccess` forces HTTPS and sets HSTS, CSP, and
+     Permissions-Policy;
+   - `npm test` fails if any of the above regresses.
 1. `AGENTS.md` establishes the shared development process.
 2. The default build creates `dist/public/` only from `public_html/` and does not synchronize legacy trees.
 3. `npm test` runs the `public_html` quality gate.
@@ -31,6 +44,14 @@ The target architecture is a static HTML/CSS/vanilla-JavaScript storefront. The 
 - catalogue JSON and static product pages also exist.
 
 This creates multiple product sources of truth. Do not remove PHP/API files until their live dependencies are inventoried and a safe static migration is proven.
+
+## Immediate owner action required
+
+The removed default administrator password (`admin@emarket247.shop`) remains in
+git history and must be treated as public. If that account was ever created on a
+live database, delete it and create a new administrator with
+`database/create-admin.php`. Rotate database and hosting passwords at the same
+time.
 
 ## Next task — static architecture normalization audit
 

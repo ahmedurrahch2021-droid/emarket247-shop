@@ -11,7 +11,9 @@ Bilingual English/Bengali jewellery storefront for Bangladesh.
 - Production deployment is manual and requires owner approval.
 - Do not fabricate prices, availability, materials, reviews, ratings, delivery promises, or other commerce facts.
 
-Read [`AGENTS.md`](AGENTS.md) before making changes.
+Read [`AGENTS.md`](AGENTS.md) for the rules and
+[`ENGINEERING_PLAYBOOK.md`](ENGINEERING_PLAYBOOK.md) for priorities, verification,
+and reporting standards before making changes.
 
 ## Technology
 
@@ -49,6 +51,7 @@ Until those dependencies are audited and deliberately migrated, the deployed rep
 | `public_html/.htaccess` | Apache routing, error, cache, and header rules |
 | `public_html/sitemap.xml` | Canonical indexable URL inventory |
 | `public_html/robots.txt` | Crawler directives |
+| `database/` | Schema, seed data, and admin provisioning — repository only, never uploaded |
 | `scripts/` | Validation and controlled build utilities |
 | `dist/public/` | Optional generated snapshot; never the editing source |
 | `static-site/`, `client/`, `server/`, `shared/`, `src/` | Legacy trees; do not use for active storefront work |
@@ -61,7 +64,10 @@ Run the public-site quality gate before completing a task:
 npm test
 ```
 
-It checks core metadata, EN/BN page counterparts, local references, catalogue parity, JavaScript syntax, PHP syntax when PHP CLI is available, and known unsafe price placeholders.
+It checks core metadata, EN/BN page counterparts, local references, catalogue
+parity, JavaScript syntax, PHP syntax when PHP CLI is available, known unsafe
+price placeholders, and the security baseline: no database or environment files
+in the web root, hardened image uploads, and the required `.htaccess` headers.
 
 Create an optional clean snapshot from `public_html/`:
 
