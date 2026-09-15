@@ -4184,6 +4184,54 @@ b.brand-name {
   color: var(--muted);
 }
 
+/* Footer: social icons row */
+.footer-social {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 0.75rem;
+}
+.footer-social .social-link,
+.footer-social .social-placeholder {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  background: var(--warm);
+  transition: background 0.15s, opacity 0.15s;
+}
+.footer-social .social-link:hover {
+  background: #1877F214;
+}
+.footer-social .social-placeholder {
+  opacity: 0.4;
+  cursor: default;
+}
+
+/* Footer: payment methods row */
+.footer-payments {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.payments-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+.payment-icons {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.payment-icons svg {
+  border-radius: 6px;
+  overflow: hidden;
+}
+
 /* Homepage assurance strip, directly beneath the hero. */
 .assurance-strip {
   background: var(--warm);
