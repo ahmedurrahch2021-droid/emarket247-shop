@@ -351,12 +351,11 @@
               <div class="admin-card-header">
                 <h3>হোস্টিংগার phpMyAdmin স্কিমা</h3>
               </div>
-              <p class="card-desc">phpMyAdmin-এ এক ক্লিকে টেবিল তৈরি করতে SQL ফাইল ডাউনলোড করুন।</p>
-              <div class="schema-action-buttons">
-                <a href="/api/database.sql" download="database.sql" class="button button-dark">
-                  <span>📥 database.sql ডাউনলোড</span>
-                </a>
-              </div>
+              <p class="card-desc">সম্পূর্ণ স্কিমা প্রকল্পের সোর্সে <code>database/database.sql</code> ফাইলে আছে।
+                নিরাপত্তার কারণে এটি সরাসরি সার্ভার থেকে ডাউনলোড করা যায় না — উন্মুক্ত ডেটাবেস ডাম্প
+                আক্রমণকারীকে টেবিলের গঠন জানিয়ে দেয়।</p>
+              <p class="card-desc">phpMyAdmin-এ <code>database/database.sql</code> ইমপোর্ট করুন, তারপর
+                <code>php database/create-admin.php &lt;আপনার-ইমেইল&gt;</code> চালিয়ে অ্যাডমিন অ্যাকাউন্ট তৈরি করুন।</p>
             </div>
           </div>
         </section>

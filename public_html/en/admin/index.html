@@ -452,10 +452,11 @@ CREATE TABLE IF NOT EXISTS `emk_orders` (...);
 CREATE TABLE IF NOT EXISTS `emk_settings` (...);</code></pre>
               </div>
 
+              <p class="card-desc">The full schema ships with the project source at
+                <code>database/database.sql</code>. It is intentionally not downloadable from the
+                live server: a public database dump hands an attacker the exact table layout.</p>
+
               <div class="schema-action-buttons">
-                <a href="/api/database.sql" download="database.sql" class="button button-dark">
-                  <span>📥 Download database.sql</span>
-                </a>
                 <button type="button" class="button button-outline" id="btn-copy-sql">
                   <span>📋 Copy Full SQL Script</span>
                 </button>
@@ -465,9 +466,11 @@ CREATE TABLE IF NOT EXISTS `emk_settings` (...);</code></pre>
                 <h4>Deployment Steps to Hostinger:</h4>
                 <ol>
                   <li>Create MySQL Database in Hostinger hPanel.</li>
-                  <li>Click <strong>Enter phpMyAdmin</strong> and import <code>database.sql</code>.</li>
+                  <li>Click <strong>Enter phpMyAdmin</strong> and import <code>database/database.sql</code> from the project source.</li>
+                  <li>Create your administrator with <code>php database/create-admin.php &lt;your-email&gt;</code> and run the statement it prints.</li>
                   <li>Upload the site files to your <code>public_html/</code> directory.</li>
                   <li>Verify <code>public_html/api/config.php</code> matches your DB user and password.</li>
+                  <li>Confirm <code>database/</code> was <strong>not</strong> uploaded to the server.</li>
                 </ol>
               </div>
             </div>
