@@ -1,5 +1,23 @@
-Options -MultiViews
+Options -MultiViews -Indexes
 DirectoryIndex index.html
+
+# ---- Never serve source, data, or configuration material -------------------
+# Database dumps, documentation, environment files, logs, and editor/VCS
+# leftovers must not be downloadable even if one is uploaded to the server by
+# mistake. Deployment material now lives in the repository's /database folder,
+# outside this web root; this rule is the safety net.
+<FilesMatch "(?:^\.|\.(?:sql|sql\.gz|env|log|ini|bak|old|orig|swp|dist|json5|md|yml|yaml|lock|sh)$)">
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
+  <IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+  </IfModule>
+</FilesMatch>
+
+# The catalogue JSON the storefront fetches at runtime must stay reachable,
+# so .json is deliberately absent from the block list above.
 
 # eMarket247 is a multi-page static site, not a single-page application.
 # No catch-all rewrite is used, so an unknown URL returns a genuine HTTP 404
@@ -10,6 +28,14 @@ ErrorDocument 404 /404.html
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
+
+  # ---- Force HTTPS -------------------------------------------------------
+  # Must stay ahead of the product rewrite so an insecure request is upgraded
+  # before anything else runs. %{HTTPS} alone is unreliable behind a proxy or
+  # load balancer, so the forwarded-proto header is checked as well.
+  RewriteCond %{HTTPS} !=on
+  RewriteCond %{HTTP:X-Forwarded-Proto} !=https
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 
   # Route EVERY /{lang}/products/{slug}/ to product.php. The live DB row is
   # rendered when it exists; otherwise product.php falls back to any legacy
@@ -44,6 +70,21 @@ ErrorDocument 404 /404.html
   Header always set X-Content-Type-Options "nosniff"
   Header always set Referrer-Policy "strict-origin-when-cross-origin"
   Header always set X-Frame-Options "SAMEORIGIN"
+
+  # HTTP Strict Transport Security. Deliberately set to 180 days rather than a
+  # year: it is long enough to protect real visitors and short enough to
+  # recover from a certificate problem during launch. Raise to 31536000 and
+  # add "preload" only after HTTPS has been stable in production.
+  Header always set Strict-Transport-Security "max-age=15552000; includeSubDomains" "expr=%{HTTPS} == 'on'"
+
+  # The storefront loads no third-party JavaScript, so script sources are
+  # limited to this origin. 'unsafe-inline' is still required because the
+  # pages carry inline event handlers and inline JSON-LD; removing those is
+  # tracked as follow-up hardening, after which 'unsafe-inline' should go.
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data:; connect-src 'self'; form-action 'self'; frame-ancestors 'self'; base-uri 'self'; object-src 'none'; upgrade-insecure-requests"
+
+  # The storefront needs no camera, microphone, geolocation, or payment API.
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()"
 
   # Hashed assets are immutable: the URL changes whenever the bytes change.
   <FilesMatch "\.(css|js)$">
