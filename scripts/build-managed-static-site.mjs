@@ -21,8 +21,16 @@ await rm(output, { recursive: true, force: true });
 await mkdir(path.dirname(output), { recursive: true });
 await cp(source, output, { recursive: true });
 
-// Database setup material is repository documentation, not a public artifact.
-await rm(path.join(output, "api", "database.sql"), { force: true });
-await rm(path.join(output, "api", "README_HOSTINGER_DB.md"), { force: true });
+// Database setup material belongs in the repository, never in a deployable
+// web-root snapshot. Runtime PHP files remain available for the approved
+// static-first hybrid architecture.
+const repositoryOnlyApiFiles = [
+  "database.sql",
+  "seed_products.sql",
+  "README_HOSTINGER_DB.md",
+];
+for (const file of repositoryOnlyApiFiles) {
+  await rm(path.join(output, "api", file), { force: true });
+}
 
 console.log(`Deployment snapshot prepared from public_html at ${output}`);
