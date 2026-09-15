@@ -88,6 +88,9 @@ The audit may update documentation or safe validation code. It must not disable 
 
 ## Ordered completion sequence
 
+The executable, task-by-task version of this sequence is `NEXT_TASKS.md`.
+Development tools should work from that file.
+
 1. Finish the static architecture normalization audit.
 2. Remove fabricated price fallbacks from active code and generators.
 3. Establish one authoritative bilingual catalogue and generation path.
