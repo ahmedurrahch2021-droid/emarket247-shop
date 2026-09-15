@@ -192,6 +192,72 @@ for (const file of activeTextFiles) {
   if (/\bprice\s*:\s*bp\.price\s*\|\|\s*4200\b/.test(text)) warnings.push(`${rel}: contains the unapproved 4200 price fallback`);
 }
 
+// ---------------------------------------------------------------------------
+// Security regressions
+//
+// Each check below corresponds to a real defect that was found in this
+// repository. They exist so the same mistake cannot be reintroduced quietly by
+// a later change, human or automated.
+// ---------------------------------------------------------------------------
+
+// 1. Nothing that describes or configures the database may sit in the web root.
+const forbiddenWebRootFiles = files.filter((file) =>
+  /\.(?:sql|env|log|bak|old|orig)$/i.test(file),
+);
+for (const file of forbiddenWebRootFiles) {
+  errors.push(
+    `${path.relative(root, file).replaceAll("\\", "/")}: database/environment files must live in /database, not in the deployed web root`,
+  );
+}
+
+// 2. The upload endpoint must never decide a file's type or extension from
+//    caller-controlled input.
+const uploadEndpoint = path.join(root, "api", "upload.php");
+if (await exists(uploadEndpoint)) {
+  const upload = await readFile(uploadEndpoint, "utf8");
+  if (/PATHINFO_EXTENSION/.test(upload)) {
+    errors.push("api/upload.php: the stored extension must come from a verified type whitelist, not the uploaded filename");
+  }
+  if (/in_array\(\s*\$file\['type'\]/.test(upload)) {
+    errors.push("api/upload.php: $_FILES[...]['type'] is client-supplied and must not be used to validate uploads");
+  }
+  if (!/getimagesize/.test(upload)) {
+    errors.push("api/upload.php: uploads must be verified by inspecting the file contents");
+  }
+}
+
+// 3. Uploaded media must never be executable.
+const uploadGuard = path.join(root, "assets", "images", ".htaccess");
+if (!(await exists(uploadGuard))) {
+  errors.push("assets/images/.htaccess: missing the rule that prevents uploaded files from being executed");
+}
+
+// 4. Baseline transport and browser security must stay in place.
+const htaccessPath = path.join(root, ".htaccess");
+if (await exists(htaccessPath)) {
+  const htaccess = await readFile(htaccessPath, "utf8");
+  const required = [
+    [/RewriteCond\s+%\{HTTPS\}\s+!=on/i, "an HTTPS redirect"],
+    [/Strict-Transport-Security/i, "the Strict-Transport-Security header"],
+    [/Content-Security-Policy/i, "a Content-Security-Policy header"],
+    [/X-Content-Type-Options/i, "the X-Content-Type-Options header"],
+  ];
+  for (const [pattern, label] of required) {
+    if (!pattern.test(htaccess)) errors.push(`.htaccess: missing ${label}`);
+  }
+}
+
+// 5. No credential may ever be published in the repository again.
+const repositorySqlDir = path.join(project, "database");
+if (await exists(repositorySqlDir)) {
+  for (const file of await walk(repositorySqlDir)) {
+    const text = await readFile(file, "utf8");
+    if (/\$2[aby]\$\d{2}\$[./A-Za-z0-9]{53}/.test(text)) {
+      errors.push(`database/${path.basename(file)}: contains a committed password hash; administrators must be created with database/create-admin.php`);
+    }
+  }
+}
+
 console.log(`Checked ${publicPages.length} public HTML pages, ${jsFiles.length} JavaScript files, ${phpFiles.length} PHP files, both catalogues, and the canonical taxonomy.`);
 if (warnings.length) {
   console.warn(`\nWARNINGS (${warnings.length})`);
