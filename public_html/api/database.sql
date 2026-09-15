@@ -26,22 +26,25 @@ CREATE TABLE IF NOT EXISTS `emk_users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- 2. Products Table (Bilingual Catalogue Records & Inventory)
+-- Product facts without owner-approved values default to NULL. The application
+-- must present them as unknown or "on request", never infer a category,
+-- material, stock quantity, availability, or metal option.
 CREATE TABLE IF NOT EXISTS `emk_products` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `sku` VARCHAR(100) NOT NULL UNIQUE,
   `slug` VARCHAR(191) NOT NULL UNIQUE,
   `title_en` VARCHAR(255) NOT NULL,
   `title_bn` VARCHAR(255) DEFAULT NULL,
-  `category` VARCHAR(100) NOT NULL DEFAULT 'Rings',
-  `price` DECIMAL(12,2) NOT NULL DEFAULT 0.00,
+  `category` VARCHAR(100) NOT NULL,
+  `price` DECIMAL(12,2) DEFAULT NULL,
   `is_price_pending` TINYINT(1) NOT NULL DEFAULT 1,
-  `material` VARCHAR(200) DEFAULT '22K Gold Luster & Sterling Silver',
-  `stock_status` ENUM('in_stock', 'low_stock', 'made_to_order', 'out_of_stock') NOT NULL DEFAULT 'in_stock',
-  `stock_qty` INT NOT NULL DEFAULT 10,
+  `material` VARCHAR(200) DEFAULT NULL,
+  `stock_status` ENUM('in_stock', 'low_stock', 'made_to_order', 'out_of_stock') DEFAULT NULL,
+  `stock_qty` INT DEFAULT NULL,
   `lead_en` TEXT DEFAULT NULL,
   `lead_bn` TEXT DEFAULT NULL,
   `image_url` VARCHAR(500) NOT NULL,
-  `metal_options` VARCHAR(255) DEFAULT '22K Gold, Rose Gold, Sterling Silver, Antique Two-Tone',
+  `metal_options` VARCHAR(255) DEFAULT NULL,
   `is_active` TINYINT(1) NOT NULL DEFAULT 1,
   `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
