@@ -1715,7 +1715,7 @@
               merged.push({
                 ...bp,
                 stock_status: bp.stock_status || "in_stock",
-                price: bp.price || 4200
+                price: bp.price || null
               });
             }
           });
