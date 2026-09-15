@@ -9,6 +9,17 @@
 - Supporting files, generators, scripts and documentation may exist outside `public_html/`, but only the intended contents of `public_html/` are deployed.
 - Never deploy automatically. Production deployment requires the project owner's approval.
 
+## Approved architecture
+
+- The selected final model is **static-first hybrid**.
+- Public presentation uses semantic HTML, shared CSS and vanilla JavaScript under `public_html/`.
+- PHP/MySQL is retained only for capabilities that require server-side persistence, including approved product administration, customer accounts, order/inquiry records and uploads.
+- Do not introduce a framework, application server or second deployable storefront.
+- Current product routing through `product.php` is active and must not be removed until an equivalent verified publishing path preserves live product data and every published EN/BN URL.
+- The database is authoritative for live admin-managed product commerce fields. Catalogue JSON and static PDPs are fallback/snapshot layers and must not contradict database-backed titles, slugs, categories, prices or availability.
+- Unknown product slugs must return a genuine HTTP 404.
+- Dynamic failures must degrade safely; they must not expose errors, credentials or database details.
+
 ## Required process for every development tool
 
 1. Read this file before changing anything.
@@ -40,7 +51,6 @@ Mistakes are expected during development. They must be visible, corrected with a
 - Brand direction: Vermilion Atelier; DM Serif Display, DM Sans and Noto Bengali; vermilion `#ED1C24`; warm ivory/parchment surfaces.
 - WhatsApp ordering remains the active conversion path until another payment or checkout method is explicitly approved.
 - No specific price may be published unless confirmed by the business.
-- Existing PHP, database and API files must be treated as active unless repository evidence proves otherwise. Do not remove or bypass them based on older documentation.
 - Do not change `public_html/api/config.php` credentials during ordinary development; credentials will be rotated in the final pre-launch security phase.
 
 ## Verification before completion
