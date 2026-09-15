@@ -1,17 +1,88 @@
-# eMarket247.shop — Static Hosting and Brand Direction
+# eMarket247 — Hostinger Deployment Contract
 
-## Approved visual direction
+## Approved source
 
-The eMarket247 storefront will use a **predominantly white and warm-ivory layout**. The supplied eMarket247 logo establishes the identity, with **black** carrying typography, navigation, footer, and high-confidence controls, while **eMarket247 red** is reserved for calls to action, active states, category cues, and editorial accents. Pandora remains a benchmark for clear luxury eCommerce UX; it is not a color, campaign, or visual template for this project.
+- `public_html/` is the authoritative website and final Hostinger deployment tree.
+- Edit and review the site in `public_html/`; do not develop against `dist/public/` or legacy trees.
+- `dist/public/` is an optional snapshot generated from `public_html/` by `npm run build`.
+- Never copy `dist/public/` back into `public_html/`.
+- Deployment is manual and requires the project owner's approval.
 
-## Price publication policy
+## Hosting model
 
-Prices will remain absent from the pre-launch catalog until approved values are received. The storefront must not use sample prices, fake sales, availability, or inferred product claims. The catalog model is ready to receive pricing later without changing image metadata, image accessibility, or the public URL structure.
+The storefront is a bilingual multi-page site on Hostinger shared hosting with Apache.
 
-## Hostinger File Manager delivery contract
+- English routes live under `/en/`.
+- Bengali routes live under `/bn/`.
+- Directory routes resolve to their own `index.html` files.
+- Unknown routes must return a genuine HTTP 404 using `/404.html`.
+- Do not add a single-page-application catch-all rewrite.
 
-The final site will be exported as a static production build. The delivery workflow creates a clean external `emarket247-hostinger-package` folder that contains `dist/public`, local copies of the approved eMarket247 brand files, local copies of the generated campaign images, static configuration files, and a small deployment guide. This package has no dependency on Manus storage URLs.
+### Current architecture warning
 
-For a standard static deployment, upload the **contents** of `emarket247-hostinger-package` into the domain’s `public_html` directory rather than uploading the parent folder itself. Because the storefront uses browser routes, the final package includes a Hostinger-compatible `.htaccess` fallback so routes such as `/shop`, `/bridal`, and `/contact` resolve to the application shell when Apache rewrite support is available.
+The approved target is static HTML, CSS, and vanilla JavaScript, but the current repository still includes PHP/MySQL behavior. Product routes are currently rewritten to `product.php`, and `public_html/api/` contains authentication, product, order, and upload endpoints.
 
-The static package will not contain payment secrets, merchant keys, personal data storage, real checkout logic, or mail credentials. Payment, order, customer account, newsletter, and admin functions will be connected later through secure services, not through Hostinger File Manager JavaScript.
+Do not describe the deployed implementation as fully static until those dependencies are audited and deliberately normalized. Do not remove them blindly: product URLs, catalogue behavior, cart state, WhatsApp ordering, SEO metadata, and EN/BN parity must remain intact.
+
+## Design and commerce rules
+
+- Preserve the Vermilion Atelier visual system.
+- Use only approved eMarket247 brand assets.
+- Do not use external temporary storage URLs.
+- Do not publish sample or inferred prices, availability, materials, ratings, reviews, discounts, or guarantees.
+- WhatsApp remains the approved active conversion path until another checkout method is explicitly approved.
+- Product structured data may include an `Offer` only when its price, currency, and availability are verified.
+
+## Validation before deployment
+
+From the repository root, run:
+
+```bash
+npm test
+```
+
+When a clean snapshot is required, run:
+
+```bash
+npm run build
+```
+
+Then manually verify:
+
+1. `/`, `/en/`, and `/bn/`.
+2. Shop and representative category pages in both languages.
+3. At least two product URLs in both languages.
+4. Add-to-bag, quantity changes, removal, cart, and WhatsApp message generation.
+5. Mobile navigation and keyboard navigation.
+6. Canonical, hreflang, Open Graph, and structured data.
+7. Genuine 404 behavior for an unknown URL.
+8. `robots.txt` and `sitemap.xml`.
+9. HTTPS, redirects, cache headers, and asset loading.
+10. Absence of secrets, SQL setup files, logs, and development artifacts in the upload.
+
+Any failed check must be fixed or explicitly reported. Do not deploy merely because a build command completed.
+
+## Manual File Manager deployment
+
+1. Back up the current Hostinger `public_html` contents and database, if still used.
+2. Confirm the exact approved `master` commit.
+3. Run validation and focused browser checks.
+4. Choose either the reviewed contents of `public_html/` or the verified `dist/public/` snapshot generated from that exact commit.
+5. Upload the contents, not an extra parent directory.
+6. Ensure `.htaccess` is included; enable display of hidden files in File Manager.
+7. Do not upload repository-only documentation, source trees, logs, tests, secrets, or database setup exports.
+8. Clear or revalidate hosting/CDN caches as appropriate.
+9. Repeat the production smoke tests immediately.
+10. Keep the previous deployment backup until the release is confirmed stable.
+
+## Rollback
+
+If production validation fails:
+
+1. stop further uploads;
+2. record the failing URL and behavior;
+3. restore the previous Hostinger backup;
+4. revert the responsible Git commit instead of rewriting history;
+5. validate the correction before redeploying.
+
+A release is complete only after production smoke tests pass and the rollback backup remains available.
