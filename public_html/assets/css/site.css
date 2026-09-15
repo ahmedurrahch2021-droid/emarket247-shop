@@ -6333,3 +6333,29 @@ main#main:nth-of-type(1) > section:nth-of-type(4),
 }
 
 
+
+/* ---------------------------------------------------------------------------
+   Breadcrumbs: hidden from the page, kept for machines and screen readers.
+
+   Owner decision: the visual breadcrumb row sat directly under the header,
+   wrapped onto several lines on narrow screens, and pushed into the hero.
+
+   This is a visually-hidden rule rather than display:none on purpose:
+   - the markup stays in the DOM, so the BreadcrumbList structured data on the
+     product and category pages still matches real page content;
+   - screen-reader and keyboard users keep the navigation aid, which is where
+     a breadcrumb earns its value.
+
+   To show breadcrumbs again, delete this block. Nothing else depends on it.
+--------------------------------------------------------------------------- */
+.breadcrumb {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

@@ -40,25 +40,39 @@ logic, touch `api/config.php` credentials, or modify the live database.
 
 ---
 
-## LIVE WINDOW — read first
+## Deployment state — read first
 
-The store owner's client is currently signed in to the admin dashboard adding
-real products, prices, and images to the **live database**.
+Verified against the live site on 2026-09-15:
 
-While that window is open:
+| Check | Result |
+| --- | --- |
+| `public_html/` in this repository | **Not deployed.** `emarket247.shop` serves an older build |
+| `https://emarket247.shop/api/database.sql` | 404 — the schema dump is not exposed on the live server |
+| `https://emarket247.shop/api/upload.php` | 401 — the API exists and is the **unpatched** version |
+| `https://emarket247.shop/en/admin/` | 200 — the admin dashboard is publicly reachable |
 
-- **Do not modify** `public_html/api/*.php`, the admin pages, the database
-  schema, or anything that touches a live session. A deploy or endpoint change
-  mid-upload can destroy the client's work.
-- **Do not regenerate** catalogue JSON or static product pages from the old
-  snapshot. The database is ahead of them; regenerating would overwrite real
-  prices with stale placeholders.
-- **Do not deploy anything.**
-- Tasks T1 and T2 below are safe during the window because they touch no live
-  path. Everything from T3 onward waits until the owner confirms the window is
-  closed.
+Three consequences that every tool must understand:
 
----
+1. **The security fixes in this repository protect nothing yet.** They are code,
+   not deployment. The live server still runs the old upload endpoint.
+2. **The live database is separate from this repository.** Product rows, prices,
+   and accounts created through the live admin exist only there. Never assume
+   the catalogue JSON in this repo reflects live data, and never regenerate live
+   data from it.
+3. **Any prices currently visible in the admin are owner test data**, not
+   approved commerce facts. They must be removed before launch (task T0).
+
+## T0 — Remove test data and stop trusting it
+
+**Why:** two placeholder prices were entered by the owner to confirm the admin
+panel worked. If they survive to launch, the store publishes invented prices.
+
+**Do:** identify every test product, test price, and test order in the live
+database, list them for the owner, and remove them once confirmed. Do not delete
+anything the owner has not confirmed is test data.
+
+**Done when:** every remaining price in the database is one the owner approved,
+and `is_price_pending` is correct for everything else.
 
 ## T1 — Consolidate the duplicate source trees
 
@@ -255,10 +269,23 @@ behaves correctly on a real device.
 
 ---
 
+## Completed and not to be redone
+
+- Admin product sheet export (CSV with UTF-8 BOM, EN/BN URLs, pending prices
+  exported as empty cells). Do not replace it with a library or a second export.
+- Breadcrumbs hidden by one visually-hidden CSS block in `site.css`, kept in the
+  DOM for structured data and screen readers. Do not delete the markup, and do
+  not "restore" the visible row.
+
 ## Owner-only actions (no tool performs these)
 
-1. Change the shared administrator password once the client's upload session
-   ends, and give each person their own account afterwards.
-2. Rotate the database and hosting passwords.
-3. Decide whether the GitHub repository should remain public; its history
-   contains a previously published administrator password.
+1. **Decide how to handle the administrator password now.** It is published in
+   this repository's history, the repository is public, the live admin panel is
+   reachable, and the live server still runs the unpatched upload endpoint.
+   Either change the password (the login email stays the same, so the client is
+   not disrupted) or deploy the patched `api/upload.php` and
+   `assets/images/.htaccess` to the live server, and preferably both.
+2. Give each person their own administrator account once the current work is
+   done, then delete the shared one.
+3. Rotate the database and hosting passwords.
+4. Decide whether the GitHub repository should stay public.

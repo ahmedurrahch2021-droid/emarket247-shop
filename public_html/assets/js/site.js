@@ -1521,6 +1521,93 @@
     one("#admin-product-search")?.addEventListener("input", renderProductsTable);
     one("#admin-category-filter")?.addEventListener("change", renderProductsTable);
 
+    // ---- Product sheet export ------------------------------------------------
+    // Exports exactly what the table currently shows (search and category filter
+    // applied) so the file always matches what the operator is looking at.
+    //
+    // The file is CSV with a UTF-8 byte-order mark. Excel only renders Bengali
+    // titles correctly when that BOM is present; without it, চুড়ি becomes
+    // mojibake. Excel, Google Sheets, and LibreOffice all open this directly.
+    //
+    // A pending price is written as an empty cell, never as 0 and never as a
+    // guessed number. An empty cell reads as "not set yet"; a 0 reads as free.
+    const SITE_ORIGIN = "https://emarket247.shop";
+
+    const csvCell = (value) => {
+      if (value === null || value === undefined) return "";
+      const text = String(value);
+      // A leading =, +, -, or @ makes Excel treat the cell as a formula.
+      const safe = /^[=+\-@]/.test(text) ? `'${text}` : text;
+      return /[",\n\r]/.test(safe) ? `"${safe.replaceAll('"', '""')}"` : safe;
+    };
+
+    const buildProductSheet = (rows) => {
+      const headers = [
+        "SKU", "Slug", "Title (EN)", "Title (BN)", "Category",
+        "Price (BDT)", "Price status", "Stock status", "Material",
+        "Product status", "English URL", "Bengali URL", "Image URL",
+      ];
+
+      const lines = [headers.map(csvCell).join(",")];
+
+      for (const p of rows) {
+        const slug = p.slug || "";
+        const hasPrice = Number(p.price) > 0 && !p.pricePending;
+        lines.push([
+          p.id || "",
+          slug,
+          p.title || "",
+          p.title_bn || "",
+          p.categoryLabel || p.category || "",
+          hasPrice ? Number(p.price) : "",
+          hasPrice ? "Approved" : "Pending owner approval",
+          p.stock_status || "",
+          p.material || "",
+          p.status || "",
+          slug ? `${SITE_ORIGIN}/en/products/${slug}/` : "",
+          slug ? `${SITE_ORIGIN}/bn/products/${slug}/` : "",
+          p.image?.src ? (p.image.src.startsWith("http") ? p.image.src : SITE_ORIGIN + p.image.src) : "",
+        ].map(csvCell).join(","));
+      }
+
+      return "\uFEFF" + lines.join("\r\n");
+    };
+
+    const exportProductSheet = () => {
+      const searchVal = one("#admin-product-search")?.value.trim().toLowerCase() || "";
+      const catVal = one("#admin-category-filter")?.value || "all";
+
+      const rows = allProducts.filter(p => {
+        const matchesCat = catVal === "all" || p.categoryLabel === catVal || p.category === catVal.toLowerCase();
+        if (!matchesCat) return false;
+        if (!searchVal) return true;
+        return `${p.id} ${p.title} ${p.categoryLabel || ""} ${p.image?.caption || ""}`
+          .toLowerCase().includes(searchVal);
+      });
+
+      if (!rows.length) {
+        showToast(language === "bn" ? "রপ্তানি করার মতো কোনো পণ্য নেই।" : "There are no products to export.");
+        return;
+      }
+
+      const stamp = new Date().toISOString().slice(0, 10);
+      const blob = new Blob([buildProductSheet(rows)], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `emarket247-products-${stamp}.csv`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+
+      showToast(language === "bn"
+        ? `${rows.length}টি পণ্যের শিট ডাউনলোড হয়েছে।`
+        : `Product sheet downloaded (${rows.length} products).`);
+    };
+
+    one("#btn-export-products")?.addEventListener("click", exportProductSheet);
+
     // Render Orders Table
     const renderOrdersTable = () => {
       const orders = getOrders();
