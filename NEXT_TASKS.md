@@ -113,10 +113,10 @@ exist.
 
 ## T3 — Re-encode uploaded product images on the server
 
-**Why:** the admin upload endpoint stores whatever the client uploads, up to
-5 MB, at original dimensions. The client is uploading real product photos right
-now, most likely straight from a phone camera. Without this, the catalogue fills
-with multi-megabyte images and the performance budget becomes unreachable.
+**Why:** the admin upload endpoint accepts and stores whatever is uploaded, up
+to 5 MB, at original dimensions and with EXIF metadata intact. Product photos
+taken on a phone routinely exceed that budget and carry GPS coordinates. Do this
+before anyone loads the catalogue in bulk, not after.
 
 **Do:** extend `public_html/api/upload.php` so that after the existing security
 checks, the image is re-encoded server-side: convert to WebP, cap the long edge
@@ -212,8 +212,9 @@ clear message instead of breaking.
 
 ## T8 — Truthful SEO and structured data
 
-**Do:** now that real prices exist, add `Offer` structured data **only** where
-price, currency, and availability are confirmed in the database. Products
+**Do:** add `Offer` structured data **only** where price, currency, and
+availability are confirmed by the owner in the database. At the time of writing
+no approved price exists, so the correct output is no `Offer` at all. Products
 awaiting approval keep their honest pending state. Re-check canonicals,
 reciprocal hreflang, unique titles and descriptions, sitemap accuracy (currently
 97 URLs against 120 pages — confirm the gap is deliberate), and genuine 404s.
