@@ -1,0 +1,20 @@
+# Enforce LF line endings on all text files for cross-platform hash consistency.
+# The cache-busting script (fix-cache-busting.mjs) computes MD5 hashes on raw
+# file bytes. If Windows dev machines write CRLF while CI uses LF, the hashes
+# diverge and every HTML file shows as changed on every commit — making the
+# hash stamps unreliable. This file ensures the committed blob is always LF.
+*               text=auto
+
+# Binary assets — never modified by the clean filter
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.webp binary
+*.gif  binary
+*.svg  binary
+*.woff binary
+*.woff2 binary
+*.ttf  binary
+*.eot  binary
+*.zip  binary
+*.pdf  binary
