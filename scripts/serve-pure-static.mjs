@@ -1,8 +1,14 @@
 import { createReadStream, promises as fs } from "node:fs";
 import { createServer } from "node:http";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
-const root = "/home/ubuntu/emarket247-hostinger-static";
+// public_html is the approved deployment tree and the only site preview target.
+// Resolve it relative to this script so the server works in any checkout or
+// worktree, rather than a hardcoded absolute path (the previous absolute path
+// silently pointed at a machine that no longer exists).
+const projectRoot = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
+const root = path.join(projectRoot, "public_html");
 const port = 4173;
 const types = { ".css": "text/css", ".js": "text/javascript", ".json": "application/json", ".webp": "image/webp", ".png": "image/png", ".xml": "application/xml", ".txt": "text/plain", ".html": "text/html" };
 
