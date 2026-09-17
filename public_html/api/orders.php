@@ -56,6 +56,18 @@ if ($op === 'list') {
 
 // create: Place a new bag checkout inquiry or order (public)
 if ($op === 'create') {
+    // Light abuse brake on the public write path: a normal shopper never
+    // places more than a handful of inquiries per session. This does not
+    // replace CSRF (config.php) — it just caps scripted spam that would
+    // otherwise flood the admin's order dashboard.
+    $now = time();
+    $stamps = array_filter($_SESSION['order_create_times'] ?? [], fn($t) => $t > $now - 3600);
+    if (count($stamps) >= 10) {
+        sendJsonResponse(['success' => false, 'error' => 'Too many order requests. Please try again later or contact us on WhatsApp.'], 429);
+    }
+    $stamps[] = $now;
+    $_SESSION['order_create_times'] = array_values($stamps);
+
     $customerName = trim($input['customer_name'] ?? '');
     $customerPhone = trim($input['customer_phone'] ?? '');
     $customerEmail = trim($input['customer_email'] ?? '');
@@ -86,18 +98,33 @@ if ($op === 'create') {
         }
     }
 
-    $orderRef = 'EMK-' . date('Ymd') . '-' . rand(1000, 9999);
     $itemsJson = json_encode($items, JSON_UNESCAPED_UNICODE);
 
+    // order_ref must be unique. The old 4-digit rand suffix gave only 9,000 values per
+    // day, so the UNIQUE index started rejecting inserts under modest volume.
+    // Use a CSPRNG suffix and retry once on the (now vanishingly rare)
+    // duplicate-key collision.
     try {
         $stmt = $pdo->prepare("INSERT INTO emk_orders
             (order_ref, user_id, customer_name, customer_phone, customer_email, customer_address, items_json, total_amount, status, notes)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending', ?)");
 
-        $stmt->execute([
-            $orderRef, $userId, $customerName, $customerPhone, $customerEmail,
-            $customerAddress, $itemsJson, $totalAmount, $notes
-        ]);
+        $orderRef = '';
+        for ($attempt = 0; $attempt < 2; $attempt++) {
+            $orderRef = 'EMK-' . date('Ymd') . '-' . strtoupper(bin2hex(random_bytes(4)));
+            try {
+                $stmt->execute([
+                    $orderRef, $userId, $customerName, $customerPhone, $customerEmail,
+                    $customerAddress, $itemsJson, $totalAmount, $notes
+                ]);
+                break;
+            } catch (PDOException $e) {
+                if ($e->getCode() === '23000' && $attempt === 0) {
+                    continue; // duplicate order_ref — regenerate once
+                }
+                throw $e;
+            }
+        }
 
         $orderId = $pdo->lastInsertId();
 

@@ -109,7 +109,7 @@ if ($op === 'create') {
     }
 
     if (empty($sku)) {
-        $sku = 'EMK-' . strtoupper(substr($category, 0, 3)) . '-' . rand(1000, 9999);
+        $sku = 'EMK-' . strtoupper(substr($category, 0, 3)) . '-' . strtoupper(bin2hex(random_bytes(3)));
     }
 
     if (empty($imageUrl)) {

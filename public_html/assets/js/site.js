@@ -597,15 +597,19 @@
   };
 
   all("[data-catalog]").forEach(async (host) => {
-    try {
-      // Fetch from Live API instead of static JSON
+    // Static cards pre-rendered into the page are the last line of defence:
+    // they must never be wiped unless real records arrived to replace them.
+    const hasStaticCards = Boolean(one(".product-card", host));
+
+    // Source 1 — live database API (authoritative when reachable).
+    const fromApi = async () => {
       const response = await fetch(`/api/products.php`);
       const data = await response.json();
-
-      if (!data.success || !data.products) throw new Error("API response unsuccessful");
-
+      if (!data.success || !Array.isArray(data.products) || !data.products.length) {
+        throw new Error("API response unsuccessful or empty");
+      }
       // Map Database Record -> Frontend Product Object
-      const dbProducts = data.products.map((p, index) => ({
+      return data.products.map((p, index) => ({
         id: p.sku,
         slug: p.slug,
         title: language === "bn" ? p.title_bn : p.title_en,
@@ -624,22 +628,68 @@
         },
         catalogIndex: index
       }));
+    };
 
-      const pageCategory = (host.dataset.category || "").toLowerCase();
-      // "catalog" is a sentinel: show all ready products with no category filter.
-      // A real category slug (rings, necklaces, etc.) filters to that category only.
-      const products = dbProducts
-        .filter((product) => product.status === "ready" && (!pageCategory || pageCategory === "catalog" || product.category.toLowerCase() === pageCategory));
-
-      if (!products.length) {
-        host.innerHTML = `<p class="catalog-empty">${language === "bn" ? "এই বিভাগের জন্য নিশ্চিত পণ্যের তথ্য এখনও প্রকাশের অপেক্ষায় আছে। সব পণ্য দেখতে শপ পেজে যান।" : "Verified product records for this category are awaiting publication. Visit Shop to browse all supplied images under review."}</p>`;
-        return;
+    // Source 2 — the reviewed catalogue snapshot shipped with the site. It is
+    // the approved fallback layer when the database is unreachable, so the
+    // shop and category grids never go blank on an API failure.
+    const fromCatalogue = async () => {
+      const response = await fetch(`/assets/data/catalog.${language}.json`);
+      const data = await response.json();
+      if (!Array.isArray(data.products) || !data.products.length) {
+        throw new Error("catalogue snapshot unavailable or empty");
       }
-      buildControls(host, products, pageCategory);
-    } catch (err) {
-      console.error("Catalog Load Error:", err);
-      host.innerHTML = `<p>${esc(host.dataset.empty || (language === "bn" ? "পণ্যের তালিকা প্রস্তুত করা হচ্ছে।" : "Approved products are being prepared."))}</p>`;
+      return data.products.map((p, index) => ({
+        id: p.id,
+        slug: p.slug,
+        title: p.title,
+        category: p.category,
+        categoryLabel: p.categoryLabel || p.category,
+        price: p.price,
+        pricePending: !(Number(p.price) > 0),
+        status: p.status,
+        description: p.description,
+        image: p.image,
+        catalogIndex: index
+      }));
+    };
+
+    let records = null;
+    try {
+      records = await fromApi();
+    } catch (apiErr) {
+      console.warn("Catalog API unavailable:", apiErr.message);
+      // The API is down. Pre-rendered static cards are the reviewed published
+      // state for this page — keep them untouched rather than replacing them
+      // with a snapshot subset. Only an empty host falls through to the
+      // catalogue snapshot so it never renders blank.
+      if (hasStaticCards) return;
+      try {
+        records = await fromCatalogue();
+      } catch (jsonErr) {
+        console.error("Catalog Load Error (API and snapshot both failed):", jsonErr);
+      }
     }
+
+    if (!records) {
+      host.innerHTML = `<p>${esc(host.dataset.empty || (language === "bn" ? "পণ্যের তালিকা প্রস্তুত করা হচ্ছে।" : "Approved products are being prepared."))}</p>`;
+      return;
+    }
+
+    const pageCategory = (host.dataset.category || "").toLowerCase();
+    // "catalog" is a sentinel: show all ready products with no category filter.
+    // A real category slug (rings, necklaces, etc.) filters to that category only.
+    const products = records
+      .filter((product) => product.status === "ready" && (!pageCategory || pageCategory === "catalog" || String(product.category).toLowerCase() === pageCategory));
+
+    if (!products.length) {
+      // No live records for this view: keep static cards rather than wiping them.
+      if (!hasStaticCards) {
+        host.innerHTML = `<p class="catalog-empty">${language === "bn" ? "এই বিভাগের জন্য নিশ্চিত পণ্যের তথ্য এখনও প্রকাশের অপেক্ষায় আছে। সব পণ্য দেখতে শপ পেজে যান।" : "Verified product records for this category are awaiting publication. Visit Shop to browse all supplied images under review."}</p>`;
+      }
+      return;
+    }
+    buildControls(host, products, pageCategory);
   });
 
   // PDP Interactivity (Quantity Stepper, Add to Bag, Share Piece)
@@ -800,16 +850,30 @@
   };
 
   // Hostinger PHP/MySQL API Wrapper
+  // Session CSRF token: issued by the API on any GET (get_session) and
+  // rotated on login/register. Every write request must echo it back in the
+  // X-CSRF-Token header or the server rejects the write with 403.
+  let csrfToken = "";
+  const captureCsrf = (payload) => {
+    if (payload && typeof payload.csrf_token === "string" && payload.csrf_token) {
+      csrfToken = payload.csrf_token;
+    }
+    return payload;
+  };
+  const csrfHeaders = () => (csrfToken ? { "X-CSRF-Token": csrfToken } : {});
+
   const hostingerApi = {
     async call(script, data = {}) {
       try {
         const response = await fetch(`/api/${script}`, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: { "Content-Type": "application/json", ...csrfHeaders() },
           body: JSON.stringify(data)
         });
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        return await response.json();
+        if (!response.ok && response.status !== 401 && response.status !== 403 && response.status !== 409 && response.status !== 429) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+        return captureCsrf(await response.json());
       } catch (err) {
         console.warn(`[Hostinger API] ${script} fetch failed or in static preview:`, err.message);
         return { success: false, offline: true, error: err.message };
@@ -819,7 +883,7 @@
         try {
             const response = await fetch(`/api/${script}`);
             if (!response.ok) throw new Error(`HTTP ${response.status}`);
-            return await response.json();
+            return captureCsrf(await response.json());
         } catch (err) {
             return { success: false, offline: true, error: err.message };
         }
@@ -914,7 +978,10 @@
 
         // Populate Metric counts
         const allOrders = getOrders();
-        const userOrders = allOrders.filter(o => !user.email || o.customer_email === user.email || user.role === "admin");
+        // Only the user's own orders (matched by email) — admins see all.
+        // The old predicate showed EVERY cached order when user.email was
+        // empty, which over-shared across accounts on a shared browser.
+        const userOrders = allOrders.filter(o => user.role === "admin" || (user.email && o.customer_email === user.email));
         const bag = getBag();
 
         const statInquiries = one("#stat-user-inquiries");
@@ -1073,7 +1140,10 @@
           return;
         }
 
-        // Try Hostinger API
+        // The server is the only account store. Success is claimed ONLY when
+        // the API actually created the account — the old code fell through to
+        // a localStorage user (with the plaintext password) and announced
+        // success even when the API had failed or the email already existed.
         const apiRes = await hostingerApi.call("auth.php", {
           action: "register",
           full_name: name,
@@ -1083,29 +1153,24 @@
           password: pass
         });
 
-        const users = getStoredUsers();
-        if (users.some(u => u.email.toLowerCase() === email)) {
-          showToast(language === "bn" ? "এই ইমেইল দিয়ে ইতোমধ্যে একটি অ্যাকাউন্ট রয়েছে।" : "An account with this email already exists.");
+        if (apiRes && apiRes.success && apiRes.user) {
+          setCurrentUser(apiRes.user);
+          showToast(language === "bn" ? "আপনার অ্যাকাউন্ট সফলভাবে তৈরি হয়েছে!" : "Account created successfully!");
+          renderAccountView();
           return;
         }
 
-        const newUser = {
-          id: Date.now(),
-          full_name: name,
-          email,
-          phone,
-          district,
-          password: pass,
-          role: "customer",
-          created_at: new Date().toISOString().replace("T", " ").substring(0, 16)
-        };
+        if (apiRes && apiRes.offline) {
+          showToast(language === "bn"
+            ? "সার্ভারে সংযোগ করা যাচ্ছে না। কিছুক্ষণ পরে আবার চেষ্টা করুন।"
+            : "Cannot reach the server right now. Please try again shortly.");
+          return;
+        }
 
-        users.push(newUser);
-        saveStoredUsers(users);
-        setCurrentUser(newUser);
-
-        showToast(language === "bn" ? "আপনার অ্যাকাউন্ট সফলভাবে তৈরি হয়েছে!" : "Account created successfully!");
-        renderAccountView();
+        const duplicate = apiRes && typeof apiRes.error === "string" && apiRes.error.toLowerCase().includes("already exists");
+        showToast(duplicate
+          ? (language === "bn" ? "এই ইমেইল দিয়ে ইতোমধ্যে একটি অ্যাকাউন্ট রয়েছে।" : "An account with this email already exists.")
+          : (language === "bn" ? "অ্যাকাউন্ট তৈরি করা যায়নি। তথ্য যাচাই করে আবার চেষ্টা করুন।" : "Account could not be created. Please check your details and try again."));
       });
     }
 
@@ -1314,7 +1379,7 @@
       formData.append("image", file);
 
       try {
-        const res = await fetch("/api/upload.php", { method: "POST", body: formData });
+        const res = await fetch("/api/upload.php", { method: "POST", headers: csrfHeaders(), body: formData });
         const data = await res.json();
         if (data.success && data.path) {
           if (imgUrlInput) imgUrlInput.value = data.path;

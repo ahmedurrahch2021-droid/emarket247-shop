@@ -193,6 +193,71 @@ for (const file of activeTextFiles) {
 }
 
 // ---------------------------------------------------------------------------
+// Commerce-truth regressions
+//
+// 1. A published product page may only carry an Offer/price in its structured
+//    data when the catalogue record for that slug has an owner-confirmed
+//    price. Fabricated price bands and availability claims were shipped once;
+//    this check keeps them from returning.
+// ---------------------------------------------------------------------------
+if (catalogues.en && catalogues.bn) {
+  for (const lang of ["en", "bn"]) {
+    const bySlug = new Map(catalogues[lang].map((product) => [product.slug, product]));
+    const productPages = htmlFiles.filter((file) => {
+      const rel = path.relative(root, file).replaceAll("\\", "/");
+      return new RegExp(`^${lang}/products/[^/]+/index\\.html$`).test(rel);
+    });
+    for (const file of productPages) {
+      const rel = path.relative(root, file).replaceAll("\\", "/");
+      const slug = rel.split("/")[2];
+      const html = await readFile(file, "utf8");
+
+      // Structured data must be parseable JSON: a Phase C regex edit once left
+      // every PDP with a dangling comma, silently voiding all product markup.
+      const ldMatch = html.match(/<script type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/);
+      if (ldMatch) {
+        try {
+          JSON.parse(ldMatch[1]);
+        } catch (error) {
+          errors.push(`${rel}: JSON-LD is not parseable JSON (${error.message})`);
+        }
+      }
+
+      const hasOfferMarkup = /"offers"\s*:|"AggregateOffer"|"lowPrice"|"highPrice"|schema\.org\/InStock/.test(html);
+      if (!hasOfferMarkup) continue;
+      const record = bySlug.get(slug);
+      const confirmedPrice = Number(record?.price) > 0;
+      if (!confirmedPrice) {
+        errors.push(`${rel}: structured data contains an Offer/price/availability claim but catalog.${lang}.json has no owner-confirmed price for ${slug}`);
+      }
+    }
+  }
+}
+
+// 2. Every category page's data-category grid attribute must match its own URL
+//    folder slug (or the generic "catalog"/"all" sentinel used by Shop). A
+//    mislabeled attribute once made four category pages render the entire
+//    catalogue instead of their category.
+if (taxonomy?.categories) {
+  const knownCategories = new Set(Object.keys(taxonomy.categories));
+  for (const lang of ["en", "bn"]) {
+    for (const category of knownCategories) {
+      const page = path.join(root, lang, "categories", category, "index.html");
+      if (!(await exists(page))) continue;
+      const html = await readFile(page, "utf8");
+      const match = html.match(/data-catalog[^>]*data-category="([^"]*)"/) || html.match(/data-category="([^"]*)"[^>]*data-catalog/);
+      if (!match) continue;
+      const value = match[1].toLowerCase();
+      if (value !== category && value !== "catalog" && value !== "all") {
+        errors.push(`${lang}/categories/${category}/index.html: data-category="${match[1]}" does not match the page's category slug`);
+      } else if (value === "catalog" && knownCategories.has(category)) {
+        errors.push(`${lang}/categories/${category}/index.html: data-category="catalog" on a specific category page renders the whole catalogue; it must be "${category}"`);
+      }
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
 // Security regressions
 //
 // Each check below corresponds to a real defect that was found in this
@@ -223,6 +288,52 @@ if (await exists(uploadEndpoint)) {
   }
   if (!/getimagesize/.test(upload)) {
     errors.push("api/upload.php: uploads must be verified by inspecting the file contents");
+  }
+}
+
+// 2b. CSRF enforcement must stay wired: config.php enforces the token on every
+// state-changing request, and the frontend sends it. Each check matches the
+// protection added after the audit found session-cookie writes with no token.
+const apiConfig = path.join(root, "api", "config.php");
+if (await exists(apiConfig)) {
+  const config = await readFile(apiConfig, "utf8");
+  if (!/function\s+checkCsrf\s*\(/.test(config)) {
+    errors.push("api/config.php: checkCsrf() is missing; state-changing requests must verify the X-CSRF-Token header");
+  }
+  // The call must be live code: strip the definition, then require an
+  // uncommented `checkCsrf();` statement at the start of a line.
+  const configWithoutDef = config.replace(/function\s+checkCsrf[\s\S]*?\n\}/, "");
+  if (!/^\s*checkCsrf\(\);/m.test(configWithoutDef)) {
+    errors.push("api/config.php: checkCsrf() is defined but never enforced for non-GET requests");
+  }
+  if (!/hash_equals/.test(config)) {
+    errors.push("api/config.php: CSRF comparison must use hash_equals, not ==/===");
+  }
+}
+const apiAuth = path.join(root, "api", "auth.php");
+if (await exists(apiAuth)) {
+  const auth = await readFile(apiAuth, "utf8");
+  if (!/loginThrottle/.test(auth)) {
+    errors.push("api/auth.php: login throttling has been removed; failed sign-ins must be rate limited");
+  }
+  if (!/session_regenerate_id\s*\(\s*true\s*\)/.test(auth)) {
+    errors.push("api/auth.php: login must call session_regenerate_id(true) to prevent session fixation");
+  }
+}
+for (const [relFile, label] of [["api/orders.php", "order_ref"], ["api/products.php", "SKU fallback"]]) {
+  const file = path.join(root, relFile);
+  if (await exists(file)) {
+    const text = await readFile(file, "utf8");
+    if (/\brand\s*\(/.test(text)) {
+      errors.push(`${relFile}: ${label} must use random_bytes/random_int, not rand()`);
+    }
+  }
+}
+const siteJsFile = path.join(root, "assets", "js", "site.js");
+if (await exists(siteJsFile)) {
+  const siteJs = await readFile(siteJsFile, "utf8");
+  if (!/X-CSRF-Token/.test(siteJs)) {
+    errors.push("assets/js/site.js: API writes no longer send the X-CSRF-Token header");
   }
 }
 

@@ -49,6 +49,7 @@ if ($action === 'register' && $method === 'POST') {
     sendJsonResponse([
         'success' => true,
         'message' => 'Account created successfully.',
+        'csrf_token' => rotateCsrfToken(),
         'user' => [
             'id' => (int)$userId,
             'full_name' => $fullName,
@@ -61,6 +62,38 @@ if ($action === 'register' && $method === 'POST') {
     ], 201);
 }
 
+// ---------------------------------------------------------------------------
+// Login throttling. Counters live outside the web root in the system temp
+// directory (no schema change, works on shared Hostinger). Keyed by the
+// TARGET ACCOUNT, not the session, so discarding cookies does not reset the
+// budget for brute-forcing one mailbox. 5 failures opens a 15-minute lock;
+// a successful sign-in clears the counter. Responses stay generic.
+// ---------------------------------------------------------------------------
+
+function loginThrottleFile($email) {
+    return sys_get_temp_dir() . '/emk-login-' . hash('sha256', strtolower($email));
+}
+
+function loginThrottleState($email) {
+    $file = loginThrottleFile($email);
+    if (!is_file($file)) return ['fails' => 0, 'until' => 0];
+    $state = json_decode((string)@file_get_contents($file), true);
+    return is_array($state) ? $state + ['fails' => 0, 'until' => 0] : ['fails' => 0, 'until' => 0];
+}
+
+function loginThrottleFail($email) {
+    $state = loginThrottleState($email);
+    $state['fails'] = (int)$state['fails'] + 1;
+    if ($state['fails'] >= 5) {
+        $state['until'] = time() + 15 * 60;
+    }
+    @file_put_contents(loginThrottleFile($email), json_encode($state), LOCK_EX);
+}
+
+function loginThrottleClear($email) {
+    @unlink(loginThrottleFile($email));
+}
+
 if ($action === 'login' && $method === 'POST') {
     $email = strtolower(trim($input['email'] ?? ''));
     $password = $input['password'] ?? '';
@@ -69,13 +102,21 @@ if ($action === 'login' && $method === 'POST') {
         sendJsonResponse(['success' => false, 'error' => 'Email and password are required.'], 400);
     }
 
+    $throttle = loginThrottleState($email);
+    if ($throttle['until'] > time()) {
+        sendJsonResponse(['success' => false, 'error' => 'Too many failed attempts. Please try again later.'], 429);
+    }
+
     $stmt = $pdo->prepare("SELECT * FROM emk_users WHERE email = ? LIMIT 1");
     $stmt->execute([$email]);
     $user = $stmt->fetch();
 
     if (!$user || !password_verify($password, $user['password_hash'])) {
+        loginThrottleFail($email);
         sendJsonResponse(['success' => false, 'error' => 'Invalid email or password credentials.'], 401);
     }
+
+    loginThrottleClear($email);
 
     session_regenerate_id(true);
 
@@ -84,7 +125,10 @@ if ($action === 'login' && $method === 'POST') {
     sendJsonResponse([
         'success' => true,
         'message' => 'Sign in successful.',
-        'user' => $user
+        'user' => $user,
+        // Privilege level changed: rotate the CSRF token and hand the new one
+        // to the client for subsequent write requests.
+        'csrf_token' => rotateCsrfToken()
     ]);
 }
 
@@ -98,10 +142,11 @@ if ($action === 'get_session' && $method === 'GET') {
     if (isset($_SESSION['user'])) {
         sendJsonResponse([
             'success' => true,
-            'user' => $_SESSION['user']
+            'user' => $_SESSION['user'],
+            'csrf_token' => issueCsrfToken()
         ]);
     } else {
-        sendJsonResponse(['success' => false, 'error' => 'Not authenticated.'], 200);
+        sendJsonResponse(['success' => false, 'error' => 'Not authenticated.', 'csrf_token' => issueCsrfToken()], 200);
     }
 }
 
