@@ -193,6 +193,59 @@ for (const file of activeTextFiles) {
 }
 
 // ---------------------------------------------------------------------------
+// Commerce-truth regressions
+//
+// 1. A published product page may only carry an Offer/price in its structured
+//    data when the catalogue record for that slug has an owner-confirmed
+//    price. Fabricated price bands and availability claims were shipped once;
+//    this check keeps them from returning.
+// ---------------------------------------------------------------------------
+if (catalogues.en && catalogues.bn) {
+  for (const lang of ["en", "bn"]) {
+    const bySlug = new Map(catalogues[lang].map((product) => [product.slug, product]));
+    const productPages = htmlFiles.filter((file) => {
+      const rel = path.relative(root, file).replaceAll("\\", "/");
+      return new RegExp(`^${lang}/products/[^/]+/index\\.html$`).test(rel);
+    });
+    for (const file of productPages) {
+      const rel = path.relative(root, file).replaceAll("\\", "/");
+      const slug = rel.split("/")[2];
+      const html = await readFile(file, "utf8");
+      const hasOfferMarkup = /"offers"\s*:|"AggregateOffer"|"lowPrice"|"highPrice"|schema\.org\/InStock/.test(html);
+      if (!hasOfferMarkup) continue;
+      const record = bySlug.get(slug);
+      const confirmedPrice = Number(record?.price) > 0;
+      if (!confirmedPrice) {
+        errors.push(`${rel}: structured data contains an Offer/price/availability claim but catalog.${lang}.json has no owner-confirmed price for ${slug}`);
+      }
+    }
+  }
+}
+
+// 2. Every category page's data-category grid attribute must match its own URL
+//    folder slug (or the generic "catalog"/"all" sentinel used by Shop). A
+//    mislabeled attribute once made four category pages render the entire
+//    catalogue instead of their category.
+if (taxonomy?.categories) {
+  const knownCategories = new Set(Object.keys(taxonomy.categories));
+  for (const lang of ["en", "bn"]) {
+    for (const category of knownCategories) {
+      const page = path.join(root, lang, "categories", category, "index.html");
+      if (!(await exists(page))) continue;
+      const html = await readFile(page, "utf8");
+      const match = html.match(/data-catalog[^>]*data-category="([^"]*)"/) || html.match(/data-category="([^"]*)"[^>]*data-catalog/);
+      if (!match) continue;
+      const value = match[1].toLowerCase();
+      if (value !== category && value !== "catalog" && value !== "all") {
+        errors.push(`${lang}/categories/${category}/index.html: data-category="${match[1]}" does not match the page's category slug`);
+      } else if (value === "catalog" && knownCategories.has(category)) {
+        errors.push(`${lang}/categories/${category}/index.html: data-category="catalog" on a specific category page renders the whole catalogue; it must be "${category}"`);
+      }
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
 // Security regressions
 //
 // Each check below corresponds to a real defect that was found in this
