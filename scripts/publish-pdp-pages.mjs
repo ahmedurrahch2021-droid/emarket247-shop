@@ -41,6 +41,21 @@ const __dirname = fileURLToPath(new URL('.', import.meta.url));
 const ROOT      = join(__dirname, '..', 'public_html');
 const SEED_SQL  = join(__dirname, '..', 'database', 'seed_products.sql');
 
+// ── True content-hash version strings ────────────────────────────────────────
+// Computed from the actual bytes of the served assets so regeneration can
+// never pin a stale ?v= reference (the rule: always content-hash, never
+// hardcode). Mirrors scripts/fix-cache-busting.mjs.
+import { createHash } from 'crypto';
+function hash8(rel) {
+  return createHash('md5').update(readFileSync(join(ROOT, rel))).digest('hex').slice(0, 8);
+}
+const ASSET_V = {
+  variables: hash8('assets/css/variables.css'),
+  siteCss:   hash8('assets/css/site.css'),
+  pdpCss:    hash8('assets/css/pdp.css'),
+  siteJs:    hash8('assets/js/site.js'),
+};
+
 // ── Category map ─────────────────────────────────────────────────────────────
 
 const CATEGORIES = {
@@ -195,10 +210,36 @@ function makeCartWaUrl(phone, items, lang) {
   return `https://wa.me/${phone}?text=${encodeURIComponent(base)}`;
 }
 
+// ── Truthful Offer builder ───────────────────────────────────────────────────
+// An Offer is emitted ONLY when the database carries an owner-confirmed price
+// (> 0 and not flagged pending). It always states the REAL price — never a
+// category band — and includes availability only when stock_status is a
+// recorded fact. Unknown facts are omitted, not invented (AGENTS.md).
+
+const AVAILABILITY_MAP = {
+  in_stock:      'https://schema.org/InStock',
+  low_stock:     'https://schema.org/LimitedAvailability',
+  made_to_order: 'https://schema.org/MadeToOrder',
+  out_of_stock:  'https://schema.org/OutOfStock',
+};
+
+function buildOffer(product) {
+  const price = Number(product?.price);
+  const pending = Number(product?.is_price_pending) === 1;
+  if (!(price > 0) || pending) return null;
+  const offer = {
+    '@type': 'Offer',
+    price: String(price),
+    priceCurrency: 'BDT',
+  };
+  const availability = AVAILABILITY_MAP[String(product?.stock_status || '')];
+  if (availability) offer.availability = availability;
+  return offer;
+}
+
 // ── EN JSON-LD ───────────────────────────────────────────────────────────────
 
-function enJsonLd(slug, title, ref, image, canonical, catLabel, catSlug, isPricePending) {
-  const s = PRICE_BANDS[catSlug] || { low: '500', high: '3000' };
+function enJsonLd(slug, title, ref, image, canonical, catLabel, catSlug, product) {
   const productNode = {
     '@type': 'Product',
     '@id': `${canonical}#product`,
@@ -209,16 +250,11 @@ function enJsonLd(slug, title, ref, image, canonical, catLabel, catSlug, isPrice
     sku: ref,
     brand: { '@type': 'Brand', name: 'eMarket247' },
   };
-  // Only include offers when price is owner-confirmed (not pending)
-  if (!isPricePending) {
-    productNode.offers = {
-      '@type': 'AggregateOffer',
-      lowPrice: s.low,
-      highPrice: s.high,
-      priceCurrency: 'BDT',
-      availability: 'https://schema.org/InStock',
-    };
-  }
+  // Commerce-truth rule: an Offer may only state facts the database holds.
+  // The price is the REAL owner-confirmed price (never a category band), and
+  // availability is emitted only when stock_status is actually recorded.
+  const offer = buildOffer(product);
+  if (offer) productNode.offers = offer;
   return JSON.stringify({
     '@context': 'https://schema.org',
     '@graph': [
@@ -249,8 +285,7 @@ function enJsonLd(slug, title, ref, image, canonical, catLabel, catSlug, isPrice
 
 // ── BN JSON-LD ───────────────────────────────────────────────────────────────
 
-function bnJsonLd(slug, title, ref, image, canonical, catLabel, catSlug, isPricePending) {
-  const s = PRICE_BANDS[catSlug] || { low: '500', high: '3000' };
+function bnJsonLd(slug, title, ref, image, canonical, catLabel, catSlug, product) {
   const productNode = {
     '@type': 'Product',
     name: title,
@@ -260,15 +295,8 @@ function bnJsonLd(slug, title, ref, image, canonical, catLabel, catSlug, isPrice
     sku: ref,
     brand: { '@type': 'Brand', name: 'eMarket247' },
   };
-  if (!isPricePending) {
-    productNode.offers = {
-      '@type': 'AggregateOffer',
-      lowPrice: s.low,
-      highPrice: s.high,
-      priceCurrency: 'BDT',
-      availability: 'https://schema.org/InStock',
-    };
-  }
+  const offer = buildOffer(product);
+  if (offer) productNode.offers = offer;
   return JSON.stringify({ '@context': 'https://schema.org', ...productNode }, null, 0);
 }
 
@@ -333,12 +361,24 @@ function buildPdp(product, lang, relatedProducts) {
   const ed = EDITORIAL[catKey]?.[lang] ?? FALLBACK_EDITORIAL[lang];
   const pb = PRICE_BANDS[catKey] ?? { band: '৳ 500–3,000', low: '500', high: '3000' };
 
-  const waUrl   = makeWaUrl(phone, displayTitle, ref, slug, lang);
-  const waCartItems = `\n\nRef: ${ref}\nPrice: ${pb.band}`;
+  // PRICE POLICY (header comment): a confirmed DB price (> 0, not pending)
+  // displays as the single real figure; the honest category band appears only
+  // while no price has been confirmed.
+  const confirmedPrice = Number(product.price) > 0 && Number(product.is_price_pending) !== 1
+    ? Number(product.price)
+    : null;
+  const priceLabel = confirmedPrice !== null
+    ? `৳ ${confirmedPrice.toLocaleString('en-US')}`
+    : pb.band;
 
-  const priceDisplay = isBn
-    ? `${pb.band} <small class="pdp-price-note">(মূল্য সীমা)</small>`
-    : `${pb.band} <small class="pdp-price-note">(price band)</small>`;
+  const waUrl   = makeWaUrl(phone, displayTitle, ref, slug, lang);
+  const waCartItems = `\n\nRef: ${ref}\nPrice: ${priceLabel}`;
+
+  const priceDisplay = confirmedPrice !== null
+    ? priceLabel
+    : (isBn
+      ? `${priceLabel} <small class="pdp-price-note">(মূল্য সীমা)</small>`
+      : `${priceLabel} <small class="pdp-price-note">(price band)</small>`);
 
   const priceHint = isBn
     ? 'চূড়ান্ত মূল্য WhatsApp-এ নিশ্চিত করা হবে। সাইজ ও ফিনিশ অনুযায়ী মূল্য ভিন্ন হতে পারে।'
@@ -411,8 +451,8 @@ function buildPdp(product, lang, relatedProducts) {
 
   // ── Per-language JSON-LD ─────────────────────────────────────────────────
   const jsonLd = isBn
-    ? bnJsonLd(slug, title, ref, imageAbs, canonical, catLabel, catKey, !!product.is_price_pending)
-    : enJsonLd(slug, displayTitle, ref, imageAbs, canonical, catLabel, catKey, !!product.is_price_pending);
+    ? bnJsonLd(slug, title, ref, imageAbs, canonical, catLabel, catKey, product)
+    : enJsonLd(slug, displayTitle, ref, imageAbs, canonical, catLabel, catKey, product);
 
   // ── Open Graph title ─────────────────────────────────────────────────────
   const ogTitle = isBn
@@ -524,9 +564,9 @@ function buildPdp(product, lang, relatedProducts) {
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&family=Noto+Sans+Bengali:wght@400;500;600;700&family=Noto+Serif+Bengali:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/css/variables.css?v=9fcdc491">
-  <link rel="stylesheet" href="/assets/css/site.css?v=5dd74e63">
-  <link rel="stylesheet" href="/assets/css/pdp.css?v=6857c9c1">
+  <link rel="stylesheet" href="/assets/css/variables.css?v=${ASSET_V.variables}">
+  <link rel="stylesheet" href="/assets/css/site.css?v=${ASSET_V.siteCss}">
+  <link rel="stylesheet" href="/assets/css/pdp.css?v=${ASSET_V.pdpCss}">
   <script type="application/ld+json">${jsonLd}</script>
   <title>${esc(ogTitle)}</title>
 </head>
@@ -778,7 +818,7 @@ function buildPdp(product, lang, relatedProducts) {
   </footer>
 
   <div class="toast" role="status" aria-live="polite"></div>
-  <script src="/assets/js/site.js?v=fa734e8e" defer></script>
+  <script src="/assets/js/site.js?v=${ASSET_V.siteJs}" defer></script>
 </body>
 </html>
 `;
