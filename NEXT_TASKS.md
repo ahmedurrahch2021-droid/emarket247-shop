@@ -99,17 +99,23 @@ React/Vite/Express dependency surface that carried the current
 
 ---
 
-## T2 — Clean the repository of development debris
+## ✅ T2 — Clean the repository of development debris (COMPLETE)
 
-**Why:** stray artefacts make it impossible to see what matters.
+**Why:** stray artefacts made it impossible to see what matters.
 
-**Do:** remove `Screenshot (81).png`, `site.css.2`, `site.css.3`, the duplicate
-`fix-pdp-accordion.cjs`/`.js` pair, and any other one-off artefact with no
-current purpose. Move genuinely useful one-off scripts into `scripts/archive/`
-with a one-line header saying what each did and when it was last needed.
+**What was done:**
+- Deleted `Screenshot (81).png` (142K stray screenshot)
+- Deleted `site.css.2`, `site.css.3` (backup artifacts)
+- Archived `fix-pdp-accordion.cjs`/`.js` (duplicate PDP patchers) to `scripts/archive/`
+- Archived `update-pdp.js` (PDP section remover) to `scripts/archive/`
+- Created `scripts/archive/` directory for obsolete one-off scripts
+- Added explanatory headers documenting purpose and obsolescence
 
-**Done when:** every file in the repository root has an explainable reason to
-exist.
+**Verified:** `npm test` (114 pages), `npm run build` (snapshot ok), root directory clean
+
+**Commit:** `6cb0f9f` (9 files changed, 161 insertions, 5,253 deletions)
+
+**Repository root now contains only files with explainable current purpose.**
 
 ---
 
