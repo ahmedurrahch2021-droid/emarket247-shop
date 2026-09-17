@@ -1984,6 +1984,36 @@
     });
   };
 
+  const initCategoryCarousel = () => {
+    const carouselWrap = one("[data-category-carousel]");
+    if (!carouselWrap) return;
+
+    const toggleBtn = one("[data-carousel-toggle]");
+    if (toggleBtn) {
+      toggleBtn.addEventListener("click", () => {
+        const isPaused = carouselWrap.classList.toggle("is-paused");
+        toggleBtn.setAttribute("aria-pressed", String(isPaused));
+        const iconPause = one(".icon-pause", toggleBtn);
+        const iconPlay = one(".icon-play", toggleBtn);
+        const text = one(".btn-text", toggleBtn);
+        if (iconPause && iconPlay) {
+          iconPause.style.display = isPaused ? "none" : "";
+          iconPlay.style.display = isPaused ? "" : "none";
+        }
+        if (text) {
+          const isBn = language === "bn";
+          if (isPaused) {
+            text.textContent = isBn ? "চালু করুন" : "Resume";
+            toggleBtn.setAttribute("aria-label", isBn ? "অ্যানিমেশন চালু করুন" : "Resume animation");
+          } else {
+            text.textContent = isBn ? "থামান" : "Pause";
+            toggleBtn.setAttribute("aria-label", isBn ? "অ্যানিমেশন থামান" : "Pause animation");
+          }
+        }
+      });
+    }
+  };
+
   // Initialize Global Elements
   syncAuthState().then(() => {
     updateNavAccount();
@@ -1994,6 +2024,7 @@
   });
   initHeaderSearch();
   initOccasionCards();
+  initCategoryCarousel();
   hydratePdpPrice();
   updateBagCount();
 })();

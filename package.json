@@ -4,6 +4,8 @@
   "type": "module",
   "license": "MIT",
   "scripts": {
+    "dev": "node scripts/serve-pure-static.mjs",
+    "start": "node scripts/serve-pure-static.mjs",
     "build": "node scripts/build-managed-static-site.mjs",
     "preview": "node scripts/serve-pure-static.mjs",
     "check": "node scripts/validate-public-html.mjs",

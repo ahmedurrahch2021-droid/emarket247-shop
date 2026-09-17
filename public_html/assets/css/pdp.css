@@ -199,19 +199,22 @@ section.pdp-hero.wrap {
 }
 
 .pdp-btn-add-bag-primary {
-  background: var(--ink);
-  color: #fff;
-  border: 1px solid var(--ink);
+  background: var(--crimson, #7a1830);
+  color: var(--ivory, #faf5ec);
+  border: 1px solid var(--crimson, #7a1830);
   font-size: 11px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   cursor: pointer;
-  transition: background 0.2s var(--ease);
+  transition: background 0.2s var(--ease), border-color 0.2s var(--ease);
 }
 
-.pdp-btn-add-bag-primary:hover {
-  background: var(--red-dark);
+.pdp-btn-add-bag-primary:hover,
+.pdp-btn-add-bag-primary:focus-visible {
+  background: var(--crimson-dark, #4e0f1e);
+  border-color: var(--gold, #8b6528);
+  color: var(--ivory, #faf5ec);
 }
 
 .pdp-btn-whatsapp-action {

@@ -1,0 +1,6 @@
+{
+  "name": "eMarket247 Fashion & Jewellery",
+  "description": "Bilingual (English/Bengali) static-first ecommerce storefront for jewellery in Bangladesh.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
