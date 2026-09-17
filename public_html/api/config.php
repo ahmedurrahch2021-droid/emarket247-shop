@@ -11,7 +11,7 @@
 header('Content-Type: application/json; charset=utf-8');
 header('Access-Control-Allow-Origin: https://emarket247.shop');
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With');
+header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With, X-CSRF-Token');
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
@@ -71,4 +71,40 @@ function sendJsonResponse($data, $statusCode = 200) {
     http_response_code($statusCode);
     echo json_encode($data, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
     exit;
+}
+
+// ---------------------------------------------------------------------------
+// CSRF protection.
+//
+// Every session (guest or authenticated) carries a random token. Reads (GET/
+// HEAD/OPTIONS) are unaffected; every state-changing request must echo the
+// token back in the X-CSRF-Token header. The frontend obtains it from
+// auth.php?action=get_session and login/register responses. SameSite=Strict
+// cookies already mitigate classic cross-site posts; this is the required
+// second, explicit layer so a write can never ride on the cookie alone.
+// ---------------------------------------------------------------------------
+
+function issueCsrfToken() {
+    if (empty($_SESSION['csrf_token'])) {
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+    }
+    return $_SESSION['csrf_token'];
+}
+
+function rotateCsrfToken() {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+    return $_SESSION['csrf_token'];
+}
+
+function checkCsrf() {
+    $sent = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? '';
+    $stored = $_SESSION['csrf_token'] ?? '';
+    if ($stored === '' || $sent === '' || !hash_equals($stored, $sent)) {
+        sendJsonResponse(['success' => false, 'error' => 'Invalid or missing security token. Refresh the page and try again.'], 403);
+    }
+}
+
+issueCsrfToken();
+if (!in_array($_SERVER['REQUEST_METHOD'], ['GET', 'HEAD', 'OPTIONS'], true)) {
+    checkCsrf();
 }

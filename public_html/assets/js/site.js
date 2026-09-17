@@ -850,16 +850,30 @@
   };
 
   // Hostinger PHP/MySQL API Wrapper
+  // Session CSRF token: issued by the API on any GET (get_session) and
+  // rotated on login/register. Every write request must echo it back in the
+  // X-CSRF-Token header or the server rejects the write with 403.
+  let csrfToken = "";
+  const captureCsrf = (payload) => {
+    if (payload && typeof payload.csrf_token === "string" && payload.csrf_token) {
+      csrfToken = payload.csrf_token;
+    }
+    return payload;
+  };
+  const csrfHeaders = () => (csrfToken ? { "X-CSRF-Token": csrfToken } : {});
+
   const hostingerApi = {
     async call(script, data = {}) {
       try {
         const response = await fetch(`/api/${script}`, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: { "Content-Type": "application/json", ...csrfHeaders() },
           body: JSON.stringify(data)
         });
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        return await response.json();
+        if (!response.ok && response.status !== 401 && response.status !== 403 && response.status !== 409 && response.status !== 429) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+        return captureCsrf(await response.json());
       } catch (err) {
         console.warn(`[Hostinger API] ${script} fetch failed or in static preview:`, err.message);
         return { success: false, offline: true, error: err.message };
@@ -869,7 +883,7 @@
         try {
             const response = await fetch(`/api/${script}`);
             if (!response.ok) throw new Error(`HTTP ${response.status}`);
-            return await response.json();
+            return captureCsrf(await response.json());
         } catch (err) {
             return { success: false, offline: true, error: err.message };
         }
@@ -1365,7 +1379,7 @@
       formData.append("image", file);
 
       try {
-        const res = await fetch("/api/upload.php", { method: "POST", body: formData });
+        const res = await fetch("/api/upload.php", { method: "POST", headers: csrfHeaders(), body: formData });
         const data = await res.json();
         if (data.success && data.path) {
           if (imgUrlInput) imgUrlInput.value = data.path;
