@@ -3,7 +3,15 @@
 # file bytes. If Windows dev machines write CRLF while CI uses LF, the hashes
 # diverge and every HTML file shows as changed on every commit — making the
 # hash stamps unreliable. This file ensures the committed blob is always LF.
-*               text=auto
+*               text=auto eol=lf
+
+# Explicit eol=lf for files whose content is hashed by fix-cache-busting.mjs
+*.css           text eol=lf
+*.js            text eol=lf
+*.html          text eol=lf
+*.json          text eol=lf
+*.php           text eol=lf
+*.md            text eol=lf
 
 # Binary assets — never modified by the clean filter
 *.png  binary
