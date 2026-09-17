@@ -211,6 +211,18 @@ if (catalogues.en && catalogues.bn) {
       const rel = path.relative(root, file).replaceAll("\\", "/");
       const slug = rel.split("/")[2];
       const html = await readFile(file, "utf8");
+
+      // Structured data must be parseable JSON: a Phase C regex edit once left
+      // every PDP with a dangling comma, silently voiding all product markup.
+      const ldMatch = html.match(/<script type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/);
+      if (ldMatch) {
+        try {
+          JSON.parse(ldMatch[1]);
+        } catch (error) {
+          errors.push(`${rel}: JSON-LD is not parseable JSON (${error.message})`);
+        }
+      }
+
       const hasOfferMarkup = /"offers"\s*:|"AggregateOffer"|"lowPrice"|"highPrice"|schema\.org\/InStock/.test(html);
       if (!hasOfferMarkup) continue;
       const record = bySlug.get(slug);
