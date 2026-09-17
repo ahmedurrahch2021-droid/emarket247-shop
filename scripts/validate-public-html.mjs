@@ -291,6 +291,52 @@ if (await exists(uploadEndpoint)) {
   }
 }
 
+// 2b. CSRF enforcement must stay wired: config.php enforces the token on every
+// state-changing request, and the frontend sends it. Each check matches the
+// protection added after the audit found session-cookie writes with no token.
+const apiConfig = path.join(root, "api", "config.php");
+if (await exists(apiConfig)) {
+  const config = await readFile(apiConfig, "utf8");
+  if (!/function\s+checkCsrf\s*\(/.test(config)) {
+    errors.push("api/config.php: checkCsrf() is missing; state-changing requests must verify the X-CSRF-Token header");
+  }
+  // The call must be live code: strip the definition, then require an
+  // uncommented `checkCsrf();` statement at the start of a line.
+  const configWithoutDef = config.replace(/function\s+checkCsrf[\s\S]*?\n\}/, "");
+  if (!/^\s*checkCsrf\(\);/m.test(configWithoutDef)) {
+    errors.push("api/config.php: checkCsrf() is defined but never enforced for non-GET requests");
+  }
+  if (!/hash_equals/.test(config)) {
+    errors.push("api/config.php: CSRF comparison must use hash_equals, not ==/===");
+  }
+}
+const apiAuth = path.join(root, "api", "auth.php");
+if (await exists(apiAuth)) {
+  const auth = await readFile(apiAuth, "utf8");
+  if (!/loginThrottle/.test(auth)) {
+    errors.push("api/auth.php: login throttling has been removed; failed sign-ins must be rate limited");
+  }
+  if (!/session_regenerate_id\s*\(\s*true\s*\)/.test(auth)) {
+    errors.push("api/auth.php: login must call session_regenerate_id(true) to prevent session fixation");
+  }
+}
+for (const [relFile, label] of [["api/orders.php", "order_ref"], ["api/products.php", "SKU fallback"]]) {
+  const file = path.join(root, relFile);
+  if (await exists(file)) {
+    const text = await readFile(file, "utf8");
+    if (/\brand\s*\(/.test(text)) {
+      errors.push(`${relFile}: ${label} must use random_bytes/random_int, not rand()`);
+    }
+  }
+}
+const siteJsFile = path.join(root, "assets", "js", "site.js");
+if (await exists(siteJsFile)) {
+  const siteJs = await readFile(siteJsFile, "utf8");
+  if (!/X-CSRF-Token/.test(siteJs)) {
+    errors.push("assets/js/site.js: API writes no longer send the X-CSRF-Token header");
+  }
+}
+
 // 3. Uploaded media must never be executable.
 const uploadGuard = path.join(root, "assets", "images", ".htaccess");
 if (!(await exists(uploadGuard))) {
