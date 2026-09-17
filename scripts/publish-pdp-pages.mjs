@@ -197,8 +197,28 @@ function makeCartWaUrl(phone, items, lang) {
 
 // ── EN JSON-LD ───────────────────────────────────────────────────────────────
 
-function enJsonLd(slug, title, ref, image, canonical, catLabel, catSlug, priceBand) {
+function enJsonLd(slug, title, ref, image, canonical, catLabel, catSlug, isPricePending) {
   const s = PRICE_BANDS[catSlug] || { low: '500', high: '3000' };
+  const productNode = {
+    '@type': 'Product',
+    '@id': `${canonical}#product`,
+    name: title,
+    description: 'Catalog record in preparation. Specifications, price, and availability are pending approval.',
+    image,
+    category: catLabel,
+    sku: ref,
+    brand: { '@type': 'Brand', name: 'eMarket247' },
+  };
+  // Only include offers when price is owner-confirmed (not pending)
+  if (!isPricePending) {
+    productNode.offers = {
+      '@type': 'AggregateOffer',
+      lowPrice: s.low,
+      highPrice: s.high,
+      priceCurrency: 'BDT',
+      availability: 'https://schema.org/InStock',
+    };
+  }
   return JSON.stringify({
     '@context': 'https://schema.org',
     '@graph': [
@@ -222,33 +242,16 @@ function enJsonLd(slug, title, ref, image, canonical, catLabel, catSlug, priceBa
           { '@type': 'ListItem', position: 3, name: title, item: canonical },
         ],
       },
-      {
-        '@type': 'Product',
-        '@id': `${canonical}#product`,
-        name: title,
-        description: 'Catalog record in preparation. Specifications, price, and availability are pending approval.',
-        image,
-        category: catLabel,
-        sku: ref,
-        brand: { '@type': 'Brand', name: 'eMarket247' },
-        offers: {
-          '@type': 'AggregateOffer',
-          lowPrice: s.low,
-          highPrice: s.high,
-          priceCurrency: 'BDT',
-          availability: 'https://schema.org/InStock',
-        },
-      },
+      productNode,
     ],
   }, null, 0);
 }
 
 // ── BN JSON-LD ───────────────────────────────────────────────────────────────
 
-function bnJsonLd(slug, title, ref, image, canonical, catLabel, catSlug) {
+function bnJsonLd(slug, title, ref, image, canonical, catLabel, catSlug, isPricePending) {
   const s = PRICE_BANDS[catSlug] || { low: '500', high: '3000' };
-  return JSON.stringify({
-    '@context': 'https://schema.org',
+  const productNode = {
     '@type': 'Product',
     name: title,
     description: 'ক্যাটালগ রেকর্ড প্রস্তুত হচ্ছে। স্পেসিফিকেশন, মূল্য ও প্রাপ্যতা অনুমোদনের অপেক্ষায়।',
@@ -256,14 +259,17 @@ function bnJsonLd(slug, title, ref, image, canonical, catLabel, catSlug) {
     category: catLabel,
     sku: ref,
     brand: { '@type': 'Brand', name: 'eMarket247' },
-    offers: {
+  };
+  if (!isPricePending) {
+    productNode.offers = {
       '@type': 'AggregateOffer',
       lowPrice: s.low,
       highPrice: s.high,
       priceCurrency: 'BDT',
       availability: 'https://schema.org/InStock',
-    },
-  }, null, 0);
+    };
+  }
+  return JSON.stringify({ '@context': 'https://schema.org', ...productNode }, null, 0);
 }
 
 // ── Product card HTML (for related products) ─────────────────────────────────
@@ -405,8 +411,8 @@ function buildPdp(product, lang, relatedProducts) {
 
   // ── Per-language JSON-LD ─────────────────────────────────────────────────
   const jsonLd = isBn
-    ? bnJsonLd(slug, title, ref, imageAbs, canonical, catLabel, catKey)
-    : enJsonLd(slug, displayTitle, ref, imageAbs, canonical, catLabel, catKey, pb);
+    ? bnJsonLd(slug, title, ref, imageAbs, canonical, catLabel, catKey, !!product.is_price_pending)
+    : enJsonLd(slug, displayTitle, ref, imageAbs, canonical, catLabel, catKey, !!product.is_price_pending);
 
   // ── Open Graph title ─────────────────────────────────────────────────────
   const ogTitle = isBn

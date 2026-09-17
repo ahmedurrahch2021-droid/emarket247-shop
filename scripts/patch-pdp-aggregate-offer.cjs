@@ -14,8 +14,8 @@ const { resolve } = require("path");
 
 const ROOT = resolve(__dirname, "..", "public_html");
 
-// Pattern matches the exact AggregateOffer block found in existing PDPs
-const OFFER_RE = /"offers":\{"@type":"AggregateOffer","lowPrice":"[^"]+","highPrice":"[^"]+","priceCurrency":"BDT","availability":"https:\/\/schema\.org\/InStock"\},?/g;
+// Matches AggregateOffer in the committed HTML (unescaped " inside JS string literal)
+const OFFER_RE = /"offers":\{"@type":"AggregateOffer"[^}]+\}\}/g;
 
 let patched = 0;
 let clean = 0;
