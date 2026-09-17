@@ -964,7 +964,10 @@
 
         // Populate Metric counts
         const allOrders = getOrders();
-        const userOrders = allOrders.filter(o => !user.email || o.customer_email === user.email || user.role === "admin");
+        // Only the user's own orders (matched by email) — admins see all.
+        // The old predicate showed EVERY cached order when user.email was
+        // empty, which over-shared across accounts on a shared browser.
+        const userOrders = allOrders.filter(o => user.role === "admin" || (user.email && o.customer_email === user.email));
         const bag = getBag();
 
         const statInquiries = one("#stat-user-inquiries");
@@ -1123,7 +1126,10 @@
           return;
         }
 
-        // Try Hostinger API
+        // The server is the only account store. Success is claimed ONLY when
+        // the API actually created the account — the old code fell through to
+        // a localStorage user (with the plaintext password) and announced
+        // success even when the API had failed or the email already existed.
         const apiRes = await hostingerApi.call("auth.php", {
           action: "register",
           full_name: name,
@@ -1133,29 +1139,24 @@
           password: pass
         });
 
-        const users = getStoredUsers();
-        if (users.some(u => u.email.toLowerCase() === email)) {
-          showToast(language === "bn" ? "এই ইমেইল দিয়ে ইতোমধ্যে একটি অ্যাকাউন্ট রয়েছে।" : "An account with this email already exists.");
+        if (apiRes && apiRes.success && apiRes.user) {
+          setCurrentUser(apiRes.user);
+          showToast(language === "bn" ? "আপনার অ্যাকাউন্ট সফলভাবে তৈরি হয়েছে!" : "Account created successfully!");
+          renderAccountView();
           return;
         }
 
-        const newUser = {
-          id: Date.now(),
-          full_name: name,
-          email,
-          phone,
-          district,
-          password: pass,
-          role: "customer",
-          created_at: new Date().toISOString().replace("T", " ").substring(0, 16)
-        };
+        if (apiRes && apiRes.offline) {
+          showToast(language === "bn"
+            ? "সার্ভারে সংযোগ করা যাচ্ছে না। কিছুক্ষণ পরে আবার চেষ্টা করুন।"
+            : "Cannot reach the server right now. Please try again shortly.");
+          return;
+        }
 
-        users.push(newUser);
-        saveStoredUsers(users);
-        setCurrentUser(newUser);
-
-        showToast(language === "bn" ? "আপনার অ্যাকাউন্ট সফলভাবে তৈরি হয়েছে!" : "Account created successfully!");
-        renderAccountView();
+        const duplicate = apiRes && typeof apiRes.error === "string" && apiRes.error.toLowerCase().includes("already exists");
+        showToast(duplicate
+          ? (language === "bn" ? "এই ইমেইল দিয়ে ইতোমধ্যে একটি অ্যাকাউন্ট রয়েছে।" : "An account with this email already exists.")
+          : (language === "bn" ? "অ্যাকাউন্ট তৈরি করা যায়নি। তথ্য যাচাই করে আবার চেষ্টা করুন।" : "Account could not be created. Please check your details and try again."));
       });
     }
 
