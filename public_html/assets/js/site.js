@@ -1156,7 +1156,7 @@
         if (apiRes && apiRes.success && apiRes.user) {
           setCurrentUser(apiRes.user);
           showToast(language === "bn" ? "আপনার অ্যাকাউন্ট সফলভাবে তৈরি হয়েছে!" : "Account created successfully!");
-          renderAccountView();
+          window.location.reload();
           return;
         }
 

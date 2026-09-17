@@ -46,19 +46,23 @@ if ($action === 'register' && $method === 'POST') {
     $insert->execute([$fullName, $email, $phone, $hash, $city, $address]);
     $userId = $pdo->lastInsertId();
 
+    session_regenerate_id(true);
+    $user = [
+        'id' => (int)$userId,
+        'full_name' => $fullName,
+        'email' => $email,
+        'phone' => $phone,
+        'role' => 'customer',
+        'city' => $city,
+        'address' => $address
+    ];
+    $_SESSION['user'] = $user;
+
     sendJsonResponse([
         'success' => true,
         'message' => 'Account created successfully.',
         'csrf_token' => rotateCsrfToken(),
-        'user' => [
-            'id' => (int)$userId,
-            'full_name' => $fullName,
-            'email' => $email,
-            'phone' => $phone,
-            'role' => 'customer',
-            'city' => $city,
-            'address' => $address
-        ]
+        'user' => $user
     ], 201);
 }
 
