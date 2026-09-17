@@ -289,6 +289,18 @@ if (await exists(uploadEndpoint)) {
   if (!/getimagesize/.test(upload)) {
     errors.push("api/upload.php: uploads must be verified by inspecting the file contents");
   }
+  if (!/is_uploaded_file/.test(upload)) {
+    errors.push("api/upload.php: uploads must be confirmed with is_uploaded_file before they are processed");
+  }
+  if (!/imagewebp|Imagick/.test(upload)) {
+    errors.push("api/upload.php: verified images must be re-encoded server-side (GD imagewebp or Imagick)");
+  }
+  if (!/200\s*\*\s*1024/.test(upload)) {
+    errors.push("api/upload.php: re-encoded uploads must stay within the 200 KB product-image budget");
+  }
+  if (!/\.webp'/.test(upload) && !/\.webp"/.test(upload)) {
+    errors.push("api/upload.php: stored uploads must use a generated .webp filename, not the caller-supplied name");
+  }
 }
 
 // 2b. CSRF enforcement must stay wired: config.php enforces the token on every
