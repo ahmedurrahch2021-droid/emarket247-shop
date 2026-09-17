@@ -1,13 +1,15 @@
 #!/usr/bin/env node
 /**
- * Step 2 — Cache-Busting Repair.
- * Every HTML page in both trees gets TRUE content-hash version strings on its
+ * Cache-Busting Repair.
+ * Every HTML page in public_html/ gets TRUE content-hash version strings on its
  * CSS/JS links, and the modular first layer (variables.css) is linked so the
  * whole site shares one token source.
  *
  * The version strings are computed from the actual bytes of the files served,
  * so a browser re-downloads an asset the moment its content changes (the memory
  * rule: "always content-hash, never hardcode").
+ *
+ * public_html/ is the approved deployment tree and the only target.
  */
 import { readdirSync, readFileSync, writeFileSync, statSync } from 'node:fs';
 import { createHash } from 'node:crypto';
@@ -15,7 +17,7 @@ import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const TREES = ['static-site', 'public_html'];
+const TREE = 'public_html';
 
 function hash8(rel) {
   const buf = readFileSync(path.join(ROOT, 'public_html', rel));
@@ -81,12 +83,7 @@ function normalize(file) {
   return false;
 }
 
-let totalChanged = 0;
-for (const tree of TREES) {
-  const files = walk(path.join(ROOT, tree));
-  let changed = 0;
-  for (const f of files) if (normalize(f)) changed++;
-  totalChanged += changed;
-  console.log(`${tree}: ${files.length} html, ${changed} updated`);
-}
-console.log('TOTAL updated:', totalChanged);
+const files = walk(path.join(ROOT, TREE));
+let changed = 0;
+for (const f of files) if (normalize(f)) changed++;
+console.log(`${TREE}: ${files.length} html, ${changed} updated`);
