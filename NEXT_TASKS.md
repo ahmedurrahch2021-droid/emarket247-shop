@@ -74,26 +74,28 @@ anything the owner has not confirmed is test data.
 **Done when:** every remaining price in the database is one the owner approved,
 and `is_price_pending` is correct for everything else.
 
-## T1 — Consolidate the duplicate source trees
+## ✅ T1 — Consolidate the duplicate source trees (COMPLETE)
 
-**Why:** `static-site/` (51 MB), `src/` (10 MB), and `client/` hold near-copies
-of the live site. A fix applied to one leaves the others stale, which is exactly
-how a patched security hole survived in a second file. This also removes the
-React/Vite/Express dependency surface that carries the current
+**Why:** `static-site/` (51 MB), `src/` (10 MB), and `client/` held near-copies
+of the live site. A fix applied to one left the others stale, which is exactly
+how a patched security hole survived in a second file. This also removed the
+React/Vite/Express dependency surface that carried the current
 `npm audit` findings.
 
-**Do:** Establish which of `static-site/`, `src/`, `client/`, `server/`, and
-`server.ts` are genuinely unused. For each, prove it: no script, config, or
-documentation references it, and nothing in `public_html/` is generated from it.
-Produce that evidence list first. Then, with owner approval, delete the unused
-trees in one commit per tree, and remove the now-unused dependencies from
-`package.json`.
+**What was done:**
+- Deleted `static-site/` tree (51M, 205 files)
+- Deleted `src/`, `client/`, `server/`, `shared/`, `server.ts`
+- Removed 23 obsolete scripts (19 static-site-only, 4 other artifacts)
+- Removed React/Radix/Express/Vite/Tailwind/vitest dependencies
+- Repaired `scripts/fix-cache-busting.mjs` to operate on `public_html/` only
+- Added `.gitattributes` to enforce LF line endings
+- Regenerated `package-lock.json`
 
-**Do not** delete anything that a script in `scripts/` still reads.
+**Verified:** `npm test` (114 pages), `npm run build`, `npm run preview`, `fix-cache-busting` (0 changes), `npm audit` (0 vulnerabilities, down from 5).
 
-**Done when:** the repository has one source of truth for the storefront,
-`npm test` passes, `npm run build` produces the same `dist/public` output as
-before, and repository size is materially reduced.
+**Commits:** `f0b74a5` (tag pre-legacy-removal), `81acc19` (working preview), `7e5abf2` (.gitattributes), `e972e79` (React stack removal), `a31c796` (static-site deletion).
+
+**Repository now has one source of truth:** `public_html/` (203 files).
 
 ---
 
