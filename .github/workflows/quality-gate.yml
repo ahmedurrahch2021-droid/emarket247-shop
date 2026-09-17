@@ -23,6 +23,12 @@ jobs:
         with:
           node-version: "20"
 
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
+          coverage: none
+
       - name: Install dependencies
         shell: bash
         run: |
@@ -31,6 +37,9 @@ jobs:
           else
             npm install
           fi
+
+      - name: PHP syntax check
+        run: find public_html -name "*.php" -exec php -l {} \;
 
       - name: Run tests
         run: npm test

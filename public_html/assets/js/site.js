@@ -625,9 +625,9 @@
         catalogIndex: index
       }));
 
-      const pageCategory = host.dataset.category || "";
+      const pageCategory = (host.dataset.category || "").toLowerCase();
       const products = dbProducts
-        .filter((product) => product.status === "ready" && (!pageCategory || product.category === pageCategory));
+        .filter((product) => product.status === "ready" && (!pageCategory || product.category.toLowerCase() === pageCategory));
 
       if (!products.length) {
         host.innerHTML = `<p class="catalog-empty">${language === "bn" ? "এই বিভাগের জন্য নিশ্চিত পণ্যের তথ্য এখনও প্রকাশের অপেক্ষায় আছে। সব পণ্য দেখতে শপ পেজে যান।" : "Verified product records for this category are awaiting publication. Visit Shop to browse all supplied images under review."}</p>`;
