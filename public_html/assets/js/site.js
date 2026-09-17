@@ -597,15 +597,19 @@
   };
 
   all("[data-catalog]").forEach(async (host) => {
-    try {
-      // Fetch from Live API instead of static JSON
+    // Static cards pre-rendered into the page are the last line of defence:
+    // they must never be wiped unless real records arrived to replace them.
+    const hasStaticCards = Boolean(one(".product-card", host));
+
+    // Source 1 — live database API (authoritative when reachable).
+    const fromApi = async () => {
       const response = await fetch(`/api/products.php`);
       const data = await response.json();
-
-      if (!data.success || !data.products) throw new Error("API response unsuccessful");
-
+      if (!data.success || !Array.isArray(data.products) || !data.products.length) {
+        throw new Error("API response unsuccessful or empty");
+      }
       // Map Database Record -> Frontend Product Object
-      const dbProducts = data.products.map((p, index) => ({
+      return data.products.map((p, index) => ({
         id: p.sku,
         slug: p.slug,
         title: language === "bn" ? p.title_bn : p.title_en,
@@ -624,22 +628,68 @@
         },
         catalogIndex: index
       }));
+    };
 
-      const pageCategory = (host.dataset.category || "").toLowerCase();
-      // "catalog" is a sentinel: show all ready products with no category filter.
-      // A real category slug (rings, necklaces, etc.) filters to that category only.
-      const products = dbProducts
-        .filter((product) => product.status === "ready" && (!pageCategory || pageCategory === "catalog" || product.category.toLowerCase() === pageCategory));
-
-      if (!products.length) {
-        host.innerHTML = `<p class="catalog-empty">${language === "bn" ? "এই বিভাগের জন্য নিশ্চিত পণ্যের তথ্য এখনও প্রকাশের অপেক্ষায় আছে। সব পণ্য দেখতে শপ পেজে যান।" : "Verified product records for this category are awaiting publication. Visit Shop to browse all supplied images under review."}</p>`;
-        return;
+    // Source 2 — the reviewed catalogue snapshot shipped with the site. It is
+    // the approved fallback layer when the database is unreachable, so the
+    // shop and category grids never go blank on an API failure.
+    const fromCatalogue = async () => {
+      const response = await fetch(`/assets/data/catalog.${language}.json`);
+      const data = await response.json();
+      if (!Array.isArray(data.products) || !data.products.length) {
+        throw new Error("catalogue snapshot unavailable or empty");
       }
-      buildControls(host, products, pageCategory);
-    } catch (err) {
-      console.error("Catalog Load Error:", err);
-      host.innerHTML = `<p>${esc(host.dataset.empty || (language === "bn" ? "পণ্যের তালিকা প্রস্তুত করা হচ্ছে।" : "Approved products are being prepared."))}</p>`;
+      return data.products.map((p, index) => ({
+        id: p.id,
+        slug: p.slug,
+        title: p.title,
+        category: p.category,
+        categoryLabel: p.categoryLabel || p.category,
+        price: p.price,
+        pricePending: !(Number(p.price) > 0),
+        status: p.status,
+        description: p.description,
+        image: p.image,
+        catalogIndex: index
+      }));
+    };
+
+    let records = null;
+    try {
+      records = await fromApi();
+    } catch (apiErr) {
+      console.warn("Catalog API unavailable:", apiErr.message);
+      // The API is down. Pre-rendered static cards are the reviewed published
+      // state for this page — keep them untouched rather than replacing them
+      // with a snapshot subset. Only an empty host falls through to the
+      // catalogue snapshot so it never renders blank.
+      if (hasStaticCards) return;
+      try {
+        records = await fromCatalogue();
+      } catch (jsonErr) {
+        console.error("Catalog Load Error (API and snapshot both failed):", jsonErr);
+      }
     }
+
+    if (!records) {
+      host.innerHTML = `<p>${esc(host.dataset.empty || (language === "bn" ? "পণ্যের তালিকা প্রস্তুত করা হচ্ছে।" : "Approved products are being prepared."))}</p>`;
+      return;
+    }
+
+    const pageCategory = (host.dataset.category || "").toLowerCase();
+    // "catalog" is a sentinel: show all ready products with no category filter.
+    // A real category slug (rings, necklaces, etc.) filters to that category only.
+    const products = records
+      .filter((product) => product.status === "ready" && (!pageCategory || pageCategory === "catalog" || String(product.category).toLowerCase() === pageCategory));
+
+    if (!products.length) {
+      // No live records for this view: keep static cards rather than wiping them.
+      if (!hasStaticCards) {
+        host.innerHTML = `<p class="catalog-empty">${language === "bn" ? "এই বিভাগের জন্য নিশ্চিত পণ্যের তথ্য এখনও প্রকাশের অপেক্ষায় আছে। সব পণ্য দেখতে শপ পেজে যান।" : "Verified product records for this category are awaiting publication. Visit Shop to browse all supplied images under review."}</p>`;
+      }
+      return;
+    }
+    buildControls(host, products, pageCategory);
   });
 
   // PDP Interactivity (Quantity Stepper, Add to Bag, Share Piece)
