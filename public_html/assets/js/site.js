@@ -962,8 +962,8 @@
      CUSTOMER ACCOUNT PAGE CONTROLLER
      -------------------------------------------------------------------------- */
   const initCustomerAccount = () => {
-    const authSection = one("#customer-auth-section");
-    const accountDashboard = one("#customer-account-dashboard");
+    const authSection = one("#auth-unauthenticated");
+    const accountDashboard = one("#auth-authenticated");
     if (!authSection || !accountDashboard) return;
 
     const renderAccountView = () => {
@@ -1092,13 +1092,14 @@
         all(".auth-tab-btn").forEach(b => b.classList.remove("is-active"));
         all(".auth-panel").forEach(p => p.classList.remove("is-active"));
         btn.classList.add("is-active");
-        const target = btn.dataset.authTab;
-        one(`#${target}`)?.classList.add("is-active");
+        const target = btn.dataset.authTab || btn.getAttribute("aria-controls");
+        if (target) one(`#${target}`)?.classList.add("is-active");
       });
     });
 
-    one("#btn-switch-to-register")?.addEventListener("click", () => {
-      one("[data-auth-tab='panel-register']")?.click();
+    // "Sign in here" link inside the register form switches back to login
+    one("#switch-to-login-btn")?.addEventListener("click", () => {
+      one("#tab-login-btn")?.click();
     });
     one("#btn-switch-to-login")?.addEventListener("click", () => {
       one("[data-auth-tab='panel-login']")?.click();
@@ -1153,12 +1154,10 @@
         const name = one("#reg-name")?.value.trim();
         const email = one("#reg-email")?.value.trim().toLowerCase();
         const phone = one("#reg-phone")?.value.trim();
-        const district = one("#reg-district")?.value;
+        const city = one("#reg-city")?.value || "Dhaka";
         const pass = one("#reg-password")?.value;
-        const passConfirm = one("#reg-password-confirm")?.value;
-
-        if (pass !== passConfirm) {
-          showToast(language === "bn" ? "পাসওয়ার্ড মেলেনি! দয়া করে আবার লিখুন।" : "Passwords do not match!");
+        if (!pass || pass.length < 6) {
+          showToast(language === "bn" ? "পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে।" : "Password must be at least 6 characters.");
           return;
         }
 
@@ -1171,7 +1170,8 @@
           full_name: name,
           email,
           phone,
-          district,
+          city,
+          address: one("#reg-address")?.value.trim() || "",
           password: pass
         });
 
