@@ -6938,6 +6938,7 @@ main#main:nth-of-type(1) > section:nth-of-type(4),
 .guide-figure{position:relative;margin:0;background:#fff;padding:14px;border-top:3px solid var(--red)}
 .guide-figure img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block}
 .guide-figure figcaption{position:absolute;bottom:21px;left:21px;padding:7px 8px;background:#fff;font-size:9px;text-transform:uppercase;letter-spacing:.08em}
-.guide-head .guide-intro{margin-bottom:26px}
-.guide-head .guide-actions{margin:0}
+.guide-head .guide-intro{color:var(--muted);max-width:520px;margin:14px 0 0}
+.guide-head .guide-intro strong{display:block;color:var(--ink);margin-top:14px}
+.guide-head .guide-actions{margin:24px 0 0}
 @media(max-width:900px){.guide-top{grid-template-columns:1fr}}
