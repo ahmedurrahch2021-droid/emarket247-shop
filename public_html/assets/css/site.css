@@ -5927,7 +5927,7 @@ main#main:nth-of-type(1) > section:nth-of-type(3) .category-tile.has-media:hover
 
 /* One-line related description */
 main#main:nth-of-type(1) > section:nth-of-type(3) .category-desc,
-.category-tile.has-media .category-desc {
+.occasion-grid .category-tile .category-desc {
   margin: 0;
   color: var(--muted);
   font-size: 12.5px;
@@ -5956,7 +5956,7 @@ main#main:nth-of-type(1) > section:nth-of-type(3) .category-desc,
     font-size: 18px;
   }
   main#main:nth-of-type(1) > section:nth-of-type(3) .category-desc,
-  .category-tile.has-media .category-desc {
+  .occasion-grid .category-tile .category-desc {
     font-size: 12px;
   }
 }
@@ -5980,7 +5980,7 @@ main#main:nth-of-type(1) > section:nth-of-type(3) .category-desc,
     font-size: 16.5px;
   }
   main#main:nth-of-type(1) > section:nth-of-type(3) .category-desc,
-  .category-tile.has-media .category-desc {
+  .occasion-grid .category-tile .category-desc {
     font-size: 11.5px;
   }
 }
@@ -6011,7 +6011,7 @@ main#main:nth-of-type(1) > section:nth-of-type(3) .category-desc,
     font-size: 12px;
   }
   main#main:nth-of-type(1) > section:nth-of-type(3) .category-desc,
-  .category-tile.has-media .category-desc {
+  .occasion-grid .category-tile .category-desc {
     font-size: 12px;
   }
 }
@@ -7166,3 +7166,33 @@ h1, h2, h3, h4, h5, h6 {
 .category-choose p { color: var(--muted); font-size: 15px; line-height: 1.7; margin: 0 0 14px; }
 .category-choose p.eyebrow { margin-bottom: 14px; }
 .category-choose .section-cta { justify-content: flex-start; }
+
+/* ── Occasions hub: accent word, lede, hover caption reveal ───────────────── */
+.page-hero.slim-hero .accent-word { font-style: italic; color: var(--red); }
+.page-hero.slim-hero .hero-lede { margin: 10px 0 0; color: var(--ink); font-size: 15px; }
+/* Idea 2: occasion caption reveals over the tile image on hover (pointer devices only) */
+@media (hover: hover) {
+  .category-tile.has-media { position: relative; }
+  .occasion-grid .category-tile .category-desc {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0;
+    padding: clamp(14px, 2vw, 22px);
+    padding-top: 44px;
+    background: linear-gradient(to top, rgba(20, 12, 10, 0.78), rgba(20, 12, 10, 0));
+    color: #f5eae5;
+    font-size: 13px;
+    line-height: 1.55;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity .25s var(--ease), transform .25s var(--ease);
+    pointer-events: none;
+  }
+  .occasion-grid .category-tile:hover .category-desc,
+  .occasion-grid .category-tile:focus-visible .category-desc { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .occasion-grid .category-tile .category-desc { transition: none; }
+}
