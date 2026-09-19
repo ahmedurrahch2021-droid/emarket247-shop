@@ -7102,7 +7102,8 @@ h1, h2, h3, h4, h5, h6 {
 .studio-catalog-head h2,
 .city-gold-guide h2,
 .faq-section h2,
-.whatsapp-cta-copy h2 {
+.whatsapp-cta-copy h2,
+.category-choose h2 {
   font-family: var(--serif);
   font-weight: 400;
   font-size: clamp(30px, 3.2vw, 46px);
@@ -7155,3 +7156,13 @@ h1, h2, h3, h4, h5, h6 {
   .shop-cat-grid { grid-template-columns: 1fr; }
   .shop-contact-cta .section-cta { flex-direction: column; align-items: stretch; }
 }
+
+/* ── Categories index: slim hero + choosing guide ─────────────────────────── */
+.page-hero.slim-hero { display:block; padding-block:clamp(55px,8vw,110px); }
+.page-hero.slim-hero h1 { max-width: 640px; }
+.page-hero.slim-hero p:not(.eyebrow) { max-width: 620px; margin: 14px 0 0; color: var(--muted); font-size: 16px; line-height: 1.65; }
+.category-choose { padding-top: clamp(30px, 4vw, 55px); padding-bottom: clamp(70px, 10vw, 135px); max-width: 720px; }
+.category-choose h2 { margin: 0 0 18px; }
+.category-choose p { color: var(--muted); font-size: 15px; line-height: 1.7; margin: 0 0 14px; }
+.category-choose p.eyebrow { margin-bottom: 14px; }
+.category-choose .section-cta { justify-content: flex-start; }
