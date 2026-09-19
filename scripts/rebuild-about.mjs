@@ -7,7 +7,7 @@ import { readFileSync, writeFileSync } from "node:fs";
 
 const BN = `
 <section class="editorial-hero full-width-hero"><img class="hero-bg" src="/assets/images/editorial/About%20Us.webp" width="2048" height="1152" alt="eMarket247-এর গল্প ও কারুকাজ — ঠাকুরগাঁও থেকে শুরু" fetchpriority="high"><div class="hero-shade"></div><div class="wrap"><div class="hero-content hero-editorial-col"><p class="eyebrow"><strong class="brand-name">eMarket247</strong> আমাদের গল্প</p><h1>আমাদের গল্প</h1><p>ঠাকুরগাঁওয়ের এক গৃহিণীর ছোট উদ্যোগ, যা ধীরে ধীরে হয়ে উঠছে একটি জুয়েলারি গন্তব্য — পরিষ্কার তথ্য, সৎ প্রত্যাশা আর মানুষের আস্থায় গড়া।</p></div></div></section>
-<section class="two-panel wrap"><figure><img src="/assets/images/editorial/About%20Us.webp" width="2048" height="1152" loading="lazy" alt="eMarket247-এর গল্প ও কারুকাজ"><figcaption>eMarket247 — ঠাকুরগাঁও থেকে শুরু</figcaption></figure><div>
+<section class="category-choose wrap"><div>
   <p class="eyebrow">ছোট শুরু</p>
   <h2>সব বড় গল্পের শুরুটা ছোট হয়</h2>
   <p>eMarket247-এর গল্প কোনো বড় শোরুম বা বড় বিনিয়োগ দিয়ে শুরু হয়নি। এর শুরু একজন সাধারণ গৃহিণী <strong>রোজিনা আক্তারের</strong> ছোট একটি উদ্যোগ দিয়ে—ঠাকুরগাঁও থেকে, সীমিত সামর্থ্য নিয়ে, নিজের পরিশ্রম ও মানুষের আস্থা অর্জনের ইচ্ছাকে সঙ্গে করে।</p>
@@ -52,7 +52,7 @@ const BN = `
 
 const EN = `
 <section class="editorial-hero full-width-hero"><img class="hero-bg" src="/assets/images/editorial/About%20Us.webp" width="2048" height="1152" alt="The eMarket247 story and craft — it began in Thakurgaon" fetchpriority="high"><div class="hero-shade"></div><div class="wrap"><div class="hero-content hero-editorial-col"><p class="eyebrow"><strong class="brand-name">eMarket247</strong> Our Story</p><h1>Our Story</h1><p>A homemaker's small initiative from Thakurgaon, growing into a jewellery destination — built slowly on clear information, honest expectations, and the trust of the people it serves.</p></div></div></section>
-<section class="two-panel wrap"><figure><img src="/assets/images/editorial/About%20Us.webp" width="2048" height="1152" loading="lazy" alt="The eMarket247 story and craft"><figcaption>eMarket247 — it began in Thakurgaon</figcaption></figure><div>
+<section class="category-choose wrap"><div>
   <p class="eyebrow">A small start</p>
   <h2>Every big story begins small</h2>
   <p>eMarket247 did not begin with a big showroom or a large investment. It began with the small initiative of a homemaker, <strong>Rozina Akter</strong> — from Thakurgaon, with limited means, driven by her own hard work and the wish to earn people's trust.</p>
