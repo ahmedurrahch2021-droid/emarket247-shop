@@ -7001,7 +7001,9 @@ h1, h2, h3, h4, h5, h6 {
 .pay-block h3,
 .care-note h3,
 .info-card h3,
-.trust-grid h3 {
+.trust-grid h3,
+.shop-cat-grid h3,
+.shop-answer-grid h3 {
   font-family: var(--serif);
   font-weight: 400;
   font-size: clamp(21px, 1.9vw, 26px);
@@ -7107,4 +7109,49 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1.04;
   letter-spacing: -0.04em;
   color: var(--ink);
+}
+
+/* ── Shop page: category navigation, buying answers, contact CTA ─────────── */
+.shop-category-nav { padding-bottom: clamp(56px, 7vw, 90px); }
+.shop-cat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+}
+.shop-cat-grid a {
+  display: block;
+  padding: clamp(20px, 2.4vw, 30px);
+  background: var(--paper);
+  transition: background .2s var(--ease);
+}
+.shop-cat-grid a:hover { background: var(--warm); }
+.shop-cat-grid h3 { margin: 0; }
+.shop-cat-grid p { margin: 8px 0 0; color: var(--muted); font-size: 13px; line-height: 1.55; }
+
+.shop-answers { padding-bottom: clamp(56px, 7vw, 90px); }
+.shop-answer-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+}
+.shop-answer-grid article {
+  padding: clamp(24px, 3vw, 36px);
+  background: var(--warm);
+  border-top: 3px solid var(--red);
+}
+.shop-answer-grid h3 { margin: 0 0 12px; }
+.shop-answer-grid p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.65; }
+
+.shop-contact-cta { padding-bottom: clamp(70px, 10vw, 135px); }
+.shop-contact-cta .section-cta { gap: 14px; }
+
+@media (max-width: 900px) {
+  .shop-cat-grid { grid-template-columns: repeat(2, 1fr); }
+  .shop-answer-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 520px) {
+  .shop-cat-grid { grid-template-columns: 1fr; }
+  .shop-contact-cta .section-cta { flex-direction: column; align-items: stretch; }
 }
