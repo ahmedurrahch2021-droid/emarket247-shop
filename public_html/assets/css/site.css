@@ -7250,3 +7250,12 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--red);
 }
 .refusal-q { color: #ff8f86; }
+
+/* ── Blog: post byline ─────────────────────────────────────────────── */
+.post-byline {
+  margin: 20px 0 0;
+  color: var(--muted);
+  font-size: 11px;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+}

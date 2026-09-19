@@ -233,6 +233,7 @@ function renderHeader($lang, $isBn, $catMap, $occasions, $categories, $I) {
       <a href="/' . $lang . '/shop/">' . ($isBn ? 'শপ' : 'Shop') . '</a>
       <div class="has-submenu"><button type="button" aria-expanded="false">' . ($isBn ? 'ক্যাটাগরি' : 'Categories') . '</button><div class="submenu"><p>' . ($isBn ? 'জুয়েলারি খুঁজুন' : 'Find your jewellery') . '</p><ul>' . $catLinks . '</ul><a class="menu-all" href="/' . $lang . '/categories/">' . ($isBn ? 'সব ক্যাটাগরি' : 'View all categories') . ' <span>→</span></a></div></div>
       <div class="has-submenu"><button type="button" aria-expanded="false">' . ($isBn ? 'অনুষ্ঠান' : 'Occasion') . '</button><div class="submenu"><p>' . ($isBn ? 'বিশেষ দিনের জন্য' : 'For meaningful moments') . '</p><ul>' . $occLinks . '</ul><a class="menu-all" href="/' . $lang . '/occasions/">' . ($isBn ? 'সব অনুষ্ঠান' : 'View all occasions') . ' <span>→</span></a></div></div>
+      <a href="/' . $lang . '/blog/">' . ($isBn ? 'ব্লগ' : 'Blog') . '</a>
       <a href="/' . $lang . '/about/">' . ($isBn ? 'আমাদের কথা' : 'About Us') . '</a>
       <a href="/' . $lang . '/contact/">' . ($isBn ? 'যোগাযোগ' : 'Contact') . '</a>
     </nav>
