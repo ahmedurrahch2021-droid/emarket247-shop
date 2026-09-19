@@ -6921,3 +6921,23 @@ main#main:nth-of-type(1) > section:nth-of-type(4),
 .faq-item[open] summary:after{transform:rotate(45deg)}
 .faq-item p{margin:0;padding:0 32px 18px 0;font-size:14px;line-height:1.7;color:var(--muted)}
 .faq-more{max-width:760px;margin:clamp(24px,3vw,36px) 0 0;font-size:13.5px;line-height:1.6;color:var(--muted)}
+
+/* --- Durga Puja editorial split (matches .two-panel treatment) --- */
+.puja-prompt>div{display:grid;grid-template-columns:1fr 1fr;gap:clamp(38px,8vw,120px);align-items:center}
+.puja-figure{position:relative;margin:0;background:#fff;padding:14px;border-top:3px solid var(--red)}
+.puja-figure img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block}
+.puja-figure figcaption{position:absolute;bottom:21px;left:21px;padding:7px 8px;background:#fff;font-size:9px;text-transform:uppercase;letter-spacing:.08em}
+.puja-copy{display:flex;flex-direction:column;align-items:flex-start}
+.puja-copy h2{max-width:560px}
+.puja-copy strong{display:block;margin-top:22px;font-size:20px}
+.puja-copy p{max-width:470px;color:var(--muted);margin:8px 0 26px}
+@media(max-width:900px){.puja-prompt>div{grid-template-columns:1fr}}
+
+/* --- City Gold Guide: image companion beside heading/intro --- */
+.guide-top{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(35px,7vw,100px);align-items:center;margin-bottom:clamp(30px,5vw,55px)}
+.guide-figure{position:relative;margin:0;background:#fff;padding:14px;border-top:3px solid var(--red)}
+.guide-figure img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block}
+.guide-figure figcaption{position:absolute;bottom:21px;left:21px;padding:7px 8px;background:#fff;font-size:9px;text-transform:uppercase;letter-spacing:.08em}
+.guide-head .guide-intro{margin-bottom:26px}
+.guide-head .guide-actions{margin:0}
+@media(max-width:900px){.guide-top{grid-template-columns:1fr}}
