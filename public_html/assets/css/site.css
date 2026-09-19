@@ -7246,6 +7246,61 @@ h1, h2, h3, h4, h5, h6 {
   .founder-grid .founder-photo { order: -1; }
 }
 
+/* ── About page: story timeline — vertical rail with numbered steps ────────── */
+.story-timeline {
+  margin: clamp(20px, 3vw, 34px) 0 0;
+  padding: 0;
+  list-style: none;
+  max-width: 680px;
+}
+.story-timeline li {
+  position: relative;
+  padding: 0 0 clamp(26px, 3.4vw, 42px) clamp(44px, 5vw, 58px);
+}
+/* the vertical spine connecting the steps */
+.story-timeline li::before {
+  content: "";
+  position: absolute;
+  left: 15px;
+  top: 34px;
+  bottom: -6px;
+  width: 1px;
+  background: var(--line);
+}
+.story-timeline li:last-child { padding-bottom: 0; }
+.story-timeline li:last-child::before { display: none; }
+/* numbered node on the spine */
+.story-timeline li::after {
+  content: counter(tl-step, decimal-leading-zero);
+  counter-increment: tl-step;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 31px;
+  height: 31px;
+  display: grid;
+  place-content: center;
+  border: 1px solid var(--red);
+  border-radius: 50%;
+  background: var(--paper);
+  color: var(--red);
+  font: 10px "DM Mono", monospace;
+  letter-spacing: .02em;
+}
+.story-timeline { counter-reset: tl-step; }
+.story-timeline h3 {
+  margin: 4px 0 8px;
+  font: 400 clamp(19px, 1.7vw, 24px)/1.2 var(--serif);
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+.story-timeline p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.7;
+}
+
 .buyer-questions {
   margin: 4px 0 14px;
   padding: 0;

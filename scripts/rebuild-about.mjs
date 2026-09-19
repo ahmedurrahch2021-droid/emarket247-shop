@@ -27,9 +27,11 @@ const BN = `
 <section class="category-choose wrap"><div>
   <p class="eyebrow">উদ্যোগটির পরিচয়</p>
   <h2>রোজিনার কাছে eMarket247 কী?</h2>
-  <p>eMarket247 শুধু একটি online jewellery shop নয়। এটি এমন একটি উদ্যোগ, যেখানে একজন গৃহিণী নিজের ছোট ব্যবসাকে ধীরে ধীরে একটি বড় স্বপ্নে পরিণত করার চেষ্টা করছেন।</p>
-  <p><strong>ছোট করে শুরু করা কোনো দুর্বলতা নয়।</strong> বরং সীমিত সুযোগের মধ্যেও শুরু করে, ভুল থেকে শেখা, প্রতিদিন কাজ করা এবং ধীরে ধীরে এগিয়ে যাওয়াই এই যাত্রার গুরুত্বপূর্ণ অংশ।</p>
-  <p>একটি ছোট শহর থেকে অনলাইনে ব্যবসা শুরু করে মানুষের কাছে পৌঁছানো একদিনের কাজ নয়। প্রতিটি অর্ডার, প্রতিটি কথোপকথন, প্রতিটি নতুন follower এবং প্রতিটি ফিরে আসা customer—ধীরে ধীরে এই পথ তৈরি করেছে।</p>
+  <ol class="story-timeline">
+<li><h3>শুধু একটি দোকান নয়</h3><p>eMarket247 শুধু একটি online jewellery shop নয়। এটি এমন একটি উদ্যোগ, যেখানে একজন গৃহিণী নিজের ছোট ব্যবসাকে ধীরে ধীরে একটি বড় স্বপ্নে পরিণত করার চেষ্টা করছেন।</p></li>
+<li><h3>ছোট করে শুরু করা দুর্বলতা নয়</h3><p>সীমিত সুযোগের মধ্যেও শুরু করে, ভুল থেকে শেখা, প্রতিদিন কাজ করা এবং ধীরে ধীরে এগিয়ে যাওয়াই এই যাত্রার গুরুত্বপূর্ণ অংশ।</p></li>
+<li><h3>ধীরে ধীরে, ধাপে ধাপে</h3><p>একটি ছোট শহর থেকে অনলাইনে ব্যবসা শুরু করে মানুষের কাছে পৌঁছানো একদিনের কাজ নয়। প্রতিটি অর্ডার, প্রতিটি কথোপকথন, প্রতিটি নতুন follower এবং প্রতিটি ফিরে আসা customer—ধীরে ধীরে এই পথ তৈরি করেছে।</p></li>
+</ol>
 </div></section>
 <section class="info-grid wrap"><div><p class="eyebrow">আমাদের বিশ্বাস</p><h2>আমরা কী বিশ্বাস করি</h2></div><article class="info-card"><h3>পরিষ্কার তথ্য</h3><p>আপনি কী কিনছেন, সেটি বোঝার মতো তথ্য পাওয়া গুরুত্বপূর্ণ। পণ্যের ক্ষেত্রে যে তথ্য যাচাই করা ও প্রকাশ করা সম্ভব, সেটি পরিষ্কারভাবে দেওয়াই আমাদের লক্ষ্য।</p></article><article class="info-card"><h3>বাস্তব প্রত্যাশা</h3><p>City Gold বা imitation jewellery-কে আমরা আসল সোনা বলে উপস্থাপন করি না। এটি নিজস্ব সৌন্দর্য, ব্যবহার ও মূল্যের একটি আলাদা jewellery category।</p></article><article class="info-card"><h3>মানুষের সঙ্গে সরাসরি যোগাযোগ</h3><p>অনলাইনে কেনাকাটার সময় প্রশ্ন থাকা স্বাভাবিক। কোনো কিছু বুঝতে অসুবিধা হলে আমাদের সঙ্গে যোগাযোগ করার সুযোগ থাকা উচিত।</p></article><article class="info-card"><h3>ধীরে, কিন্তু সঠিকভাবে এগোনো</h3><p>আমরা এমন প্রতিশ্রুতি দিতে চাই না যা বাস্তবে পূরণ করা সম্ভব নয়। ব্যবসা বড় করার চেয়ে দীর্ঘমেয়াদে মানুষের আস্থা ধরে রাখা আমাদের কাছে বেশি গুরুত্বপূর্ণ।</p></article></section>
 <section class="wrap"><div class="care-note"><p class="eyebrow">আমাদের সীমারেখা</p><h2>আমরা যা বলি না</h2>
@@ -70,9 +72,11 @@ const EN = `
 <section class="category-choose wrap"><div>
   <p class="eyebrow">What this initiative is</p>
   <h2>What eMarket247 means to Rozina</h2>
-  <p>eMarket247 is not just an online jewellery shop. It is an initiative where a homemaker is slowly trying to turn her small business into a bigger dream.</p>
-  <p><strong>Starting small is not a weakness.</strong> Beginning within limited means, learning from mistakes, working at it every day and moving forward step by step — that is an essential part of this journey.</p>
-  <p>Reaching people after starting an online business from a small town doesn't happen in a day. Every order, every conversation, every new follower and every returning customer — they built this path slowly.</p>
+  <ol class="story-timeline">
+<li><h3>Not just a shop</h3><p>eMarket247 is not just an online jewellery shop. It is an initiative where a homemaker is slowly trying to turn her small business into a bigger dream.</p></li>
+<li><h3>Starting small is not a weakness</h3><p>Beginning within limited means, learning from mistakes, working at it every day and moving forward step by step — that is an essential part of this journey.</p></li>
+<li><h3>Built step by step</h3><p>Reaching people after starting an online business from a small town doesn't happen in a day. Every order, every conversation, every new follower and every returning customer — they built this path slowly.</p></li>
+</ol>
 </div></section>
 <section class="info-grid wrap"><div><p class="eyebrow">What we believe</p><h2>What we believe in</h2></div><article class="info-card"><h3>Clear information</h3><p>Getting information that helps you understand what you're buying matters. Our aim is to present, clearly, whatever product information can be verified and published.</p></article><article class="info-card"><h3>Honest expectations</h3><p>We never present City Gold or imitation jewellery as real gold. It is its own jewellery category, with its own beauty, use and value.</p></article><article class="info-card"><h3>Direct contact with people</h3><p>Questions are normal when shopping online. If anything is unclear, there should always be a way to reach us and ask.</p></article><article class="info-card"><h3>Slow, but in the right direction</h3><p>We don't want to make promises that can't actually be kept. Keeping people's trust over the long term matters more to us than growing fast.</p></article></section>
 <section class="wrap"><div class="care-note"><p class="eyebrow">Where we draw the line</p><h2>What we don't say</h2>
