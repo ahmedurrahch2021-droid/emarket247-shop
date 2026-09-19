@@ -6,7 +6,7 @@ import { fileURLToPath } from "node:url";
 // public_html is the approved deployment tree and the only site preview target.
 const projectRoot = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const root = path.join(projectRoot, "public_html");
-const port = 3000;
+const port = Number(process.env.PORT) || 3000;
 
 const types = {
   ".css": "text/css; charset=utf-8",
