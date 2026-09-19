@@ -37,6 +37,14 @@ ErrorDocument 404 /404.html
   RewriteCond %{HTTP:X-Forwarded-Proto} !=https
   RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 
+  # ---- Retired occasion URLs ---------------------------------------------
+  # /occasions/bridal/ was folded into /occasions/wedding/: one occasion, one
+  # page. These are permanent moves, so whatever authority and inbound links
+  # the retired URLs earned are passed on instead of being lost to a 404.
+  # Kept after the HTTPS block so an insecure request is upgraded first and
+  # the visitor never sees a second redirect hop.
+  RewriteRule ^(en|bn)/occasions/bridal/?$ /$1/occasions/wedding/ [R=301,L]
+
   # Route EVERY /{lang}/products/{slug}/ to product.php. The live DB row is
   # rendered when it exists; otherwise product.php falls back to any legacy
   # static index.html, then to the branded 404. This is what keeps prices on

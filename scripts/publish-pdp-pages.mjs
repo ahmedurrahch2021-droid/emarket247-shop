@@ -481,7 +481,6 @@ function buildPdp(product, lang, relatedProducts) {
   const navCatLabel  = isBn ? 'ক্যাটাগরি' : 'Categories';
   const navCatFind   = isBn ? 'জুয়েলারি খুঁজুন' : 'Find your jewellery';
   const navCatView   = isBn ? 'সব ক্যাটাগরি' : 'View all categories';
-  const navBridal    = isBn ? 'ব্রাইডাল' : 'Bridal';
   const navOccLabel  = isBn ? 'অনুষ্ঠান' : 'Occasion';
   const navOccFind   = isBn ? 'বিশেষ দিনের জন্য' : 'For meaningful moments';
   const navOccView   = isBn ? 'সব অনুষ্ঠান' : 'View all occasions';
@@ -501,6 +500,7 @@ function buildPdp(product, lang, relatedProducts) {
   const occLinks = [
     ['puja', 'Puja', 'পূজা'],
     ['eid', 'Eid', 'ঈদ'],
+    ['pahela-baishakh', 'Pahela Baishakh', 'পহেলা বৈশাখ'],
     ['wedding', 'Wedding', 'বিয়ে'],
     ['anniversary', 'Anniversary', 'বার্ষিকী'],
     ['birthday', 'Birthday', 'জন্মদিন'],
@@ -611,7 +611,6 @@ function buildPdp(product, lang, relatedProducts) {
         <a href="/${lang}/">${navHome}</a>
         <a href="/${lang}/shop/">${navShop}</a>
         <div class="has-submenu"><button type="button" aria-expanded="false">${navCatLabel}</button><div class="submenu"><p>${navCatFind}</p><ul>${catLinks}</ul><a class="menu-all" href="/${lang}/categories/">${navCatView} <span>→</span></a></div></div>
-        <a href="/${lang}/occasions/bridal/">${navBridal}</a>
         <div class="has-submenu"><button type="button" aria-expanded="false">${navOccLabel}</button><div class="submenu"><p>${navOccFind}</p><ul>${occLinks}</ul><a class="menu-all" href="/${lang}/occasions/">${navOccView} <span>→</span></a></div></div>
         <a href="/${lang}/about/">${navAbout}</a>
         <a href="/${lang}/contact/">${navContact}</a>
@@ -797,7 +796,6 @@ function buildPdp(product, lang, relatedProducts) {
       <div>
         <h3>${footerOccHdr}</h3>
         <a href="/${lang}/occasions/puja/">${isBn ? 'পূজা কালেকশন' : 'Puja Edit'}</a>
-        <a href="/${lang}/occasions/bridal/">${isBn ? 'ব্রাইডাল জুয়েলারি' : 'Bridal Jewellery'}</a>
         <a href="/${lang}/occasions/wedding/">${isBn ? 'বিয়ের জুয়েলারি' : 'Wedding Jewellery'}</a>
         <a href="/${lang}/occasions/gifts/">${isBn ? 'উপহার জুয়েলারি' : 'Jewellery Gifting'}</a>
         <a href="/${lang}/guides/">${isBn ? 'স্টাইল গাইড' : 'Style Guides'}</a>
