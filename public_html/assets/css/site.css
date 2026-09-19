@@ -7211,3 +7211,42 @@ h1, h2, h3, h4, h5, h6 {
 .about-quote cite { display: block; margin-top: 18px; padding-left: clamp(18px, 2.5vw, 30px); font-style: normal; }
 .about-quote cite strong { display: block; font-size: 14px; color: var(--ink); }
 .about-quote cite span { display: block; margin-top: 3px; font-size: 12px; color: var(--muted); }
+
+/* ── About page: founder photo slot, buyer questions, refusal accents ────── */
+.founder-photo { margin: clamp(28px, 4vw, 44px) 0 0; }
+.founder-photo-frame {
+  display: grid;
+  place-content: center;
+  gap: 6px;
+  text-align: center;
+  aspect-ratio: 4 / 5;
+  max-width: 420px;
+  border: 1px dashed var(--line);
+  background: var(--warm);
+}
+.founder-photo-frame span { font: 400 15px var(--serif); color: var(--ink); }
+.founder-photo-frame small { font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+/* Swap the frame for the real photo by replacing the div inside .founder-photo
+   with: <img src="/assets/images/..." alt="..." width="..." height="..."> —
+   the frame aspect-ratio keeps the reserved space until then. */
+.buyer-questions {
+  margin: 4px 0 14px;
+  padding: 0;
+  list-style: none;
+}
+.buyer-questions li {
+  display: grid;
+  grid-template-columns: 36px 1fr;
+  align-items: baseline;
+  padding: 13px 0;
+  border-top: 1px solid var(--line);
+  font-weight: 700;
+  color: var(--ink);
+}
+.buyer-questions li:last-child { border-bottom: 1px solid var(--line); }
+.buyer-questions li::before {
+  content: counter(list-item, decimal-leading-zero);
+  font: 10px "DM Mono", monospace;
+  color: var(--red);
+}
+.refusal-q { color: #ff8f86; }
