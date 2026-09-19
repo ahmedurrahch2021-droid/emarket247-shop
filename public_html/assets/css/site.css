@@ -7229,6 +7229,23 @@ h1, h2, h3, h4, h5, h6 {
 /* Swap the frame for the real photo by replacing the div inside .founder-photo
    with: <img src="/assets/images/..." alt="..." width="..." height="..."> —
    the frame aspect-ratio keeps the reserved space until then. */
+
+/* ── About page: founder section — two columns, text left / photo right ────── */
+.founder-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: clamp(38px, 7vw, 110px);
+  align-items: center;
+  padding-block: clamp(56px, 8vw, 110px);
+}
+.founder-grid .about-quote { padding: 0; }
+.founder-grid .founder-photo { margin: 0; display: flex; justify-content: center; }
+.founder-grid .founder-photo-frame { margin: 0; width: 100%; max-width: 420px; }
+@media (max-width: 840px) {
+  .founder-grid { grid-template-columns: 1fr; }
+  .founder-grid .founder-photo { order: -1; }
+}
+
 .buyer-questions {
   margin: 4px 0 14px;
   padding: 0;
