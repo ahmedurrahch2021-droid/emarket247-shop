@@ -1160,6 +1160,11 @@
           showToast(language === "bn" ? "পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে।" : "Password must be at least 6 characters.");
           return;
         }
+        const passConfirm = one("#reg-password-confirm")?.value;
+        if (pass !== passConfirm) {
+          showToast(language === "bn" ? "দুটি পাসওয়ার্ড মিলছে না।" : "The two passwords do not match.");
+          return;
+        }
 
         // The server is the only account store. Success is claimed ONLY when
         // the API actually created the account — the old code fell through to
