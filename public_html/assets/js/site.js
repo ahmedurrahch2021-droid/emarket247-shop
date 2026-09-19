@@ -176,9 +176,31 @@
     }
   });
 
-  one("[data-newsletter]")?.addEventListener("submit", (event) => {
+  one("[data-newsletter]")?.addEventListener("submit", async (event) => {
     event.preventDefault();
-    showToast(language === "bn" ? "নিউজলেটার চালুর আগে আপনার সম্মতি নেওয়া হবে।" : "Newsletter sign-up will open when the approved consent system is connected.");
+    const form = event.currentTarget;
+    const emailInput = form.querySelector('input[type="email"]');
+    const email = emailInput?.value.trim().toLowerCase();
+    if (!email) return;
+    // Consent gate: without the owner-approved privacy workflow the form stays
+    // informational and nothing is submitted or stored.
+    if (!form.dataset.consentConfirmed) {
+      showToast(language === "bn" ? "নিউজলেটার চালুর আগে আপনার সম্মতি নেওয়া হবে।" : "Newsletter sign-up will open when the approved consent system is connected.");
+      return;
+    }
+    const res = await hostingerApi.call("subscribe.php", { email, language, source: "footer" });
+    if (res.offline) {
+      showToast(language === "bn" ? "সাবস্ক্রিপশন এখন পাওয়া যাচ্ছে না। পরে চেষ্টা করুন।" : "Subscription is unavailable right now. Please try again later.");
+      return;
+    }
+    if (res.success) {
+      showToast(res.message || (language === "bn" ? "ধন্যবাদ!" : "Thank you!"));
+      form.reset();
+    } else if (res.notEnabled) {
+      showToast(language === "bn" ? "সাবস্ক্রিপশন সংগ্রহ এখনো চালু হয়নি।" : "Subscription collection is not enabled yet.");
+    } else {
+      showToast(res.error || (language === "bn" ? "সমস্যা হয়েছে। আবার চেষ্টা করুন।" : "Something went wrong. Please try again."));
+    }
   });
   all("[data-toast]").forEach((button) => button.addEventListener("click", () => showToast(button.dataset.toast)));
 
