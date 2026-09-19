@@ -75,6 +75,7 @@ $categories = [
 $occasions = [
     ['puja', 'Puja', 'পূজা'],
     ['eid', 'Eid', 'ঈদ'],
+    ['pahela-baishakh', 'Pahela Baishakh', 'পহেলা বৈশাখ'],
     ['wedding', 'Wedding', 'বিয়ে'],
     ['anniversary', 'Anniversary', 'বার্ষিকী'],
     ['birthday', 'Birthday', 'জন্মদিন'],
@@ -231,8 +232,8 @@ function renderHeader($lang, $isBn, $catMap, $occasions, $categories, $I) {
       <a href="/' . $lang . '/">' . ($isBn ? 'হোম' : 'Home') . '</a>
       <a href="/' . $lang . '/shop/">' . ($isBn ? 'শপ' : 'Shop') . '</a>
       <div class="has-submenu"><button type="button" aria-expanded="false">' . ($isBn ? 'ক্যাটাগরি' : 'Categories') . '</button><div class="submenu"><p>' . ($isBn ? 'জুয়েলারি খুঁজুন' : 'Find your jewellery') . '</p><ul>' . $catLinks . '</ul><a class="menu-all" href="/' . $lang . '/categories/">' . ($isBn ? 'সব ক্যাটাগরি' : 'View all categories') . ' <span>→</span></a></div></div>
-      <a href="/' . $lang . '/occasions/bridal/">' . ($isBn ? 'ব্রাইডাল' : 'Bridal') . '</a>
       <div class="has-submenu"><button type="button" aria-expanded="false">' . ($isBn ? 'অনুষ্ঠান' : 'Occasion') . '</button><div class="submenu"><p>' . ($isBn ? 'বিশেষ দিনের জন্য' : 'For meaningful moments') . '</p><ul>' . $occLinks . '</ul><a class="menu-all" href="/' . $lang . '/occasions/">' . ($isBn ? 'সব অনুষ্ঠান' : 'View all occasions') . ' <span>→</span></a></div></div>
+      <a href="/' . $lang . '/blog/">' . ($isBn ? 'ব্লগ' : 'Blog') . '</a>
       <a href="/' . $lang . '/about/">' . ($isBn ? 'আমাদের কথা' : 'About Us') . '</a>
       <a href="/' . $lang . '/contact/">' . ($isBn ? 'যোগাযোগ' : 'Contact') . '</a>
     </nav>
@@ -259,7 +260,6 @@ function renderFooter($lang, $isBn) {
     <div>
       <h3>' . ($isBn ? 'অনুষ্ঠান ও ভাবনা' : 'Occasions & Edits') . '</h3>
       <a href="/' . $lang . '/occasions/puja/">' . ($isBn ? 'পূজা কালেকশন' : 'Puja Edit') . '</a>
-      <a href="/' . $lang . '/occasions/bridal/">' . ($isBn ? 'ব্রাইডাল জুয়েলারি' : 'Bridal Jewellery') . '</a>
       <a href="/' . $lang . '/occasions/wedding/">' . ($isBn ? 'বিয়ের জুয়েলারি' : 'Wedding Jewellery') . '</a>
       <a href="/' . $lang . '/occasions/gifts/">' . ($isBn ? 'উপহার জুয়েলারি' : 'Jewellery Gifting') . '</a>
       <a href="/' . $lang . '/guides/">' . ($isBn ? 'স্টাইল গাইড' : 'Style Guides') . '</a>
