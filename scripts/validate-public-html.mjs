@@ -342,11 +342,63 @@ for (const [relFile, label] of [["api/orders.php", "order_ref"], ["api/products.
     }
   }
 }
+// 2c. The wishlist endpoint stores a customer's saved pieces, so its three
+//     protections must stay wired: an authenticated session, bound parameters,
+//     and rows validated against the published product table. It also must not
+//     hand a guest any account data.
+const wishlistEndpoint = path.join(root, "api", "wishlist.php");
+if (await exists(wishlistEndpoint)) {
+  const wishlistApi = await readFile(wishlistEndpoint, "utf8");
+  const authIndex = wishlistApi.indexOf("checkAuth()");
+  if (authIndex === -1) {
+    errors.push("api/wishlist.php: checkAuth() is missing; wishlist rows are account data");
+  } else if (/php:\/\/input/.test(wishlistApi) && wishlistApi.indexOf("php://input") < authIndex) {
+    errors.push("api/wishlist.php: input is read before checkAuth(); the session must be verified first");
+  }
+  if (!/is_active = 1/.test(wishlistApi)) {
+    errors.push("api/wishlist.php: stored slugs must be validated against published (is_active = 1) products");
+  }
+  const preparedSql = [...wishlistApi.matchAll(/prepare\(\s*(['"])([\s\S]*?)\1/g)].map((match) => match[2]);
+  if (!preparedSql.length) {
+    errors.push("api/wishlist.php: statements must be prepared, never executed directly");
+  }
+  if (!/->execute\(\[/.test(wishlistApi)) {
+    errors.push("api/wishlist.php: prepared statements must be executed with a bound parameter array");
+  }
+  for (const sql of preparedSql) {
+    if (/\$_(?:GET|POST|REQUEST|SERVER|COOKIE)\b/.test(sql)) {
+      errors.push("api/wishlist.php: request data must never be concatenated into SQL");
+    }
+  }
+}
+
+// 2d. Wishlist persistence is optional at the schema level, but the migration
+//     that adds it must keep the invariants the endpoint relies on: one row per
+//     (user, slug) and cascade delete when an account is removed.
+const wishlistMigration = path.join(project, "database", "wishlist-migration.sql");
+if (await exists(wishlistMigration)) {
+  const migration = await readFile(wishlistMigration, "utf8");
+  if (!/UNIQUE KEY\s+`?uniq_wishlist_user_slug`?\s*\(`?user_id`?,\s*`?slug`?\)/i.test(migration)) {
+    errors.push("database/wishlist-migration.sql: (user_id, slug) must stay unique so one piece is stored once");
+  }
+  if (!/ON DELETE CASCADE/i.test(migration)) {
+    errors.push("database/wishlist-migration.sql: deleting an account must cascade to its wishlist rows");
+  }
+  if (!/FOREIGN KEY\s*\(`?user_id`?\)/i.test(migration)) {
+    errors.push("database/wishlist-migration.sql: user_id must be a foreign key to emk_users");
+  }
+}
+
 const siteJsFile = path.join(root, "assets", "js", "site.js");
 if (await exists(siteJsFile)) {
   const siteJs = await readFile(siteJsFile, "utf8");
   if (!/X-CSRF-Token/.test(siteJs)) {
     errors.push("assets/js/site.js: API writes no longer send the X-CSRF-Token header");
+  }
+  // A guest's wishlist must stay in the browser: the sync call may only run
+  // behind a signed-in check.
+  if (!/const pushWishlistToServer = \(slugs\) => \{[\s\S]{0,220}?wishlistCurrentUser\(\)/.test(siteJs)) {
+    errors.push("assets/js/site.js: the wishlist API write is not guarded by a signed-in check");
   }
 }
 
