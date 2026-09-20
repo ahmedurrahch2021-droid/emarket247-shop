@@ -28,12 +28,12 @@ const contactCol = (l) =>
   `<li><strong>${l === "bn" ? "ইমেইল" : "Email"}</strong><a href="mailto:support@emarket247.shop">support@emarket247.shop</a></li></ul></div>`;
 
 const payRow = (l) =>
-  `<div class="footer-pay">${socialRow(l)}<p class="footer-pay-label">${l === "bn" ? "আমরা গ্রহণ করি" : "We accept"}</p>` +
+  `<div class="footer-pay"><p class="footer-pay-label">${l === "bn" ? "আমরা গ্রহণ করি" : "We accept"}</p>` +
   `<div class="footer-pay-marks"><img src="/assets/images/payment/bkash.svg" width="108" height="60" alt="${l === "bn" ? "বিকাশ" : "bKash"}" loading="lazy"><img src="/assets/images/payment/nagad.svg" width="108" height="60" alt="${l === "bn" ? "নগদ" : "Nagad"}" loading="lazy"><img src="/assets/images/payment/visa.svg" width="108" height="60" alt="${l === "bn" ? "ভিসা" : "Visa"}" loading="lazy"><span class="cod-chip">${l === "bn" ? "ক্যাশ অন ডেলিভারি" : "Cash on Delivery"}</span></div></div>`;
 
 const bottomBar =
   `<div class="footer-bottom"><p>© 2026 <strong class="brand-name">eMarket247</strong>. All rights reserved.</p>` +
-  `<p>Site developed by <strong>FarhanMumeen</strong></p></div>`;
+  `<p>This site is developed by FarhanMomen</p></div>`;
 
 const walk = (dir, out = []) => {
   for (const e of readdirSync(dir, { withFileTypes: true })) {

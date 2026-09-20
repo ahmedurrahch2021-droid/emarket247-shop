@@ -62,6 +62,7 @@ for (const file of publicPages) {
   if (!/<link[^>]+rel=["']canonical["'][^>]+href=["']https:\/\/emarket247\.shop\//i.test(html)) errors.push(`${rel}: missing canonical URL`);
   if (!new RegExp(`hreflang=["']${otherLang}["']`, "i").test(html)) errors.push(`${rel}: missing ${otherLang} hreflang`);
   if (!/<h1(?:\s[^>]*)?>[\s\S]*?<\/h1>/i.test(html)) errors.push(`${rel}: missing h1`);
+  if (!html.includes("This site is developed by FarhanMomen")) errors.push(`${rel}: missing footer credit 'This site is developed by FarhanMomen'`);
   if (!(await exists(path.join(root, counterpartRel)))) errors.push(`${rel}: missing ${otherLang} counterpart ${counterpartRel}`);
 
   const refs = [...html.matchAll(/(?:href|src)=["']([^"']+)["']/gi)].map((match) => match[1]);
