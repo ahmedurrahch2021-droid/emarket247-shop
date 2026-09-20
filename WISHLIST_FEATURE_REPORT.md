@@ -53,7 +53,8 @@ write is required to use the wishlist.
 
 - `scripts/add-wishlist-pages.mjs` — generator for both wishlist pages.
 - `scripts/wire-wishlist-nav.mjs` — turns the header heart `<button>` into a
-  real link on every page (idempotent).
+  real link on every page. It matches a complete `&lt;button …&gt;…&lt;/button&gt;`
+  element, so re-running it is a no-op (see §4 for the defect this fixed).
 - `scripts/test-wishlist.mjs` — jsdom integration test (see §4).
 
 **Mechanical**
@@ -90,12 +91,23 @@ write is required to use the wishlist.
 | --- | --- | --- |
 | HTML/catalogue/taxonomy/security validation | `npm run check` | Passed — "Checked 126 public HTML pages, 1 JavaScript files, 7 PHP files, both catalogues, and the canonical taxonomy." Only pre-existing warning: PHP CLI unavailable in this sandbox, so PHP syntax checks were skipped. |
 | JavaScript syntax | `node --check public_html/assets/js/site.js` | Passed |
-| Wishlist integration test (real DOM, real `site.js`) | `npm install --no-save jsdom && node scripts/test-wishlist.mjs` | 27/27 checks passed: hearts on every grid card, save/remove + badge + toast, PDP heart, wishlist page list, add-all-to-bag, remove, empty state, stale-slug pruning, Bengali page and links. |
+| Wishlist integration test (real DOM, real `site.js`) | `npm install --no-save jsdom && node scripts/test-wishlist.mjs` | 32/32 checks passed: hearts on every grid card, save/remove + badge + toast, PDP heart, wishlist page list, add-all-to-bag, remove, empty state, stale-slug pruning, Bengali page and links, plus a DOM-structure assertion on the converted header. |
+| HTML tag balance across the whole site | tag-pair sweep of all 136 pages (`<button>`/`</button>`, `<a>`/`</a>`) | 0 unbalanced files; 129 pages carry the linked wishlist control and none carries the old `<button>` form. |
 | Deployment snapshot | `npm run build` | "Deployment snapshot prepared from public_html at dist/public" (24 MB, no forbidden files). |
 | Cache-busting | `node scripts/fix-cache-busting.mjs` | Version map `variables 0b3625cd · site 5e7796d3 · pdp c29083ed · js e6800159` applied to all 136 pages. |
 
 jsdom is intentionally not a project dependency; the test exits with a clear
 message if it is not installed.
+
+### Defect found and fixed during verification
+
+The first version of `scripts/wire-wishlist-nav.mjs` converted the heart with a
+two-step regex; on its **second** run it replaced the next unrelated `</button>`
+on each page, so the mobile menu toggle lost its closing tag on 129 pages. The
+script now matches one complete button element with its own closing tag
+(idempotent), the pages were restored from the previous commit and regenerated,
+and the integration test gained a DOM-structure assertion so this class of
+corruption cannot pass silently again. Fixed in `88fc325`.
 
 ## 5. Known limitations
 
