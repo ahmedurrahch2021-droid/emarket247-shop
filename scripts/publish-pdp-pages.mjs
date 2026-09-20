@@ -552,9 +552,9 @@ function buildPdp(product, lang, relatedProducts) {
   <meta name="description" content="${esc(metaDesc)}">
   <meta name="robots" content="index,follow">
   <link rel="canonical" href="${canonical}">
-  <link rel="alternate" hreflang="en" href="${altPage}">
-  <link rel="alternate" hreflang="bn" href="${canonical}">
-  <link rel="alternate" hreflang="x-default" href="${altPage}">
+  <link rel="alternate" hreflang="en" href="${siteUrl}/en/products/${slug}/">
+  <link rel="alternate" hreflang="bn" href="${siteUrl}/bn/products/${slug}/">
+  <link rel="alternate" hreflang="x-default" href="${siteUrl}/en/products/${slug}/">
   <meta property="og:type" content="product">
   <meta property="og:title" content="${esc(ogTitle)}">
   <meta property="og:description" content="${esc(ogDesc)}">
