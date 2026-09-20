@@ -44,6 +44,9 @@ const COPY = {
     addAll: "Add all to bag",
     clear: "Clear wishlist",
     loading: "Loading your saved pieces…",
+    noscriptHeading: "Your wishlist needs JavaScript",
+    noscriptBody:
+      "Your saved pieces are stored in this browser, so this page needs JavaScript to list them. You can browse the collection or ask about any piece on WhatsApp without an account.",
     notesIntro: "How this list works",
     notesHeading: "A wishlist that never asks you to register.",
     notes: [
@@ -80,6 +83,9 @@ const COPY = {
     addAll: "সব ব্যাগে যোগ করুন",
     clear: "উইশলিস্ট খালি করুন",
     loading: "আপনার সংরক্ষিত গহনা আনা হচ্ছে…",
+    noscriptHeading: "উইশলিস্ট দেখতে জাভাস্ক্রিপ্ট প্রয়োজন",
+    noscriptBody:
+      "উইশলিস্ট আপনার ব্রাউজারে সংরক্ষিত থাকে, তাই তালিকাটি দেখাতে জাভাস্ক্রিপ্ট দরকার। অ্যাকাউন্ট ছাড়াই কালেকশন দেখতে পারেন বা হোয়াটসঅ্যাপে যেকোনো গহনা সম্পর্কে জিজ্ঞেস করতে পারেন।",
     notesIntro: "উইশলিস্ট কীভাবে কাজ করে",
     notesHeading: "এমন উইশলিস্ট, যেখানে রেজিস্ট্রেশন লাগে না।",
     notes: [
@@ -233,6 +239,13 @@ const buildPage = (lang) => {
 
     <div class="product-grid wishlist-grid" data-wishlist-page>
       <div class="wishlist-loading" role="status"><p>${config.loading}</p></div>
+      <noscript>
+        <div class="wishlist-empty">
+          <h2>${config.noscriptHeading}</h2>
+          <p>${config.noscriptBody}</p>
+          <a class="wishlist-empty-cta" href="/${lang}/shop/">${config.heroPrimary} <span>&#8594;</span></a>
+        </div>
+      </noscript>
     </div>
 
     <p class="wishlist-account-note" data-wishlist-account-note hidden></p>

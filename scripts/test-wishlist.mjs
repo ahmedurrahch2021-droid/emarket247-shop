@@ -133,6 +133,19 @@ const click = (element) => element.dispatchEvent(new element.ownerDocument.defau
   const missing = [...cards].filter((card) => !card.querySelector(".wishlist-btn"));
   check("every shop card carries a wishlist button", missing.length === 0, `${missing.length} without`);
 
+  // Structural regression: converting the header heart to a link must never
+  // consume another element's closing tag. An unbalanced </button> would leave
+  // the mobile menu button open and swallow the navigation that follows it.
+  const menuButton = document.querySelector("header .menu-toggle");
+  check(
+    "header markup stays balanced after the heart conversion",
+    Boolean(menuButton) &&
+      !menuButton.querySelector(".main-nav") &&
+      document.querySelector(".main-nav")?.closest("button") === null &&
+      document.querySelectorAll("header .icon-link").length >= 4,
+    menuButton ? `open buttons: ${document.querySelectorAll("button").length}` : "no menu toggle"
+  );
+
   const first = document.querySelector(".wishlist-btn");
   const slug = first.dataset.wishlistItem;
   const toggle = document.querySelector("[data-wishlist-toggle]");

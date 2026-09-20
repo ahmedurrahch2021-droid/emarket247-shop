@@ -30,17 +30,18 @@ const walk = (dir, out = []) => {
   return out;
 };
 
-// Any <button ... data-wishlist-toggle ...>…</button>, including the legacy
-// emoji variant on a couple of older pages.
-const BUTTON_PATTERN = /<button\b[^>]*data-wishlist-toggle[^>]*>/g;
+// A complete <button … data-wishlist-toggle …>…</button> element, including the
+// legacy emoji variant on a couple of older pages. The element is matched with
+// its own closing tag on purpose: a looser pattern once swallowed the next
+// unrelated </button> on the page and broke the mobile menu markup.
+const BUTTON_ELEMENT = /<button\b([^>]*data-wishlist-toggle[^>]*)>([\s\S]*?)<\/button>/g;
 
-const toLink = (tag, href) => {
-  const attributes = tag
-    .replace(/^<button\b/i, "")
-    .replace(/\/?>$/, "")
+const toLink = (attributes, inner, href) => {
+  const cleaned = attributes
     .replace(/\stype="button"/i, "")
+    .replace(/\s+/g, " ")
     .trim();
-  return `<a href="${href}"${attributes ? ` ${attributes}` : ""}>`;
+  return `<a href="${href}"${cleaned ? ` ${cleaned}` : ""}>${inner}</a>`;
 };
 
 let changed = 0;
@@ -56,10 +57,9 @@ for (const file of walk(TREE)) {
   if (!html.includes("data-wishlist-toggle")) continue;
   controls += (html.match(/data-wishlist-toggle/g) || []).length;
 
-  let next = html.replace(BUTTON_PATTERN, (tag) => toLink(tag, href));
-  // The matching closing tag of a converted control is the first </button>
-  // that follows it; converting precisely avoids touching unrelated buttons.
-  next = next.replace(/(<a\b[^>]*data-wishlist-toggle[^>]*>[\s\S]*?)<\/button>/g, "$1</a>");
+  const next = html.replace(BUTTON_ELEMENT, (_match, attributes, inner) =>
+    toLink(attributes, inner, href)
+  );
 
   if (next === html) {
     skipped += 1;
