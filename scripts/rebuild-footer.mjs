@@ -23,7 +23,7 @@ const socialRow = (l) =>
 
 const contactCol = (l) =>
   `<div class="footer-contact"><h3>${l === "bn" ? "যোগাযোগ" : "Contact"}</h3><ul class="footer-address">` +
-  `<li><strong>${l === "bn" ? "ঠিকানা" : "Address"}</strong>${l === "bn" ? "কালুকাত্রা, ইয়াকুবপুর, ঠাকুরগাঁও, বাংলাদেশ" : "Kaluktra, Yakubpur, Thakurgaon, Bangladesh"}</li>` +
+  `<li><strong>${l === "bn" ? "ঠিকানা" : "Address"}</strong>${l === "bn" ? "কালুকাত্রা, ইয়াকুবপুর, ঠাকুরগাঁও, বাংলাদেশ" : "Kalukhali, Yakubpur, Thakurgaon, Bangladesh"}</li>` +
   `<li><strong>${l === "bn" ? "ফোন" : "Phone"}</strong><a href="tel:+8801740501062">+880 1740-501062</a></li>` +
   `<li><strong>${l === "bn" ? "ইমেইল" : "Email"}</strong><a href="mailto:support@emarket247.shop">support@emarket247.shop</a></li></ul></div>`;
 

@@ -4244,7 +4244,7 @@ b.brand-name {
   color: var(--muted);
 }
 .footer-main h3 {
-  color: var(--ink);
+  color: var(--red);
 }
 .footer-main a:hover,
 .footer-main a:focus-visible {
