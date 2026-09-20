@@ -24,7 +24,7 @@ for (const f of walk("public_html")) {
   const label = isBN ? "অ্যাকাউন্ট খুলুন" : "Create an account";
   const copy = isBN
     ? "সাবস্ক্রিপশন ও অ্যাকাউন্ট আলাদা — চাইলে অ্যাকাউন্ট খুলে অর্ডার ও উইশলিস্ট এক জায়গায় রাখতে পারেন।"
-    : "Subscription and accounts are separate — you can also create an account to keep orders and your wishlist in one place.";
+    : "Subscription and accounts are separate — you can also create an account to keep orders in one place. Your wishlist already works in this browser without signing in.";
   const old = '<p>A formal consent and privacy workflow will be connected before newsletter collection goes live.</p>';
   const oldBN = 'সাবস্ক্রিপশন সংগ্রহ চালুর আগে অনুমোদিত সম্মতি প্রক্রিয়া যুক্ত করা হবে।';
   const invite = `<p class="newsletter-account-invite" data-account-invite>${copy} <a href="${langPath}account/">${label} →</a></p>`;
