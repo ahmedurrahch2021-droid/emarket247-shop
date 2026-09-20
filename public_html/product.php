@@ -222,7 +222,7 @@ function renderHeader($lang, $isBn, $catMap, $occasions, $categories, $I) {
     </div>
     <div class="header-icons">
       <a href="/' . $lang . '/account/" class="icon-link" aria-label="' . ($isBn ? 'অ্যাকাউন্ট' : 'Account') . '" title="' . ($isBn ? 'অ্যাকাউন্ট' : 'Account') . '">' . $I['user'] . '</a>
-      <button type="button" class="icon-link" aria-label="' . ($isBn ? 'উইশলিস্ট' : 'Wishlist') . '" title="' . ($isBn ? 'উইশলিস্ট' : 'Wishlist') . '" data-wishlist-toggle>' . $I['heart'] . '<i class="icon-badge">0</i></button>
+      <a href="/' . $lang . '/wishlist/" class="icon-link" aria-label="' . ($isBn ? 'উইশলিস্ট' : 'Wishlist') . '" title="' . ($isBn ? 'উইশলিস্ট' : 'Wishlist') . '" data-wishlist-toggle>' . $I['heart'] . '<i class="icon-badge">0</i></a>
       <a href="/' . $lang . '/shop/" class="icon-link" aria-label="' . ($isBn ? 'কার্ট' : 'Cart') . '" title="' . ($isBn ? 'কার্ট' : 'Cart') . '">' . $I['cart'] . '<i class="icon-badge">0</i></a>
       <button class="menu-toggle icon-link" type="button" aria-expanded="false" aria-controls="main-menu" aria-label="' . ($isBn ? 'মেনু' : 'Menu') . '" title="' . ($isBn ? 'মেনু' : 'Menu') . '">' . $I['menu'] . $I['close'] . '</button>
     </div>

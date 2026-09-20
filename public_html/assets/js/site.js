@@ -465,7 +465,260 @@
     }
   });
 
-  const productCard = (product) => {
+  /* ==========================================================================
+     SECTION F: WISHLIST — GUEST-FIRST, NO ACCOUNT REQUIRED
+     --------------------------------------------------------------------------
+     A visitor taps the heart on any product and it is saved in their own
+     browser, exactly like the shopping bag above: no sign-up, no e-mail, no
+     server round trip, nothing to accept. Only the product slug is stored, so
+     every displayed fact (title, price, image) still comes from the catalogue
+     and can never go stale. A signed-in customer's list is additionally
+     mirrored under their account key on this device.
+     ========================================================================== */
+
+  const WISHLIST_KEY = "emarket247_wishlist";
+  const WISHLIST_ACCOUNT_PREFIX = "emarket247_wishlist_account_";
+  const WISHLIST_EVENT = "emk:wishlist-change";
+  const WISHLIST_MAX_ITEMS = 120;
+  const WISHLIST_ICON = `<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0l-1 1-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1 7.8 7.8 7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.8Z"/></svg>`;
+
+  const bilingual = (en, bn) => (language === "bn" ? bn : en);
+
+  const wishlistPageUrl = () => `/${language}/wishlist/`;
+
+  // Slugs are the only thing ever stored, and only in a shape the catalogue
+  // can produce. Anything else is dropped rather than trusted.
+  const wishlistSlug = (value) => {
+    const slug = String(value ?? "").trim().toLowerCase();
+    return /^[a-z0-9][a-z0-9-]{1,90}$/.test(slug) ? slug : "";
+  };
+
+  const readWishlistStore = (key) => {
+    try {
+      const parsed = JSON.parse(localStorage.getItem(key) || "[]");
+      if (!Array.isArray(parsed)) return [];
+      return [...new Set(parsed.map(wishlistSlug).filter(Boolean))].slice(0, WISHLIST_MAX_ITEMS);
+    } catch {
+      return [];
+    }
+  };
+
+  const writeWishlistStore = (key, slugs) => {
+    try {
+      localStorage.setItem(key, JSON.stringify(slugs));
+      return true;
+    } catch {
+      // Private mode or blocked storage: the list still works for this visit,
+      // but the visitor is told it could not be kept instead of losing it.
+      return false;
+    }
+  };
+
+  // The signed-in user store lives in Section J, later in this file, so it is
+  // resolved through a resolver this section owns the default for.
+  let wishlistUserResolver = () => null;
+  const wishlistCurrentUser = () => {
+    try {
+      return wishlistUserResolver() || null;
+    } catch {
+      return null;
+    }
+  };
+
+  const wishlistAccountKey = () => {
+    const user = wishlistCurrentUser();
+    const identity = user ? (user.id ?? user.email ?? "") : "";
+    return identity === "" ? "" : `${WISHLIST_ACCOUNT_PREFIX}${String(identity)}`;
+  };
+
+  const getWishlist = () => readWishlistStore(WISHLIST_KEY);
+  const isWishlisted = (slug) => {
+    const id = wishlistSlug(slug);
+    return Boolean(id) && getWishlist().includes(id);
+  };
+
+  const updateWishlistCount = () => {
+    const count = getWishlist().length;
+    all("[data-wishlist-toggle]").forEach((control) => {
+      let badge = one(".icon-badge", control);
+      if (!badge) {
+        badge = document.createElement("i");
+        badge.className = "icon-badge";
+        control.appendChild(badge);
+      }
+      badge.textContent = String(count);
+      // A "0" badge is noise for a wishlist; hide it until something is saved.
+      badge.hidden = count === 0;
+      const base = bilingual("Wishlist", "উইশলিস্ট");
+      control.setAttribute("aria-label", count ? `${base} (${count})` : base);
+    });
+  };
+
+  // "reason" lets the wishlist page tell a visitor-initiated change from its own
+  // housekeeping (pruning a slug that is no longer published), so a notice the
+  // visitor needs to read is not wiped by the re-render that follows it.
+  const announceWishlistChange = (reason = "user") => {
+    document.dispatchEvent(new CustomEvent(WISHLIST_EVENT, { detail: { slugs: getWishlist(), reason } }));
+  };
+
+  const saveWishlist = (slugs, options = {}) => {
+    const { reason = "user" } = options;
+    const next = [...new Set(slugs.map(wishlistSlug).filter(Boolean))].slice(0, WISHLIST_MAX_ITEMS);
+    const persisted = writeWishlistStore(WISHLIST_KEY, next);
+    const accountKey = wishlistAccountKey();
+    if (accountKey) writeWishlistStore(accountKey, next);
+    updateWishlistCount();
+    // Every heart on the page reflects the new state immediately: the control a
+    // visitor just pressed must never keep showing the state it replaced.
+    repaintWishlistButtons();
+    announceWishlistChange(reason);
+    return persisted;
+  };
+
+  const wishlistItemName = (title) => String(title || "").trim() || bilingual("This piece", "এই পণ্যটি");
+
+  const addToWishlist = (slug, title) => {
+    const id = wishlistSlug(slug);
+    if (!id) return false;
+    if (isWishlisted(id)) return true;
+    if (!saveWishlist([id, ...getWishlist()])) {
+      showToast(
+        bilingual(
+          "Your browser is blocking saved items, so this wishlist cannot be kept on this device.",
+          "ব্রাউজার সংরক্ষণ ব্লক করায় এই ডিভাইসে উইশলিস্ট রাখা যাচ্ছে না।"
+        )
+      );
+      return false;
+    }
+    const name = wishlistItemName(title);
+    showToast(
+      language === "bn" ? `“${name}” উইশলিস্টে সংরক্ষিত হয়েছে।` : `Saved “${name}” to your wishlist.`,
+      bilingual("View wishlist →", "উইশলিস্ট দেখুন →"),
+      () => {
+        window.location.href = wishlistPageUrl();
+      }
+    );
+    return true;
+  };
+
+  const removeFromWishlist = (slug, title) => {
+    const id = wishlistSlug(slug);
+    if (!id || !isWishlisted(id)) return true;
+    saveWishlist(getWishlist().filter((item) => item !== id));
+    const name = wishlistItemName(title);
+    showToast(
+      language === "bn" ? `“${name}” উইশলিস্ট থেকে সরানো হয়েছে।` : `Removed “${name}” from your wishlist.`,
+      bilingual("Undo", "ফিরিয়ে আনুন"),
+      () => addToWishlist(id, title)
+    );
+    return true;
+  };
+
+  const toggleWishlist = (slug, title) =>
+    isWishlisted(slug) ? removeFromWishlist(slug, title) : addToWishlist(slug, title);
+
+  const wishlistButtonText = (saved) =>
+    saved ? bilingual("Saved to wishlist", "উইশলিস্টে সংরক্ষিত") : bilingual("Save to wishlist", "উইশলিস্টে সংরক্ষণ");
+
+  const wishlistLabel = (saved, title) => {
+    const name = String(title || "").trim();
+    const suffix = name ? `: ${name}` : "";
+    return saved
+      ? bilingual(`Remove from wishlist${suffix}`, `উইশলিস্ট থেকে সরান${suffix}`)
+      : bilingual(`Save to wishlist${suffix}`, `উইশলিস্টে সংরক্ষণ করুন${suffix}`);
+  };
+
+  const wishlistButtonMarkup = (slug, title, options = {}) => {
+    const id = wishlistSlug(slug);
+    if (!id) return "";
+    const { className = "wishlist-btn", withLabel = false } = options;
+    const saved = isWishlisted(id);
+    const label = wishlistLabel(saved, title);
+    const text = withLabel
+      ? `<span class="wishlist-btn-text">${esc(wishlistButtonText(saved))}</span>`
+      : "";
+    return `<button type="button" class="${className}${saved ? " is-active" : ""}" data-wishlist-item="${esc(id)}" data-wishlist-title="${esc(title || "")}" aria-pressed="${saved}" aria-label="${esc(label)}" title="${esc(label)}">${WISHLIST_ICON}${text}</button>`;
+  };
+
+  const paintWishlistButton = (button, savedSlugs = new Set(getWishlist())) => {
+    const saved = savedSlugs.has(wishlistSlug(button.dataset.wishlistItem));
+    button.classList.toggle("is-active", saved);
+    button.setAttribute("aria-pressed", String(saved));
+    const label = wishlistLabel(saved, button.dataset.wishlistTitle);
+    button.setAttribute("aria-label", label);
+    button.setAttribute("title", label);
+    const text = one(".wishlist-btn-text", button);
+    if (text) text.textContent = wishlistButtonText(saved);
+  };
+
+  // The saved set is read once per pass rather than once per button.
+  const repaintWishlistButtons = (scope = document) => {
+    const savedSlugs = new Set(getWishlist());
+    all("[data-wishlist-item]", scope).forEach((button) => paintWishlistButton(button, savedSlugs));
+  };
+
+  // Cards pre-rendered into the HTML by the catalogue generator get the same
+  // heart as the ones this script builds, so a saved product is never missing
+  // its control whichever layer drew the grid.
+  const enhanceProductCards = (scope = document) => {
+    all(".product-card", scope).forEach((card) => {
+      if (one("[data-wishlist-item]", card)) return;
+      const source = one("[data-product-slug]", card);
+      const link = one('a[href*="/products/"]', card);
+      const slug = wishlistSlug(
+        source?.dataset.productSlug || (link?.getAttribute("href") || "").match(/\/products\/([^/?#]+)/)?.[1]
+      );
+      if (!slug) return;
+      const title = source?.dataset.productTitle || one(".product-card-title", card)?.textContent?.trim() || "";
+      card.insertAdjacentHTML("afterbegin", wishlistButtonMarkup(slug, title));
+    });
+  };
+
+  const initPdpWishlist = () => {
+    const addBtn = one("#pdp-add-bag");
+    if (!addBtn) return;
+    const slug = wishlistSlug(addBtn.dataset.slug);
+    if (!slug) return;
+    const row = addBtn.closest(".pdp-actions-row") || addBtn.parentElement;
+    if (!row || one("[data-wishlist-item]", row)) return;
+    const title = addBtn.dataset.title || one(".pdp-title")?.textContent?.trim() || "";
+    row.insertAdjacentHTML(
+      "beforeend",
+      wishlistButtonMarkup(slug, title, { className: "wishlist-btn wishlist-btn-labelled", withLabel: true })
+    );
+  };
+
+  document.addEventListener("click", (e) => {
+    const removeBtn = e.target.closest("[data-wishlist-remove]");
+    if (removeBtn) {
+      e.preventDefault();
+      removeFromWishlist(removeBtn.dataset.wishlistRemove, removeBtn.dataset.wishlistTitle);
+      return;
+    }
+    const itemBtn = e.target.closest("[data-wishlist-item]");
+    if (itemBtn) {
+      e.preventDefault();
+      toggleWishlist(itemBtn.dataset.wishlistItem, itemBtn.dataset.wishlistTitle);
+      return;
+    }
+    // Pages served from cache of an earlier release still carry the header
+    // control as a <button>; current pages ship a real link and need no help.
+    const headerControl = e.target.closest("[data-wishlist-toggle]");
+    if (headerControl && headerControl.tagName !== "A") {
+      e.preventDefault();
+      window.location.href = wishlistPageUrl();
+    }
+  });
+
+  // Keep every open tab of a browser in step with the saved list.
+  window.addEventListener("storage", (event) => {
+    if (event.key !== WISHLIST_KEY) return;
+    updateWishlistCount();
+    repaintWishlistButtons();
+    announceWishlistChange();
+  });
+
+  const productCard = (product, options = {}) => {
     const pdpUrl = `/${language}/products/${esc(product.slug)}/`;
     const ctaText = language === "bn" ? "বিস্তারিত দেখুন →" : "View detail →";
     const waMsg = language === "bn"
@@ -482,7 +735,14 @@
       ? (language === "bn" ? "মূল্য জানতে যোগাযোগ করুন" : "Price on request")
       : `৳${priceNum.toLocaleString("en-US")}`;
 
+    // The heart sits as a sibling of the media link rather than inside it: a
+    // button nested in an anchor is invalid HTML and swallows keyboard focus.
+    const removeMarkup = options.showRemove
+      ? `<div class="wishlist-card-remove-wrap"><button type="button" class="wishlist-remove-btn" data-wishlist-remove="${esc(product.slug)}" data-wishlist-title="${esc(product.title)}">${language === "bn" ? "উইশলিস্ট থেকে সরান" : "Remove from wishlist"}</button></div>`
+      : "";
+
     return `<article class="product-card" data-product-id="${esc(product.id)}">
+      ${wishlistButtonMarkup(product.slug, product.title)}
       <a class="product-card-media" href="${pdpUrl}" aria-label="${esc(product.title)}">
         <img src="${esc(product.image.src)}" srcset="${esc(product.image.srcset || product.image.src)}" sizes="(max-width: 680px) 50vw, (max-width: 1000px) 50vw, 33vw" width="${esc(product.image.width)}" height="${esc(product.image.height)}" loading="lazy" alt="${esc(product.image.alt)}">
         <span class="product-card-badge">${esc(product.id)}</span>
@@ -505,6 +765,7 @@
         </a>
         <a class="product-card-cta" href="${pdpUrl}">${ctaText}</a>
       </div>
+      ${removeMarkup}
     </article>`;
   };
 
@@ -618,82 +879,95 @@
     render();
   };
 
+  // Source 1 — live database API (authoritative when reachable).
+  const recordsFromApi = async () => {
+    const response = await fetch(`/api/products.php`);
+    const data = await response.json();
+    if (!data.success || !Array.isArray(data.products) || !data.products.length) {
+      throw new Error("API response unsuccessful or empty");
+    }
+    // Map Database Record -> Frontend Product Object
+    return data.products.map((p, index) => ({
+      id: p.sku,
+      slug: p.slug,
+      title: language === "bn" ? p.title_bn : p.title_en,
+      category: p.category,
+      categoryLabel: p.category,
+      price: p.price,
+      pricePending: Number(p.is_price_pending) === 1,
+      status: p.is_active ? "ready" : "inactive",
+      image: {
+        src: p.image_url,
+        srcset: p.image_url,
+        width: 1200,
+        height: 1200,
+        alt: language === "bn" ? p.title_bn : p.title_en,
+        caption: language === "bn" ? p.lead_bn : p.lead_en
+      },
+      catalogIndex: index
+    }));
+  };
+
+  // Source 2 — the reviewed catalogue snapshot shipped with the site. It is
+  // the approved fallback layer when the database is unreachable, so the
+  // shop, category and wishlist views never go blank on an API failure.
+  const recordsFromCatalogue = async () => {
+    const response = await fetch(`/assets/data/catalog.${language}.json`);
+    const data = await response.json();
+    if (!Array.isArray(data.products) || !data.products.length) {
+      throw new Error("catalogue snapshot unavailable or empty");
+    }
+    return data.products.map((p, index) => ({
+      id: p.id,
+      slug: p.slug,
+      title: p.title,
+      category: p.category,
+      categoryLabel: p.categoryLabel || p.category,
+      price: p.price,
+      pricePending: !(Number(p.price) > 0),
+      status: p.status,
+      description: p.description,
+      image: p.image,
+      catalogIndex: index
+    }));
+  };
+
+  // One loader for every view that needs product records, so a saved slug
+  // always resolves to exactly the record the grid itself would show.
+  const loadCatalogRecords = async () => {
+    try {
+      return { source: "api", records: await recordsFromApi() };
+    } catch (apiErr) {
+      console.warn("Catalog API unavailable:", apiErr.message);
+      try {
+        return { source: "catalogue", records: await recordsFromCatalogue() };
+      } catch (jsonErr) {
+        console.error("Catalog Load Error (API and snapshot both failed):", jsonErr);
+        return { source: "none", records: null };
+      }
+    }
+  };
+
   all("[data-catalog]").forEach(async (host) => {
     // Static cards pre-rendered into the page are the last line of defence:
     // they must never be wiped unless real records arrived to replace them.
     const hasStaticCards = Boolean(one(".product-card", host));
+    const { source, records } = await loadCatalogRecords();
 
-    // Source 1 — live database API (authoritative when reachable).
-    const fromApi = async () => {
-      const response = await fetch(`/api/products.php`);
-      const data = await response.json();
-      if (!data.success || !Array.isArray(data.products) || !data.products.length) {
-        throw new Error("API response unsuccessful or empty");
-      }
-      // Map Database Record -> Frontend Product Object
-      return data.products.map((p, index) => ({
-        id: p.sku,
-        slug: p.slug,
-        title: language === "bn" ? p.title_bn : p.title_en,
-        category: p.category,
-        categoryLabel: p.category,
-        price: p.price,
-        pricePending: Number(p.is_price_pending) === 1,
-        status: p.is_active ? "ready" : "inactive",
-        image: {
-          src: p.image_url,
-          srcset: p.image_url,
-          width: 1200,
-          height: 1200,
-          alt: language === "bn" ? p.title_bn : p.title_en,
-          caption: language === "bn" ? p.lead_bn : p.lead_en
-        },
-        catalogIndex: index
-      }));
-    };
-
-    // Source 2 — the reviewed catalogue snapshot shipped with the site. It is
-    // the approved fallback layer when the database is unreachable, so the
-    // shop and category grids never go blank on an API failure.
-    const fromCatalogue = async () => {
-      const response = await fetch(`/assets/data/catalog.${language}.json`);
-      const data = await response.json();
-      if (!Array.isArray(data.products) || !data.products.length) {
-        throw new Error("catalogue snapshot unavailable or empty");
-      }
-      return data.products.map((p, index) => ({
-        id: p.id,
-        slug: p.slug,
-        title: p.title,
-        category: p.category,
-        categoryLabel: p.categoryLabel || p.category,
-        price: p.price,
-        pricePending: !(Number(p.price) > 0),
-        status: p.status,
-        description: p.description,
-        image: p.image,
-        catalogIndex: index
-      }));
-    };
-
-    let records = null;
-    try {
-      records = await fromApi();
-    } catch (apiErr) {
-      console.warn("Catalog API unavailable:", apiErr.message);
-      // The API is down. Pre-rendered static cards are the reviewed published
-      // state for this page — keep them untouched rather than replacing them
-      // with a snapshot subset. Only an empty host falls through to the
-      // catalogue snapshot so it never renders blank.
-      if (hasStaticCards) return;
-      try {
-        records = await fromCatalogue();
-      } catch (jsonErr) {
-        console.error("Catalog Load Error (API and snapshot both failed):", jsonErr);
-      }
+    // The API is down. Pre-rendered static cards are the reviewed published
+    // state for this page — keep them untouched rather than replacing them
+    // with a snapshot subset. Only an empty host renders the snapshot so it
+    // never goes blank.
+    if (source === "catalogue" && hasStaticCards) {
+      enhanceProductCards(host);
+      return;
     }
 
     if (!records) {
+      if (hasStaticCards) {
+        enhanceProductCards(host);
+        return;
+      }
       host.innerHTML = `<p>${esc(host.dataset.empty || (language === "bn" ? "পণ্যের তালিকা প্রস্তুত করা হচ্ছে।" : "Approved products are being prepared."))}</p>`;
       return;
     }
@@ -708,11 +982,186 @@
       // No live records for this view: keep static cards rather than wiping them.
       if (!hasStaticCards) {
         host.innerHTML = `<p class="catalog-empty">${language === "bn" ? "এই বিভাগের জন্য নিশ্চিত পণ্যের তথ্য এখনও প্রকাশের অপেক্ষায় আছে। সব পণ্য দেখতে শপ পেজে যান।" : "Verified product records for this category are awaiting publication. Visit Shop to browse all supplied images under review."}</p>`;
+      } else {
+        enhanceProductCards(host);
       }
       return;
     }
     buildControls(host, products, pageCategory);
   });
+
+  /* ==========================================================================
+     SECTION F: WISHLIST PAGE (/en/wishlist/ AND /bn/wishlist/)
+     --------------------------------------------------------------------------
+     The dedicated page reads the slugs saved in the visitor's browser and asks
+     the same two catalogue sources the grids use for their current facts, so a
+     saved piece can never display a stale title, price or image.
+     ========================================================================== */
+
+  const initWishlistPage = () => {
+    const host = one("[data-wishlist-page]");
+    if (!host) return;
+
+    const countEl = one("[data-wishlist-count]");
+    const toolbar = one("[data-wishlist-toolbar]");
+    const statusEl = one("[data-wishlist-status]");
+    const accountNote = one("[data-wishlist-account-note]");
+    let records = null;
+    let loadFailed = false;
+    // Set only when saved slugs were dropped because they are no longer
+    // published, so the visitor is told instead of silently losing a piece.
+    let pruneNotice = "";
+
+    const setStatus = (message) => {
+      if (statusEl) statusEl.textContent = message;
+    };
+
+    const emptyMarkup = () => `
+      <div class="wishlist-empty">
+        <svg width="52" height="52" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0l-1 1-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1 7.8 7.8 7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.8Z"/></svg>
+        <h2>${language === "bn" ? "আপনার উইশলিস্ট এখন খালি" : "Your wishlist is currently empty"}</h2>
+        ${pruneNotice ? `<p class="wishlist-status is-visible">${pruneNotice}</p>` : ""}
+        <p>${language === "bn" ? "পছন্দের গহনা সংরক্ষণ করতে যেকোনো পণ্যের ছবিতে হার্ট আইকনে ট্যাপ করুন — অ্যাকাউন্ট বা ইমেইল লাগবে না।" : "Tap the heart on any product to save it here — no account or e-mail needed, and nothing leaves your browser."}</p>
+        <a class="wishlist-empty-cta" href="/${language}/shop/">${language === "bn" ? "গহনা সংগ্রহ দেখুন →" : "Explore our jewellery collection →"}</a>
+        <p class="wishlist-empty-hint">${language === "bn" ? "শুরু করার জনপ্রিয় পথ:" : "Popular starting points:"} <a href="/${language}/categories/">${language === "bn" ? "ক্যাটাগরি" : "categories"}</a> · <a href="/${language}/occasions/">${language === "bn" ? "উপলক্ষ" : "occasions"}</a></p>
+      </div>`;
+
+    const loadingMarkup = () => `
+      <div class="wishlist-loading" role="status">
+        <p>${language === "bn" ? "আপনার সংরক্ষিত পণ্যগুলো আনা হচ্ছে…" : "Loading your saved pieces…"}</p>
+      </div>`;
+
+    const errorMarkup = () => `
+      <div class="wishlist-empty">
+        <h2>${language === "bn" ? "সংরক্ষিত পণ্যের তথ্য আনা যাচ্ছে না" : "Saved pieces could not be loaded"}</h2>
+        <p>${language === "bn" ? "আপনার উইশলিস্ট মুছে যায়নি — সংযোগ ফিরে এলে আবার চেষ্টা করুন।" : "Your wishlist is still saved in this browser. Try again once the connection is back."}</p>
+        <button type="button" class="wishlist-action-btn" data-wishlist-retry>${language === "bn" ? "আবার চেষ্টা করুন ↺" : "Try again ↺"}</button>
+        <p class="wishlist-empty-hint"><a href="/${language}/shop/">${language === "bn" ? "সব গহনা দেখুন" : "Browse all jewellery"}</a></p>
+      </div>`;
+
+    const renderAccountNote = () => {
+      if (!accountNote) return;
+      accountNote.hidden = false;
+      const user = wishlistCurrentUser();
+      if (user) {
+        const name = user.full_name || user.email || "";
+        accountNote.innerHTML =
+          language === "bn"
+            ? `<strong>${esc(name)}</strong> হিসেবে সাইন ইন করা আছে — আপনার উইশলিস্ট এই ব্রাউজারে আপনার অ্যাকাউন্টের সঙ্গে রাখা হয়। নিচের তালিকা থেকে যেকোনো সময় ব্যাগে যোগ করতে পারবেন।`
+            : `Signed in as <strong>${esc(name)}</strong>. Your wishlist is kept with your account in this browser, and you can add any saved piece to your bag below.`;
+        return;
+      }
+      accountNote.innerHTML =
+        language === "bn"
+          ? `অ্যাকাউন্ট ছাড়াই ব্যবহারযোগ্য — উইশলিস্ট এই ব্রাউজারে সংরক্ষিত থাকে। চাইলে <a href="/bn/account/">অ্যাকাউন্ট খুলে</a> অর্ডার ও উইশলিস্ট একসাথে রাখতে পারেন।`
+          : `No account needed — your wishlist is stored in this browser. You can <a href="/en/account/">create an account</a> to keep your orders and wishlist together.`;
+    };
+
+    const render = () => {
+      const slugs = getWishlist();
+      if (countEl) countEl.textContent = String(slugs.length);
+      if (toolbar) toolbar.hidden = slugs.length === 0;
+      renderAccountNote();
+
+      if (!slugs.length) {
+        setStatus("");
+        host.innerHTML = emptyMarkup();
+        return;
+      }
+      if (loadFailed) {
+        host.innerHTML = errorMarkup();
+        one("[data-wishlist-retry]", host)?.addEventListener("click", load);
+        return;
+      }
+      if (!records) {
+        host.innerHTML = loadingMarkup();
+        return;
+      }
+
+      const bySlug = new Map(records.map((record) => [record.slug, record]));
+      const products = slugs.map((slug) => bySlug.get(slug)).filter(Boolean);
+      const missing = slugs.filter((slug) => !bySlug.has(slug));
+
+      if (missing.length) {
+        // A saved slug with no approved record any more (unpublished, renamed
+        // or retired). Prune it so the page never lists an unreviewed item,
+        // then let this same render run again from the change event.
+        pruneNotice =
+          language === "bn"
+            ? `${missing.length}টি সংরক্ষিত পণ্য আর প্রকাশিত নেই, তাই উইশলিস্ট থেকে সরানো হয়েছে।`
+            : `${missing.length} saved ${missing.length === 1 ? "piece is" : "pieces are"} no longer published and ${missing.length === 1 ? "was" : "were"} removed from your wishlist.`;
+        setStatus(pruneNotice);
+        saveWishlist(
+          slugs.filter((slug) => !missing.includes(slug)),
+          { reason: "prune" }
+        );
+        return;
+      }
+
+      setStatus(pruneNotice);
+      host.innerHTML = products.map((product) => productCard(product, { showRemove: true })).join("");
+    };
+
+    const load = async () => {
+      loadFailed = false;
+      records = null;
+      render();
+      const { records: loaded } = await loadCatalogRecords();
+      if (!loaded) {
+        loadFailed = true;
+        render();
+        return;
+      }
+      // Only published records may be shown, exactly as the grids do.
+      records = loaded.filter((record) => record.status === "ready");
+      render();
+    };
+
+    one("[data-wishlist-add-all]")?.addEventListener("click", () => {
+      const bySlug = new Map((records || []).map((record) => [record.slug, record]));
+      const products = getWishlist().map((slug) => bySlug.get(slug)).filter(Boolean);
+      if (!products.length) return;
+      products.forEach((product) =>
+        addToBag(
+          {
+            id: product.id,
+            title: product.title,
+            slug: product.slug,
+            image: product.image?.src || "",
+            category: product.categoryLabel
+          },
+          1
+        )
+      );
+      showToast(
+        language === "bn"
+          ? `${products.length}টি পণ্য আপনার ব্যাগে যোগ হয়েছে।`
+          : `${products.length} ${products.length === 1 ? "piece" : "pieces"} added to your bag.`,
+        language === "bn" ? "ব্যাগ দেখুন →" : "View bag →",
+        openBagDrawer
+      );
+    });
+
+    one("[data-wishlist-clear]")?.addEventListener("click", () => {
+      const question =
+        language === "bn"
+          ? "উইশলিস্ট থেকে সব সংরক্ষিত পণ্য সরিয়ে ফেলবেন?"
+          : "Remove every saved piece from your wishlist?";
+      if (!window.confirm(question)) return;
+      saveWishlist([]);
+      showToast(language === "bn" ? "উইশলিস্ট খালি করা হয়েছে।" : "Your wishlist is now empty.");
+    });
+
+    // Any change made anywhere on the page (a heart, a remove button, another
+    // tab) re-renders this grid from the single stored list. Only the page's
+    // own pruning keeps its notice: a visitor's next action clears it.
+    document.addEventListener(WISHLIST_EVENT, (event) => {
+      if (event.detail?.reason !== "prune") pruneNotice = "";
+      render();
+    });
+    render();
+    load();
+  };
 
   // PDP Interactivity (Quantity Stepper, Add to Bag, Share Piece)
   const initPdpFeatures = () => {
@@ -917,6 +1366,30 @@
   const getCurrentUser = () => _currentUser;
   const setCurrentUser = (user) => { _currentUser = user; updateNavAccount(); };
 
+  // ---------------------------------------------------------------------------
+  // Wishlist <-> account bridge (see Section F).
+  //
+  // The wishlist itself never requires an account. When one is signed in, the
+  // list saved in this browser is mirrored under that account's own key, and a
+  // returning customer's mirrored list is merged back in, so two customers
+  // using the same browser never inherit each other's saved pieces. Nothing is
+  // uploaded: this stays a per-device, per-account copy of the visitor's list.
+  // ---------------------------------------------------------------------------
+  wishlistUserResolver = getCurrentUser;
+
+  const mergeWishlistWithAccount = () => {
+    const accountKey = wishlistAccountKey();
+    if (!accountKey) return;
+    const saved = getWishlist();
+    const merged = [...new Set([...saved, ...readWishlistStore(accountKey)])].slice(0, WISHLIST_MAX_ITEMS);
+    writeWishlistStore(accountKey, merged);
+    if (merged.length === saved.length) return;
+    writeWishlistStore(WISHLIST_KEY, merged);
+    updateWishlistCount();
+    repaintWishlistButtons();
+    announceWishlistChange();
+  };
+
   // Sync auth state with server
   const syncAuthState = async () => {
     const res = await hostingerApi.get("auth.php?action=get_session");
@@ -1010,6 +1483,11 @@
         const statBag = one("#stat-user-bag-items");
         if (statInquiries) statInquiries.textContent = String(userOrders.length);
         if (statBag) statBag.textContent = String(bag.length);
+
+        // The wishlist stays optional for guests; a signed-in customer simply
+        // sees what is already saved in this browser next to their bag count.
+        const wishlistCount = one("#user-wishlist-count");
+        if (wishlistCount) wishlistCount.textContent = String(getWishlist().length);
 
         // Populate Recent Orders in Overview
         const overviewOrders = one("#recent-orders-overview");
@@ -1229,6 +1707,12 @@
         showToast(language === "bn" ? "সফলভাবে লগআউট করা হয়েছে।" : "Logged out successfully.");
         renderAccountView();
       }
+    });
+
+    // Saving or removing a piece elsewhere in the dashboard updates the count.
+    document.addEventListener(WISHLIST_EVENT, () => {
+      const wishlistCount = one("#user-wishlist-count");
+      if (wishlistCount) wishlistCount.textContent = String(getWishlist().length);
     });
 
     renderAccountView();
@@ -2048,12 +2532,20 @@
     initCustomerAccount();
     initAdminDashboard();
     initPdpFeatures();
+    // Only after the session is known: merges a returning customer's saved
+    // pieces back into the list in this browser.
+    mergeWishlistWithAccount();
   });
   initHeaderSearch();
   initOccasionCards();
   initCategoryCarousel();
   hydratePdpPrice();
   updateBagCount();
+  updateWishlistCount();
+  repaintWishlistButtons();
+  enhanceProductCards();
+  initPdpWishlist();
+  initWishlistPage();
 })();
 
 
