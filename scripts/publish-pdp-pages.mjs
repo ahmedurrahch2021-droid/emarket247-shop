@@ -539,8 +539,9 @@ function buildPdp(product, lang, relatedProducts) {
     : 'A modern destination for jewellery that carries the moment.';
 
   const socialFacebookUrl = 'https://web.facebook.com/Emarket247bd';
-  const socialFacebookAria = 'eMarket247 on Facebook';
+  const socialFacebookAria = isBn ? 'eMarket247 Facebook-এ' : 'eMarket247 on Facebook';
   const socialInstagramAria = isBn ? 'Instagram — শীঘ্রই আসছে' : 'Instagram — coming soon';
+  const socialLinkedInAria = isBn ? 'LinkedIn — শীঘ্রই আসছে' : 'LinkedIn — coming soon';
   const socialTiktokAria   = isBn ? 'TikTok — শীঘ্রই আসছে' : 'TikTok — coming soon';
 
   // ── Assemble ─────────────────────────────────────────────────────────────
@@ -771,18 +772,18 @@ function buildPdp(product, lang, relatedProducts) {
       <div class="footer-brand">
         <img src="/assets/images/brand/emarket247-logo-transparent.png" width="180" height="94" alt="eMarket247 Fashion & Jewellery">
         <p>${footerDisclaimer}</p>
-        <div class="footer-social">
+        <div class="footer-social" aria-label="${isBn ? 'সোশ্যাল মিডিয়া' : 'Social media'}">
           <a href="${socialFacebookUrl}" target="_blank" rel="noopener noreferrer" aria-label="${socialFacebookAria}" class="social-link social-facebook">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="#1877F2" aria-hidden="true" focusable="false"><path d="M24 12a12 12 0 1 0-13.86 11.87V15.47h-2.72v-3.35h2.72v-2.55c0-2.7 1.6-4.2 4.06-4.2 1.18 0 2.42.21 2.42.21v2.66h-1.36c-1.34 0-1.76.83-1.76 1.69v2.03h3l-.5 3.35h-2.53V24A12 12 0 0 0 24 12Z"/></svg>
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="12" fill="#0866FF"/><path d="M13.65 23.83v-9.17h3.08l.46-3.58h-3.54V8.8c0-1.04.29-1.74 1.77-1.74h1.89V3.86c-.33-.04-1.45-.14-2.76-.14-2.73 0-4.6 1.67-4.6 4.73v2.64H6.87v3.58h3.08v9.17A12.06 12.06 0 0 0 12 24c.56 0 1.11-.04 1.65-.17z" fill="#FFFFFF"/></svg>
           </a>
           <span class="social-placeholder" title="${socialInstagramAria}" aria-label="${socialInstagramAria}">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#665f5a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4.5"/><circle cx="17.5" cy="6.5" r="0.8" fill="#665f5a" stroke="none"/></svg>
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><defs><linearGradient id="ig-grad-pdp" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#FFD521"/><stop offset="30%" stop-color="#F50000"/><stop offset="65%" stop-color="#B900B4"/><stop offset="100%" stop-color="#4F5BD5"/></linearGradient></defs><rect width="24" height="24" rx="6" fill="url(#ig-grad-pdp)"/><rect x="3.8" y="3.8" width="16.4" height="16.4" rx="4.5" fill="none" stroke="#FFFFFF" stroke-width="1.8"/><circle cx="12" cy="12" r="4.1" fill="none" stroke="#FFFFFF" stroke-width="1.8"/><circle cx="17.1" cy="6.9" r="1.1" fill="#FFFFFF"/></svg>
+          </span>
+          <span class="social-placeholder" title="${socialLinkedInAria}" aria-label="${socialLinkedInAria}">
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><rect width="24" height="24" rx="4.8" fill="#0A66C2"/><path d="M5.5 8.5h2.8V18H5.5V8.5zM6.9 4.8a1.6 1.6 0 1 1 0 3.2 1.6 1.6 0 0 1 0-3.2zM18.5 18h-2.8v-4.7c0-1.2-.4-2-1.5-2-.8 0-1.3.6-1.5 1.1-.1.2-.1.5-.1.8V18H9.8V8.5h2.8v1.3c.4-.6 1.1-1.5 2.7-1.5 2 0 3.2 1.3 3.2 4.1V18z" fill="#FFFFFF"/></svg>
           </span>
           <span class="social-placeholder" title="${socialTiktokAria}" aria-label="${socialTiktokAria}">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="#665f5a" aria-hidden="true" focusable="false"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.19 8.19 0 0 0 4.78 1.53V7.08a4.86 4.86 0 0 1-1-.39Z"/></svg>
-          </span>
-          <span class="social-placeholder" title="${isBn ? 'WhatsApp — শীঘ্রই আসছে' : 'WhatsApp — coming soon'}" aria-label="${isBn ? 'WhatsApp — শীঘ্রই আসছে' : 'WhatsApp — coming soon'}">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="#665f5a" aria-hidden="true" focusable="false"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347Z"/></svg>
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><rect width="24" height="24" rx="5" fill="#000000"/><g fill-rule="evenodd"><path d="M16.6 8.5c-.8-.4-1.4-1.1-1.6-2V4.5h-2.5v10.3a2.3 2.3 0 1 1-2.3-2.3c.2 0 .5.04.7.1V7.1a5.6 5.6 0 0 0-.7-.04 5.8 5.8 0 1 0 5.8 5.8V7.5c1.1.8 2.5 1.3 4 1.3V6.3c-.5 0-1-.1-1.4-.3z" fill="#FE2C55"/><path d="M16.2 8.1c-.8-.4-1.4-1.1-1.6-2V4.1h-2.5v10.3a2.3 2.3 0 1 1-2.3-2.3c.2 0 .5.04.7.1V6.7a5.6 5.6 0 0 0-.7-.04 5.8 5.8 0 1 0 5.8 5.8V7.1c1.1.8 2.5 1.3 4 1.3V5.9c-.5 0-1-.1-1.4-.3z" fill="#25F4EE"/><path d="M16.4 8.3c-.8-.4-1.4-1.1-1.6-2V4.3h-2.5v10.3a2.3 2.3 0 1 1-2.3-2.3c.2 0 .5.04.7.1V6.9a5.6 5.6 0 0 0-.7-.04 5.8 5.8 0 1 0 5.8 5.8V7.3c1.1.8 2.5 1.3 4 1.3V6.1c-.5 0-1-.1-1.4-.3z" fill="#FFFFFF"/></g></svg>
           </span>
         </div>
       </div>

@@ -7,8 +7,8 @@ const root = "public_html";
 
 /* ── Address block (appended inside the brand column, after its <p>) ───────── */
 const ADDRESS = {
-  en: `<ul class="footer-address"><li><strong>Address</strong>Kalukhali, Yakubpur, Thakurgaon, Bangladesh</li><li><strong>Phone</strong><a href="tel:+8801740501062">+880 1740-501062</a></li><li><strong>Email</strong><a href="mailto:support@emarket247.shop">support@emarket247.shop</a></li></ul>`,
-  bn: `<ul class="footer-address"><li><strong>ঠিকানা</strong>কালুকাত্রা, ইয়াকুবপুর, ঠাকুরগাঁও, বাংলাদেশ</li><li><strong>ফোন</strong><a href="tel:+8801740501062">+880 1740-501062</a></li><li><strong>ইমেইল</strong><a href="mailto:support@emarket247.shop">support@emarket247.shop</a></li></ul>`,
+  en: `<ul class="footer-address"><li><strong>Address</strong>Kalukhetra, Yakubpur, Thakurgaon, Bangladesh</li><li><strong>Phone</strong><a href="tel:+8801740501062">+880 1740-501062</a></li><li><strong>Email</strong><a href="mailto:support@emarket247.shop">support@emarket247.shop</a></li></ul>`,
+  bn: `<ul class="footer-address"><li><strong>ঠিকানা</strong>কালুক্ষেত্র, ইয়াকুবপুর, ঠাকুরগাঁও, বাংলাদেশ</li><li><strong>ফোন</strong><a href="tel:+8801740501062">+880 1740-501062</a></li><li><strong>ইমেইল</strong><a href="mailto:support@emarket247.shop">support@emarket247.shop</a></li></ul>`,
 };
 
 /* ── Payment-marks row (inserted just before .footer-bottom) ───────────────── */

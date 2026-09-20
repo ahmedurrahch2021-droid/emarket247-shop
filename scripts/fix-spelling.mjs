@@ -1,6 +1,6 @@
 // Fix the footer address spelling across all pages and the generator.
-// "Kaluktra" -> "Kalukhali" (Union: Kalukhali, Yakubpur, Thakurgaon).
-// EN text only; the BN address is already correct Bengali. Idempotent.
+// Replace "Kalukhali" with "Kalukhetra" (Kalukhetra, Yakubpur, Thakurgaon).
+// Idempotent.
 import { readFileSync, writeFileSync, readdirSync } from "node:fs";
 
 const root = "public_html";
@@ -16,8 +16,8 @@ const walk = (dir, out = []) => {
 let fixed = 0;
 for (const file of walk(root)) {
   let s = readFileSync(file, "utf8");
-  if (s.includes("Kaluktra")) {
-    s = s.split("Kaluktra").join("Kalukhali");
+  if (s.includes("Kalukhali") || s.includes("Kaluktra")) {
+    s = s.split("Kalukhali").join("Kalukhetra").split("Kaluktra").join("Kalukhetra");
     writeFileSync(file, s, "utf8");
     fixed++;
   }
@@ -27,8 +27,8 @@ for (const file of walk(root)) {
 for (const g of ["scripts/rebuild-footer.mjs", "scripts/update-footer.mjs"]) {
   try {
     let s = readFileSync(g, "utf8");
-    if (s.includes("Kaluktra")) {
-      s = s.split("Kaluktra").join("Kalukhali");
+    if (s.includes("Kalukhali") || s.includes("Kaluktra")) {
+      s = s.split("Kalukhali").join("Kalukhetra").split("Kaluktra").join("Kalukhetra");
       writeFileSync(g, s, "utf8");
       console.log("generator fixed:", g);
     }
