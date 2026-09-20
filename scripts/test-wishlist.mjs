@@ -39,8 +39,47 @@ const TYPES = {
   ".svg": "image/svg+xml",
 };
 
+// Scripted API so the account-sync path can be exercised: the storefront talks
+// to these two endpoints exactly as it does against Hostinger.
+const api = {
+  signedIn: false,
+  user: { id: 7, full_name: "Priya Customer", email: "priya@example.com", role: "customer" },
+  items: [],
+  calls: [],
+  reset({ signedIn = false, items = [] } = {}) {
+    this.signedIn = signedIn;
+    this.items = [...items];
+    this.calls = [];
+  },
+};
+
 const server = createServer(async (request, response) => {
   const clean = decodeURIComponent((request.url || "/").split("?")[0]);
+
+  if (clean.startsWith("/api/")) {
+    api.calls.push({ url: clean + (request.url.includes("?") ? `?${request.url.split("?")[1]}` : ""), method: request.method });
+    let body = "";
+    for await (const chunk of request) body += chunk;
+    const json = (payload, status = 200) => {
+      response.writeHead(status, { "Content-Type": "application/json; charset=utf-8" });
+      response.end(JSON.stringify(payload));
+    };
+    if (clean === "/api/auth.php") {
+      api.calls[api.calls.length - 1].body = body;
+      return json({ success: true, csrf_token: "test-token", user: api.signedIn ? api.user : null });
+    }
+    if (clean === "/api/wishlist.php") {
+      if (!api.signedIn) return json({ success: false, error: "Unauthorized Access." }, 401);
+      if (request.method === "GET") return json({ success: true, items: api.items });
+      const payload = body ? JSON.parse(body) : {};
+      if (payload.action === "replace") api.items = Array.isArray(payload.slugs) ? [...payload.slugs] : [];
+      if (payload.action === "clear") api.items = [];
+      api.calls[api.calls.length - 1].body = body;
+      return json({ success: true, items: api.items });
+    }
+    return json({ success: false, error: "Unknown endpoint." }, 404);
+  }
+
   const wanted = clean.endsWith("/") ? `${clean}index.html` : clean;
   try {
     const body = await readFile(path.join(SITE, `.${wanted}`));
@@ -97,7 +136,8 @@ const check = (label, condition, detail = "") => {
 
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const openPage = async (url, { seed = null } = {}) => {
+const openPage = async (url, { seed = null, signedIn = false, serverItems = [], blockedStorage = false } = {}) => {
+  api.reset({ signedIn, items: serverItems });
   const dom = await JSDOM.fromURL(`${origin}${url}`, {
     runScripts: "dangerously",
     resources,
@@ -110,6 +150,21 @@ const openPage = async (url, { seed = null } = {}) => {
       window.fetch = (input, init) => fetch(new URL(String(input), `${origin}${url}`), init);
       window.matchMedia = () => ({ matches: false, addEventListener() {}, removeEventListener() {} });
       window.confirm = () => true;
+      if (blockedStorage) {
+        // Private windows and hardened privacy settings can make storage throw
+        // on access. "local" is the common case (a session copy still answers);
+        // "all" is the worst case, where nothing can be kept at all. The
+        // wishlist must keep working in both.
+        const blocked = blockedStorage === "all" ? ["localStorage", "sessionStorage"] : ["localStorage"];
+        for (const name of blocked) {
+          Object.defineProperty(window, name, {
+            configurable: true,
+            get() {
+              throw new Error(`${name} is blocked`);
+            },
+          });
+        }
+      }
       if (seed) window.localStorage.setItem("emarket247_wishlist", JSON.stringify(seed));
     },
   });
@@ -242,6 +297,120 @@ const click = (element) => element.dispatchEvent(new element.ownerDocument.defau
   check("bn empty state is localised", document.querySelector(".wishlist-empty")?.textContent.includes("উইশলিস্ট এখন খালি"));
   check("bn empty state links to the bn shop", document.querySelector(".wishlist-empty-cta")?.getAttribute("href") === "/bn/shop/");
   check("bn page rendered its own header heart", Boolean(document.querySelector(".icon-badge")));
+  dom.window.close();
+}
+
+// ---------------------------------------------------------------------------
+// 5. Guest isolation: a guest's wishlist never leaves the browser.
+// ---------------------------------------------------------------------------
+{
+  const dom = await openPage("/en/shop/");
+  const { document } = dom.window;
+  click(document.querySelector(".wishlist-btn"));
+  await wait(900); // longer than the 600 ms push debounce
+  const wishlistCalls = api.calls.filter((call) => call.url.startsWith("/api/wishlist.php"));
+  check("a guest never calls the wishlist API", wishlistCalls.length === 0, JSON.stringify(wishlistCalls));
+  dom.window.close();
+}
+
+// ---------------------------------------------------------------------------
+// 6. Signed in: browser and account lists are unioned, and changes are stored.
+// ---------------------------------------------------------------------------
+{
+  const localSlug = "emarket247-bangles-17";
+  const accountSlug = "emarket247-earrings-32";
+  const dom = await openPage("/en/wishlist/", {
+    seed: [localSlug],
+    signedIn: true,
+    serverItems: [accountSlug],
+  });
+  const { document, localStorage } = dom.window;
+
+  await wait(900); // let the debounced account push land
+  const stored = JSON.parse(localStorage.getItem("emarket247_wishlist") || "[]");
+  check(
+    "signing in merges the account list with the browser list",
+    stored.includes(localSlug) && stored.includes(accountSlug),
+    JSON.stringify(stored)
+  );
+  const serverPush = api.calls.find((call) => call.url.startsWith("/api/wishlist.php") && call.method !== "GET");
+  check(
+    "the browser-only piece is pushed to the account",
+    Boolean(serverPush) && JSON.parse(serverPush.body).action === "replace" &&
+      JSON.parse(serverPush.body).slugs.includes(localSlug),
+    serverPush ? serverPush.body : "no write"
+  );
+  check("both merged pieces render on the page", document.querySelectorAll(".product-card").length === 2);
+  check(
+    "the signed-in note promises the account copy",
+    document.querySelector("[data-wishlist-account-note]").textContent.includes("saved to your account")
+  );
+
+  const accountSlugHeart = document.querySelector(`.wishlist-btn[data-wishlist-item="${accountSlug}"]`);
+  click(accountSlugHeart);
+  await wait(900);
+  const lastWrite = api.calls.filter((call) => call.method !== "GET" && call.url.startsWith("/api/wishlist.php")).pop();
+  check(
+    "removing a piece is stored on the account too",
+    Boolean(lastWrite) && !JSON.parse(lastWrite.body).slugs.includes(accountSlug),
+    lastWrite ? lastWrite.body : "no write"
+  );
+  check("no CSRF-tokenless write is possible", api.calls.some((call) => call.url.startsWith("/api/auth.php")));
+  dom.window.close();
+}
+
+// ---------------------------------------------------------------------------
+// 7. Blocked storage: the wishlist still works, and says what it can keep.
+// ---------------------------------------------------------------------------
+{
+  // 7a. localStorage is unavailable, but the browser still keeps a session copy.
+  const dom = await openPage("/en/shop/", { blockedStorage: "local" });
+  const { document, sessionStorage } = dom.window;
+  const heart = document.querySelector(".wishlist-btn");
+  click(heart);
+  await wait(150);
+  const slug = heart.dataset.wishlistItem;
+  check(
+    "with localStorage blocked the piece is still saved for the visit",
+    document.querySelector(`.wishlist-btn[data-wishlist-item="${slug}"]`).classList.contains("is-active") &&
+      JSON.parse(sessionStorage.getItem("emarket247_wishlist") || "[]").includes(slug)
+  );
+  check("the header badge still counts it", document.querySelector("[data-wishlist-toggle] .icon-badge").textContent === "1");
+  check(
+    "the visitor is told the limit instead of being misled",
+    document.querySelector(".toast").textContent.includes("for this visit"),
+    document.querySelector(".toast").textContent
+  );
+  dom.window.close();
+}
+
+{
+  // 7b. Every storage layer is blocked: nothing can be kept, and the page says
+  // so — while the piece still goes into the bag, so the visit is never a dead
+  // end.
+  const dom = await openPage("/en/shop/", { blockedStorage: "all" });
+  const { document } = dom.window;
+  const card = document.querySelector(".product-card");
+  const heart = card.querySelector(".wishlist-btn");
+  click(heart);
+  await wait(150);
+  check(
+    "with all storage blocked the page still responds without error",
+    heart.classList.contains("is-active") &&
+      document.querySelector("[data-wishlist-toggle] .icon-badge").textContent === "1"
+  );
+  check(
+    "the visitor is told the list cannot be kept, not that it was saved",
+    document.querySelector(".toast").textContent.includes("cannot be kept"),
+    document.querySelector(".toast").textContent
+  );
+  click(card.querySelector("[data-add-bag]"));
+  await wait(150);
+  check(
+    "the piece can still go to the bag or WhatsApp from a blocked browser",
+    card.querySelector("[data-add-bag]").classList.contains("is-added") &&
+      Boolean(card.querySelector(".product-card-wa-btn"))
+  );
   dom.window.close();
 }
 

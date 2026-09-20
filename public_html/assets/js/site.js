@@ -493,36 +493,94 @@
     return /^[a-z0-9][a-z0-9-]{1,90}$/.test(slug) ? slug : "";
   };
 
-  const readWishlistStore = (key) => {
+  // Browsers can block or discard storage (private windows, hardened privacy
+  // settings, storage pressure). The list therefore has three layers and uses
+  // the strongest one that answers: the device (survives), the session (this
+  // visit) and memory (this page). A visitor whose browser blocks saved items
+  // can still build a wishlist and add it to the bag.
+  const wishlistMemory = new Map();
+
+  const wishlistStoreLayers = () => {
+    const layers = [];
     try {
-      const parsed = JSON.parse(localStorage.getItem(key) || "[]");
-      if (!Array.isArray(parsed)) return [];
-      return [...new Set(parsed.map(wishlistSlug).filter(Boolean))].slice(0, WISHLIST_MAX_ITEMS);
+      if (window.localStorage) layers.push({ store: window.localStorage, level: "device" });
     } catch {
-      return [];
+      // localStorage access itself can throw when the browser blocks it.
     }
+    try {
+      if (window.sessionStorage) layers.push({ store: window.sessionStorage, level: "session" });
+    } catch {}
+    layers.push({
+      store: {
+        getItem: (key) => (wishlistMemory.has(key) ? wishlistMemory.get(key) : null),
+        setItem: (key, value) => wishlistMemory.set(key, value),
+      },
+      level: "memory",
+    });
+    return layers;
   };
 
-  const writeWishlistStore = (key, slugs) => {
-    try {
-      localStorage.setItem(key, JSON.stringify(slugs));
-      return true;
-    } catch {
-      // Private mode or blocked storage: the list still works for this visit,
-      // but the visitor is told it could not be kept instead of losing it.
-      return false;
+  const normalizeWishlistSlugs = (parsed) =>
+    Array.isArray(parsed)
+      ? [...new Set(parsed.map(wishlistSlug).filter(Boolean))].slice(0, WISHLIST_MAX_ITEMS)
+      : null;
+
+  const readWishlistStore = (key) => {
+    for (const layer of wishlistStoreLayers()) {
+      let raw = null;
+      try {
+        raw = layer.store.getItem(key);
+      } catch {
+        raw = null;
+      }
+      if (raw === null || raw === undefined) continue;
+      try {
+        const slugs = normalizeWishlistSlugs(JSON.parse(raw));
+        if (slugs) return slugs;
+      } catch {
+        // A corrupted entry must not take the page down; treat it as empty.
+      }
     }
+    return [];
+  };
+
+  // Writes to every layer so they agree, and reports the strongest level the
+  // list was actually kept at: "device", "session" or "memory".
+  const writeWishlistStore = (key, slugs) => {
+    const value = JSON.stringify(slugs);
+    let level = "memory";
+    for (const layer of wishlistStoreLayers()) {
+      try {
+        layer.store.setItem(key, value);
+        if (level === "memory") level = layer.level;
+      } catch {}
+    }
+    return level;
   };
 
   // The signed-in user store lives in Section J, later in this file, so it is
-  // resolved through a resolver this section owns the default for.
+  // resolved through a resolver this section owns the default for. The API
+  // wrapper is wired the same way, and stays null on a static preview.
   let wishlistUserResolver = () => null;
+  let wishlistApi = null;
+  let wishlistPushTimer = 0;
+
   const wishlistCurrentUser = () => {
     try {
       return wishlistUserResolver() || null;
     } catch {
       return null;
     }
+  };
+
+  // Debounced so a burst of taps becomes one request, and only ever called for
+  // a signed-in customer: a guest makes no wishlist request at all.
+  const pushWishlistToServer = (slugs) => {
+    if (!wishlistApi || !wishlistCurrentUser()) return;
+    window.clearTimeout(wishlistPushTimer);
+    wishlistPushTimer = window.setTimeout(() => {
+      wishlistApi.call("wishlist.php", { action: "replace", slugs });
+    }, 600);
   };
 
   const wishlistAccountKey = () => {
@@ -562,9 +620,9 @@
   };
 
   const saveWishlist = (slugs, options = {}) => {
-    const { reason = "user" } = options;
+    const { reason = "user", sync = true } = options;
     const next = [...new Set(slugs.map(wishlistSlug).filter(Boolean))].slice(0, WISHLIST_MAX_ITEMS);
-    const persisted = writeWishlistStore(WISHLIST_KEY, next);
+    const level = writeWishlistStore(WISHLIST_KEY, next);
     const accountKey = wishlistAccountKey();
     if (accountKey) writeWishlistStore(accountKey, next);
     updateWishlistCount();
@@ -572,7 +630,10 @@
     // visitor just pressed must never keep showing the state it replaced.
     repaintWishlistButtons();
     announceWishlistChange(reason);
-    return persisted;
+    // A signed-in customer's own list is mirrored to their account so it opens
+    // on another device. Guests never cause a request.
+    if (sync) pushWishlistToServer(next);
+    return level;
   };
 
   const wishlistItemName = (title) => String(title || "").trim() || bilingual("This piece", "এই পণ্যটি");
@@ -581,7 +642,14 @@
     const id = wishlistSlug(slug);
     if (!id) return false;
     if (isWishlisted(id)) return true;
-    if (!saveWishlist([id, ...getWishlist()])) {
+    const level = saveWishlist([id, ...getWishlist()]);
+    const name = wishlistItemName(title);
+    const view = bilingual("View wishlist →", "উইশলিস্ট দেখুন →");
+    const openWishlist = () => {
+      window.location.href = wishlistPageUrl();
+    };
+    if (level === "memory") {
+      // Nothing could be stored anywhere: say so rather than claim a save.
       showToast(
         bilingual(
           "Your browser is blocking saved items, so this wishlist cannot be kept on this device.",
@@ -590,13 +658,20 @@
       );
       return false;
     }
-    const name = wishlistItemName(title);
+    if (level === "session") {
+      showToast(
+        language === "bn"
+          ? `“${name}” শুধু এই ভিজিটের জন্য সংরক্ষিত — ব্রাউজার এই সাইটের সংরক্ষিত ডেটা রাখছে না।`
+          : `Saved “${name}” for this visit — this browser is not keeping saved site data.`,
+        view,
+        openWishlist
+      );
+      return true;
+    }
     showToast(
       language === "bn" ? `“${name}” উইশলিস্টে সংরক্ষিত হয়েছে।` : `Saved “${name}” to your wishlist.`,
-      bilingual("View wishlist →", "উইশলিস্ট দেখুন →"),
-      () => {
-        window.location.href = wishlistPageUrl();
-      }
+      view,
+      openWishlist
     );
     return true;
   };
@@ -1047,14 +1122,14 @@
         const name = user.full_name || user.email || "";
         accountNote.innerHTML =
           language === "bn"
-            ? `<strong>${esc(name)}</strong> হিসেবে সাইন ইন করা আছে — আপনার উইশলিস্ট এই ব্রাউজারে আপনার অ্যাকাউন্টের সঙ্গে রাখা হয়। নিচের তালিকা থেকে যেকোনো সময় ব্যাগে যোগ করতে পারবেন।`
-            : `Signed in as <strong>${esc(name)}</strong>. Your wishlist is kept with your account in this browser, and you can add any saved piece to your bag below.`;
+            ? `<strong>${esc(name)}</strong> হিসেবে সাইন ইন করা আছে — আপনার উইশলিস্ট অ্যাকাউন্টে সংরক্ষিত, তাই অন্য ডিভাইস থেকেও একই তালিকা দেখতে পাবেন। নিচের তালিকা থেকে যেকোনো সময় ব্যাগে যোগ করতে পারবেন।`
+            : `Signed in as <strong>${esc(name)}</strong>. Your wishlist is saved to your account, so it opens on your other devices too, and you can add any saved piece to your bag below.`;
         return;
       }
       accountNote.innerHTML =
         language === "bn"
-          ? `অ্যাকাউন্ট ছাড়াই ব্যবহারযোগ্য — উইশলিস্ট এই ব্রাউজারে সংরক্ষিত থাকে। চাইলে <a href="/bn/account/">অ্যাকাউন্ট খুলে</a> অর্ডার ও উইশলিস্ট একসাথে রাখতে পারেন।`
-          : `No account needed — your wishlist is stored in this browser. You can <a href="/en/account/">create an account</a> to keep your orders and wishlist together.`;
+          ? `অ্যাকাউন্ট ছাড়াই ব্যবহারযোগ্য — উইশলিস্ট এই ব্রাউজারে সংরক্ষিত থাকে, কোনো সার্ভারে যায় না। চাইলে <a href="/bn/account/">অ্যাকাউন্ট খুলে</a> এটি আপনার অ্যাকাউন্টে সংরক্ষণ করুন, যাতে অন্য ডিভাইস থেকেও দেখা যায়।`
+          : `No account needed — your wishlist is stored in this browser and is not sent anywhere. You can <a href="/en/account/">create an account</a> to save it to your account and open it on another device.`;
     };
 
     const render = () => {
@@ -1364,7 +1439,14 @@
   // Auth State Management
   let _currentUser = null;
   const getCurrentUser = () => _currentUser;
-  const setCurrentUser = (user) => { _currentUser = user; updateNavAccount(); };
+  const setCurrentUser = (user) => {
+    _currentUser = user;
+    updateNavAccount();
+    // A session that begins mid-page (admin sign-in, session refresh) must still
+    // reconcile the wishlist; a customer sign-in reloads the page anyway.
+    mergeWishlistWithAccount();
+    mergeWishlistWithServer();
+  };
 
   // ---------------------------------------------------------------------------
   // Wishlist <-> account bridge (see Section F).
@@ -1376,6 +1458,7 @@
   // uploaded: this stays a per-device, per-account copy of the visitor's list.
   // ---------------------------------------------------------------------------
   wishlistUserResolver = getCurrentUser;
+  wishlistApi = hostingerApi;
 
   const mergeWishlistWithAccount = () => {
     const accountKey = wishlistAccountKey();
@@ -1388,6 +1471,38 @@
     updateWishlistCount();
     repaintWishlistButtons();
     announceWishlistChange();
+  };
+
+  // ---------------------------------------------------------------------------
+  // Wishlist <-> account server sync.
+  //
+  // A guest's wishlist never leaves the browser: this runs only when a customer
+  // is signed in, and then the list saved here and the list stored on the
+  // account are unioned, so a piece saved on a phone appears on a laptop and
+  // nothing a guest saved on this device is lost by signing in. Anything the
+  // browser has that the account does not is pushed up once, then the browser
+  // copy stays the offline source for the next visit.
+  // ---------------------------------------------------------------------------
+  const mergeWishlistWithServer = async () => {
+    if (!wishlistApi || !wishlistCurrentUser()) return;
+    const res = await wishlistApi.get("wishlist.php");
+    if (!res || !res.success || !Array.isArray(res.items)) return;
+
+    const serverSlugs = [...new Set(res.items.map(wishlistSlug).filter(Boolean))].slice(0, WISHLIST_MAX_ITEMS);
+    const browserSlugs = getWishlist();
+    const merged = [...new Set([...browserSlugs, ...serverSlugs])].slice(0, WISHLIST_MAX_ITEMS);
+    const accountKey = wishlistAccountKey();
+    writeWishlistStore(WISHLIST_KEY, merged);
+    if (accountKey) writeWishlistStore(accountKey, merged);
+
+    if (JSON.stringify(merged) !== JSON.stringify(browserSlugs)) {
+      updateWishlistCount();
+      repaintWishlistButtons();
+      announceWishlistChange("server");
+    }
+
+    const serverHas = new Set(serverSlugs);
+    if (merged.some((slug) => !serverHas.has(slug))) pushWishlistToServer(merged);
   };
 
   // Sync auth state with server
@@ -2526,15 +2641,15 @@
   };
 
   // Initialize Global Elements
+  // syncAuthState() resolves the session and, through setCurrentUser(), merges
+  // a returning customer's saved pieces back into this browser and reconciles
+  // them with the copy stored on their account.
   syncAuthState().then(() => {
     updateNavAccount();
     updateFooterLinks();
     initCustomerAccount();
     initAdminDashboard();
     initPdpFeatures();
-    // Only after the session is known: merges a returning customer's saved
-    // pieces back into the list in this browser.
-    mergeWishlistWithAccount();
   });
   initHeaderSearch();
   initOccasionCards();

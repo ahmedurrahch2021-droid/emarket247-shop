@@ -6,7 +6,8 @@
 add-to-bag and remove actions plus an empty state.
 
 **Status:** Implemented and verified. No account, sign-up, e-mail or server
-write is required to use the wishlist.
+write is required to use the wishlist. Signing in additionally stores the list
+on the account, so the same wishlist opens on another device.
 
 ---
 
@@ -20,7 +21,9 @@ write is required to use the wishlist.
 | Empty state | "Your wishlist is currently empty … Explore our jewellery collection →" with links to shop, categories and occasions. |
 | Header entry point | The existing heart in every page header is now a real link (`/en/wishlist/`, `/bn/wishlist/`) and keeps its live count badge. |
 | Guest storage | `localStorage["emarket247_wishlist"]` = array of published product slugs, newest first, de-duplicated, capped at 120, sanitised against `/^[a-z0-9][a-z0-9-]{1,90}$/`. |
-| Optional account copy | When a customer is signed in, the same list is mirrored under `emarket247_wishlist_account_<id>` so two customers on one browser never share a list, and the account dashboard shows the saved count. |
+| Optional account copy | When a customer is signed in, the list is stored on the account (`emk_wishlist_items`) and also mirrored under `emarket247_wishlist_account_<id>` so two customers on one browser never share a list. The account dashboard shows the saved count. |
+| Cross-device wishlist | Signed in, the browser list and the account list are **unioned** on load: a piece saved on a phone appears on a laptop, a piece saved as a guest before signing in is kept (and pushed up once), and nothing is ever deleted by signing in. |
+| Storage that cannot fail silently | The list uses the strongest storage layer that answers — device (`localStorage`), session (`sessionStorage`) or memory. A visitor whose browser blocks saved items still gets a working list for the visit and is told plainly what could not be kept. |
 | Cross-tab sync | A `storage` listener keeps every open tab and the badge in step. |
 | Honest data | Only slugs are stored. Titles, categories, prices and images always come from the approved catalogue (`/api/products.php`, falling back to `assets/data/catalog.<lang>.json`), so a saved item can never display stale facts. Prices keep the existing rule: a confirmed price or "Price on request". |
 
@@ -48,6 +51,15 @@ write is required to use the wishlist.
   generated from the canonical Shop page of the same language, so header,
   navigation, search panel, footer, toast host and the `site.js` reference are
   identical to the rest of the storefront.
+
+**Server-side (new)**
+
+- `database/wishlist-migration.sql` — the wishlist table, unique per
+  (user, slug) and cascading on account deletion. Repository only; run once on
+  the live database (see §6).
+- `public_html/api/wishlist.php` — session-scoped read/replace/clear for a
+  signed-in customer, with bound parameters, published-slug validation and the
+  existing global CSRF enforcement.
 
 **Tooling (repeatable)**
 
@@ -79,19 +91,25 @@ write is required to use the wishlist.
 4. **Heart sits beside the media link, not inside it.** A `<button>` nested in an
    anchor is invalid HTML and breaks keyboard focus; the heart is an absolutely
    positioned sibling, so tapping the photo still opens the product page.
-5. **Account sync is currently per-device.** Signing in mirrors and merges the
-   list under the customer's own key in this browser. True cross-device sync
-   needs server persistence, which is deliberately **not** shipped here because
-   it requires a database migration and an API surface that only the owner can
-   approve and run (see §6).
+5. **Account sync is now real, and the merge policy is "union, then push".**
+   Signing in unions the browser list with the account list and pushes anything
+   the account does not have yet. Union was chosen because it can only ever add
+   a saved piece, never silently delete one: the failure mode of "last device
+   wins" (a removal on one device wiping the list elsewhere) is worse than an
+   item reappearing. If the owner prefers deletions to win, that is a product
+   decision and a small change in `mergeWishlistWithServer()`.
+6. **Guests cause no request at all.** Every wishlist API call sits behind a
+   signed-in check in `site.js`, and `scripts/validate-public-html.mjs` now
+   fails the build if that guard is removed. `scripts/test-wishlist.mjs` asserts
+   a guest session performs zero `/api/wishlist.php` calls.
 
 ## 4. Verification
 
 | Check | Command | Result |
 | --- | --- | --- |
-| HTML/catalogue/taxonomy/security validation | `npm run check` | Passed — "Checked 126 public HTML pages, 1 JavaScript files, 7 PHP files, both catalogues, and the canonical taxonomy." Only pre-existing warning: PHP CLI unavailable in this sandbox, so PHP syntax checks were skipped. |
+| HTML/catalogue/taxonomy/security validation | `npm run check` | Passed — "Checked 126 public HTML pages, 1 JavaScript files, 8 PHP files, both catalogues, and the canonical taxonomy." Now also checks the wishlist endpoint's auth/parameter/SQL hygiene and the migration's unique + cascade invariants. Only pre-existing warning: PHP CLI unavailable in this sandbox, so PHP syntax checks were skipped. |
 | JavaScript syntax | `node --check public_html/assets/js/site.js` | Passed |
-| Wishlist integration test (real DOM, real `site.js`) | `npm install --no-save jsdom && node scripts/test-wishlist.mjs` | 31/31 checks passed: hearts on every grid card, save/remove + badge + toast, PDP heart, wishlist page list, add-all-to-bag, remove, empty state, stale-slug pruning, Bengali page and links, plus a DOM-structure assertion on the converted header. |
+| Wishlist integration test (real DOM, real `site.js`) | `npm install --no-save jsdom && node scripts/test-wishlist.mjs` | 44/44 checks passed: hearts on every grid card, save/remove + badge + toast, PDP heart, wishlist page list, add-all-to-bag, remove, empty state, stale-slug pruning, Bengali page and links, a DOM-structure assertion on the converted header, guest isolation (no API call at all), signed-in union + push of browser-only pieces, removal stored on the account, and both blocked-storage cases. |
 | HTML tag balance across the whole site | tag-pair sweep of all 136 pages (`<button>`/`</button>`, `<a>`/`</a>`) | 0 unbalanced files; 129 pages carry the linked wishlist control and none carries the old `<button>` form. |
 | Deployment snapshot | `npm run build` | "Deployment snapshot prepared from public_html at dist/public" (24 MB, no forbidden files). |
 | Cache-busting | `node scripts/fix-cache-busting.mjs` | Version map `variables 0b3625cd · site 5e7796d3 · pdp c29083ed · js e6800159` applied to all 136 pages. |
@@ -111,34 +129,50 @@ corruption cannot pass silently again. Fixed in `88fc325`.
 
 ## 5. Known limitations
 
-- A visitor who clears browser site data loses the list (the page says so in the
-  "Saved in this browser" note; the bag remains the durable path to an order).
-- Private-mode browsers may refuse storage; saving then shows a clear message
-  instead of silently doing nothing.
-- Two signed-in accounts on one shared browser each keep their own merged list;
-  a guest list on that browser is merged into whichever account signs in next
-  (the same browser-level sharing the shopping bag already has).
+- A guest who clears browser site data loses the list (the page says so). A
+  signed-in customer keeps it: the account copy is fetched again on the next
+  visit.
+- If the browser blocks every storage layer, the list lasts for the current page
+  only and the visitor is told exactly that; the bag and WhatsApp ordering remain
+  available (the bag has the same pre-existing storage constraint).
+- Union merge means an item removed on one device can reappear from another
+  device that still had it; removals are not tombstoned (see §3.5).
+- Two signed-in accounts on one shared browser each keep their own list; a guest
+  list on that browser is merged into whichever account signs in next (the same
+  browser-level sharing the shopping bag already has).
+- `en/privacy/` and `bn/privacy/` are still placeholder pages. When the real
+  policy is written it should state that a signed-in customer's wishlist is
+  stored on the account (product references only — no payment or personal data).
 
-## 6. Follow-up for true cross-device sync (needs owner approval)
+## 6. Cross-device sync — shipped, with one owner action
 
-Not implemented, because it requires a schema change and an approved API:
+Implemented in the follow-up commit; the only step that cannot be done from this
+sandbox is running the migration on the live database:
 
-1. Migration (repository only, `database/`):
-   `emk_wishlist_items(user_id INT UNSIGNED, sku VARCHAR(64), created_at TIMESTAMP,
-   UNIQUE(user_id, sku), FOREIGN KEY(user_id) REFERENCES emk_users(id) ON DELETE CASCADE)`.
-2. `public_html/api/wishlist.php`: `GET` returns the session user's SKUs;
-   `POST {action: "add"|"remove"|"replace", sku}` writes them. Must call
-   `checkAuth()` before reading input, use bound parameters, and rely on the
-   existing global CSRF enforcement; `sku` must be validated against
-   `emk_products`.
-3. Front end: after login, union the local list with the server response, push
-   the local-only SKUs up, then keep the local list as an offline cache. The
-   merge policy (whose item wins when both sides changed) needs a product
-   decision before release.
+1. `database/wishlist-migration.sql` — adds
+   `emk_wishlist_items(id, user_id, slug, created_at, UNIQUE(user_id, slug),
+   FOREIGN KEY(user_id) REFERENCES emk_users(id) ON DELETE CASCADE)`. Re-runnable,
+   creates only, deletes nothing.
+2. `public_html/api/wishlist.php` — `GET` returns the session user's slugs;
+   `POST {action:"replace"|"clear", slugs:[…]}` writes them. `checkAuth()` runs
+   before any input is read, every statement is prepared with bound parameters,
+   slugs are validated against `emk_products.is_active`, and CSRF is enforced on
+   the write by the shared `config.php`.
+3. `site.js` — after the session is known, the browser list and the account list
+   are unioned; anything the account lacks is pushed once; then the browser copy
+   stays the offline source.
+
+**Owner action required before cross-device sync works in production:** run
+`database/wishlist-migration.sql` once in Hostinger's phpMyAdmin (the database
+already used by the storefront). Until then the endpoint returns a generic
+"wishlist is unavailable" error and the feature silently stays browser-only —
+no page breaks, no data is written.
 
 ## 7. Rollback
 
-Revert the feature commit. Runtime rollback alone is also safe: delete
+Revert the feature commits. Runtime rollback alone is also safe: delete
 `public_html/en/wishlist/` and `public_html/bn/wishlist/`, restore the header
 heart markup from git, and remove the wishlist section from `site.js` —
-`localStorage` keys are ignored by every other part of the site.
+`localStorage` keys are ignored by every other part of the site. The account
+table can be left in place or dropped with
+`DROP TABLE IF EXISTS emk_wishlist_items;` — nothing else references it.

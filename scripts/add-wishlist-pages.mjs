@@ -36,7 +36,7 @@ const COPY = {
     eyebrow: "Saved pieces",
     h1: "Your Wishlist",
     intro:
-      "Everything you saved while browsing, in one place. Your wishlist lives in this browser — no account, sign-up or e-mail is required to keep it.",
+      "Everything you saved while browsing, in one place. Your wishlist works without an account, sign-up or e-mail — and if you sign in, it is saved to your account so it opens on your other devices too.",
     heroPrimary: "Browse the collection",
     heroSecondary: "Shop by category",
     gridHeading: "Saved jewellery",
@@ -46,20 +46,21 @@ const COPY = {
     loading: "Loading your saved pieces…",
     noscriptHeading: "Your wishlist needs JavaScript",
     noscriptBody:
-      "Your saved pieces are stored in this browser, so this page needs JavaScript to list them. You can browse the collection or ask about any piece on WhatsApp without an account.",
+      "Your saved pieces are kept by this browser, so this page needs JavaScript to list them. You can browse the collection or ask about any piece on WhatsApp without an account.",
     notesIntro: "How this list works",
     notesHeading: "A wishlist that never asks you to register.",
     notes: [
       [
         "No account, ever required",
-        "The heart works for guests. Creating an account only makes sense if you want your orders and wishlist kept together in one place — it is entirely optional.",
+        "The heart works for guests. An account is only worth creating if you want your orders and your wishlist kept together and available on more than one device — it stays entirely optional.",
       ],
       [
-        "Saved in this browser",
-        "Your list is stored on this device, not on a server. Clearing your browser's site data removes it, so add the pieces you are sure about to your bag as well.",
+        "Saved in this browser, or on your account",
+        "As a guest the list stays on this device and is not sent anywhere. Sign in and it is saved to your account, so the same list opens on another device. Clearing your browser's site data removes only the device copy.",
       ],
       [
-        "Details confirmed before you pay",
+        "Never a dead end",
+        "If your browser blocks saved items, the wishlist still works while you browse, and every piece can go to your bag or straight to WhatsApp — saving a heart is never the only way to keep something.",
         "Saved pieces carry the same details as the catalogue. Final price, availability and courier charge are confirmed on WhatsApp before any payment.",
       ],
     ],
@@ -75,7 +76,7 @@ const COPY = {
     eyebrow: "সংরক্ষিত গহনা",
     h1: "আপনার উইশলিস্ট",
     intro:
-      "ব্রাউজ করার সময় যেসব গহনা পছন্দ হয়েছে, সব এক জায়গায়। উইশলিস্ট আপনার ব্রাউজারেই সংরক্ষিত থাকে — রাখতে অ্যাকাউন্ট, সাইন-আপ বা ইমেইল লাগে না।",
+      "ব্রাউজ করার সময় যেসব গহনা পছন্দ হয়েছে, সব এক জায়গায়। উইশলিস্ট রাখতে অ্যাকাউন্ট, সাইন-আপ বা ইমেইল লাগে না — আর সাইন ইন করলে তালিকাটি আপনার অ্যাকাউন্টে সংরক্ষিত হয়, তাই অন্য ডিভাইস থেকেও দেখা যায়।",
     heroPrimary: "কালেকশন দেখুন",
     heroSecondary: "ক্যাটাগরি অনুযায়ী দেখুন",
     gridHeading: "সংরক্ষিত গহনা",
@@ -85,20 +86,21 @@ const COPY = {
     loading: "আপনার সংরক্ষিত গহনা আনা হচ্ছে…",
     noscriptHeading: "উইশলিস্ট দেখতে জাভাস্ক্রিপ্ট প্রয়োজন",
     noscriptBody:
-      "উইশলিস্ট আপনার ব্রাউজারে সংরক্ষিত থাকে, তাই তালিকাটি দেখাতে জাভাস্ক্রিপ্ট দরকার। অ্যাকাউন্ট ছাড়াই কালেকশন দেখতে পারেন বা হোয়াটসঅ্যাপে যেকোনো গহনা সম্পর্কে জিজ্ঞেস করতে পারেন।",
+      "আপনার সংরক্ষিত গহনা ব্রাউজারেই রাখা হয়, তাই তালিকাটি দেখাতে জাভাস্ক্রিপ্ট দরকার। অ্যাকাউন্ট ছাড়াই কালেকশন দেখতে পারেন বা হোয়াটসঅ্যাপে যেকোনো গহনা সম্পর্কে জিজ্ঞেস করতে পারেন।",
     notesIntro: "উইশলিস্ট কীভাবে কাজ করে",
     notesHeading: "এমন উইশলিস্ট, যেখানে রেজিস্ট্রেশন লাগে না।",
     notes: [
       [
         "অ্যাকাউন্ট কখনোই বাধ্যতামূলক নয়",
-        "হার্ট আইকন অতিথিদের জন্যই কাজ করে। অর্ডার ও উইশলিস্ট এক জায়গায় রাখতে চাইলে অ্যাকাউন্ট খোলা যায় — সেটি সম্পূর্ণ ঐচ্ছিক।",
+        "হার্ট আইকন অতিথিদের জন্যই কাজ করে। অর্ডার ও উইশলিস্ট এক জায়গায় রেখে একাধিক ডিভাইসে পেতে চাইলে অ্যাকাউন্ট খোলা যায় — সেটি সম্পূর্ণ ঐচ্ছিক।",
       ],
       [
-        "এই ব্রাউজারে সংরক্ষিত",
-        "তালিকাটি এই ডিভাইসে রাখা হয়, কোনো সার্ভারে নয়। ব্রাউজারের সাইট ডেটা মুছলে উইশলিস্টও মুছে যায়, তাই নিশ্চিত পছন্দের গহনা ব্যাগেও রাখুন।",
+        "ব্রাউজারে, অথবা আপনার অ্যাকাউন্টে",
+        "অতিথি হিসেবে তালিকাটি শুধু এই ডিভাইসে থাকে, কোথাও পাঠানো হয় না। সাইন ইন করলে এটি আপনার অ্যাকাউন্টে সংরক্ষিত হয়, তাই অন্য ডিভাইস থেকেও একই তালিকা খোলা যায়। ব্রাউজারের সাইট ডেটা মুছলে শুধু ডিভাইসের কপিটি মুছে যায়।",
       ],
       [
-        "পেমেন্টের আগে বিবরণ নিশ্চিত",
+        "কখনোই আটকে যেতে হয় না",
+        "ব্রাউজার সংরক্ষিত ডেটা ব্লক করলেও ব্রাউজ করার সময় উইশলিস্ট কাজ করে, আর যেকোনো গহনা ব্যাগে কিংবা সরাসরি হোয়াটসঅ্যাপে পাঠানো যায় — পছন্দ রাখার একমাত্র পথ হার্ট নয়।",
         "সংরক্ষিত গহনার বিবরণ ক্যাটালগের মতোই থাকে। চূড়ান্ত দাম, প্রাপ্যতা ও কুরিয়ার চার্জ হোয়াটসঅ্যাপে নিশ্চিত করার পরেই পেমেন্ট।",
       ],
     ],
