@@ -183,104 +183,53 @@ $V_SITE = assetV('/assets/css/site.css');
 $V_PDP = assetV('/assets/css/pdp.css');
 $V_JS = assetV('/assets/js/site.js');
 
-$ICON_SEARCH = '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="7"/><path d="m15.5 15.5 5 5"/></svg>';
-$ICON_USER = '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.8"/><path d="M4.5 20c1.3-3.4 4-5 7.5-5s6.2 1.6 7.5 5"/></svg>';
-$ICON_HEART = '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0l-1 1-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1 7.8 7.8 7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.8Z"/></svg>';
-$ICON_CART = '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 8h11l-1 11a1.6 1.6 0 0 1-1.6 1.5H9.1A1.6 1.6 0 0 1 7.5 19L6.5 8Z"/><path d="M9.5 8V6.5a2.5 2.5 0 0 1 5 0V8"/></svg>';
-$ICON_WA_SMALL = '<svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" focusable="false" fill="currentColor"><path d="M12.04 2.016c-5.495 0-9.958 4.463-9.96 9.957 0 1.758.46 3.472 1.332 4.983L2 22.02l5.19-1.362a9.94 9.94 0 0 0 4.75 1.21h.005c5.49 0 9.954-4.463 9.956-9.957a9.9 9.9 0 0 0-2.914-7.04 9.9 9.9 0 0 0-7.042-2.917Zm0 18.19h-.004a8.26 8.26 0 0 1-4.208-1.152l-.302-.18-3.128.82.835-3.05-.196-.313a8.25 8.25 0 0 1-1.264-4.4c.002-4.565 3.718-8.28 8.29-8.28a8.23 8.23 0 0 1 5.854 2.43 8.23 8.23 0 0 1 2.424 5.86c-.002 4.566-3.718 8.28-8.3 8.28Zm4.544-6.2c-.25-.124-1.475-.727-1.703-.81-.229-.084-.395-.125-.561.125-.166.25-.644.81-.79.977-.144.166-.29.187-.539.062-.25-.125-1.052-.388-2.004-1.237-.74-.66-1.24-1.477-1.386-1.727-.145-.25-.015-.384.11-.508.112-.112.29-.291.436-.437.146-.145.194-.25.29-.416.098-.167.05-.312-.011-.437-.062-.125-.561-1.353-.769-1.852-.203-.486-.409-.42-.561-.428-.146-.007-.312-.008-.478-.008-.166 0-.436.062-.664.312-.229.25-.873.853-.873 2.08 0 1.228.894 2.414 1.018 2.58.125.167 1.758 2.686 4.26 3.767.595.257 1.06.41 1.422.525.597.19 1.14.163 1.57.099.48-.072 1.475-.603 1.683-1.185.208-.583.208-1.082.146-1.186-.063-.104-.229-.166-.478-.29Z"/></svg>';
-$ICON_GLOBE = '<svg class="lang-globe-icon" viewBox="0 0 24 24" width="13" height="13" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20M12 2a14.5 14.5 0 0 1 0 20M2 12h20"/></svg>';
-$ICON_MENU = '<svg class="menu-icon-open" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/></svg>';
-$ICON_CLOSE = '<svg class="menu-icon-close" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>';
 $WA_BIG = '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.888 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>';
 
-// ---- Header / footer (localized, mirrors the generator) --------------------
-function renderHeader($lang, $isBn, $catMap, $occasions, $categories, $I) {
+// ---- Header / footer (copied from the homepage of the same language) --------
+// The storefront chrome has one source of truth: the <header class="site-header">
+// and <footer class="site-footer"> of /en/index.html and /bn/index.html. The PDP
+// reads those blocks at request time instead of keeping its own template, so it
+// can never drift from the homepage again. Each homepage contains exactly one
+// <header> and one <footer> element, so a non-greedy match is sufficient.
+function homepageChrome($lang) {
+    static $cache = [];
+    if (!isset($cache[$lang])) {
+        $chrome = ['header' => '', 'footer' => ''];
+        $home = @file_get_contents(__DIR__ . '/' . $lang . '/index.html');
+        if (is_string($home)) {
+            if (preg_match('~<header class="site-header">.*?</header>~s', $home, $m)) { $chrome['header'] = $m[0]; }
+            if (preg_match('~<footer class="site-footer">.*?</footer>~s', $home, $m)) { $chrome['footer'] = $m[0]; }
+        }
+        $cache[$lang] = $chrome;
+    }
+    return $cache[$lang];
+}
+
+function renderHeader($lang, $isBn, $slug) {
     $altLang = $isBn ? 'en' : 'bn';
-    $altLabel = $isBn ? 'English' : 'বাংলা';
-    $catLinks = '';
-    foreach ($categories as $c) {
-        $catLinks .= '<li><a href="/' . $lang . '/categories/' . $c[0] . '/">' . ($isBn ? $c[2] : $c[1]) . '<small>' . ($isBn ? $c[1] : $c[2]) . '</small></a></li>';
+    $header = homepageChrome($lang)['header'];
+    if ($header === '') {
+        // Degrade safely if the homepage file is unreadable: brand link only.
+        return '<header class="site-header"><div class="main-header"><a class="brand" href="/' . $lang . '/" aria-label="eMarket247 Fashion &amp; Jewellery"><img src="/assets/images/brand/emarket247-logo-transparent.png" alt="eMarket247 Fashion &amp; Jewellery" width="180" height="94"></a></div></header>';
     }
-    $occLinks = '';
-    foreach ($occasions as $o) {
-        $occLinks .= '<li><a href="/' . $lang . '/occasions/' . $o[0] . '/">' . ($isBn ? $o[2] : $o[1]) . '<small>' . ($isBn ? $o[1] : $o[2]) . '</small></a></li>';
+    // Only per-page difference: the language switch deep-links to this product
+    // in the other language instead of the other homepage.
+    $needle = '<a href="/' . $altLang . '/" class="lang-link"';
+    $deepLink = '<a href="/' . $altLang . '/products/' . attr($slug) . '/" class="lang-link"';
+    $pos = strpos($header, $needle);
+    if ($pos !== false) {
+        $header = substr_replace($header, $deepLink, $pos, strlen($needle));
     }
-    $waText = rawurlencode($isBn ? 'নমস্কার, আমি eMarket247 জুয়েলারি সম্পর্কে জানতে চাই' : 'Hello, I would like to enquire about eMarket247 jewellery.');
-    $searchPh = $isBn ? 'কানের দুল, চুড়ি, পূজা...' : 'Earrings, bangles, Puja...';
-    return '<header class="site-header">
-  <div class="utility-row">
-    <a href="/' . $altLang . '/" class="lang-link" lang="' . $altLang . '" aria-label="' . ($isBn ? 'Switch language to English' : 'বাংলায় পরিবর্তন করুন') . '">' . $I['globe'] . ' <span class="lang-switch-wrap"><span class="lang-item ' . (!$isBn ? 'is-active' : '') . '">EN</span><span class="lang-sep">/</span><span class="lang-item ' . ($isBn ? 'is-active' : '') . '">বাংলা</span></span></a>
-    <p class="utility-tagline">' . ($isBn ? 'সারা বাংলাদেশে ডেলিভারি · ১৫ দিনের রিফান্ড গ্যারান্টি · প্রতিটি অর্ডারে ফ্রি গিফট' : 'Pan-Bangladesh Delivery · 15-Day Refund Promise · Free Gift with Every Order') . '</p>
-    <a class="utility-whatsapp" href="https://wa.me/8801740501062?text=' . $waText . '" target="_blank" rel="noopener" aria-label="' . ($isBn ? 'WhatsApp-এ চ্যাট করুন' : 'Chat with us on WhatsApp') . '">' . $I['wa'] . ' <span>WhatsApp</span> <b>+880 1740-501062</b></a>
-  </div>
-  <div class="main-header">
-    <a class="brand" href="/' . $lang . '/" aria-label="eMarket247 Fashion & Jewellery"><img src="/assets/images/brand/emarket247-logo-transparent.png" width="190" height="99" alt="eMarket247 Fashion & Jewellery"></a>
-    <div class="search-bar-wrap">
-      <label for="main-search" class="sr-only">' . ($isBn ? 'জুয়েলারি খুঁজুন' : 'Search jewellery') . '</label>
-      ' . $I['search'] . '
-      <input type="search" id="main-search" class="main-search-input" placeholder="' . attr($searchPh) . '" autocomplete="off">
-    </div>
-    <div class="header-icons">
-      <a href="/' . $lang . '/account/" class="icon-link" aria-label="' . ($isBn ? 'অ্যাকাউন্ট' : 'Account') . '" title="' . ($isBn ? 'অ্যাকাউন্ট' : 'Account') . '">' . $I['user'] . '</a>
-      <a href="/' . $lang . '/wishlist/" class="icon-link" aria-label="' . ($isBn ? 'উইশলিস্ট' : 'Wishlist') . '" title="' . ($isBn ? 'উইশলিস্ট' : 'Wishlist') . '" data-wishlist-toggle>' . $I['heart'] . '<i class="icon-badge">0</i></a>
-      <a href="/' . $lang . '/shop/" class="icon-link" aria-label="' . ($isBn ? 'কার্ট' : 'Cart') . '" title="' . ($isBn ? 'কার্ট' : 'Cart') . '">' . $I['cart'] . '<i class="icon-badge">0</i></a>
-      <button class="menu-toggle icon-link" type="button" aria-expanded="false" aria-controls="main-menu" aria-label="' . ($isBn ? 'মেনু' : 'Menu') . '" title="' . ($isBn ? 'মেনু' : 'Menu') . '">' . $I['menu'] . $I['close'] . '</button>
-    </div>
-  </div>
-  <div class="nav-header">
-    <nav id="main-menu" class="main-nav" aria-label="' . ($isBn ? 'প্রধান নেভিগেশন' : 'Primary navigation') . '">
-      <a href="/' . $lang . '/">' . ($isBn ? 'হোম' : 'Home') . '</a>
-      <a href="/' . $lang . '/shop/">' . ($isBn ? 'শপ' : 'Shop') . '</a>
-      <div class="has-submenu"><button type="button" aria-expanded="false">' . ($isBn ? 'ক্যাটাগরি' : 'Categories') . '</button><div class="submenu"><p>' . ($isBn ? 'জুয়েলারি খুঁজুন' : 'Find your jewellery') . '</p><ul>' . $catLinks . '</ul><a class="menu-all" href="/' . $lang . '/categories/">' . ($isBn ? 'সব ক্যাটাগরি' : 'View all categories') . ' <span>→</span></a></div></div>
-      <div class="has-submenu"><button type="button" aria-expanded="false">' . ($isBn ? 'অনুষ্ঠান' : 'Occasion') . '</button><div class="submenu"><p>' . ($isBn ? 'বিশেষ দিনের জন্য' : 'For meaningful moments') . '</p><ul>' . $occLinks . '</ul><a class="menu-all" href="/' . $lang . '/occasions/">' . ($isBn ? 'সব অনুষ্ঠান' : 'View all occasions') . ' <span>→</span></a></div></div>
-      <a href="/' . $lang . '/blog/">' . ($isBn ? 'ব্লগ' : 'Blog') . '</a>
-      <a href="/' . $lang . '/about/">' . ($isBn ? 'আমাদের কথা' : 'About Us') . '</a>
-      <a href="/' . $lang . '/contact/">' . ($isBn ? 'যোগাযোগ' : 'Contact') . '</a>
-    </nav>
-  </div>
-</header>';
+    return $header;
 }
 
 function renderFooter($lang, $isBn) {
-    return '<footer class="site-footer">
-  <div class="footer-main wrap">
-    <div>
-      <a href="/' . $lang . '/" aria-label="eMarket247 Home"><img src="/assets/images/brand/emarket247-logo-transparent.png" width="160" height="83" alt="eMarket247 Fashion & Jewellery"></a>
-      <p>' . ($isBn ? 'বাংলাদেশে ফ্যাশন ও আধুনিক জুয়েলারির একটি বিশ্বস্ত গন্তব্য। সঠিক তথ্য, দায়িত্বশীল সেবা ও সহজ আবিষ্কার।' : 'A trusted jewellery and fashion destination in Bangladesh. Grounded in accurate detail, thoughtful craft, and easy discovery.') . '</p>
-    </div>
-    <div>
-      <h3>' . ($isBn ? 'ক্যাটাগরি' : 'Categories') . '</h3>
-      <a href="/' . $lang . '/categories/rings/">' . ($isBn ? 'আংটি' : 'Rings') . '</a>
-      <a href="/' . $lang . '/categories/bangles/">' . ($isBn ? 'চুড়ি' : 'Bangles') . '</a>
-      <a href="/' . $lang . '/categories/necklaces/">' . ($isBn ? 'হার' : 'Necklaces') . '</a>
-      <a href="/' . $lang . '/categories/bracelets/">' . ($isBn ? 'ব্রেসলেট' : 'Bracelets') . '</a>
-      <a href="/' . $lang . '/categories/earrings/">' . ($isBn ? 'কানের দুল' : 'Earrings') . '</a>
-      <a href="/' . $lang . '/categories/">' . ($isBn ? 'সব ক্যাটাগরি' : 'View all categories') . '</a>
-    </div>
-    <div>
-      <h3>' . ($isBn ? 'অনুষ্ঠান ও ভাবনা' : 'Occasions & Edits') . '</h3>
-      <a href="/' . $lang . '/occasions/puja/">' . ($isBn ? 'পূজা কালেকশন' : 'Puja Edit') . '</a>
-      <a href="/' . $lang . '/occasions/wedding/">' . ($isBn ? 'বিয়ের জুয়েলারি' : 'Wedding Jewellery') . '</a>
-      <a href="/' . $lang . '/occasions/gifts/">' . ($isBn ? 'উপহার জুয়েলারি' : 'Jewellery Gifting') . '</a>
-      <a href="/' . $lang . '/guides/">' . ($isBn ? 'স্টাইল গাইড' : 'Style Guides') . '</a>
-    </div>
-    <div>
-      <h3>' . ($isBn ? 'সহায়তা ও নীতি' : 'Customer Support') . '</h3>
-      <a href="/' . $lang . '/care/">' . ($isBn ? 'যত্ন ও সহায়তা' : 'Care & Support') . '</a>
-      <a href="/' . $lang . '/contact/">' . ($isBn ? 'যোগাযোগ' : 'Contact Us') . '</a>
-      <a href="/' . $lang . '/about/">' . ($isBn ? 'আমাদের গল্প' : 'About eMarket247') . '</a>
-      <a href="/' . $lang . '/privacy/">' . ($isBn ? 'গোপনীয়তা নীতি' : 'Privacy Policy') . '</a>
-      <a href="/' . $lang . '/terms/">' . ($isBn ? 'শর্তাবলি' : 'Terms of Service') . '</a>
-    </div>
-  </div>
-  <div class="footer-bottom wrap">
-    <span>© 2026 eMarket247. ' . ($isBn ? 'সর্বস্বত্ব সংরক্ষিত।' : 'All rights reserved.') . '</span>
-    <span>' . ($isBn ? 'ঢাকা, বাংলাদেশ · গ্রাহক সেবা: +880 1740-501062' : 'Dhaka, Bangladesh · Support: +880 1740-501062') . '</span>
-  </div>
-</footer>';
+    $footer = homepageChrome($lang)['footer'];
+    if ($footer === '') {
+        return '<footer class="site-footer"><div class="footer-bottom"><p>&copy; 2026 <strong class="brand-name">eMarket247</strong>. ' . ($isBn ? 'সর্বস্বত্ব সংরক্ষিত।' : 'All rights reserved.') . '</p><p>This site is developed by FarhanMomen</p></div></footer>';
+    }
+    return $footer;
 }
-
-$ICONS = ['search' => $ICON_SEARCH, 'user' => $ICON_USER, 'heart' => $ICON_HEART, 'cart' => $ICON_CART, 'wa' => $ICON_WA_SMALL, 'globe' => $ICON_GLOBE, 'menu' => $ICON_MENU, 'close' => $ICON_CLOSE];
 
 // ---- Related-product cards --------------------------------------------------
 $relatedHtml = '';
@@ -352,7 +301,7 @@ foreach ($related as $rel) {
 </head>
 <body data-language="<?= $lang ?>" data-cookie-mode="essential-only">
   <a class="skip-link" href="#main"><?= $isBn ? 'মূল কনটেন্টে যান' : 'Skip to main content' ?></a>
-  <?= renderHeader($lang, $isBn, $categoryMap, $occasions, $categories, $ICONS) ?>
+  <?= renderHeader($lang, $isBn, (string)$product['slug']) ?>
 
   <nav class="breadcrumb wrap" aria-label="<?= $isBn ? 'পথনির্দেশ' : 'Breadcrumb' ?>">
     <ol>

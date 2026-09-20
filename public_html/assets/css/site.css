@@ -7218,13 +7218,16 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--ink);
 }
 
-/* Headings that sit on dark surfaces keep the scale, invert the colour only. */
+/* Headings that sit on dark surfaces keep the scale, invert the colour only.
+   The site footer is NOT a dark surface any more (see the light warm footer
+   block above: .site-footer { background: var(--warm) }), so it is deliberately
+   absent from this list — a white .site-footer h2 on ivory was invisible.
+   The newsletter heading keeps its ink colour from .newsletter h2. */
 .care-note h2, .care-note h3,
 .ways .care-note h3,
 .slide-copy h1, .slide-copy h2,
 .occasion-hero h1, .occasion-hero h2,
-.full-width-hero h1,
-.site-footer h2 {
+.full-width-hero h1 {
   color: #fff;
 }
 
@@ -7262,11 +7265,12 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--red) !important;
 }
 
+/* The light footer is not in this list: its newsletter eyebrow stays brand red
+   on ivory (the lightened tint below is only legible on dark photography). */
 .slide-copy .eyebrow,
 .occasion-hero .eyebrow,
 .full-width-hero .eyebrow,
-.care-note .eyebrow,
-.site-footer .eyebrow {
+.care-note .eyebrow {
   color: #ff8f86 !important;
 }
 
