@@ -288,6 +288,14 @@ behaves correctly on a real device.
 
 ## Owner-only actions (no tool performs these)
 
+0. **Run the wishlist migration when the new build is uploaded.**
+   `database/wishlist-migration.sql` (hPanel → phpMyAdmin → SQL) adds
+   `emk_wishlist_items`, which stores a signed-in customer's saved pieces so the
+   same wishlist opens on another device. It creates only; it deletes nothing and
+   is safe to re-run. Until it runs, the wishlist simply stays browser-only for
+   every visitor — no page breaks and no data is written — so the site can be
+   deployed before the SQL if needed.
+
 1. **Decide how to handle the administrator password now.** It is published in
    this repository's history, the repository is public, the live admin panel is
    reachable, and the live server still runs the unpatched upload endpoint.
