@@ -91,7 +91,7 @@ write is required to use the wishlist.
 | --- | --- | --- |
 | HTML/catalogue/taxonomy/security validation | `npm run check` | Passed — "Checked 126 public HTML pages, 1 JavaScript files, 7 PHP files, both catalogues, and the canonical taxonomy." Only pre-existing warning: PHP CLI unavailable in this sandbox, so PHP syntax checks were skipped. |
 | JavaScript syntax | `node --check public_html/assets/js/site.js` | Passed |
-| Wishlist integration test (real DOM, real `site.js`) | `npm install --no-save jsdom && node scripts/test-wishlist.mjs` | 32/32 checks passed: hearts on every grid card, save/remove + badge + toast, PDP heart, wishlist page list, add-all-to-bag, remove, empty state, stale-slug pruning, Bengali page and links, plus a DOM-structure assertion on the converted header. |
+| Wishlist integration test (real DOM, real `site.js`) | `npm install --no-save jsdom && node scripts/test-wishlist.mjs` | 31/31 checks passed: hearts on every grid card, save/remove + badge + toast, PDP heart, wishlist page list, add-all-to-bag, remove, empty state, stale-slug pruning, Bengali page and links, plus a DOM-structure assertion on the converted header. |
 | HTML tag balance across the whole site | tag-pair sweep of all 136 pages (`<button>`/`</button>`, `<a>`/`</a>`) | 0 unbalanced files; 129 pages carry the linked wishlist control and none carries the old `<button>` form. |
 | Deployment snapshot | `npm run build` | "Deployment snapshot prepared from public_html at dist/public" (24 MB, no forbidden files). |
 | Cache-busting | `node scripts/fix-cache-busting.mjs` | Version map `variables 0b3625cd · site 5e7796d3 · pdp c29083ed · js e6800159` applied to all 136 pages. |
