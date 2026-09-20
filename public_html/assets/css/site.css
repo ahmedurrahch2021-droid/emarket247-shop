@@ -4291,9 +4291,28 @@ b.brand-name {
 .footer-social .social-link:hover {
   background: #1877F214;
 }
+/* Placeholders keep full brand colour but are non-interactive (cursor only);
+   the coloured icons themselves signal the network. */
 .footer-social .social-placeholder {
-  opacity: 0.4;
   cursor: default;
+}
+/* Social row inside the payment row: push it to the far left, marks to the right */
+.footer-pay .footer-social { margin: 0 auto 0 0; }
+.footer-pay .footer-social .social-link,
+.footer-pay .footer-social .social-placeholder { background: transparent; }
+/* Cash on Delivery chip sits with the payment marks */
+.cod-chip {
+  display: inline-flex;
+  align-items: center;
+  height: 34px;
+  padding: 0 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--ink);
+  font: 700 11px var(--sans);
+  letter-spacing: .04em;
+  white-space: nowrap;
 }
 
 /* Footer: payment methods row */
