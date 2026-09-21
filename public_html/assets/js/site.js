@@ -867,9 +867,35 @@
     </article>`;
   };
 
-  const categoryName = (category) => {
-    const names = { bangles: language === "bn" ? "চুড়ি" : "Bangles", bracelets: language === "bn" ? "ব্রেসলেট" : "Bracelets", earrings: language === "bn" ? "কানের দুল" : "Earrings", necklaces: language === "bn" ? "হার" : "Necklaces", pendants: language === "bn" ? "লকেট" : "Pendants", rings: language === "bn" ? "আংটি" : "Rings", "jewellery-sets": language === "bn" ? "জুয়েলারি সেট" : "Jewellery Sets", "bridal-jewellery": language === "bn" ? "ব্রাইডাল জুয়েলারি" : "Bridal Jewellery", "gift-jewellery": language === "bn" ? "উপহারের জুয়েলারি" : "Gift Jewellery", "jewellery-detail": language === "bn" ? "জুয়েলারি আইটেম" : "Jewellery detail", unassigned: language === "bn" ? "সব আইটেম" : "All details" };
-    return names[category] || category;
+  // One table, both languages. The API answers with the label stored in the
+  // database while the catalogue snapshot answers with a slug, so categorySlug()
+  // normalises either to the slug the grids and tabs filter on - otherwise an
+  // API-served page could not match its own category. categoryName() is what the
+  // shopper reads, always in the current language.
+  const CATEGORY_NAMES = {
+    bangles: { en: "Bangles", bn: "চুড়ি" },
+    bracelets: { en: "Bracelets", bn: "ব্রেসলেট" },
+    earrings: { en: "Earrings", bn: "কানের দুল" },
+    necklaces: { en: "Necklaces", bn: "হার" },
+    pendants: { en: "Pendants", bn: "লকেট" },
+    rings: { en: "Rings", bn: "আংটি" },
+    "jewellery-sets": { en: "Jewellery Sets", bn: "জুয়েলারি সেট" },
+    "bridal-jewellery": { en: "Bridal Jewellery", bn: "ব্রাইডাল জুয়েলারি" },
+    "gift-jewellery": { en: "Gift Jewellery", bn: "উপহারের জুয়েলারি" },
+    "jewellery-detail": { en: "Jewellery detail", bn: "জুয়েলারি আইটেম" },
+    unassigned: { en: "All details", bn: "সব আইটেম" }
+  };
+
+  const categoryName = (category) => (CATEGORY_NAMES[category] || {})[language] || category;
+
+  const categorySlug = (value) => {
+    const raw = String(value ?? "").trim();
+    if (CATEGORY_NAMES[raw]) return raw;
+    const lowered = raw.toLowerCase();
+    const found = Object.keys(CATEGORY_NAMES).find((slug) =>
+      Object.keys(CATEGORY_NAMES[slug]).some((lang) => CATEGORY_NAMES[slug][lang].toLowerCase() === lowered)
+    );
+    return found || raw;
   };
 
   const recordOrder = (product) => {
@@ -877,103 +903,348 @@
     return digits ? Number(digits[0]) : Number.MAX_SAFE_INTEGER;
   };
 
-  const sortProducts = (products, value) => [...products].sort((a, b) => {
-    if (value === "az") return a.title.localeCompare(b.title, language);
-    if (value === "category") return a.categoryLabel.localeCompare(b.categoryLabel, language);
-    return recordOrder(a) - recordOrder(b) || a.catalogIndex - b.catalogIndex;
-  });
+  // ── Catalogue filters ──────────────────────────────────────────────────────
+  // Faceted filtering for the shop and category grids, and the single place a
+  // product's facets are derived. Facets are read from the reviewed title, and
+  // the keyword sets cover both languages, so /bn/ filters exactly like /en/.
+  //
+  // Selection logic: chips inside one facet are OR-ed, different facets are
+  // AND-ed. Adding a chip inside a facet widens the result; adding a facet
+  // narrows it. AND inside a facet would be meaningless for Price in particular,
+  // because no piece can sit in two price buckets at once.
+  //
+  // URL state is language-neutral (category, price, finish, design, format, q,
+  // sort) so a filtered view can be shared between /en/ and /bn/.
 
-  const buildControls = (host, products, pageCategory) => {
+  const FACET_KEYS = ["price", "finish", "design", "format"];
+
+  const FACET_LABELS = {
+    price: { en: "Price", bn: "মূল্য" },
+    finish: { en: "Finish", bn: "ফিনিশ" },
+    design: { en: "Design", bn: "ডিজাইন" },
+    format: { en: "Format", bn: "ধরন" }
+  };
+
+  // [value, label, matcher]. A title may match several values in the same facet
+  // (a pearl-and-stone piece is both); that is expected.
+  const FACET_KEYWORDS = {
+    finish: [
+      ["gold-tone", { en: "Gold-tone", bn: "সোনালি" }, /gold|সোনালি|গোল্ড/i],
+      ["silver-tone", { en: "Silver-tone", bn: "রুপালি" }, /silver|রুপালি|সিলভার/i],
+      ["rose-gold", { en: "Rose gold", bn: "রোজ গোল্ড" }, /rose[- ]gold|রোজ[- ]গোল্ড/i],
+      ["two-tone", { en: "Two-tone", bn: "টু-টোন" }, /two[- ]tone|টু[- ]টোন/i],
+      ["pearl", { en: "Pearl accent", bn: "পার্ল" }, /pearl|পার্ল|মুক্তা/i],
+      ["stone", { en: "Stone-set", bn: "স্টোন-সেট" }, /stone|crystal|zircon|\bcz\b|diamond|gem|স্টোন|পাথর|ক্রিস্টাল|জিরকন/i],
+      ["bead", { en: "Beaded", bn: "পুঁতির কাজ" }, /bead|পুঁতি|বিড/i]
+    ],
+    design: [
+      ["floral", { en: "Floral", bn: "ফুলেল" }, /floral|flower|petal|leaf|ফুল|পাতা/i],
+      ["heart", { en: "Heart", bn: "হার্ট" }, /heart|হৃদ|হার্ট/i],
+      ["geometric", { en: "Geometric", bn: "জ্যামিতিক" }, /geometric|square|circle|lattice|signet|baguette|infinity|triangle|hexagon|dome|জ্যামিতিক|চৌকো|বৃত্ত|জালি|ব্যাগেট|ইনফিনিটি|ত্রিভুজ/i],
+      ["textured", { en: "Textured & engraved", bn: "টেক্সচার ও খোদাই" }, /textured|engraved|ornate|braided|interwoven|twisted|rope|filigree|টেক্সচার|খোদাই|কারুকাজ|বিনুনি|বুনন/i],
+      ["drop", { en: "Drop & statement", bn: "ড্রপ ও স্টেটমেন্ট" }, /\bdrop|dangling|teardrop|statement|chandelier|tassel|ড্রপ|ঝুলন্ত|জলবিন্দু|স্টেটমেন্ট|ঝুমকা/i],
+      ["minimal", { en: "Slim & petite", bn: "স্লিম ও ছোট" }, /petite|slim|dainty|minimal|thin|delicate|স্লিম|ছোট|পেটিট/i],
+      ["charm", { en: "Charm & chain", bn: "চার্ম ও চেইন" }, /charm|station|চার্ম|স্টেশন/i]
+    ]
+  };
+
+  // Format is one value per piece, first match wins: a set beats a pair beats a
+  // single piece.
+  const FORMAT_KEYWORDS = [
+    // \b keeps "set" from matching inside "Rosette" or "sunset".
+    ["set", { en: "Set", bn: "সেট" }, /\bset\b|সেট/i],
+    ["pair", { en: "Pair", bn: "জোড়া" }, /\bpair\b|জোড়া/i],
+    ["single", { en: "Single piece", bn: "একক" }, null]
+  ];
+
+  const PRICE_BUCKETS = [
+    ["under-500", { en: "Under ৳500", bn: "৳500-এর নিচে" }, (n) => n < 500],
+    ["500-999", { en: "৳500 – ৳999", bn: "৳500 – ৳999" }, (n) => n >= 500 && n <= 999],
+    ["1000-1999", { en: "৳1,000 – ৳1,999", bn: "৳1,000 – ৳1,999" }, (n) => n >= 1000 && n <= 1999],
+    ["2000-4999", { en: "৳2,000 – ৳4,999", bn: "৳2,000 – ৳4,999" }, (n) => n >= 2000 && n <= 4999],
+    ["5000-plus", { en: "৳5,000 and above", bn: "৳5,000 বা বেশি" }, (n) => n >= 5000],
+    ["on-request", { en: "Price on request", bn: "মূল্য জানতে যোগাযোগ করুন" }, null]
+  ];
+
+  const PRICE_PENDING_NOTE = {
+    en: "Prices are being published — every piece is currently quoted on WhatsApp. Price bands appear here automatically once prices go live.",
+    bn: "মূল্য প্রকাশের কাজ চলছে — বর্তমানে প্রতিটি গহনার দাম হোয়াটসঅ্যাপে জানানো হয়। মূল্য প্রকাশ হলে দামের সীমা এখানে স্বয়ংক্রিয়ভাবে দেখা যাবে।"
+  };
+
+  const CATALOG_CATEGORIES = ["rings", "bangles", "jewellery-sets", "bracelets", "necklaces", "earrings", "pendants"];
+
+  const priceBucketOf = (product) => {
+    const value = Number(product.price);
+    if (!(value > 0)) return "on-request";
+    const bucket = PRICE_BUCKETS.find(([, , matches]) => matches && matches(value));
+    return bucket ? bucket[0] : "on-request";
+  };
+
+  // Every record — from the API, the snapshot or a pre-rendered card — is given
+  // the same facet shape, so filtering behaves identically whichever source won.
+  const withFacets = (product) => {
+    // Bangla written with a combining nukta (ড + ়) and Bangla written with the
+    // precomposed letter (ড়) are the same word. Normalise before matching, or a
+    // facet would match one spelling and silently miss the other.
+    const title = String(product.title || "").normalize("NFC");
+    const facets = { price: priceBucketOf(product), finish: [], design: [], format: "single" };
+    Object.keys(FACET_KEYWORDS).forEach((facet) => {
+      facets[facet] = FACET_KEYWORDS[facet]
+        .filter(([, , matches]) => matches.test(title))
+        .map(([value]) => value);
+    });
+    const format = FORMAT_KEYWORDS.find(([, , matches]) => matches && matches.test(title));
+    facets.format = format ? format[0] : "single";
+    return { ...product, facets };
+  };
+
+  const facetValues = (product, facet) => {
+    const value = product.facets[facet];
+    return Array.isArray(value) ? value : [value];
+  };
+
+  // True when the record survives the search box and every narrowed facet.
+  const matchesState = (product, state) => {
+    if (state.q) {
+      const haystack = `${product.title} ${product.id} ${product.categoryLabel} ${product.description || ""}`.normalize("NFC").toLowerCase();
+      if (!haystack.includes(state.q.normalize("NFC").toLowerCase())) return false;
+    }
+    return FACET_KEYS.every((facet) => {
+      const selected = state[facet];
+      if (!selected.length) return true;
+      return facetValues(product, facet).some((value) => selected.includes(value));
+    });
+  };
+
+  const sortProducts = (products, value) => {
+    const list = [...products];
+    if (value === "price-asc" || value === "price-desc") {
+      const direction = value === "price-asc" ? 1 : -1;
+      const priceOf = (product) => (Number(product.price) > 0 ? Number(product.price) : null);
+      return list.sort((a, b) => {
+        const left = priceOf(a);
+        const right = priceOf(b);
+        // A piece with no confirmed price sorts last in both directions: an
+        // unknown price is not a low price.
+        if (left === null && right === null) return recordOrder(a) - recordOrder(b);
+        if (left === null) return 1;
+        if (right === null) return -1;
+        return (left - right) * direction || recordOrder(a) - recordOrder(b);
+      });
+    }
+    return list.sort((a, b) => recordOrder(a) - recordOrder(b) || a.catalogIndex - b.catalogIndex);
+  };
+
+  const buildControls = (host, records, pageCategory) => {
     const toolbar = host.previousElementSibling;
     const target = toolbar?.classList.contains("catalog-toolbar") ? toolbar : host.parentElement;
-    toolbar?.querySelector(".filter-stub")?.remove();
-    const categories = [...new Set(products.map((product) => product.category))];
+
+    const bn = language === "bn";
+    const products = records.map(withFacets);
+    const hasKnownPrice = products.some((product) => Number(product.price) > 0);
+    const pageScope = pageCategory && pageCategory !== "catalog" ? pageCategory : "all";
+
+    const params = new URLSearchParams(window.location.search);
+    const listParam = (key) => (params.get(key) || "").split(",").map((v) => v.trim()).filter(Boolean);
+    const state = {
+      category: params.get("category") || pageScope,
+      price: listParam("price"),
+      finish: listParam("finish"),
+      design: listParam("design"),
+      format: listParam("format"),
+      q: params.get("q") || "",
+      sort: params.get("sort") || "featured"
+    };
+
+    // A hand-edited or stale link must never wedge the grid on a value that no
+    // longer exists, so unknown selections are dropped before the first render.
+    const knownValues = (facet) => (facet === "price" ? PRICE_BUCKETS : FACET_KEYWORDS[facet] || FORMAT_KEYWORDS).map(([value]) => value);
+    FACET_KEYS.forEach((facet) => {
+      state[facet] = state[facet].filter((value) => knownValues(facet).includes(value));
+    });
+    if (state.category !== "all" && !CATALOG_CATEGORIES.includes(state.category)) state.category = pageScope;
+
+    const facetsId = `catalog-facets-${Math.random().toString(36).slice(2, 8)}`;
+
+    // Only offer an option the catalogue can actually satisfy.
+    const optionsFor = (facet) => {
+      const rules = facet === "price" ? PRICE_BUCKETS : FACET_KEYWORDS[facet] || FORMAT_KEYWORDS;
+      return rules
+        .filter(([value]) => products.some((product) => facetValues(product, facet).includes(value)))
+        .map(([value, labels]) => [value, labels]);
+    };
+
+    const facetPanel = (facet) => {
+      const label = FACET_LABELS[facet][language] || FACET_LABELS[facet].en;
+      if (facet === "price" && !hasKnownPrice) {
+        return `<fieldset class="catalog-facet" data-facet-group="price"><legend>${label}</legend><p class="catalog-facet-note">${PRICE_PENDING_NOTE[language] || PRICE_PENDING_NOTE.en}</p></fieldset>`;
+      }
+      const chips = optionsFor(facet)
+        .map(([value, labels]) => `<button type="button" class="catalog-chip" data-facet="${facet}" data-value="${esc(value)}" aria-pressed="false">${esc(labels[language] || labels.en)}</button>`)
+        .join("");
+      return `<fieldset class="catalog-facet" data-facet-group="${facet}"><legend>${label}</legend><div class="catalog-chips">${chips}</div></fieldset>`;
+    };
+
+    const tabs = [["all", bn ? "সব" : "All"]].concat(
+      CATALOG_CATEGORIES.map((category) => [category, categoryName(category)])
+    );
+    const tabsHtml = tabs
+      .map(([category, label]) => `<button type="button" class="catalog-tab" data-category-tab="${esc(category)}" aria-pressed="false">${esc(label)} <span class="catalog-tab-count"></span></button>`)
+      .join("");
+
+    const searchHtml = `<div class="catalog-search-wrap"><span class="search-icon" aria-hidden="true">⌕</span><input type="search" class="catalog-search-input" placeholder="${bn ? "অলংকার বা ধরন খুঁজুন..." : "Search jewellery by name, type..."}" aria-label="${bn ? "অলংকার খুঁজুন" : "Search jewellery"}" value="${esc(state.q)}"><button type="button" class="catalog-search-clear" aria-label="${bn ? "সার্চ মুছুন" : "Clear search"}"${state.q ? "" : " hidden"}>×</button></div>`;
+
     const control = document.createElement("div");
     control.className = "catalog-controls";
-    control.setAttribute("aria-label", language === "bn" ? "ক্যাটালগ বাছাই ও সাজানোর নিয়ন্ত্রণ" : "Catalog filter and sorting controls");
-
-    const searchHtml = `<div class="catalog-search-wrap"><span class="search-icon" aria-hidden="true">⌕</span><input type="search" class="catalog-search-input" placeholder="${language === "bn" ? "অলংকার বা ধরন খুঁজুন..." : "Search jewellery by name, type..."}" aria-label="${language === "bn" ? "অলংকার খুঁজুন" : "Search jewellery"}"><button type="button" class="catalog-search-clear" aria-label="Clear search" style="display:none;">×</button></div>`;
-
-    const filterButtons = pageCategory ? [] : [`<button type="button" data-filter="all" aria-pressed="true">${language === "bn" ? "সব কালেকশন" : "All Pieces"}</button>`, ...categories.map((category) => `<button type="button" data-filter="${esc(category)}" aria-pressed="false">${esc(categoryName(category))}</button>`)].join("");
-
-    control.innerHTML = `${searchHtml}<span class="catalog-result-count" aria-live="polite"></span>${filterButtons}<label class="sr-only" for="catalog-sort">${language === "bn" ? "সাজান" : "Sort"}</label><select id="catalog-sort" data-sort><option value="record">${language === "bn" ? "রেকর্ডের ক্রম" : "Record order"}</option><option value="az">${language === "bn" ? "নাম অনুযায়ী" : "Name A–Z"}</option><option value="category">${language === "bn" ? "ধরন অনুযায়ী" : "By category"}</option></select>`;
+    control.setAttribute("aria-label", bn ? "ক্যাটালগ ফিল্টার ও সাজানোর নিয়ন্ত্রণ" : "Catalogue filters and sorting controls");
+    control.innerHTML = `
+      <div class="catalog-controls-top">
+        <button type="button" class="catalog-filter-toggle" aria-expanded="false" aria-controls="${facetsId}"><span aria-hidden="true">☷</span> ${bn ? "ফিল্টার" : "Filter"} <b class="catalog-filter-count" hidden>0</b></button>
+        ${searchHtml}
+        <span class="catalog-result-count" aria-live="polite"></span>
+        <label class="sr-only" for="catalog-sort">${bn ? "সাজান" : "Sort"}</label>
+        <select id="catalog-sort" data-sort>
+          <option value="featured">${bn ? "নির্বাচিত" : "Featured"}</option>
+          <option value="price-asc">${bn ? "দাম: কম থেকে বেশি" : "Price: low to high"}</option>
+          <option value="price-desc">${bn ? "দাম: বেশি থেকে কম" : "Price: high to low"}</option>
+        </select>
+      </div>
+      <div class="catalog-tabs" role="group" aria-label="${bn ? "ক্যাটাগরি" : "Category"}">${tabsHtml}</div>
+      <div class="catalog-facets" id="${facetsId}">
+        ${FACET_KEYS.map(facetPanel).join("")}
+        <button type="button" class="catalog-clear">${bn ? "সব ফিল্টার মুছুন" : "Clear all filters"}</button>
+      </div>`;
 
     target.insertAdjacentElement("afterend", control);
 
-    let activeFilter = pageCategory || "all";
-    let searchQuery = "";
-
     const searchInput = one(".catalog-search-input", control);
     const searchClear = one(".catalog-search-clear", control);
+    const activeFacetCount = () =>
+      FACET_KEYS.reduce((total, facet) => total + state[facet].length, 0) + (state.category !== "all" ? 1 : 0);
+
+    const syncUrl = () => {
+      const next = new URLSearchParams();
+      if (state.category !== "all") next.set("category", state.category);
+      FACET_KEYS.forEach((facet) => {
+        if (state[facet].length) next.set(facet, state[facet].join(","));
+      });
+      if (state.q) next.set("q", state.q);
+      if (state.sort !== "featured") next.set("sort", state.sort);
+      const query = next.toString();
+      // replaceState, not pushState: filtering should not fill the back button.
+      window.history.replaceState(null, "", `${window.location.pathname}${query ? `?${query}` : ""}${window.location.hash}`);
+    };
+
+    const countFor = (category) =>
+      products.filter((product) => (category === "all" || product.category === category) && matchesState(product, state)).length;
+
+    const visibleProducts = () =>
+      sortProducts(
+        products.filter((product) => (state.category === "all" || product.category === state.category) && matchesState(product, state)),
+        state.sort
+      );
 
     const render = () => {
-      const q = searchQuery.trim().toLowerCase();
-      const filtered = products.filter((product) => {
-        const matchesCategory = activeFilter === "all" || product.category === activeFilter;
-        if (!matchesCategory) return false;
-        if (!q) return true;
-        const text = `${product.title} ${product.id} ${product.categoryLabel} ${product.description || ""} ${product.image?.caption || ""}`.toLowerCase();
-        return text.includes(q);
-      });
-      const visible = sortProducts(filtered, one("[data-sort]", control).value);
-
+      const visible = visibleProducts();
       if (visible.length) {
-        host.innerHTML = visible.map(productCard).join("");
+        host.innerHTML = visible.map((product) => productCard(product)).join("");
       } else {
         host.innerHTML = `<div class="catalog-no-results">
-          <h3>${language === "bn" ? "কোনো পণ্য পাওয়া যায়নি" : "No matching jewellery found"}</h3>
-          <p>${language === "bn" ? "অনুগ্রহ করে অন্য শব্দ ব্যবহার করুন অথবা সম্পূর্ণ সংগ্রহ দেখতে ফিল্টার রিসেট করুন।" : "Try adjusting your search terms or reset the filters to view the full edit."}</p>
-          <button type="button" class="catalog-reset-btn button button-outline">${language === "bn" ? "সব পণ্য দেখুন ↺" : "View all pieces ↺"}</button>
+          <h3>${bn ? "কোনো পণ্য পাওয়া যায়নি" : "No matching jewellery found"}</h3>
+          <p>${bn ? "অনুগ্রহ করে অন্য শব্দ ব্যবহার করুন অথবা সম্পূর্ণ সংগ্রহ দেখতে ফিল্টার রিসেট করুন।" : "Try adjusting your search terms or reset the filters to view the full edit."}</p>
+          <button type="button" class="catalog-reset-btn button button-outline">${bn ? "সব পণ্য দেখুন ↺" : "View all pieces ↺"}</button>
         </div>`;
-        one(".catalog-reset-btn", host)?.addEventListener("click", () => {
-          activeFilter = "all";
-          searchQuery = "";
-          if (searchInput) searchInput.value = "";
-          if (searchClear) searchClear.style.display = "none";
-          all("[data-filter]", control).forEach((item) => item.setAttribute("aria-pressed", String(item.dataset.filter === "all")));
-          render();
-        });
       }
+      enhanceProductCards(host);
 
-      one(".catalog-result-count", control).textContent = language === "bn"
+      one(".catalog-result-count", control).textContent = bn
         ? `${visible.length}টি অলংকার`
-        : `${visible.length} pieces`;
+        : `${visible.length} ${visible.length === 1 ? "piece" : "pieces"}`;
+
+      all("[data-category-tab]", control).forEach((tab) => {
+        const category = tab.dataset.categoryTab;
+        const count = countFor(category);
+        tab.setAttribute("aria-pressed", String(category === state.category));
+        one(".catalog-tab-count", tab).textContent = String(count);
+        tab.classList.toggle("is-empty", count === 0);
+      });
+
+      all("[data-facet]", control).forEach((chip) =>
+        chip.setAttribute("aria-pressed", String(state[chip.dataset.facet].includes(chip.dataset.value)))
+      );
+
+      const badge = one(".catalog-filter-count", control);
+      const active = activeFacetCount();
+      badge.textContent = String(active);
+      badge.hidden = active === 0;
+
+      syncUrl();
+    };
+
+    const resetAll = () => {
+      FACET_KEYS.forEach((facet) => { state[facet] = []; });
+      state.q = "";
+      if (searchInput) searchInput.value = "";
+      if (searchClear) searchClear.hidden = true;
+      render();
     };
 
     if (searchInput) {
-      searchInput.addEventListener("input", (e) => {
-        searchQuery = e.target.value;
-        if (searchClear) searchClear.style.display = searchQuery ? "block" : "none";
+      searchInput.addEventListener("input", (event) => {
+        state.q = event.target.value;
+        if (searchClear) searchClear.hidden = !state.q;
         render();
       });
     }
 
     if (searchClear) {
       searchClear.addEventListener("click", () => {
-        searchQuery = "";
+        state.q = "";
         searchInput.value = "";
-        searchClear.style.display = "none";
+        searchClear.hidden = true;
         searchInput.focus();
         render();
       });
     }
 
-    all("[data-filter]", control).forEach((button) => button.addEventListener("click", () => {
-      activeFilter = button.dataset.filter;
-      all("[data-filter]", control).forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
+    all("[data-category-tab]", control).forEach((tab) =>
+      tab.addEventListener("click", () => {
+        state.category = tab.dataset.categoryTab;
+        render();
+      })
+    );
+
+    all("[data-facet]", control).forEach((chip) =>
+      chip.addEventListener("click", () => {
+        const facet = chip.dataset.facet;
+        const value = chip.dataset.value;
+        state[facet] = state[facet].includes(value)
+          ? state[facet].filter((item) => item !== value)
+          : state[facet].concat(value);
+        render();
+      })
+    );
+
+    one(".catalog-clear", control).addEventListener("click", resetAll);
+
+    const toggle = one(".catalog-filter-toggle", control);
+    toggle.addEventListener("click", () => {
+      const open = control.classList.toggle("is-open");
+      toggle.setAttribute("aria-expanded", String(open));
+    });
+
+    // A filter can empty the grid, so the empty state needs its own way back.
+    host.addEventListener("click", (event) => {
+      if (event.target.closest(".catalog-reset-btn")) resetAll();
+    });
+
+    const sortSelect = one("[data-sort]", control);
+    sortSelect.value = state.sort;
+    sortSelect.addEventListener("change", () => {
+      state.sort = sortSelect.value;
       render();
-    }));
+    });
 
-    // Seed the search box from a ?q= param so the header search box can route
-    // visitors straight to a filtered Shop view.
-    const urlQuery = new URLSearchParams(window.location.search).get("q");
-    if (urlQuery && searchInput) {
-      searchQuery = urlQuery;
-      searchInput.value = urlQuery;
-      if (searchClear) searchClear.style.display = "block";
-    }
-
-    one("[data-sort]", control).addEventListener("change", render);
     render();
   };
 
@@ -989,8 +1260,8 @@
       id: p.sku,
       slug: p.slug,
       title: language === "bn" ? p.title_bn : p.title_en,
-      category: p.category,
-      categoryLabel: p.category,
+      category: categorySlug(p.category),
+      categoryLabel: categoryName(categorySlug(p.category)),
       price: p.price,
       pricePending: Number(p.is_price_pending) === 1,
       status: p.is_active ? "ready" : "inactive",
@@ -1019,8 +1290,8 @@
       id: p.id,
       slug: p.slug,
       title: p.title,
-      category: p.category,
-      categoryLabel: p.categoryLabel || p.category,
+      category: categorySlug(p.category),
+      categoryLabel: categoryName(categorySlug(p.category)),
       price: p.price,
       pricePending: !(Number(p.price) > 0),
       status: p.status,
@@ -1052,12 +1323,29 @@
     const hasStaticCards = Boolean(one(".product-card", host));
     const { source, records } = await loadCatalogRecords();
 
-    // The API is down. Pre-rendered static cards are the reviewed published
-    // state for this page — keep them untouched rather than replacing them
-    // with a snapshot subset. Only an empty host renders the snapshot so it
-    // never goes blank.
+    const pageCategory = (host.dataset.category || "").toLowerCase();
+    // "catalog" is a sentinel: show all ready products with no category filter.
+    // A real category slug (rings, necklaces, etc.) opens on that category.
+    const ready = records ? records.filter((product) => product.status === "ready") : [];
+    const inScope = (list) => list.filter((product) => !pageCategory || pageCategory === "catalog" || categorySlug(product.category) === pageCategory);
+
+    // The API is down. The pre-rendered cards on this page are the reviewed
+    // published state, so the snapshot is only allowed to drive the grid when it
+    // agrees with them: same records, same count. Filters are offered in that
+    // case, because a static preview or an API outage must not lose the whole
+    // catalogue UI. If the two disagree, the published cards win and no controls
+    // are drawn - a filtered view that contradicts the page would be worse than
+    // no filters at all.
     if (source === "catalogue" && hasStaticCards) {
-      enhanceProductCards(host);
+      const published = all(".product-card", host).length;
+      if (ready.length && inScope(ready).length === published) {
+        buildControls(host, ready, pageCategory);
+      } else {
+        console.warn(
+          `Catalogue snapshot and the pre-rendered grid disagree (${inScope(ready).length} vs ${published}); leaving the reviewed cards untouched.`
+        );
+        enhanceProductCards(host);
+      }
       return;
     }
 
@@ -1070,13 +1358,7 @@
       return;
     }
 
-    const pageCategory = (host.dataset.category || "").toLowerCase();
-    // "catalog" is a sentinel: show all ready products with no category filter.
-    // A real category slug (rings, necklaces, etc.) filters to that category only.
-    const products = records
-      .filter((product) => product.status === "ready" && (!pageCategory || pageCategory === "catalog" || String(product.category).toLowerCase() === pageCategory));
-
-    if (!products.length) {
+    if (!inScope(ready).length) {
       // No live records for this view: keep static cards rather than wiping them.
       if (!hasStaticCards) {
         host.innerHTML = `<p class="catalog-empty">${language === "bn" ? "এই বিভাগের জন্য নিশ্চিত পণ্যের তথ্য এখনও প্রকাশের অপেক্ষায় আছে। সব পণ্য দেখতে শপ পেজে যান।" : "Verified product records for this category are awaiting publication. Visit Shop to browse all supplied images under review."}</p>`;
@@ -1085,7 +1367,9 @@
       }
       return;
     }
-    buildControls(host, products, pageCategory);
+    // The whole ready set reaches the controls, not just this page's slice, so the
+    // category tabs can count every category and switch between them in place.
+    buildControls(host, ready, pageCategory);
   });
 
   /* ==========================================================================
