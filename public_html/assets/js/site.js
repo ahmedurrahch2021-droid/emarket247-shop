@@ -2036,7 +2036,7 @@
         const stockVal = one("#prod-stock-status")?.value;
         const priceVal = Number(one("#prod-price")?.value || 0);
         const pricePendingVal = one("#prod-price-pending")?.checked;
-        const imageVal = one("#prod-image-url")?.value.trim() || "/assets/images/products/emarket247-gold-tone-cross-band-ring-10.webp";
+        const imageVal = one("#prod-image-url")?.value.trim() || "/assets/images/products/emarket247-gold-tone-cross-band-bangle-10.webp";
         const leadVal = one("#prod-lead-en")?.value.trim() || "Traditional handcrafted gold-tone finish";
         const materialVal = one("#prod-material")?.value.trim() || "22K Gold Luster & Sterling Silver";
 
