@@ -2362,6 +2362,10 @@
         const leadVal = one("#prod-lead-en")?.value.trim() || "Traditional handcrafted gold-tone finish";
         const materialVal = one("#prod-material")?.value.trim() || "22K Gold Luster & Sterling Silver";
 
+        // Maps the category chosen in this form to its category-page slug. Every
+        // option the form offers must appear here: the lookup below used to fall
+        // back to "rings", so a Bridal or Gift product was filed as a Ring in the
+        // admin's own records while the database kept the correct label.
         const categorySlugMap = {
           "Rings": "rings",
           "Earrings": "earrings",
@@ -2369,8 +2373,17 @@
           "Bracelets": "bracelets",
           "Bangles": "bangles",
           "Pendants": "pendants",
-          "Jewellery Sets": "jewellery-sets"
+          "Jewellery Sets": "jewellery-sets",
+          "Bridal Jewellery": "bridal-jewellery",
+          "Gift Jewellery": "gift-jewellery"
         };
+
+        // Derive a slug from any label this map does not know rather than
+        // defaulting to a real category: a new category must never be filed
+        // under an existing one by accident. product.php resolves the same way.
+        const rawCategory = String(catVal ?? "").trim();
+        const categorySlug = categorySlugMap[rawCategory]
+          || rawCategory.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
 
         const itemSlug = skuVal.toLowerCase().replace(/[^a-z0-9]+/g, "-");
 
@@ -2379,7 +2392,7 @@
           title: titleEnVal,
           title_bn: titleBnVal,
           slug: itemSlug,
-          category: categorySlugMap[catVal] || "rings",
+          category: categorySlug,
           categoryLabel: catVal,
           status: "ready",
           stock_status: stockVal,
