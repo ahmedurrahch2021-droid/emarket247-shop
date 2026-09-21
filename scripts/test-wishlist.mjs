@@ -45,10 +45,15 @@ const api = {
   signedIn: false,
   user: { id: 7, full_name: "Priya Customer", email: "priya@example.com", role: "customer" },
   items: [],
+  // Slugs the endpoint will refuse to store, mirroring the real one: it keeps
+  // only rows that exist in emk_products with is_active = 1, so a piece
+  // published to the static catalogue but not yet a DB row is turned away.
+  unpublished: [],
   calls: [],
-  reset({ signedIn = false, items = [] } = {}) {
+  reset({ signedIn = false, items = [], unpublished = [] } = {}) {
     this.signedIn = signedIn;
     this.items = [...items];
+    this.unpublished = [...unpublished];
     this.calls = [];
   },
 };
@@ -72,10 +77,17 @@ const server = createServer(async (request, response) => {
       if (!api.signedIn) return json({ success: false, error: "Unauthorized Access." }, 401);
       if (request.method === "GET") return json({ success: true, items: api.items });
       const payload = body ? JSON.parse(body) : {};
-      if (payload.action === "replace") api.items = Array.isArray(payload.slugs) ? [...payload.slugs] : [];
+      let rejected = [];
+      if (payload.action === "replace") {
+        const asked = Array.isArray(payload.slugs) ? payload.slugs : [];
+        // The endpoint answers with both halves: what it stored, and what it
+        // turned away by name, so the caller can stop offering those.
+        api.items = asked.filter((slug) => !api.unpublished.includes(slug));
+        rejected = asked.filter((slug) => api.unpublished.includes(slug));
+      }
       if (payload.action === "clear") api.items = [];
       api.calls[api.calls.length - 1].body = body;
-      return json({ success: true, items: api.items });
+      return json({ success: true, items: api.items, rejected });
     }
     return json({ success: false, error: "Unknown endpoint." }, 404);
   }
@@ -136,8 +148,11 @@ const check = (label, condition, detail = "") => {
 
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const openPage = async (url, { seed = null, signedIn = false, serverItems = [], blockedStorage = false } = {}) => {
-  api.reset({ signedIn, items: serverItems });
+const openPage = async (
+  url,
+  { seed = null, unsynced = null, signedIn = false, serverItems = [], unpublished = [], blockedStorage = false } = {}
+) => {
+  api.reset({ signedIn, items: serverItems, unpublished });
   const dom = await JSDOM.fromURL(`${origin}${url}`, {
     runScripts: "dangerously",
     resources,
@@ -166,12 +181,44 @@ const openPage = async (url, { seed = null, signedIn = false, serverItems = [], 
         }
       }
       if (seed) window.localStorage.setItem("emarket247_wishlist", JSON.stringify(seed));
+      // The memo of slugs the server has already refused. Seeding it stands in
+      // for a previous visit that was told no, which is what the re-push loop
+      // needs in order to be observable in a single page load.
+      if (unsynced) window.localStorage.setItem("emarket247_wishlist_unsynced", JSON.stringify(unsynced));
     },
   });
-  // Give the deferred scripts, the catalogue fallback fetch and the render a
-  // chance to settle.
-  await wait(700);
+  // site.js is a deferred script that enhances the grid after it parses, and
+  // how long that takes varies with machine load. Waiting a fixed 700ms raced
+  // it and failed about one run in four on a cold start - the shop grid still
+  // had its 27 server-rendered cards but no hearts yet, so the first
+  // querySelector(".wishlist-btn") returned null and the run died mid-file.
+  // Poll for the work to have finished instead, then let the toasts settle.
+  await settle(dom);
+  await wait(120);
   return dom;
+};
+
+// Resolves once site.js has wired the page. Three shapes have to be waited
+// for: the header control, which every page has; product cards, which are
+// server-rendered and only get their hearts once the script has run; and the
+// wishlist page, which draws its own contents from storage, so neither a card
+// nor the empty state is there at parse time. Falls through after the timeout
+// so a genuine failure reports as a failed assertion rather than a hang.
+const settle = async (dom, timeout = 5000) => {
+  const { document } = dom.window;
+  const ready = () => {
+    if (!document.querySelector("[data-wishlist-toggle]")) return false;
+    const cards = document.querySelector(".product-card");
+    if (document.location.pathname.includes("/wishlist/")) {
+      if (!cards && !document.querySelector(".wishlist-empty-cta")) return false;
+    }
+    return !cards || Boolean(document.querySelector("[data-wishlist-item]"));
+  };
+  const started = Date.now();
+  while (Date.now() - started < timeout) {
+    if (ready()) return;
+    await wait(25);
+  }
 };
 
 const heartOf = (document, slug) => document.querySelector(`.wishlist-btn[data-wishlist-item="${slug}"]`);
@@ -412,6 +459,72 @@ const click = (element) => element.dispatchEvent(new element.ownerDocument.defau
       Boolean(card.querySelector(".product-card-wa-btn"))
   );
   dom.window.close();
+}
+
+// ---------------------------------------------------------------------------
+// 8. The account refuses a piece: it is named back, kept on the device, and
+//    never offered again. Without this the browser re-pushed the same slug on
+//    every page load and the server silently dropped it every time.
+// ---------------------------------------------------------------------------
+{
+  const refused = "emarket247-bangles-17";
+  const stored = "emarket247-earrings-32";
+
+  // 8a. First visit: the account turns the piece away.
+  const dom = await openPage("/en/wishlist/", {
+    seed: [refused, stored],
+    signedIn: true,
+    serverItems: [stored],
+    unpublished: [refused],
+  });
+  await wait(900); // longer than the 600 ms push debounce
+  const memo = JSON.parse(dom.window.localStorage.getItem("emarket247_wishlist_unsynced") || "[]");
+  check(
+    "a piece the account refuses is remembered as unsynced",
+    memo.includes(refused),
+    JSON.stringify(memo)
+  );
+  check(
+    "a refused piece is still kept on the device, not quietly lost",
+    JSON.parse(dom.window.localStorage.getItem("emarket247_wishlist") || "[]").includes(refused)
+  );
+  check(
+    "a refused piece still renders, so the visitor never sees it vanish",
+    dom.window.document.querySelectorAll(".product-card").length === 2
+  );
+  dom.window.close();
+
+  // 8b. Next visit, same state: the browser must not ask again.
+  const again = await openPage("/en/wishlist/", {
+    seed: [refused, stored],
+    unsynced: [refused],
+    signedIn: true,
+    serverItems: [stored],
+    unpublished: [refused],
+  });
+  await wait(900);
+  const rewrites = api.calls.filter((call) => call.url.startsWith("/api/wishlist.php") && call.method !== "GET");
+  check(
+    "a slug the account already refused is not pushed again",
+    rewrites.length === 0,
+    JSON.stringify(rewrites.map((call) => call.body))
+  );
+  again.window.close();
+
+  // 8c. The piece is published: the memo clears so it can sync normally again.
+  const published = await openPage("/en/wishlist/", {
+    seed: [refused, stored],
+    unsynced: [refused],
+    signedIn: true,
+    serverItems: [refused, stored],
+  });
+  await wait(900);
+  check(
+    "once the account accepts the piece the refusal is forgotten",
+    JSON.parse(published.window.localStorage.getItem("emarket247_wishlist_unsynced") || "[]").length === 0,
+    published.window.localStorage.getItem("emarket247_wishlist_unsynced")
+  );
+  published.window.close();
 }
 
 server.close();
