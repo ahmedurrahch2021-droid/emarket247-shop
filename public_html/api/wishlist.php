@@ -89,8 +89,15 @@ foreach ($requested as $candidate) {
 }
 $requestedSlugs = array_keys($requestedSlugs);
 
-// Only published products may be stored.
+// Only published products may be stored. Anything refused is reported back
+// rather than dropped in silence: the catalogue JSON the storefront renders
+// from and emk_products can legitimately disagree (a piece published to the
+// static catalogue but not yet present as a DB row), and a customer who saved
+// such a piece would otherwise watch it sync nowhere, forever, with no signal
+// to them or to us. The client keeps the piece on the device and stops
+// re-offering it to this endpoint once it has been refused.
 $published = [];
+$rejected = [];
 if ($action === 'replace' && $requestedSlugs) {
     $placeholders = implode(',', array_fill(0, count($requestedSlugs), '?'));
     $stmt = $pdo->prepare("SELECT slug FROM emk_products WHERE is_active = 1 AND slug IN ($placeholders)");
@@ -99,6 +106,8 @@ if ($action === 'replace' && $requestedSlugs) {
     foreach ($requestedSlugs as $slug) {
         if (isset($publishedSet[$slug])) {
             $published[] = $slug;
+        } else {
+            $rejected[] = $slug;
         }
     }
 }
@@ -122,4 +131,11 @@ try {
     sendJsonResponse(['success' => false, 'error' => 'Wishlist could not be saved.'], 500);
 }
 
-sendJsonResponse(['success' => true, 'items' => $readStoredSlugs($pdo, $userId)]);
+// 'rejected' is the honest half of the answer: the slugs this endpoint would
+// not store, named so the caller can stop offering them. It is always present
+// on a write, empty when everything was kept.
+sendJsonResponse([
+    'success' => true,
+    'items' => $readStoredSlugs($pdo, $userId),
+    'rejected' => $rejected,
+]);

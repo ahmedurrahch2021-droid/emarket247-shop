@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 
 const project = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const root = path.join(project, "public_html");
+const SITE_ORIGIN = "https://emarket247.shop";
 const errors = [];
 const warnings = [];
 const catalogues = {};
@@ -60,7 +61,41 @@ for (const file of publicPages) {
   if (!/<title>[^<]+<\/title>/i.test(html)) errors.push(`${rel}: missing title`);
   if (!/<meta[^>]+name=["']description["'][^>]+content=["'][^"']+["']/i.test(html)) errors.push(`${rel}: missing meta description`);
   if (!/<link[^>]+rel=["']canonical["'][^>]+href=["']https:\/\/emarket247\.shop\//i.test(html)) errors.push(`${rel}: missing canonical URL`);
-  if (!new RegExp(`hreflang=["']${otherLang}["']`, "i").test(html)) errors.push(`${rel}: missing ${otherLang} hreflang`);
+
+  // Language annotations are checked by target, not just presence. A cluster
+  // only works when both pages agree: publish-pdp-pages.mjs once hardcoded
+  // hreflang="en" -> the BN URL, which shipped 27 inverted product pages that
+  // an existence-only check happily passed. Search engines discard a cluster
+  // whose links do not reciprocate, so the bilingual signal was lost exactly
+  // on the product pages that matter most.
+  const pageUrl = `${SITE_ORIGIN}/${rel.replace(/index\.html$/, "")}`;
+  const counterpartUrl = `${SITE_ORIGIN}/${counterpartRel.replace(/index\.html$/, "")}`;
+  const hreflangHref = (key) =>
+    (html.match(new RegExp(`hreflang=["']${key}["'][^>]*href=["']([^"']+)["']`, "i")) || [])[1];
+
+  const canonicalHref = (html.match(/<link[^>]+rel=["']canonical["'][^>]+href=["']([^"']+)["']/i) || [])[1];
+  if (canonicalHref && canonicalHref !== pageUrl) errors.push(`${rel}: canonical is ${canonicalHref}, expected ${pageUrl}`);
+
+  const selfHreflang = hreflangHref(lang);
+  if (!selfHreflang) errors.push(`${rel}: missing ${lang} hreflang`);
+  else if (selfHreflang !== pageUrl) errors.push(`${rel}: ${lang} hreflang is ${selfHreflang}, expected its own URL ${pageUrl}`);
+
+  const otherHreflang = hreflangHref(otherLang);
+  if (!otherHreflang) errors.push(`${rel}: missing ${otherLang} hreflang`);
+  else if (otherHreflang !== counterpartUrl) errors.push(`${rel}: ${otherLang} hreflang is ${otherHreflang}, expected ${counterpartUrl}`);
+
+  // Two conventions are live and both are legitimate: most pages send
+  // x-default to the site root, while the product pages send it to their own
+  // EN page, which keeps a visitor with an unmatched language on the piece they
+  // asked for instead of the homepage. What is never right is pointing
+  // x-default at the Bengali URL — that is the defect that shipped, and it is
+  // what this rejects.
+  const enUrl = lang === "en" ? pageUrl : counterpartUrl;
+  const xDefault = hreflangHref("x-default");
+  if (!xDefault) errors.push(`${rel}: missing x-default hreflang`);
+  else if (xDefault !== `${SITE_ORIGIN}/` && xDefault !== enUrl)
+    errors.push(`${rel}: x-default is ${xDefault}, expected ${SITE_ORIGIN}/ or ${enUrl}`);
+
   if (!/<h1(?:\s[^>]*)?>[\s\S]*?<\/h1>/i.test(html)) errors.push(`${rel}: missing h1`);
   if (!html.includes("This site is developed by FarhanMomen")) errors.push(`${rel}: missing footer credit 'This site is developed by FarhanMomen'`);
   if (!(await exists(path.join(root, counterpartRel)))) errors.push(`${rel}: missing ${otherLang} counterpart ${counterpartRel}`);

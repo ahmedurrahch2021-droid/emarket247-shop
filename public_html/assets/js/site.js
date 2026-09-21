@@ -573,13 +573,36 @@
     }
   };
 
+  // Slugs the account would not keep, remembered on this device.
+  //
+  // The catalogue this storefront renders from and the product rows the account
+  // stores against are two different lists, and they can legitimately disagree:
+  // a piece published to the catalogue but not yet a row is saveable here and
+  // refusable there. The piece stays in the customer's list on this device —
+  // they saved it, and the page still renders it from the catalogue — but
+  // remembering the refusal stops the reconciliation below from offering the
+  // same slugs again on every single page load, forever. A push the customer's
+  // own tap triggers always offers them again, so a piece that later gets its
+  // row is taken up the next time they touch their wishlist.
+  const WISHLIST_UNSYNCED_KEY = "emarket247_wishlist_unsynced";
+
+  const readUnsyncedSlugs = () => new Set(readWishlistStore(WISHLIST_UNSYNCED_KEY));
+  const writeUnsyncedSlugs = (slugs) =>
+    writeWishlistStore(WISHLIST_UNSYNCED_KEY, [...slugs].slice(0, WISHLIST_MAX_ITEMS));
+
   // Debounced so a burst of taps becomes one request, and only ever called for
   // a signed-in customer: a guest makes no wishlist request at all.
   const pushWishlistToServer = (slugs) => {
     if (!wishlistApi || !wishlistCurrentUser()) return;
     window.clearTimeout(wishlistPushTimer);
-    wishlistPushTimer = window.setTimeout(() => {
-      wishlistApi.call("wishlist.php", { action: "replace", slugs });
+    wishlistPushTimer = window.setTimeout(async () => {
+      const res = await wishlistApi.call("wishlist.php", { action: "replace", slugs });
+      // The endpoint reports what it refused rather than dropping it quietly,
+      // so the answer is recorded here. An offline or failed call leaves the
+      // previous memo alone: nothing was refused, the request never arrived.
+      if (res && res.success && Array.isArray(res.rejected)) {
+        writeUnsyncedSlugs(new Set(res.rejected.map(wishlistSlug).filter(Boolean)));
+      }
     }, 600);
   };
 
@@ -1502,7 +1525,22 @@
     }
 
     const serverHas = new Set(serverSlugs);
-    if (merged.some((slug) => !serverHas.has(slug))) pushWishlistToServer(merged);
+    const unsynced = readUnsyncedSlugs();
+
+    // Keep the memo honest: a slug the account now holds, or one the customer
+    // has since removed, is no longer refused and must not stay remembered.
+    const stale = [...unsynced].filter((slug) => serverHas.has(slug) || !merged.includes(slug));
+    if (stale.length) {
+      stale.forEach((slug) => unsynced.delete(slug));
+      writeUnsyncedSlugs(unsynced);
+    }
+
+    // Push only when this device holds something the account has never seen and
+    // has not already refused. Without the second test every page load offers
+    // the same refused slugs again and gets the same answer.
+    if (merged.some((slug) => !serverHas.has(slug) && !unsynced.has(slug))) {
+      pushWishlistToServer(merged);
+    }
   };
 
   // Sync auth state with server
