@@ -202,6 +202,21 @@ if (taxonomy?.products && taxonomy?.categories && catalogues.en && catalogues.bn
         errors.push(`catalog.${lang}.json: unregistered ready product ${record.slug}`);
       }
     }
+
+    // A "Related pieces" block must never ship empty. A heading sitting over an
+    // empty grid reads as a broken page, which is what a single-piece category
+    // produces when the generator emits the block unconditionally. The generator
+    // now omits the block instead — the same thing product.php has always done
+    // with its `if ($relatedHtml !== '')` guard — and this check is what keeps a
+    // future category from reintroducing it.
+    for (const record of catalogues[lang].filter((product) => product.status === "ready")) {
+      const pdpFile = path.join(productRoot, record.slug, "index.html");
+      const pdp = await readFile(pdpFile, "utf8");
+      const relatedBlock = pdp.match(/<section class="pdp-related wrap">([\s\S]*?)<\/section>/);
+      if (relatedBlock && !relatedBlock[1].includes('class="product-card"')) {
+        errors.push(`${lang}/products/${record.slug}/index.html: related-products block is present but empty`);
+      }
+    }
   }
 }
 

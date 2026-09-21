@@ -559,6 +559,24 @@ function buildPdp(product, lang, relatedProducts) {
 
   const relatedHtml = relatedProducts.map(p => productCard(p, lang)).join('');
 
+  // Emit the related block only when it has something to show. A category can
+  // hold a single piece — earrings did until recently — and a heading followed
+  // by an empty grid reads as a broken page rather than a small collection.
+  // product.php already guards the same block with `if ($relatedHtml !== '')`,
+  // so this keeps the static page and the database-rendered page identical.
+  const relatedSection = relatedHtml.trim() === ''
+    ? ''
+    : `    <section class="pdp-related wrap">
+      <div class="pdp-section-head">
+        <h2>${relatedTitle}</h2>
+      </div>
+      <div class="product-grid">
+        ${relatedHtml}
+      </div>
+    </section>
+
+`;
+
   const finalCtaH2 = isBn
     ? 'এই পণ্য সম্পর্কে অর্ডার বা প্রশ্ন করতে প্রস্তুত?'
     : 'Ready to order or have questions about this piece?';
@@ -745,16 +763,7 @@ function buildPdp(product, lang, relatedProducts) {
       </details>
     </section>
 
-    <section class="pdp-related wrap">
-      <div class="pdp-section-head">
-        <h2>${relatedTitle}</h2>
-      </div>
-      <div class="product-grid">
-        ${relatedHtml}
-      </div>
-    </section>
-
-    <section class="pdp-final-cta wrap">
+${relatedSection}    <section class="pdp-final-cta wrap">
       <div class="pdp-final-card">
         <div class="pdp-final-copy">
           <h2>${finalCtaH2}</h2>
