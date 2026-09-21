@@ -864,6 +864,102 @@
       "status": "ready",
       "copyright": "© eMarket247. All rights reserved.",
       "original_filename": "WhatsApp Image 2026-08-21 at 18.46.17 (1).jpeg"
+    },
+    {
+      "id": "src-049",
+      "slug": "emarket247-floral-trio-gold-tone-necklace",
+      "sku": null,
+      "category": "necklaces",
+      "categoryLabel": "Necklaces",
+      "title": "Floral Trio Gold-Tone Necklace",
+      "description": "Catalog record in preparation. Specifications, price, and availability are pending approval.",
+      "price": null,
+      "compareAtPrice": null,
+      "currency": "BDT",
+      "availability": null,
+      "materials": [],
+      "sizes": [],
+      "variants": [],
+      "image": {
+        "src": "/assets/images/products/emarket247-floral-gold-tone-necklace-02.webp",
+        "srcset": "/assets/images/products/emarket247-floral-gold-tone-necklace-02.webp",
+        "width": 1350,
+        "height": 1800,
+        "alt": "Floral Trio Gold-Tone Necklace — eMarket247 product photograph.",
+        "caption": "Unpriced catalog record. Specifications and price are in preparation."
+      },
+      "gallery": [],
+      "seo": {
+        "title": "Floral Trio Gold-Tone Necklace | eMarket247",
+        "description": "Catalog record in preparation. Specifications, price, and availability are pending approval."
+      },
+      "status": "ready",
+      "copyright": "© eMarket247. All rights reserved.",
+      "original_filename": null
+    },
+    {
+      "id": "src-050",
+      "slug": "emarket247-gold-floral-openwork-ring",
+      "sku": null,
+      "category": "rings",
+      "categoryLabel": "Rings",
+      "title": "Openwork Floral Gold-Tone Ring",
+      "description": "Catalog record in preparation. Specifications, price, and availability are pending approval.",
+      "price": null,
+      "compareAtPrice": null,
+      "currency": "BDT",
+      "availability": null,
+      "materials": [],
+      "sizes": [],
+      "variants": [],
+      "image": {
+        "src": "/assets/images/products/emarket247-gold-floral-openwork-ring.webp",
+        "srcset": "/assets/images/products/emarket247-gold-floral-openwork-ring.webp",
+        "width": 1600,
+        "height": 1600,
+        "alt": "Openwork Floral Gold-Tone Ring — eMarket247 product photograph.",
+        "caption": "Unpriced catalog record. Specifications and price are in preparation."
+      },
+      "gallery": [],
+      "seo": {
+        "title": "Openwork Floral Gold-Tone Ring | eMarket247",
+        "description": "Catalog record in preparation. Specifications, price, and availability are pending approval."
+      },
+      "status": "ready",
+      "copyright": "© eMarket247. All rights reserved.",
+      "original_filename": null
+    },
+    {
+      "id": "src-051",
+      "slug": "emarket247-gold-tone-teardrop-hoop-earrings",
+      "sku": null,
+      "category": "earrings",
+      "categoryLabel": "Earrings",
+      "title": "Teardrop Stone-Link Gold-Tone Hoop Earrings",
+      "description": "Catalog record in preparation. Specifications, price, and availability are pending approval.",
+      "price": null,
+      "compareAtPrice": null,
+      "currency": "BDT",
+      "availability": null,
+      "materials": [],
+      "sizes": [],
+      "variants": [],
+      "image": {
+        "src": "/assets/images/products/emarket247-gold-tone-teardrop-hoop-earrings-15.webp",
+        "srcset": "/assets/images/products/emarket247-gold-tone-teardrop-hoop-earrings-15.webp",
+        "width": 1200,
+        "height": 1600,
+        "alt": "Teardrop Stone-Link Gold-Tone Hoop Earrings — eMarket247 product photograph.",
+        "caption": "Unpriced catalog record. Specifications and price are in preparation."
+      },
+      "gallery": [],
+      "seo": {
+        "title": "Teardrop Stone-Link Gold-Tone Hoop Earrings | eMarket247",
+        "description": "Catalog record in preparation. Specifications, price, and availability are pending approval."
+      },
+      "status": "ready",
+      "copyright": "© eMarket247. All rights reserved.",
+      "original_filename": null
     }
   ],
   "image_presentation": "square-studio-contained",

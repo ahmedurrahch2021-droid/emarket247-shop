@@ -142,7 +142,7 @@ if (taxonomy?.products && taxonomy?.categories && catalogues.en && catalogues.bn
   if (expectedCount !== taxonomy.products.length) {
     errors.push(`catalog.taxonomy.json: publishedProductCount is ${expectedCount}, but ${taxonomy.products.length} products are listed`);
   }
-  if (expectedCount !== 27) errors.push(`catalog.taxonomy.json: expected 27 published products, found ${expectedCount}`);
+  if (expectedCount !== 30) errors.push(`catalog.taxonomy.json: expected 30 published products, found ${expectedCount}`);
 
   for (const field of ["id", "sku", "slug"]) {
     const duplicates = duplicateValues(taxonomy.products.map((product) => product[field]));
@@ -183,7 +183,7 @@ if (taxonomy?.products && taxonomy?.categories && catalogues.en && catalogues.bn
 
   for (const lang of ["en", "bn"]) {
     const readySlugs = catalogues[lang].filter((product) => product.status === "ready").map((product) => product.slug);
-    if (!sameValues(readySlugs, taxonomySlugs)) errors.push(`catalog.${lang}.json: ready products must match the 27-product taxonomy manifest`);
+    if (!sameValues(readySlugs, taxonomySlugs)) errors.push(`catalog.${lang}.json: ready products must match the 30-product taxonomy manifest`);
 
     const productRoot = path.join(root, lang, "products");
     const publishedDirs = (await readdir(productRoot, { withFileTypes: true }))
