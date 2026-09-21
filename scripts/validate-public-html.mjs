@@ -47,7 +47,7 @@ const jsFiles = files.filter((file) => file.endsWith(".js"));
 const phpFiles = files.filter((file) => file.endsWith(".php"));
 const publicPages = htmlFiles.filter((file) => {
   const rel = path.relative(root, file).replaceAll("\\", "/");
-  return /^(en|bn)\//.test(rel) && !/^((en|bn)\/(admin|account|studio-pilot)\/)/.test(rel);
+  return /^(en|bn)\//.test(rel) && !/^((en|bn)\/(admin|account)\/)/.test(rel);
 });
 
 for (const file of publicPages) {
