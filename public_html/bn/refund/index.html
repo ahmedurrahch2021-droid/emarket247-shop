@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&family=Noto+Sans+Bengali:wght@400;500;600;700&family=Noto+Serif+Bengali:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/css/variables.css?v=0b3625cd">
-<link rel="stylesheet" href="/assets/css/site.css?v=86934567">
+<link rel="stylesheet" href="/assets/css/site.css?v=f48c4fb2">
   <link rel="canonical" href="https://emarket247.shop/bn/refund/">
   <meta name="robots" content="index,follow">
   <link rel="alternate" hreflang="bn" href="https://emarket247.shop/bn/refund/">
@@ -80,31 +80,15 @@
     .header-actions { display: flex; align-items: center; gap: 12px; margin-left: 24px; padding-left: 24px; border-left: 1px solid var(--border); }
     .btn-wa-header { background: var(--vermilion); color: #fff; text-decoration: none; font-size: 0.82rem; font-weight: 600; padding: 7px 16px; border-radius: 50px; display: flex; align-items: center; gap: 6px; transition: background 0.15s; white-space: nowrap; }
     .btn-wa-header:hover { background: var(--vermilion-dark); }
-    .menu-toggle { display: none; background: none; border: none; cursor: pointer; padding: 6px; }
-    .menu-toggle span { display: block; width: 22px; height: 2px; background: var(--text); margin: 5px 0; border-radius: 2px; }
-    .mobile-nav-bar { display: none; background: var(--warm-white); border-bottom: 1px solid var(--border); padding: 8px 16px; gap: 8px; align-items: center; }
     .mobile-nav-icons { display: flex; gap: 4px; margin-left: auto; }
     .mobile-nav-icons a { color: var(--text-mid); text-decoration: none; padding: 8px 6px; font-size: 1.2rem; line-height: 1; display: flex; align-items: center; }
     .mobile-nav-icons a span { font-size: 0.7rem; font-weight: 600; color: var(--text); }
     @media (max-width: 768px) {
       .nav-primary { display: none; }
       .header-actions { display: none; }
-      .menu-toggle { display: block; margin-left: auto; }
-      .mobile-nav-bar { display: flex; }
       .header-inner { gap: 0; }
       .logo-wrap { margin-right: 12px; }
     }
-    .mobile-menu { display: none; position: fixed; inset: 0; z-index: 200; }
-    .mobile-menu.active { display: block; }
-    .mobile-menu-backdrop { position: absolute; inset: 0; background: rgba(42,31,20,0.5); }
-    .mobile-menu-panel { position: absolute; right: 0; top: 0; bottom: 0; width: min(320px, 90vw); background: var(--cream); overflow-y: auto; padding: 24px; }
-    .mobile-menu-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
-    .mobile-menu-title { font-family: 'DM Serif Display', serif; font-size: 1.1rem; color: var(--vermilion); }
-    .mobile-menu-close { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text); padding: 4px; line-height: 1; }
-    .mobile-menu-nav { list-style: none; }
-    .mobile-menu-nav li { border-bottom: 1px solid var(--border); }
-    .mobile-menu-nav a { display: block; padding: 14px 0; text-decoration: none; color: var(--text); font-weight: 500; font-size: 0.95rem; }
-    .mobile-menu-wa { margin-top: 20px; background: var(--vermilion); color: #fff; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 14px; border-radius: 50px; font-weight: 600; font-size: 0.9rem; }
 
     .page-hero { background: linear-gradient(135deg, var(--warm-white) 0%, var(--parchment) 100%); border-bottom: 1px solid var(--border); padding: 60px 24px; text-align: center; }
     .page-hero .eyebrow { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
@@ -182,40 +166,6 @@
     </nav>
   </div>
 </header>
-
-<div class="mobile-nav-bar">
-  <a href="/bn/" class="mobile-nav-home">🏠 <span>হোম</span></a>
-  <div class="mobile-nav-icons">
-    <a href="/bn/account/">👤</a>
-    <a href="/bn/wishlist/" aria-label="উইশলিস্ট" data-wishlist-toggle>❤️</a>
-    <a href="/bn/cart/">🛒</a>
-  </div>
-  <button class="menu-toggle" style="margin-left:4px" aria-label="মেনু খুলুন" onclick="document.getElementById('mobileMenu').classList.add('active')">
-    <span></span><span></span><span></span>
-  </button>
-</div>
-
-<div class="mobile-menu" id="mobileMenu">
-  <div class="mobile-menu-backdrop" onclick="document.getElementById('mobileMenu').classList.remove('active')"></div>
-  <div class="mobile-menu-panel">
-    <div class="mobile-menu-header">
-      <span class="mobile-menu-title">মেনু</span>
-      <button class="mobile-menu-close" onclick="document.getElementById('mobileMenu').classList.remove('active')">✕</button>
-    </div>
-    <ul class="mobile-menu-nav">
-      <li><a href="/bn/" onclick="document.getElementById('mobileMenu').classList.remove('active')">হোম</a></li>
-      <li><a href="/bn/shop/" onclick="document.getElementById('mobileMenu').classList.remove('active')">সব প্রোডাক্ট</a></li>
-      <li><a href="/bn/categories/bangles/" onclick="document.getElementById('mobileMenu').classList.remove('active')">চুড়ি</a></li>
-      <li><a href="/bn/categories/necklaces/" onclick="document.getElementById('mobileMenu').classList.remove('active')">হার</a></li>
-      <li><a href="/bn/studio-pilot/" onclick="document.getElementById('mobileMenu').classList.remove('active')">স্টুডিও পাইলট</a></li>
-      <li><a href="/bn/about/" onclick="document.getElementById('mobileMenu').classList.remove('active')">আমাদের পরিচয়</a></li>
-      <li><a href="/bn/delivery/" onclick="document.getElementById('mobileMenu').classList.remove('active')">ডেলিভারি</a></li>
-      <li><a href="/bn/refund/" onclick="document.getElementById('mobileMenu').classList.remove('active')">রিফান্ড</a></li>
-      <li><a href="/bn/contact/" onclick="document.getElementById('mobileMenu').classList.remove('active')">যোগাযোগ</a></li>
-    </ul>
-    <a href="https://wa.me/8801740501062" class="mobile-menu-wa" target="_blank" rel="noopener">💬 হোয়াটসঅ্যাপে মেসেজ করুন</a>
-  </div>
-</div>
 
 <div class="page-hero">
   <p class="eyebrow">তথ্য</p>
@@ -343,6 +293,6 @@
 </footer>
 
 <div class="toast" role="status" aria-live="polite"></div>
-<script src="/assets/js/site.js?v=0a1a6514" defer></script>
+<script src="/assets/js/site.js?v=ea3a1ea2" defer></script>
 </body>
 </html>

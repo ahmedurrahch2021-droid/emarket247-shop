@@ -56,6 +56,98 @@ const ASSET_V = {
   siteJs:    hash8('assets/js/site.js'),
 };
 
+// ── Data sources: taxonomy, catalogues, storefront chrome, page CTA ──────────
+//
+// Category is NEVER inferred from the URL slug. Several published slugs still
+// carry the name of the category they were once assumed to be
+// (emarket247-necklaces-16 is a bracelet, emarket247-bangles-21 is a bangle,
+// emarket247-earrings-32 is a set), so slug inference contradicts the audited
+// taxonomy. catalog.taxonomy.json is authoritative, and the category label in
+// the seed row is cross-checked against it — a mismatch is a hard error.
+
+const DATA_DIR = join(ROOT, 'assets', 'data');
+const readJson = (file) => JSON.parse(readFileSync(join(DATA_DIR, file), 'utf8'));
+
+const TAXONOMY = readJson('catalog.taxonomy.json');
+const CATALOG = { en: readJson('catalog.en.json'), bn: readJson('catalog.bn.json') };
+const TAXONOMY_BY_SLUG = new Map(TAXONOMY.products.map((p) => [p.slug, p]));
+
+// Reviewed image alt text per product per language — the catalogue is the only
+// place it is written down, so the pages must read it rather than synthesise it.
+const ALT_BY_SLUG = {
+  en: new Map(CATALOG.en.products.filter((p) => p.image?.alt).map((p) => [p.slug, p.image.alt])),
+  bn: new Map(CATALOG.bn.products.filter((p) => p.image?.alt).map((p) => [p.slug, p.image.alt])),
+};
+
+// Storefront chrome has one definition: the <header class="site-header"> and
+// <footer class="site-footer"> of /en/index.html and /bn/index.html.
+// public_html/product.php and scripts/apply-home-chrome.mjs read the same two
+// blocks, so a chrome restyle lands on every page at once and this publisher
+// can never pin an older design.
+const CHROME_CACHE = {};
+
+function extractBlock(html, tag, className) {
+  const open = new RegExp(`<${tag}\\s+class="${className}"[^>]*>`).exec(html);
+  if (!open) return null;
+  const tokens = new RegExp(`<${tag}\\b[^>]*>|</${tag}>`, 'g');
+  tokens.lastIndex = open.index;
+  let depth = 0;
+  let token;
+  while ((token = tokens.exec(html))) {
+    if (token[0].startsWith('</')) {
+      depth -= 1;
+      if (depth === 0) return html.slice(open.index, token.index + token[0].length);
+    } else {
+      depth += 1;
+    }
+  }
+  return null;
+}
+
+function chromeOf(lang) {
+  if (!CHROME_CACHE[lang]) {
+    const home = readFileSync(join(ROOT, lang, 'index.html'), 'utf8');
+    const header = extractBlock(home, 'header', 'site-header');
+    const footer = extractBlock(home, 'footer', 'site-footer');
+    if (!header || !footer) throw new Error(`${lang}/index.html: storefront chrome not found`);
+    CHROME_CACHE[lang] = { header, footer };
+  }
+  return CHROME_CACHE[lang];
+}
+
+// The one sanctioned per-page difference: the language switch deep-links to the
+// same product in the other language instead of to the other homepage.
+function withPdpLangLink(headerHtml, altLang, slug) {
+  const needle = '" class="lang-link"';
+  const at = headerHtml.indexOf(needle);
+  if (at < 0) {
+    throw new Error('homepage header: language-switch anchor not found — cannot deep-link the PDP');
+  }
+  const hrefAt = headerHtml.lastIndexOf('href="', at);
+  if (hrefAt < 0) throw new Error('homepage header: language-switch anchor has no href');
+  const valueFrom = hrefAt + 'href="'.length;
+  return headerHtml.slice(0, valueFrom) + `/${altLang}/products/${slug}/` + headerHtml.slice(at);
+}
+
+// Reviewed image alt for a product, with the historical synthetic string kept
+// only as a fallback for a record the catalogue has no alt for.
+function imageAlt(slug, lang, fallbackTitle) {
+  return ALT_BY_SLUG[lang].get(slug) || `${fallbackTitle} — eMarket247 product photograph.`;
+}
+
+// Pre-footer WhatsApp CTA. scripts/add-pre-footer-cta.mjs is the generator that
+// placed this section on every content page; the two literals below are copied
+// from it verbatim. The BN CTA deliberately does NOT come from the BN homepage,
+// which carries a different button label and Bengali numerals.
+const WA_CTA_ICON = readFileSync(join(ROOT, 'en', 'index.html'), 'utf8')
+  .match(/<a class="whatsapp-direct-btn"[\s\S]*?<\/a>/)[0]
+  .match(/<svg[\s\S]*?<\/svg>/)[0];
+
+const CTA = {
+  en: `<section class="whatsapp-cta-section" aria-label="WhatsApp Order &amp; Support"><div class="wrap whatsapp-cta-inner"><div class="whatsapp-cta-copy"><p class="eyebrow">Have a Question? Talk to Us on WhatsApp.</p><h2>Order Jewellery Directly on WhatsApp</h2><p class="whatsapp-cta-desc">Want to check a product before ordering? Send us the product name or ask your question on WhatsApp. We'll help you with the available information before you decide.</p></div><div class="whatsapp-cta-action"><a class="whatsapp-direct-btn" href="https://wa.me/8801740501062?text=Hello%2C%20I%20would%20like%20to%20enquire%20about%20eMarket247%20jewellery." target="_blank" rel="noopener noreferrer">${WA_CTA_ICON}<span>Start a WhatsApp Conversation <span>→</span></span></a><p class="whatsapp-cta-num">Direct WhatsApp: <strong>+880 1740-501062</strong></p></div></div></section>`,
+  bn: `<section class="whatsapp-cta-section" aria-label="হোয়াটসঅ্যাপ অর্ডার ও সহায়তা"><div class="wrap whatsapp-cta-inner"><div class="whatsapp-cta-copy"><p class="eyebrow">প্রশ্ন আছে? হোয়াটসঅ্যাপে কথা বলুন।</p><h2>হোয়াটসঅ্যাপে সরাসরি গহনা অর্ডার করুন</h2><p class="whatsapp-cta-desc">কোনো পণ্য সম্পর্কে জানতে চান? পণ্যের নাম বা আপনার প্রশ্নটি হোয়াটসঅ্যাপে পাঠান। অর্ডারের সিদ্ধান্ত নেওয়ার আগে আমরা প্রয়োজনীয় তথ্য জানাতে সাহায্য করব।</p></div><div class="whatsapp-cta-action"><a class="whatsapp-direct-btn" href="https://wa.me/8801740501062?text=%E0%A6%A8%E0%A6%AE%E0%A6%B8%E0%A7%8D%E0%A6%95%E0%A6%BE%E0%A6%B0%2F%E0%A6%B8%E0%A6%B2%E0%A6%BE%E0%A6%AE%2C%20%E0%A6%86%E0%A6%AE%E0%A6%BF%20eMarket247%20%E0%A6%97%E0%A6%B9%E0%A6%A8%E0%A6%BE%20%E0%A6%B8%E0%A6%AE%E0%A7%8D%E0%A6%AA%E0%A6%B0%E0%A7%8D%E0%A6%95%E0%A7%87%20%E0%A6%9C%E0%A6%BE%E0%A6%A8%E0%A6%A4%E0%A7%87%20%E0%A6%9A%E0%A6%BE%E0%A6%87" target="_blank" rel="noopener noreferrer">${WA_CTA_ICON}<span>হোয়াটসঅ্যাপে কথোপকথন শুরু করুন <span>→</span></span></a><p class="whatsapp-cta-num">সরাসরি হোয়াটসঅ্যাপ: <strong>+880 1740-501062</strong></p></div></div></section>`,
+};
+
 // ── Category map ─────────────────────────────────────────────────────────────
 
 const CATEGORIES = {
@@ -168,7 +260,6 @@ const FALLBACK_EDITORIAL = {
 
 // ── Static page sections ─────────────────────────────────────────────────────
 
-const WA_SVG_SMALL = `<svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" focusable="false" fill="currentColor"><path d="M12.04 2.016c-5.495 0-9.958 4.463-9.96 9.957 0 1.758.46 3.472 1.332 4.983L2 22.02l5.19-1.362a9.94 9.94 0 0 0 4.75 1.21h.005c5.49 0 9.954-4.463 9.956-9.957a9.9 9.9 0 0 0-2.914-7.04 9.9 9.9 0 0 0-7.042-2.917Zm0 18.19h-.004a8.26 8.26 0 0 1-4.208-1.152l-.302-.18-3.128.82.835-3.05-.196-.313a8.25 8.25 0 0 1-1.264-4.4c.002-4.565 3.718-8.28 8.29-8.28a8.23 8.23 0 0 1 5.854 2.43 8.23 8.23 0 0 1 2.424 5.86c-.002 4.566-3.718 8.28-8.3 8.28Zm4.544-6.2c-.25-.124-1.475-.727-1.703-.81-.229-.084-.395-.125-.561.125-.166.25-.644.81-.79.977-.144.166-.29.187-.539.062-.25-.125-1.052-.388-2.004-1.237-.74-.66-1.24-1.477-1.386-1.727-.145-.25-.015-.384.11-.508.112-.112.29-.291.436-.437.146-.145.194-.25.29-.416.098-.167.05-.312-.011-.437-.062-.125-.561-1.353-.769-1.852-.203-.486-.409-.42-.561-.428-.146-.007-.312-.008-.478-.008-.166 0-.436.062-.664.312-.229.25-.873.853-.873 2.08 0 1.228.894 2.414 1.018 2.58.125.167 1.758 2.686 4.26 3.767.595.257 1.06.41 1.422.525.597.19 1.14.163 1.57.099.48-.072 1.475-.603 1.683-1.185.208-.583.208-1.082.146-1.186-.063-.104-.229-.166-.478-.29Z"/></svg>`;
 
 const WA_SVG_BIG = `<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.888 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>`;
 
@@ -182,13 +273,6 @@ function esc(str) {
 
 function slugifyCategory(cat) {
   return cat.toLowerCase().replace(/[^a-z]+/g, '-').replace(/^-|-$/g, '');
-}
-
-function detectCatFromSlug(slug) {
-  for (const key of Object.keys(CATEGORIES)) {
-    if (slug.includes(key)) return key;
-  }
-  return null;
 }
 
 function brandName(title) {
@@ -288,6 +372,7 @@ function enJsonLd(slug, title, ref, image, canonical, catLabel, catSlug, product
 function bnJsonLd(slug, title, ref, image, canonical, catLabel, catSlug, product) {
   const productNode = {
     '@type': 'Product',
+    '@id': `${canonical}#product`,
     name: title,
     description: 'ক্যাটালগ রেকর্ড প্রস্তুত হচ্ছে। স্পেসিফিকেশন, মূল্য ও প্রাপ্যতা অনুমোদনের অপেক্ষায়।',
     image,
@@ -297,7 +382,36 @@ function bnJsonLd(slug, title, ref, image, canonical, catLabel, catSlug, product
   };
   const offer = buildOffer(product);
   if (offer) productNode.offers = offer;
-  return JSON.stringify({ '@context': 'https://schema.org', ...productNode }, null, 0);
+  // Mirrors enJsonLd: the Bengali PDPs were the only structured-data surface on
+  // the site without a BreadcrumbList. The 33 other /bn/ pages carry one, and
+  // the visible Bengali breadcrumb is already rendered above — this makes the
+  // markup say the same thing as the page, in the same shape as English.
+  return JSON.stringify({
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'ItemPage',
+        '@id': `${canonical}#webpage`,
+        url: canonical,
+        name: `${title} | eMarket247`,
+        isPartOf: { '@id': 'https://emarket247.shop/#website' },
+        about: { '@id': 'https://emarket247.shop/#organization' },
+        inLanguage: 'bn',
+        breadcrumb: { '@id': `${canonical}#breadcrumb` },
+        primaryImageOfPage: image,
+      },
+      {
+        '@type': 'BreadcrumbList',
+        '@id': `${canonical}#breadcrumb`,
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'হোম', item: 'https://emarket247.shop/bn/' },
+          { '@type': 'ListItem', position: 2, name: catLabel, item: `https://emarket247.shop/bn/categories/${catSlug}/` },
+          { '@type': 'ListItem', position: 3, name: title, item: canonical },
+        ],
+      },
+      productNode,
+    ],
+  }, null, 0);
 }
 
 // ── Product card HTML (for related products) ─────────────────────────────────
@@ -308,6 +422,7 @@ function productCard(p, lang) {
   const slug     = p.slug;
   const ref      = p.sku;
   const img      = p.image_url;
+  const imgAlt   = imageAlt(slug, lang, title);
   const waUrl    = makeWaUrl('8801740501062', title, ref, slug, lang);
   const addLabel = lang === 'bn' ? 'ব্যাগে যোগ করুন' : 'Add to Bag';
   const ctaLabel = lang === 'bn' ? 'বিস্তারিত দেখুন' : 'View detail';
@@ -315,7 +430,7 @@ function productCard(p, lang) {
 
   return `<article class="product-card" data-product-id="${esc(ref)}">
       <a class="product-card-media" href="/${lang}/products/${slug}/" aria-label="${esc(title)}">
-        <img src="${esc(img)}" srcset="${esc(img)}" sizes="(max-width: 680px) 50vw, (max-width: 1000px) 50vw, 25vw" width="1200" height="1200" loading="lazy" alt="${esc(title)} — eMarket247 product photograph.">
+        <img src="${esc(img)}" srcset="${esc(img)}" sizes="(max-width: 680px) 50vw, (max-width: 1000px) 50vw, 25vw" width="1200" height="1200" loading="lazy" alt="${esc(imgAlt)}">
         <span class="product-card-badge">${esc(ref)}</span>
       </a>
       <div class="product-card-body">
@@ -352,11 +467,16 @@ function buildPdp(product, lang, relatedProducts) {
   const slug        = product.slug;
   const image       = product.image_url;
   const imageAbs   = image.startsWith('http') ? image : `${siteUrl}${image}`;
-  const catKey      = detectCatFromSlug(slug) || 'rings';
+  const catKey      = product.catKey;
   const catLabel    = CATEGORIES[catKey]?.[lang] ?? product.category;
   const canonical   = `${siteUrl}/${lang}/products/${slug}/`;
   const altLang     = isBn ? 'en' : 'bn';
   const altPage     = `${siteUrl}/${altLang}/products/${slug}/`;
+
+  // Storefront chrome and the pre-footer CTA, from their single sources.
+  const chromeHeader = withPdpLangLink(chromeOf(lang).header, altLang, slug);
+  const chromeFooter = chromeOf(lang).footer;
+  const ctaBlock     = CTA[lang];
 
   const ed = EDITORIAL[catKey]?.[lang] ?? FALLBACK_EDITORIAL[lang];
   const pb = PRICE_BANDS[catKey] ?? { band: '৳ 500–3,000', low: '500', high: '3000' };
@@ -439,6 +559,24 @@ function buildPdp(product, lang, relatedProducts) {
 
   const relatedHtml = relatedProducts.map(p => productCard(p, lang)).join('');
 
+  // Emit the related block only when it has something to show. A category can
+  // hold a single piece — earrings did until recently — and a heading followed
+  // by an empty grid reads as a broken page rather than a small collection.
+  // product.php already guards the same block with `if ($relatedHtml !== '')`,
+  // so this keeps the static page and the database-rendered page identical.
+  const relatedSection = relatedHtml.trim() === ''
+    ? ''
+    : `    <section class="pdp-related wrap">
+      <div class="pdp-section-head">
+        <h2>${relatedTitle}</h2>
+      </div>
+      <div class="product-grid">
+        ${relatedHtml}
+      </div>
+    </section>
+
+`;
+
   const finalCtaH2 = isBn
     ? 'এই পণ্য সম্পর্কে অর্ডার বা প্রশ্ন করতে প্রস্তুত?'
     : 'Ready to order or have questions about this piece?';
@@ -465,27 +603,6 @@ function buildPdp(product, lang, relatedProducts) {
 
   // ── SEO / nav text per language ───────────────────────────────────────────
   const skipLink     = isBn ? 'মূল কনটেন্টে যান' : 'Skip to main content';
-  const altLangLabel = isBn ? 'Switch language to English' : 'বাংলায় পরিবর্তন করুন';
-  const utilityText  = isBn
-    ? 'সারা বাংলাদেশে ডেলিভারি · ১৫ দিনের রিফান্ড গ্যারান্টি · প্রতিটি অর্ডারে ফ্রি গিফট'
-    : 'Pan-Bangladesh Delivery · 15-Day Refund Promise · Free Gift with Every Order';
-  const waUtilityAria = isBn ? 'WhatsApp-এ চ্যাট করুন' : 'Chat with us on WhatsApp';
-  const searchPlaceholder = isBn ? 'জুয়েলারি খুঁজুন' : 'Search jewellery';
-  const brandAria    = 'eMarket247 Fashion & Jewellery';
-  const accountAria  = isBn ? 'অ্যাকাউন্ট' : 'Account';
-  const wishlistAria = isBn ? 'উইশলিস্ট' : 'Wishlist';
-  const cartAria     = isBn ? 'কার্ট' : 'Cart';
-  const menuAria     = isBn ? 'মেনু' : 'Menu';
-  const navHome      = isBn ? 'হোম' : 'Home';
-  const navShop      = isBn ? 'শপ' : 'Shop';
-  const navCatLabel  = isBn ? 'ক্যাটাগরি' : 'Categories';
-  const navCatFind   = isBn ? 'জুয়েলারি খুঁজুন' : 'Find your jewellery';
-  const navCatView   = isBn ? 'সব ক্যাটাগরি' : 'View all categories';
-  const navOccLabel  = isBn ? 'অনুষ্ঠান' : 'Occasion';
-  const navOccFind   = isBn ? 'বিশেষ দিনের জন্য' : 'For meaningful moments';
-  const navOccView   = isBn ? 'সব অনুষ্ঠান' : 'View all occasions';
-  const navAbout     = isBn ? 'আমাদের কথা' : 'About Us';
-  const navContact   = isBn ? 'যোগাযোগ' : 'Contact';
   const breadHome    = isBn ? 'হোম' : 'Home';
   const breadCat     = catLabel;
   const metaDesc     = isBn
@@ -493,23 +610,8 @@ function buildPdp(product, lang, relatedProducts) {
     : 'Catalog record in preparation. Specifications, price, and availability are pending approval.';
 
   // ── Category nav links ────────────────────────────────────────────────────
-  const catLinks = Object.entries(CATEGORIES).map(([key, labels]) =>
-    `<li><a href="/${lang}/categories/${key}/">${labels[lang]}<small>${labels[isBn ? 'en' : 'bn']}</small></a></li>`
-  ).join('');
 
-  const occLinks = [
-    ['puja', 'Puja', 'পূজা'],
-    ['eid', 'Eid', 'ঈদ'],
-    ['pahela-baishakh', 'Pahela Baishakh', 'পহেলা বৈশাখ'],
-    ['wedding', 'Wedding', 'বিয়ে'],
-    ['anniversary', 'Anniversary', 'বার্ষিকী'],
-    ['birthday', 'Birthday', 'জন্মদিন'],
-    ['gifts', 'Gifts', 'উপহার'],
-  ].map(([key, en, bn]) =>
-    `<li><a href="/${lang}/occasions/${key}/">${isBn ? bn : en}<small>${isBn ? en : bn}</small></a></li>`
-  ).join('');
 
-  const waUtilityUrl = makeCartWaUrl(phone, `\n\nProduct: ${displayTitle}\nRef: ${ref}`, lang);
   const waUtilityText = isBn
     ? 'হ্যালো, আমি eMarket247 জুয়েলারি সম্পর্কে জানতে চাই'
     : 'Hello, I would like to enquire about eMarket247 jewellery.';
@@ -518,31 +620,10 @@ function buildPdp(product, lang, relatedProducts) {
   const footerBrand = isBn
     ? 'বাংলাদেশে ফ্যাশন ও আধুনিক জুয়েলারির একটি বিশ্বস্ত গন্তব্য। সঠিক তথ্য, দায়িত্বশীল সেবা ও সহজ আবিষ্কার।'
     : 'A trusted jewellery and fashion destination in Bangladesh. Grounded in accurate detail, thoughtful craft, and easy discovery.';
-  const footerSupport = isBn ? 'ঢাকা, বাংলাদেশ · গ্রাহক সেবা: +880 1740-501062' : 'Dhaka, Bangladesh · Support: +880 1740-501062';
-  const footerRights  = isBn ? 'সর্বস্বত্ব সংরক্ষিত।' : 'All rights reserved.';
-  const footerCatHdr = isBn ? 'ক্যাটাগরি' : 'Categories';
-  const footerOccHdr = isBn ? 'অনুষ্ঠান ও ভাবনা' : 'Occasions & Edits';
-  const footerSuppHdr = isBn ? 'সহায়তা ও নীতি' : 'Customer Support';
-  const footerCatAll = isBn ? 'সব ক্যাটাগরি' : 'View all categories';
   const footerOccAll = isBn ? 'সব অনুষ্ঠান' : 'View all occasions';
 
-  const footerNewsletter = isBn
-    ? { eyebrow: 'নোটস ফ্রম <strong class="brand-name">eMarket247</strong>', h2: 'নতুন কালেকশন, উপহারের আইডিয়া এবং বিবেচিত গহনার নোট।', p: 'আমাদের টিম থেকে নতুন কালেকশন, গাইড এবং আপডেট পেতে সাবস্ক্রাইব করুন।' }
-    : { eyebrow: 'Notes from <strong class="brand-name">eMarket247</strong>', h2: 'New collections, gifting ideas, and considered jewellery notes.', p: 'Subscribe for new arrivals, style guides and updates from our team.' };
 
-  const footerNewsInputPlaceholder = isBn ? 'আপনার ইমেইল ঠিকানা' : 'Your email address';
-  const footerNewsConsent = isBn
-    ? 'একটি আনুষ্ঠানিক সম্মতি ও গোপনীয়তা কর্মপ্রবাহ লাইভ হওয়ার আগে সংযুক্ত করা হবে।'
-    : 'A formal consent and privacy workflow will be connected before newsletter collection goes live.';
-  const footerDisclaimer = isBn
-    ? 'একটি আধুনিক গহনার গন্তব্য যা মুহূর্তকে বহন করে।'
-    : 'A modern destination for jewellery that carries the moment.';
 
-  const socialFacebookUrl = 'https://web.facebook.com/Emarket247bd';
-  const socialFacebookAria = isBn ? 'eMarket247 Facebook-এ' : 'eMarket247 on Facebook';
-  const socialInstagramAria = isBn ? 'Instagram — শীঘ্রই আসছে' : 'Instagram — coming soon';
-  const socialLinkedInAria = isBn ? 'LinkedIn — শীঘ্রই আসছে' : 'LinkedIn — coming soon';
-  const socialTiktokAria   = isBn ? 'TikTok — শীঘ্রই আসছে' : 'TikTok — coming soon';
 
   // ── Assemble ─────────────────────────────────────────────────────────────
   return `<!doctype html>
@@ -574,50 +655,7 @@ function buildPdp(product, lang, relatedProducts) {
 <body data-language="${lang}" data-cookie-mode="essential-only">
   <a class="skip-link" href="#main">${skipLink}</a>
 
-  <header class="site-header">
-    <div class="utility-row">
-      <a href="/${altLang}/" class="lang-link" lang="${altLang}" aria-label="${esc(altLangLabel)}">
-        ${WA_SVG_SMALL}
-        <span class="lang-switch-wrap">
-          <span class="lang-item ${!isBn ? 'is-active' : ''}">EN</span><span class="lang-sep">/</span><span class="lang-item ${isBn ? 'is-active' : ''}">বাংলা</span>
-        </span>
-      </a>
-      <p class="utility-tagline">${utilityText}</p>
-      <a class="utility-whatsapp" href="${waUtilityUrl}" target="_blank" rel="noopener" aria-label="${esc(waUtilityAria)}">
-        ${WA_SVG_SMALL}
-        <span>WhatsApp</span> <b>+880 1740-501062</b>
-      </a>
-    </div>
-    <div class="main-header">
-      <a class="brand" href="/${lang}/" aria-label="${esc(brandAria)}">
-        <img src="/assets/images/brand/emarket247-logo-transparent.png" width="190" height="99" alt="${esc(brandAria)}">
-      </a>
-      <div class="search-bar-wrap">
-        <label for="main-search" class="sr-only">${esc(searchPlaceholder)}</label>
-        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="7"/><path d="m15.5 15.5 5 5"/></svg>
-        <input type="search" id="main-search" class="main-search-input" placeholder="${esc(searchPlaceholder)}" autocomplete="off">
-      </div>
-      <div class="header-icons">
-        <a href="/${lang}/account/" class="icon-link" aria-label="${esc(accountAria)}" title="${esc(accountAria)}"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.8"/><path d="M4.5 20c1.3-3.4 4-5 7.5-5s6.2 1.6 7.5 5"/></svg></a>
-        <button type="button" class="icon-link" aria-label="${esc(wishlistAria)}" title="${esc(wishlistAria)}" data-wishlist-toggle><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0l-1 1-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1 7.8 7.8 7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.8Z"/></svg><i class="icon-badge">0</i></button>
-        <a href="/${lang}/shop/" class="icon-link" aria-label="${esc(cartAria)}" title="${esc(cartAria)}"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 8h11l-1 11a1.6 1.6 0 0 1-1.6 1.5H9.1A1.6 1.6 0 0 1 7.5 19L6.5 8Z"/><path d="M9.5 8V6.5a2.5 2.5 0 0 1 5 0V8"/></svg><i class="icon-badge">0</i></a>
-        <button class="menu-toggle icon-link" type="button" aria-expanded="false" aria-controls="main-menu" aria-label="${esc(menuAria)}" title="${esc(menuAria)}">
-          <svg class="menu-icon-open" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
-          <svg class="menu-icon-close" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
-        </button>
-      </div>
-    </div>
-    <div class="nav-header">
-      <nav id="main-menu" class="main-nav" aria-label="${isBn ? 'প্রধান নেভিগেশন' : 'Primary navigation'}">
-        <a href="/${lang}/">${navHome}</a>
-        <a href="/${lang}/shop/">${navShop}</a>
-        <div class="has-submenu"><button type="button" aria-expanded="false">${navCatLabel}</button><div class="submenu"><p>${navCatFind}</p><ul>${catLinks}</ul><a class="menu-all" href="/${lang}/categories/">${navCatView} <span>→</span></a></div></div>
-        <div class="has-submenu"><button type="button" aria-expanded="false">${navOccLabel}</button><div class="submenu"><p>${navOccFind}</p><ul>${occLinks}</ul><a class="menu-all" href="/${lang}/occasions/">${navOccView} <span>→</span></a></div></div>
-        <a href="/${lang}/about/">${navAbout}</a>
-        <a href="/${lang}/contact/">${navContact}</a>
-      </nav>
-    </div>
-  </header>
+  ${chromeHeader}
 
   <nav class="breadcrumb wrap" aria-label="${isBn ? 'পথনির্দেশ' : 'Breadcrumb'}">
     <ol>
@@ -631,7 +669,7 @@ function buildPdp(product, lang, relatedProducts) {
     <section class="pdp-hero wrap">
       <div class="pdp-gallery">
         <figure class="pdp-figure">
-          <img src="${esc(image)}" srcset="${esc(image)}" sizes="(max-width: 900px) 100vw, 50vw" width="1200" height="1200" fetchpriority="high" alt="${esc(displayTitle)} — eMarket247 product photograph.">
+          <img src="${esc(image)}" srcset="${esc(image)}" sizes="(max-width: 900px) 100vw, 50vw" width="1200" height="1200" fetchpriority="high" alt="${esc(imageAlt(slug, lang, displayTitle))}">
         </figure>
       </div>
       <div class="pdp-info">
@@ -725,16 +763,7 @@ function buildPdp(product, lang, relatedProducts) {
       </details>
     </section>
 
-    <section class="pdp-related wrap">
-      <div class="pdp-section-head">
-        <h2>${relatedTitle}</h2>
-      </div>
-      <div class="product-grid">
-        ${relatedHtml}
-      </div>
-    </section>
-
-    <section class="pdp-final-cta wrap">
+${relatedSection}    <section class="pdp-final-cta wrap">
       <div class="pdp-final-card">
         <div class="pdp-final-copy">
           <h2>${finalCtaH2}</h2>
@@ -753,68 +782,9 @@ function buildPdp(product, lang, relatedProducts) {
         </div>
       </div>
     </section>
-  </main>
+  ${ctaBlock}</main>
 
-  <footer class="site-footer">
-    <section class="newsletter">
-      <div>
-        <p class="eyebrow">${footerNewsletter.eyebrow}</p>
-        <h2>${footerNewsletter.h2}</h2>
-      </div>
-      <form data-newsletter>
-        <label class="sr-only" for="email">Email</label>
-        <input id="email" type="email" placeholder="${footerNewsInputPlaceholder}" required>
-        <button type="submit" aria-label="Submit">↗</button>
-        <p>${footerNewsConsent}</p>
-      </form>
-    </section>
-    <div class="footer-main">
-      <div class="footer-brand">
-        <img src="/assets/images/brand/emarket247-logo-transparent.png" width="180" height="94" alt="eMarket247 Fashion & Jewellery">
-        <p>${footerDisclaimer}</p>
-        <div class="footer-social" aria-label="${isBn ? 'সোশ্যাল মিডিয়া' : 'Social media'}">
-          <a href="${socialFacebookUrl}" target="_blank" rel="noopener noreferrer" aria-label="${socialFacebookAria}" class="social-link social-facebook">
-            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="12" fill="#0866FF"/><path d="M13.65 23.83v-9.17h3.08l.46-3.58h-3.54V8.8c0-1.04.29-1.74 1.77-1.74h1.89V3.86c-.33-.04-1.45-.14-2.76-.14-2.73 0-4.6 1.67-4.6 4.73v2.64H6.87v3.58h3.08v9.17A12.06 12.06 0 0 0 12 24c.56 0 1.11-.04 1.65-.17z" fill="#FFFFFF"/></svg>
-          </a>
-          <span class="social-placeholder" title="${socialInstagramAria}" aria-label="${socialInstagramAria}">
-            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><defs><linearGradient id="ig-grad-pdp" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#FFD521"/><stop offset="30%" stop-color="#F50000"/><stop offset="65%" stop-color="#B900B4"/><stop offset="100%" stop-color="#4F5BD5"/></linearGradient></defs><rect width="24" height="24" rx="6" fill="url(#ig-grad-pdp)"/><rect x="3.8" y="3.8" width="16.4" height="16.4" rx="4.5" fill="none" stroke="#FFFFFF" stroke-width="1.8"/><circle cx="12" cy="12" r="4.1" fill="none" stroke="#FFFFFF" stroke-width="1.8"/><circle cx="17.1" cy="6.9" r="1.1" fill="#FFFFFF"/></svg>
-          </span>
-          <span class="social-placeholder" title="${socialLinkedInAria}" aria-label="${socialLinkedInAria}">
-            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><rect width="24" height="24" rx="4.8" fill="#0A66C2"/><path d="M5.5 8.5h2.8V18H5.5V8.5zM6.9 4.8a1.6 1.6 0 1 1 0 3.2 1.6 1.6 0 0 1 0-3.2zM18.5 18h-2.8v-4.7c0-1.2-.4-2-1.5-2-.8 0-1.3.6-1.5 1.1-.1.2-.1.5-.1.8V18H9.8V8.5h2.8v1.3c.4-.6 1.1-1.5 2.7-1.5 2 0 3.2 1.3 3.2 4.1V18z" fill="#FFFFFF"/></svg>
-          </span>
-          <span class="social-placeholder" title="${socialTiktokAria}" aria-label="${socialTiktokAria}">
-            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><rect width="24" height="24" rx="5" fill="#000000"/><g fill-rule="evenodd"><path d="M16.6 8.5c-.8-.4-1.4-1.1-1.6-2V4.5h-2.5v10.3a2.3 2.3 0 1 1-2.3-2.3c.2 0 .5.04.7.1V7.1a5.6 5.6 0 0 0-.7-.04 5.8 5.8 0 1 0 5.8 5.8V7.5c1.1.8 2.5 1.3 4 1.3V6.3c-.5 0-1-.1-1.4-.3z" fill="#FE2C55"/><path d="M16.2 8.1c-.8-.4-1.4-1.1-1.6-2V4.1h-2.5v10.3a2.3 2.3 0 1 1-2.3-2.3c.2 0 .5.04.7.1V6.7a5.6 5.6 0 0 0-.7-.04 5.8 5.8 0 1 0 5.8 5.8V7.1c1.1.8 2.5 1.3 4 1.3V5.9c-.5 0-1-.1-1.4-.3z" fill="#25F4EE"/><path d="M16.4 8.3c-.8-.4-1.4-1.1-1.6-2V4.3h-2.5v10.3a2.3 2.3 0 1 1-2.3-2.3c.2 0 .5.04.7.1V6.9a5.6 5.6 0 0 0-.7-.04 5.8 5.8 0 1 0 5.8 5.8V7.3c1.1.8 2.5 1.3 4 1.3V6.1c-.5 0-1-.1-1.4-.3z" fill="#FFFFFF"/></g></svg>
-          </span>
-        </div>
-      </div>
-      <div>
-        <h3>${footerCatHdr}</h3>
-        ${Object.entries(CATEGORIES).map(([key, labels]) =>
-          `<a href="/${lang}/categories/${key}/">${labels[lang]}</a>`
-        ).join('\n        ')}
-        <a href="/${lang}/categories/">${footerCatAll}</a>
-      </div>
-      <div>
-        <h3>${footerOccHdr}</h3>
-        <a href="/${lang}/occasions/puja/">${isBn ? 'পূজা কালেকশন' : 'Puja Edit'}</a>
-        <a href="/${lang}/occasions/wedding/">${isBn ? 'বিয়ের জুয়েলারি' : 'Wedding Jewellery'}</a>
-        <a href="/${lang}/occasions/gifts/">${isBn ? 'উপহার জুয়েলারি' : 'Jewellery Gifting'}</a>
-        <a href="/${lang}/guides/">${isBn ? 'স্টাইল গাইড' : 'Style Guides'}</a>
-      </div>
-      <div>
-        <h3>${footerSuppHdr}</h3>
-        <a href="/${lang}/care/">${isBn ? 'যত্ন ও সহায়তা' : 'Care & Support'}</a>
-        <a href="/${lang}/contact/">${isBn ? 'যোগাযোগ' : 'Contact Us'}</a>
-        <a href="/${lang}/about/">${isBn ? 'আমাদের গল্প' : 'About eMarket247'}</a>
-        <a href="/${lang}/privacy/">${isBn ? 'গোপনীয়তা নীতি' : 'Privacy Policy'}</a>
-        <a href="/${lang}/terms/">${isBn ? 'শর্তাবলি' : 'Terms of Service'}</a>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span>© 2026 eMarket247. ${footerRights}</span>
-      <span>${footerSupport}</span>
-    </div>
-  </footer>
+  ${chromeFooter}
 
   <div class="toast" role="status" aria-live="polite"></div>
   <script src="/assets/js/site.js?v=${ASSET_V.siteJs}" defer></script>
@@ -878,16 +848,31 @@ function parseSeed(sql) {
     const slug = unquote(vals[1]);
     if (!slug) continue;
 
-    const catKey   = detectCatFromSlug(slug);
-    const priceRaw = unquote(vals[5]);
+    const priceRaw      = unquote(vals[5]);
+    const sku           = unquote(vals[0]) || '';
+    const categoryLabel = unquote(vals[4]) || '';
+
+    // Category comes from the audited taxonomy manifest. The seed row's own
+    // category label and SKU must agree with it; anything else is a data bug
+    // that would publish a page contradicting the catalogue.
+    const tax = TAXONOMY_BY_SLUG.get(slug);
+    if (!tax) throw new Error(`seed row ${slug} is not registered in catalog.taxonomy.json`);
+    if (slugifyCategory(categoryLabel) !== tax.category) {
+      throw new Error(
+        `seed row ${slug}: category "${categoryLabel}" contradicts catalog.taxonomy.json "${tax.category}"`
+      );
+    }
+    if (sku !== tax.sku) {
+      throw new Error(`seed row ${slug}: SKU "${sku}" contradicts catalog.taxonomy.json "${tax.sku}"`);
+    }
 
     products.push({
-      sku:       unquote(vals[0])  || '',
+      sku,
       slug,
       title_en:  unquote(vals[2])  || '',
       title_bn:  unquote(vals[3])  || '',
-      category:  unquote(vals[4])  || 'Rings',
-      catKey:    catKey || 'rings',
+      category:  categoryLabel,
+      catKey:    tax.category,
       price:     priceRaw !== null && priceRaw !== '' ? parseFloat(priceRaw) : null,
       image_url:  unquote(vals[12]) || '/assets/images/brand/emarket247-logo-transparent.png',
     });
@@ -914,15 +899,22 @@ function writePdp(product, lang, allProducts, dryRun = false) {
 
   if (dryRun) {
     console.log(`  [DRY] would write ${lang}/products/${product.slug}/index.html`);
-    return;
+    return false;
   }
 
   try {
     if (!existsSync(dir)) mkdirSync(dir, { recursive: true });
+    // Write only when the page actually differs, so a second run reports
+    // "no changes" instead of 54 rewrites. That is what makes this script
+    // usable as a drift check: if the committed pages are not the pages this
+    // generator produces, the next run says so.
+    if (existsSync(file) && readFileSync(file, 'utf8') === html) return false;
     writeFileSync(file, html, 'utf8');
     console.log(`  ✓ ${lang}/products/${product.slug}/`);
+    return true;
   } catch (err) {
     console.error(`  ✗ ${lang}/products/${product.slug}/ — ${err.message}`);
+    return false;
   }
 }
 
@@ -960,11 +952,14 @@ if (products.length === 0) {
 
 let written = 0;
 for (const p of products) {
-  writePdp(p, 'en', products, dryRun);
-  writePdp(p, 'bn', products, dryRun);
-  written += 2;
+  if (writePdp(p, 'en', products, dryRun)) written += 1;
+  if (writePdp(p, 'bn', products, dryRun)) written += 1;
 }
 
-const writtenLabel = written > 0 ? 'written' : '— no changes';
-console.log(dryRun ? 'Dry run complete.' : `Done. ${written} PDP files ${writtenLabel}.`);
-if (!dryRun && written === 0) process.exit(1);
+if (dryRun) {
+  console.log('Dry run complete.');
+} else if (written === 0) {
+  console.log(`Done. All ${products.length * 2} PDP files already match this generator — no changes.`);
+} else {
+  console.log(`Done. ${written} of ${products.length * 2} PDP files updated.`);
+}

@@ -1,6 +1,31 @@
+/* ==============================================================================
+   RETIRED — do not run. Kept as a record of how the six occasion pages were
+   first written; the live pages have since moved on and this script would
+   regress them.
+
+   Why it is retired:
+   1. It writes the occasion pages from its own template, which predates the
+      unified storefront header/footer, so running it would strip the current
+      chrome from all six occasions in both languages.
+   2. It points at editorial originals that are no longer shipped —
+      Bridal.png, Shop.png and occasions_hero_banner.jpg were removed in favour
+      of the .webp files the pages actually use. Re-running it would publish
+      hero images that 404.
+   3. The occasion pages are reviewed and live; regeneration is a content
+      decision, not a script run.
+
+   To change an occasion page, edit the page itself. Exit code 1 so any automated
+   caller fails loudly instead of overwriting reviewed pages.
+   ============================================================================== */
+
 import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+
+console.error("update-all-occasions.mjs is RETIRED and will not run.");
+console.error("It would replace the reviewed occasion pages with a pre-chrome template");
+console.error("and reference editorial images that are no longer shipped. Edit the pages directly.");
+process.exit(1);
 
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 

@@ -1,0 +1,226 @@
+{
+  "status": "working-file-not-served",
+  "purpose": "Unlabeled photo records held out of the served catalogue. Each one is a real photograph from the 2026-08-21 WhatsApp batch that has never been identified, so it has no confirmed title, category or image file. They were removed from public_html/assets/data/catalog.{en,bn}.json so the live site serves only approved records; nothing here is published, and no page ever rendered them.",
+  "source": "Previously the 'status: inactive' entries of catalog.en.json and catalog.bn.json",
+  "howToPromote": [
+    "1. Identify the piece from the original photograph, then add it to public_html/assets/data/catalog.taxonomy.json (id, sku, slug, category).",
+    "2. Write the approved EN and BN title, and process the photo to /assets/images/products/ following the shipped naming convention.",
+    "3. Add the record back to catalog.en.json and catalog.bn.json with status 'ready' and the real image path.",
+    "4. node scripts/publish-pdp-pages.mjs --seed && node scripts/rebuild-catalog-grids.mjs && node scripts/fix-cache-busting.mjs",
+    "5. npm test — the validator requires ready records to match the 27-product taxonomy manifest, so taxonomy and catalogues must be updated together."
+  ],
+  "idPrefix": "src-",
+  "linksToOriginalFilenames": "original_filename is the camera roll name, the only link back to the source photo.",
+  "records": [
+    {
+      "id": "src-002",
+      "slug": "emarket247-jewellery-detail-02",
+      "original_filename": "WhatsApp Image 2026-08-21 at 18.45.47.jpeg",
+      "categoryGuess": "jewellery-detail",
+      "titleEnPlaceholder": "Jewellery detail 02",
+      "titleBnPlaceholder": "জুয়েলারি আইটেম ০২",
+      "imagePathNeverUploaded": "/assets/images/products-square/emarket247-jewellery-detail-02-1200-square.webp",
+      "status": "awaiting-identification"
+    },
+    {
+      "id": "src-003",
+      "slug": "emarket247-jewellery-detail-03",
+      "original_filename": "WhatsApp Image 2026-08-21 at 18.45.48.jpeg",
+      "categoryGuess": "jewellery-detail",
+      "titleEnPlaceholder": "Jewellery detail 03",
+      "titleBnPlaceholder": "জুয়েলারি আইটেম ০৩",
+      "imagePathNeverUploaded": "/assets/images/products-square/emarket247-jewellery-detail-03-1200-square.webp",
+      "status": "awaiting-identification"
+    },
+    {
+      "id": "src-004",
+      "slug": "emarket247-jewellery-detail-04",
+      "original_filename": "WhatsApp Image 2026-08-21 at 18.45.49.jpeg",
+      "categoryGuess": "jewellery-detail",
+      "titleEnPlaceholder": "Jewellery detail 04",
+      "titleBnPlaceholder": "জুয়েলারি আইটেম ০৪",
+      "imagePathNeverUploaded": "/assets/images/products-square/emarket247-jewellery-detail-04-1200-square.webp",
+      "status": "awaiting-identification"
+    },
+    {
+      "id": "src-005",
+      "slug": "emarket247-jewellery-detail-05",
+      "original_filename": "WhatsApp Image 2026-08-21 at 18.45.50 (1).jpeg",
+      "categoryGuess": "jewellery-detail",
+      "titleEnPlaceholder": "Jewellery detail 05",
+      "titleBnPlaceholder": "জুয়েলারি আইটেম ০৫",
+      "imagePathNeverUploaded": "/assets/images/products-square/emarket247-jewellery-detail-05-1200-square.webp",
+      "status": "awaiting-identification"
+    },
+    {
+      "id": "src-008",
+      "slug": "emarket247-jewellery-detail-08",
+      "original_filename": "WhatsApp Image 2026-08-21 at 18.45.53.jpeg",
+      "categoryGuess": "jewellery-detail",
+      "titleEnPlaceholder": "Jewellery detail 08",
+      "titleBnPlaceholder": "জুয়েলারি আইটেম ০৮",
+      "imagePathNeverUploaded": "/assets/images/products-square/emarket247-jewellery-detail-08-1200-square.webp",
+      "status": "awaiting-identification"
+    },
+    {
+      "id": "src-009",
+      "slug": "emarket247-jewellery-detail-09",
+      "original_filename": "WhatsApp Image 2026-08-21 at 18.45.54.jpeg",
+      "categoryGuess": "jewellery-detail",
+      "titleEnPlaceholder": "Jewellery detail 09",
+      "titleBnPlaceholder": "জুয়েলারি আইটেম ০৯",
+      "imagePathNeverUploaded": "/assets/images/products-square/emarket247-jewellery-detail-09-1200-square.webp",
+      "status": "awaiting-identification"
+    },
+    {
+      "id": "src-015",
+      "slug": "emarket247-bracelets-15",
+      "original_filename": "WhatsApp Image 2026-08-21 at 18.45.59 (1).jpeg",
+      "categoryGuess": "bracelets",
+      "titleEnPlaceholder": "Bracelet-style jewellery detail 15",
+      "titleBnPlaceholder": "ব্রেসলেট ১৫",
+      "imagePathNeverUploaded": "/assets/images/products-square/emarket247-bracelets-15-1200-square.webp",
+      "status": "awaiting-identification"
+    },
+    {
+      "id": "src-033",
+      "slug": "emarket247-jewellery-detail-33",
+      "original_filename": "WhatsApp Image 2026-08-21 at 18.46.08.jpeg",
+      "categoryGuess": "jewellery-detail",
+      "titleEnPlaceholder": "Jewellery detail 33",
+      "titleBnPlaceholder": "জুয়েলারি আইটেম ৩৩",
+      "imagePathNeverUploaded": "/assets/images/products-square/emarket247-jewellery-detail-33-1200-square.webp",
+      "status": "awaiting-identification"
+    },
+    {
+      "id": "src-034",
+      "slug": "emarket247-jewellery-detail-34",
+      "original_filename": "WhatsApp Image 2026-08-21 at 18.46.10 (1).jpeg",
+      "categoryGuess": "jewellery-detail",
+      "titleEnPlaceholder": "Jewellery detail 34",
+      "titleBnPlaceholder": "জুয়েলারি আইটেম ৩৪",
+      "imagePathNeverUploaded": "/assets/images/products-square/emarket247-jewellery-detail-34-1200-square.webp",
+      "status": "awaiting-identification"
+    },
+    {
+      "id": "src-035",
+      "slug": "emarket247-jewellery-detail-35",
+      "original_filename": "WhatsApp Image 2026-08-21 at 18.46.10.jpeg",
+      "categoryGuess": "jewellery-detail",
+      "titleEnPlaceholder": "Jewellery detail 35",
+      "titleBnPlaceholder": "জুয়েলারি আইটেম ৩৫",
+      "imagePathNeverUploaded": "/assets/images/products-square/emarket247-jewellery-detail-35-1200-square.webp",
+      "status": "awaiting-identification"
+    },
+    {
+      "id": "src-036",
+      "slug": "emarket247-jewellery-detail-36",
+      "original_filename": "WhatsApp Image 2026-08-21 at 18.46.12 (1).jpeg",
+      "categoryGuess": "jewellery-detail",
+      "titleEnPlaceholder": "Jewellery detail 36",
+      "titleBnPlaceholder": "জুয়েলারি আইটেম ৩৬",
+      "imagePathNeverUploaded": "/assets/images/products-square/emarket247-jewellery-detail-36-1200-square.webp",
+      "status": "awaiting-identification"
+    },
+    {
+      "id": "src-037",
+      "slug": "emarket247-jewellery-detail-37",
+      "original_filename": "WhatsApp Image 2026-08-21 at 18.46.12 (2).jpeg",
+      "categoryGuess": "jewellery-detail",
+      "titleEnPlaceholder": "Jewellery detail 37",
+      "titleBnPlaceholder": "জুয়েলারি আইটেম ৩৭",
+      "imagePathNeverUploaded": "/assets/images/products-square/emarket247-jewellery-detail-37-1200-square.webp",
+      "status": "awaiting-identification"
+    },
+    {
+      "id": "src-038",
+      "slug": "emarket247-jewellery-detail-38",
+      "original_filename": "WhatsApp Image 2026-08-21 at 18.46.12 (3).jpeg",
+      "categoryGuess": "jewellery-detail",
+      "titleEnPlaceholder": "Jewellery detail 38",
+      "titleBnPlaceholder": "জুয়েলারি আইটেম ৩৮",
+      "imagePathNeverUploaded": "/assets/images/products-square/emarket247-jewellery-detail-38-1200-square.webp",
+      "status": "awaiting-identification"
+    },
+    {
+      "id": "src-039",
+      "slug": "emarket247-jewellery-detail-39",
+      "original_filename": "WhatsApp Image 2026-08-21 at 18.46.12.jpeg",
+      "categoryGuess": "jewellery-detail",
+      "titleEnPlaceholder": "Jewellery detail 39",
+      "titleBnPlaceholder": "জুয়েলারি আইটেম ৩৯",
+      "imagePathNeverUploaded": "/assets/images/products-square/emarket247-jewellery-detail-39-1200-square.webp",
+      "status": "awaiting-identification"
+    },
+    {
+      "id": "src-040",
+      "slug": "emarket247-jewellery-detail-40",
+      "original_filename": "WhatsApp Image 2026-08-21 at 18.46.14 (1).jpeg",
+      "categoryGuess": "jewellery-detail",
+      "titleEnPlaceholder": "Jewellery detail 40",
+      "titleBnPlaceholder": "জুয়েলারি আইটেম ৪০",
+      "imagePathNeverUploaded": "/assets/images/products-square/emarket247-jewellery-detail-40-1200-square.webp",
+      "status": "awaiting-identification"
+    },
+    {
+      "id": "src-041",
+      "slug": "emarket247-jewellery-detail-41",
+      "original_filename": "WhatsApp Image 2026-08-21 at 18.46.14.jpeg",
+      "categoryGuess": "jewellery-detail",
+      "titleEnPlaceholder": "Jewellery detail 41",
+      "titleBnPlaceholder": "জুয়েলারি আইটেম ৪১",
+      "imagePathNeverUploaded": "/assets/images/products-square/emarket247-jewellery-detail-41-1200-square.webp",
+      "status": "awaiting-identification"
+    },
+    {
+      "id": "src-042",
+      "slug": "emarket247-jewellery-detail-42",
+      "original_filename": "WhatsApp Image 2026-08-21 at 18.46.15 (1).jpeg",
+      "categoryGuess": "jewellery-detail",
+      "titleEnPlaceholder": "Jewellery detail 42",
+      "titleBnPlaceholder": "জুয়েলারি আইটেম ৪২",
+      "imagePathNeverUploaded": "/assets/images/products-square/emarket247-jewellery-detail-42-1200-square.webp",
+      "status": "awaiting-identification"
+    },
+    {
+      "id": "src-043",
+      "slug": "emarket247-jewellery-detail-43",
+      "original_filename": "WhatsApp Image 2026-08-21 at 18.46.15.jpeg",
+      "categoryGuess": "jewellery-detail",
+      "titleEnPlaceholder": "Jewellery detail 43",
+      "titleBnPlaceholder": "জুয়েলারি আইটেম ৪৩",
+      "imagePathNeverUploaded": "/assets/images/products-square/emarket247-jewellery-detail-43-1200-square.webp",
+      "status": "awaiting-identification"
+    },
+    {
+      "id": "src-044",
+      "slug": "emarket247-jewellery-detail-44",
+      "original_filename": "WhatsApp Image 2026-08-21 at 18.46.16 (1).jpeg",
+      "categoryGuess": "jewellery-detail",
+      "titleEnPlaceholder": "Jewellery detail 44",
+      "titleBnPlaceholder": "জুয়েলারি আইটেম ৪৪",
+      "imagePathNeverUploaded": "/assets/images/products-square/emarket247-jewellery-detail-44-1200-square.webp",
+      "status": "awaiting-identification"
+    },
+    {
+      "id": "src-045",
+      "slug": "emarket247-jewellery-detail-45",
+      "original_filename": "WhatsApp Image 2026-08-21 at 18.46.16 (2).jpeg",
+      "categoryGuess": "jewellery-detail",
+      "titleEnPlaceholder": "Jewellery detail 45",
+      "titleBnPlaceholder": "জুয়েলারি আইটেম ৪৫",
+      "imagePathNeverUploaded": "/assets/images/products-square/emarket247-jewellery-detail-45-1200-square.webp",
+      "status": "awaiting-identification"
+    },
+    {
+      "id": "src-048",
+      "slug": "emarket247-necklaces-48",
+      "original_filename": "WhatsApp Image 2026-08-21 at 18.46.17.jpeg",
+      "categoryGuess": "necklaces",
+      "titleEnPlaceholder": "Necklace-style jewellery detail 48",
+      "titleBnPlaceholder": "হার ৪৮",
+      "imagePathNeverUploaded": "/assets/images/products-square/emarket247-necklaces-48-1200-square.webp",
+      "status": "awaiting-identification"
+    }
+  ]
+}

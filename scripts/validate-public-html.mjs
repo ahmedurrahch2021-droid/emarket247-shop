@@ -47,7 +47,7 @@ const jsFiles = files.filter((file) => file.endsWith(".js"));
 const phpFiles = files.filter((file) => file.endsWith(".php"));
 const publicPages = htmlFiles.filter((file) => {
   const rel = path.relative(root, file).replaceAll("\\", "/");
-  return /^(en|bn)\//.test(rel) && !/^((en|bn)\/(admin|account|studio-pilot)\/)/.test(rel);
+  return /^(en|bn)\//.test(rel) && !/^((en|bn)\/(admin|account)\/)/.test(rel);
 });
 
 for (const file of publicPages) {
@@ -142,7 +142,7 @@ if (taxonomy?.products && taxonomy?.categories && catalogues.en && catalogues.bn
   if (expectedCount !== taxonomy.products.length) {
     errors.push(`catalog.taxonomy.json: publishedProductCount is ${expectedCount}, but ${taxonomy.products.length} products are listed`);
   }
-  if (expectedCount !== 27) errors.push(`catalog.taxonomy.json: expected 27 published products, found ${expectedCount}`);
+  if (expectedCount !== 30) errors.push(`catalog.taxonomy.json: expected 30 published products, found ${expectedCount}`);
 
   for (const field of ["id", "sku", "slug"]) {
     const duplicates = duplicateValues(taxonomy.products.map((product) => product[field]));
@@ -183,7 +183,7 @@ if (taxonomy?.products && taxonomy?.categories && catalogues.en && catalogues.bn
 
   for (const lang of ["en", "bn"]) {
     const readySlugs = catalogues[lang].filter((product) => product.status === "ready").map((product) => product.slug);
-    if (!sameValues(readySlugs, taxonomySlugs)) errors.push(`catalog.${lang}.json: ready products must match the 27-product taxonomy manifest`);
+    if (!sameValues(readySlugs, taxonomySlugs)) errors.push(`catalog.${lang}.json: ready products must match the 30-product taxonomy manifest`);
 
     const productRoot = path.join(root, lang, "products");
     const publishedDirs = (await readdir(productRoot, { withFileTypes: true }))
@@ -202,6 +202,21 @@ if (taxonomy?.products && taxonomy?.categories && catalogues.en && catalogues.bn
         errors.push(`catalog.${lang}.json: unregistered ready product ${record.slug}`);
       }
     }
+
+    // A "Related pieces" block must never ship empty. A heading sitting over an
+    // empty grid reads as a broken page, which is what a single-piece category
+    // produces when the generator emits the block unconditionally. The generator
+    // now omits the block instead — the same thing product.php has always done
+    // with its `if ($relatedHtml !== '')` guard — and this check is what keeps a
+    // future category from reintroducing it.
+    for (const record of catalogues[lang].filter((product) => product.status === "ready")) {
+      const pdpFile = path.join(productRoot, record.slug, "index.html");
+      const pdp = await readFile(pdpFile, "utf8");
+      const relatedBlock = pdp.match(/<section class="pdp-related wrap">([\s\S]*?)<\/section>/);
+      if (relatedBlock && !relatedBlock[1].includes('class="product-card"')) {
+        errors.push(`${lang}/products/${record.slug}/index.html: related-products block is present but empty`);
+      }
+    }
   }
 }
 
@@ -217,6 +232,82 @@ if (phpProbe.error?.code === "ENOENT") {
   for (const file of phpFiles) {
     const result = spawnSync("php", ["-l", file], { encoding: "utf8" });
     if (result.status !== 0) errors.push(`${path.relative(root, file)}: PHP syntax failed`);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Admin category coverage
+//
+// The admin product form offers categories in a <select>, and site.js maps the
+// chosen value to a category-page slug. When the two drift, a product is filed
+// under the wrong category: "Bridal Jewellery" and "Gift Jewellery" were offered
+// by the form but missing from the map, and the lookup's `|| "rings"` fallback
+// silently filed them as rings. The fallback now derives a slug instead, and
+// this check makes the drift itself impossible to ship.
+//
+// Two rules, both learned from real defects on this branch:
+//   1. every category a select offers must be resolvable by site.js;
+//   2. the Bangla admin must offer exactly what the English admin offers, which
+//      is what it did not: it was missing two categories entirely, so a piece
+//      could not be filed correctly from the Bangla panel at all.
+// ---------------------------------------------------------------------------
+{
+  const siteJs = await readFile(path.join(root, "assets/js/site.js"), "utf8");
+  const mapBlock = siteJs.match(/const categorySlugMap = \{([\s\S]*?)\};/);
+  const offeredByLang = {};
+  if (!mapBlock) {
+    errors.push("assets/js/site.js: categorySlugMap not found");
+  } else {
+    const mapped = new Set([...mapBlock[1].matchAll(/"([^"]+)"\s*:/g)].map((m) => m[1]));
+    for (const lang of ["en", "bn"]) {
+      const adminPage = path.join(root, lang, "admin/index.html");
+      if (!(await exists(adminPage))) continue;
+      const adminHtml = await readFile(adminPage, "utf8");
+
+      // The product form and the product list's category filter must agree.
+      const collected = {};
+      for (const [label, pattern] of [
+        ["product form", /<select[^>]*id="prod-category"[^>]*>([\s\S]*?)<\/select>/],
+        ["list filter", /<select[^>]*id="admin-category-filter"[^>]*>([\s\S]*?)<\/select>/],
+      ]) {
+        const select = adminHtml.match(pattern);
+        if (!select) {
+          if (label === "product form") errors.push(`${lang}/admin/index.html: product category select not found`);
+          continue;
+        }
+        // "all" is the filter's own pseudo-category, not a product category.
+        const offered = [...select[1].matchAll(/<option value="([^"]+)"/g)]
+          .map((m) => m[1])
+          .filter((value) => value !== "all");
+        if (offered.length === 0) errors.push(`${lang}/admin/index.html: ${label} category select offers nothing`);
+        for (const value of offered) {
+          if (!mapped.has(value)) {
+            errors.push(`${lang}/admin/index.html: category "${value}" is offered by the ${label} but missing from categorySlugMap in site.js`);
+          }
+        }
+        collected[label] = offered;
+      }
+      offeredByLang[lang] = collected["product form"] ?? [];
+
+      // Assigning a category the list cannot then filter by is a dead end: the
+      // Bangla filter was missing the same two categories the form was.
+      if (collected["product form"] && collected["list filter"]) {
+        const unfilterable = collected["product form"].filter((value) => !collected["list filter"].includes(value));
+        if (unfilterable.length) {
+          errors.push(`${lang}/admin/index.html: the category filter cannot filter by [${unfilterable.join(", ")}] although the product form can assign them`);
+        }
+      }
+    }
+  }
+
+  const langs = Object.keys(offeredByLang);
+  if (langs.length === 2) {
+    const [a, b] = langs;
+    const onlyInA = offeredByLang[a].filter((value) => !offeredByLang[b].includes(value));
+    const onlyInB = offeredByLang[b].filter((value) => !offeredByLang[a].includes(value));
+    if (onlyInA.length || onlyInB.length) {
+      errors.push(`admin panels disagree on assignable categories — ${a} only: [${onlyInA.join(", ")}]; ${b} only: [${onlyInB.join(", ")}]`);
+    }
   }
 }
 
