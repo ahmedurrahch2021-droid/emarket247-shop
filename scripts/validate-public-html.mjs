@@ -244,10 +244,17 @@ if (phpProbe.error?.code === "ENOENT") {
 // by the form but missing from the map, and the lookup's `|| "rings"` fallback
 // silently filed them as rings. The fallback now derives a slug instead, and
 // this check makes the drift itself impossible to ship.
+//
+// Two rules, both learned from real defects on this branch:
+//   1. every category a select offers must be resolvable by site.js;
+//   2. the Bangla admin must offer exactly what the English admin offers, which
+//      is what it did not: it was missing two categories entirely, so a piece
+//      could not be filed correctly from the Bangla panel at all.
 // ---------------------------------------------------------------------------
 {
   const siteJs = await readFile(path.join(root, "assets/js/site.js"), "utf8");
   const mapBlock = siteJs.match(/const categorySlugMap = \{([\s\S]*?)\};/);
+  const offeredByLang = {};
   if (!mapBlock) {
     errors.push("assets/js/site.js: categorySlugMap not found");
   } else {
@@ -256,18 +263,50 @@ if (phpProbe.error?.code === "ENOENT") {
       const adminPage = path.join(root, lang, "admin/index.html");
       if (!(await exists(adminPage))) continue;
       const adminHtml = await readFile(adminPage, "utf8");
-      const select = adminHtml.match(/<select[^>]*id="prod-category"[^>]*>([\s\S]*?)<\/select>/);
-      if (!select) {
-        errors.push(`${lang}/admin/index.html: product category select not found`);
-        continue;
+
+      // The product form and the product list's category filter must agree.
+      const collected = {};
+      for (const [label, pattern] of [
+        ["product form", /<select[^>]*id="prod-category"[^>]*>([\s\S]*?)<\/select>/],
+        ["list filter", /<select[^>]*id="admin-category-filter"[^>]*>([\s\S]*?)<\/select>/],
+      ]) {
+        const select = adminHtml.match(pattern);
+        if (!select) {
+          if (label === "product form") errors.push(`${lang}/admin/index.html: product category select not found`);
+          continue;
+        }
+        // "all" is the filter's own pseudo-category, not a product category.
+        const offered = [...select[1].matchAll(/<option value="([^"]+)"/g)]
+          .map((m) => m[1])
+          .filter((value) => value !== "all");
+        if (offered.length === 0) errors.push(`${lang}/admin/index.html: ${label} category select offers nothing`);
+        for (const value of offered) {
+          if (!mapped.has(value)) {
+            errors.push(`${lang}/admin/index.html: category "${value}" is offered by the ${label} but missing from categorySlugMap in site.js`);
+          }
+        }
+        collected[label] = offered;
       }
-      const offered = [...select[1].matchAll(/<option value="([^"]+)"/g)].map((m) => m[1]);
-      if (offered.length === 0) errors.push(`${lang}/admin/index.html: product category select offers nothing`);
-      for (const value of offered) {
-        if (!mapped.has(value)) {
-          errors.push(`${lang}/admin/index.html: category "${value}" is offered but missing from categorySlugMap in site.js`);
+      offeredByLang[lang] = collected["product form"] ?? [];
+
+      // Assigning a category the list cannot then filter by is a dead end: the
+      // Bangla filter was missing the same two categories the form was.
+      if (collected["product form"] && collected["list filter"]) {
+        const unfilterable = collected["product form"].filter((value) => !collected["list filter"].includes(value));
+        if (unfilterable.length) {
+          errors.push(`${lang}/admin/index.html: the category filter cannot filter by [${unfilterable.join(", ")}] although the product form can assign them`);
         }
       }
+    }
+  }
+
+  const langs = Object.keys(offeredByLang);
+  if (langs.length === 2) {
+    const [a, b] = langs;
+    const onlyInA = offeredByLang[a].filter((value) => !offeredByLang[b].includes(value));
+    const onlyInB = offeredByLang[b].filter((value) => !offeredByLang[a].includes(value));
+    if (onlyInA.length || onlyInB.length) {
+      errors.push(`admin panels disagree on assignable categories — ${a} only: [${onlyInA.join(", ")}]; ${b} only: [${onlyInB.join(", ")}]`);
     }
   }
 }
