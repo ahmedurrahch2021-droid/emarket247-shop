@@ -88,36 +88,15 @@
     .header-actions { display: flex; align-items: center; gap: 12px; margin-left: 24px; padding-left: 24px; border-left: 1px solid var(--border); }
     .btn-wa-header { background: var(--vermilion); color: #fff; text-decoration: none; font-size: 0.82rem; font-weight: 600; padding: 7px 16px; border-radius: 50px; display: flex; align-items: center; gap: 6px; transition: background 0.15s; white-space: nowrap; }
     .btn-wa-header:hover { background: var(--vermilion-dark); }
-    .menu-toggle { display: none; background: none; border: none; cursor: pointer; padding: 6px; }
-    .menu-toggle span { display: block; width: 22px; height: 2px; background: var(--text); margin: 5px 0; border-radius: 2px; transition: all 0.2s; }
-
-    /* ── Mobile Nav ── */
-    .mobile-nav-bar { display: none; background: var(--warm-white); border-bottom: 1px solid var(--border); padding: 8px 16px; gap: 8px; align-items: center; }
     .mobile-nav-icons { display: flex; gap: 4px; margin-left: auto; }
     .mobile-nav-icons a { color: var(--text-mid); text-decoration: none; padding: 8px 6px; font-size: 1.2rem; line-height: 1; display: flex; align-items: center; }
     .mobile-nav-icons a span { font-size: 0.7rem; font-weight: 600; color: var(--text); display: block; }
     @media (max-width: 768px) {
       .nav-primary { display: none; }
       .header-actions { display: none; }
-      .menu-toggle { display: block; margin-left: auto; }
-      .mobile-nav-bar { display: flex; }
       .header-inner { gap: 0; }
       .logo-wrap { margin-right: 12px; }
     }
-
-    /* ── Mobile menu overlay ── */
-    .mobile-menu { display: none; position: fixed; inset: 0; z-index: 200; }
-    .mobile-menu.active { display: block; }
-    .mobile-menu-backdrop { position: absolute; inset: 0; background: rgba(42,31,20,0.5); }
-    .mobile-menu-panel { position: absolute; right: 0; top: 0; bottom: 0; width: min(320px, 90vw); background: var(--cream); overflow-y: auto; padding: 24px; }
-    .mobile-menu-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
-    .mobile-menu-title { font-family: 'DM Serif Display', serif; font-size: 1.1rem; color: var(--vermilion); }
-    .mobile-menu-close { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text); padding: 4px; line-height: 1; }
-    .mobile-menu-nav { list-style: none; }
-    .mobile-menu-nav li { border-bottom: 1px solid var(--border); }
-    .mobile-menu-nav a { display: block; padding: 14px 0; text-decoration: none; color: var(--text); font-weight: 500; font-size: 0.95rem; }
-    .mobile-menu-nav a:hover { color: var(--vermilion); }
-    .mobile-menu-wa { margin-top: 20px; background: var(--vermilion); color: #fff; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 14px; border-radius: 50px; font-weight: 600; font-size: 0.9rem; }
 
     /* ── Page Hero ── */
     .page-hero {
@@ -199,40 +178,6 @@
     </nav>
   </div>
 </header>
-
-<div class="mobile-nav-bar">
-  <a href="/en/" class="mobile-nav-home">🏠 <span>Home</span></a>
-  <div class="mobile-nav-icons">
-    <a href="/en/account/" aria-label="Account">👤</a>
-    <a href="/en/wishlist/" aria-label="Wishlist" data-wishlist-toggle>❤️</a>
-    <a href="/en/cart/" aria-label="Cart">🛒</a>
-  </div>
-  <button class="menu-toggle" style="margin-left:4px" aria-label="Open menu" onclick="document.getElementById('mobileMenu').classList.add('active')">
-    <span></span><span></span><span></span>
-  </button>
-</div>
-
-<div class="mobile-menu" id="mobileMenu">
-  <div class="mobile-menu-backdrop" onclick="document.getElementById('mobileMenu').classList.remove('active')"></div>
-  <div class="mobile-menu-panel">
-    <div class="mobile-menu-header">
-      <span class="mobile-menu-title">Menu</span>
-      <button class="mobile-menu-close" onclick="document.getElementById('mobileMenu').classList.remove('active')">✕</button>
-    </div>
-    <ul class="mobile-menu-nav">
-      <li><a href="/en/" onclick="document.getElementById('mobileMenu').classList.remove('active')">Home</a></li>
-      <li><a href="/en/shop/" onclick="document.getElementById('mobileMenu').classList.remove('active')">Shop All</a></li>
-      <li><a href="/en/categories/bangles/" onclick="document.getElementById('mobileMenu').classList.remove('active')">Bangles</a></li>
-      <li><a href="/en/categories/necklaces/" onclick="document.getElementById('mobileMenu').classList.remove('active')">Necklaces</a></li>
-      
-      <li><a href="/en/about/" onclick="document.getElementById('mobileMenu').classList.remove('active')">About</a></li>
-      <li><a href="/en/delivery/" onclick="document.getElementById('mobileMenu').classList.remove('active')">Delivery</a></li>
-      <li><a href="/en/refund/" onclick="document.getElementById('mobileMenu').classList.remove('active')">Refund</a></li>
-      <li><a href="/en/contact/" onclick="document.getElementById('mobileMenu').classList.remove('active')">Contact</a></li>
-    </ul>
-    <a href="https://wa.me/8801740501062" class="mobile-menu-wa" target="_blank" rel="noopener">💬 Message on WhatsApp</a>
-  </div>
-</div>
 
 <div class="page-hero">
   <p class="eyebrow">Information</p>
