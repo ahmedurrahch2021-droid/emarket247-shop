@@ -2975,6 +2975,39 @@
     }
   };
 
+  const initFounderPhoto = () => {
+    const frame = document.querySelector(".founder-photo-frame");
+    if (!frame) return;
+    const candidates = [
+      "/assets/images/editorial/rozina-akter.jpg",
+      "/assets/images/editorial/Rozinal Akter.jpg",
+      "/assets/images/Rozinal Akter.jpg",
+      "/assets/images/rozina-akter.jpg",
+      "/assets/images/editorial/rozina-akter.webp"
+    ];
+    let idx = 0;
+    const tryNext = () => {
+      if (idx >= candidates.length) return;
+      const src = candidates[idx++];
+      const probe = new Image();
+      probe.onload = () => {
+        frame.classList.add("has-image");
+        frame.innerHTML = "";
+        const finalImg = document.createElement("img");
+        finalImg.src = src;
+        finalImg.alt = frame.getAttribute("data-lang") === "bn" ? "রোজিনা আক্তার — প্রতিষ্ঠাতা, eMarket247" : "Rozina Akter — Founder, eMarket247";
+        finalImg.width = 896;
+        finalImg.height = 1200;
+        finalImg.loading = "lazy";
+        finalImg.decoding = "async";
+        frame.appendChild(finalImg);
+      };
+      probe.onerror = tryNext;
+      probe.src = src;
+    };
+    tryNext();
+  };
+
   // Initialize Global Elements
   // syncAuthState() resolves the session and, through setCurrentUser(), merges
   // a returning customer's saved pieces back into this browser and reconciles
@@ -2996,6 +3029,7 @@
   enhanceProductCards();
   initPdpWishlist();
   initWishlistPage();
+  initFounderPhoto();
 })();
 
 

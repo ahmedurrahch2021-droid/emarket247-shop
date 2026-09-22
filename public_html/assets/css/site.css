@@ -7426,6 +7426,23 @@ h1, h2, h3, h4, h5, h6 {
 }
 .founder-photo-frame span { font: 400 15px var(--serif); color: var(--ink); }
 .founder-photo-frame small { font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.founder-photo-frame.has-image {
+  display: block;
+  border: 1px solid var(--line);
+  background: var(--warm);
+  padding: 0;
+  overflow: hidden;
+  box-shadow: 0 12px 32px -10px rgba(33, 23, 19, 0.14);
+}
+.founder-photo-frame.has-image img,
+.founder-photo > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  object-position: center 20%;
+}
 /* Swap the frame for the real photo by replacing the div inside .founder-photo
    with: <img src="/assets/images/..." alt="..." width="..." height="..."> —
    the frame aspect-ratio keeps the reserved space until then. */

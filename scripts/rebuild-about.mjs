@@ -9,13 +9,13 @@ const BN = `
 <section class="editorial-hero full-width-hero"><img class="hero-bg" src="/assets/images/editorial/About%20Us.webp" width="2048" height="1152" alt="eMarket247-এর গল্প ও কারুকাজ — ঠাকুরগাঁও থেকে শুরু" fetchpriority="high"><div class="hero-shade"></div><div class="wrap"><div class="hero-content hero-editorial-col"><p class="eyebrow"><strong class="brand-name">eMarket247</strong> আমাদের গল্প</p><h1>আমাদের গল্প</h1><p>ঠাকুরগাঁওয়ের এক গৃহিণীর ছোট উদ্যোগ, যা ধীরে ধীরে হয়ে উঠছে একটি জুয়েলারি গন্তব্য — পরিষ্কার তথ্য, সৎ প্রত্যাশা আর মানুষের আস্থায় গড়া।</p></div></div></section>
 <section class="category-choose wrap"><div>
   <p class="eyebrow">ছোট শুরু</p>
-  <h2>সব বড় গল্পের শুরুটা ছোট হয়</h2>
+  <h2>সব বড় গল্পের শুরু একটি ছোট পদক্ষেপ থেকে</h2>
   <p>eMarket247-এর গল্প কোনো বড় শোরুম বা বড় বিনিয়োগ দিয়ে শুরু হয়নি। এর শুরু একজন সাধারণ গৃহিণী <strong>রোজিনা আক্তারের</strong> ছোট একটি উদ্যোগ দিয়ে—ঠাকুরগাঁও থেকে, সীমিত সামর্থ্য নিয়ে, নিজের পরিশ্রম ও মানুষের আস্থা অর্জনের ইচ্ছাকে সঙ্গে করে।</p>
   <p>ব্যবসার শুরুতে তার কাছে ছিল না বড় কোনো প্রতিষ্ঠান, বিশাল বিনিয়োগ বা বড় টিম। ছিল একটি ছোট উদ্যোগ শুরু করার সাহস। শুরুটা ছোট হলেও একটি বিষয় শুরু থেকেই গুরুত্বপূর্ণ ছিল—<strong>যে মানুষটি তার কাছ থেকে জুয়েলারি কিনবেন, তার আস্থা যেন নষ্ট না হয়।</strong></p>
   <p>কারণ অনলাইনে একটি ছবি দেখে কোনো গহনা পছন্দ করা সহজ। কিন্তু সেই গহনা হাতে পাওয়ার পরও যেন মনে হয়, <strong>"আমি ঠিক জায়গা থেকেই কিনেছি"</strong>—এই বিশ্বাস তৈরি করাই আসল চ্যালেঞ্জ।</p>
   <p>আজ সেই ছোট উদ্যোগের সঙ্গে যুক্ত হয়েছে <strong>১০,০০০+ Facebook followers-এর একটি অনলাইন কমিউনিটি</strong>। আর এখন স্বপ্নটা আরও বড়—ঠাকুরগাঁও থেকে সারা বাংলাদেশে, এবং ভবিষ্যতে দেশের বাইরেও eMarket247-এর পরিচিতি তৈরি করা।</p>
 </div></section>
-<section class="founder-grid wrap"><blockquote class="about-quote"><p>"আমি খুব বড় কিছু দিয়ে শুরু করিনি। ছোট করে শুরু করেছিলাম। মানুষের বিশ্বাস আর নিজের পরিশ্রমকে সঙ্গে নিয়ে আজ এখানে এসেছি। এখন আমার স্বপ্ন—ঠাকুরগাঁওয়ের এই ছোট উদ্যোগকে সারা বাংলাদেশের মানুষের কাছে পৌঁছে দেওয়া।"</p><cite><strong>রোজিনা আক্তার</strong><span>Founder, eMarket247</span></cite></blockquote><figure class="founder-photo founder-photo-pending"><div class="founder-photo-frame"><span>রোজিনা আক্তার — Founder, eMarket247</span><small>Photo coming soon / ছবি শীঘ্রই আসছে</small></div></figure></section>
+<section class="founder-grid wrap"><blockquote class="about-quote"><p>"আমি খুব বড় কিছু দিয়ে শুরু করিনি। ছোট করে শুরু করেছিলাম। মানুষের বিশ্বাস আর নিজের পরিশ্রমকে সঙ্গে নিয়ে আজ এখানে এসেছি। এখন আমার স্বপ্ন—ঠাকুরগাঁওয়ের এই ছোট উদ্যোগকে সারা বাংলাদেশের মানুষের কাছে পৌঁছে দেওয়া।"</p><cite><strong>রোজিনা আক্তার</strong><span>Founder, eMarket247</span></cite></blockquote><figure class="founder-photo"><div class="founder-photo-frame" data-lang="bn"><span>রোজিনা আক্তার — Founder, eMarket247</span><small>Photo / ছবি</small></div></figure></section>
 <section class="category-choose wrap"><div>
   <p class="eyebrow">ক্রেতার প্রশ্ন</p>
   <h2>পণ্য বিক্রি করা সহজ। আস্থা অর্জন করা কঠিন।</h2>
@@ -54,13 +54,13 @@ const EN = `
 <section class="editorial-hero full-width-hero"><img class="hero-bg" src="/assets/images/editorial/About%20Us.webp" width="2048" height="1152" alt="The eMarket247 story and craft — it began in Thakurgaon" fetchpriority="high"><div class="hero-shade"></div><div class="wrap"><div class="hero-content hero-editorial-col"><p class="eyebrow"><strong class="brand-name">eMarket247</strong> Our Story</p><h1>Our Story</h1><p>A homemaker's small initiative from Thakurgaon, growing into a jewellery destination — built slowly on clear information, honest expectations, and the trust of the people it serves.</p></div></div></section>
 <section class="category-choose wrap"><div>
   <p class="eyebrow">A small start</p>
-  <h2>Every big story begins small</h2>
+  <h2>Every big story begins from Small step</h2>
   <p>eMarket247 did not begin with a big showroom or a large investment. It began with the small initiative of a homemaker, <strong>Rozina Akter</strong> — from Thakurgaon, with limited means, driven by her own hard work and the wish to earn people's trust.</p>
   <p>At the start there was no big establishment, no large capital, no team. There was the courage to begin something small. Yet one thing mattered from day one — <strong>that the person who buys jewellery from her never loses their trust.</strong></p>
   <p>Choosing a piece of jewellery from a photo online is easy. The real challenge is making sure that when it arrives, the buyer still feels — <strong>"I bought it from the right place."</strong></p>
   <p>Today that small initiative has grown into <strong>an online community of 10,000+ Facebook followers</strong>. And the dream is bigger now — from Thakurgaon to all of Bangladesh, and one day, recognition for eMarket247 beyond the country too.</p>
 </div></section>
-<section class="founder-grid wrap"><blockquote class="about-quote"><p>"I didn't start with anything big. I started small. Carrying people's trust and my own hard work, I've come this far. Now my dream is to carry this small initiative from Thakurgaon to people across Bangladesh."</p><cite><strong>Rozina Akter</strong><span>Founder, eMarket247</span></cite></blockquote><figure class="founder-photo founder-photo-pending"><div class="founder-photo-frame"><span>Rozina Akter — Founder, eMarket247</span><small>Photo coming soon / ছবি শীঘ্রই আসছে</small></div></figure></section>
+<section class="founder-grid wrap"><blockquote class="about-quote"><p>"I didn't start with anything big. I started small. Carrying people's trust and my own hard work, I've come this far. Now my dream is to carry this small initiative from Thakurgaon to people across Bangladesh."</p><cite><strong>Rozina Akter</strong><span>Founder, eMarket247</span></cite></blockquote><figure class="founder-photo"><div class="founder-photo-frame" data-lang="en"><span>Rozina Akter — Founder, eMarket247</span><small>Photo / ছবি</small></div></figure></section>
 <section class="category-choose wrap"><div>
   <p class="eyebrow">The buyer's questions</p>
   <h2>Selling products is easy. Earning trust is not.</h2>
