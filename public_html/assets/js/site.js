@@ -1092,30 +1092,27 @@
       .map(([category, label]) => `<button type="button" class="catalog-tab" data-category-tab="${esc(category)}" aria-pressed="false">${esc(label)} <span class="catalog-tab-count"></span></button>`)
       .join("");
 
-    const searchHtml = `<div class="catalog-search-wrap"><span class="search-icon" aria-hidden="true">⌕</span><input type="search" class="catalog-search-input" placeholder="${bn ? "অলংকার বা ধরন খুঁজুন..." : "Search jewellery by name, type..."}" aria-label="${bn ? "অলংকার খুঁজুন" : "Search jewellery"}" value="${esc(state.q)}"><button type="button" class="catalog-search-clear" aria-label="${bn ? "সার্চ মুছুন" : "Clear search"}"${state.q ? "" : " hidden"}>×</button></div>`;
-
     const control = document.createElement("div");
     control.className = "catalog-controls";
-    control.setAttribute("aria-label", bn ? "ক্যাটালগ ফিল্টার ও সাজানোর নিয়ন্ত্রণ" : "Catalogue filters and sorting controls");
+    control.setAttribute("aria-label", bn ? "ক্যাটালগ ফিল্টার নিয়ন্ত্রণ" : "Catalogue filter controls");
     control.innerHTML = `
       <div class="catalog-controls-top">
-        <button type="button" class="catalog-filter-toggle" aria-expanded="false" aria-controls="${facetsId}"><span aria-hidden="true">☷</span> ${bn ? "ফিল্টার" : "Filter"} <b class="catalog-filter-count" hidden>0</b></button>
-        ${searchHtml}
-        <span class="catalog-result-count" aria-live="polite"></span>
-        <label class="sr-only" for="catalog-sort">${bn ? "সাজান" : "Sort"}</label>
-        <select id="catalog-sort" data-sort>
-          <option value="featured">${bn ? "নির্বাচিত" : "Featured"}</option>
-          <option value="price-asc">${bn ? "দাম: কম থেকে বেশি" : "Price: low to high"}</option>
-          <option value="price-desc">${bn ? "দাম: বেশি থেকে কম" : "Price: high to low"}</option>
-        </select>
+        <button type="button" class="catalog-filter-toggle" aria-expanded="false" aria-controls="${facetsId}"><span aria-hidden="true">☷</span> ${bn ? "ফিল্টার" : "Filters"} <b class="catalog-filter-count" hidden>0</b></button>
       </div>
       <div class="catalog-tabs" role="group" aria-label="${bn ? "ক্যাটাগরি" : "Category"}">${tabsHtml}</div>
-      <div class="catalog-facets" id="${facetsId}">
+      <aside class="catalog-facets" id="${facetsId}" aria-label="${bn ? "ফিল্টারসমূহ" : "Filters"}">
+        <div class="catalog-facets-header">
+          <span class="catalog-facets-title"><span aria-hidden="true">☷</span> ${bn ? "ফিল্টারসমূহ" : "Filters"}</span>
+          <button type="button" class="catalog-facets-close" aria-label="${bn ? "ফিল্টার বন্ধ করুন" : "Close filters"}">×</button>
+        </div>
         ${FACET_KEYS.map(facetPanel).join("")}
         <button type="button" class="catalog-clear">${bn ? "সব ফিল্টার মুছুন" : "Clear all filters"}</button>
-      </div>`;
+      </aside>`;
 
     target.insertAdjacentElement("afterend", control);
+
+    const catalogArea = host.closest(".catalog-area");
+    if (catalogArea) catalogArea.classList.add("has-facets-sidebar");
 
     const searchInput = one(".catalog-search-input", control);
     const searchClear = one(".catalog-search-clear", control);
@@ -1157,9 +1154,12 @@
       }
       enhanceProductCards(host);
 
-      one(".catalog-result-count", control).textContent = bn
-        ? `${visible.length}টি অলংকার`
-        : `${visible.length} ${visible.length === 1 ? "piece" : "pieces"}`;
+      const countEl = one(".catalog-result-count", control);
+      if (countEl) {
+        countEl.textContent = bn
+          ? `${visible.length}টি অলংকার`
+          : `${visible.length} ${visible.length === 1 ? "piece" : "pieces"}`;
+      }
 
       all("[data-category-tab]", control).forEach((tab) => {
         const category = tab.dataset.categoryTab;
@@ -1174,9 +1174,11 @@
       );
 
       const badge = one(".catalog-filter-count", control);
-      const active = activeFacetCount();
-      badge.textContent = String(active);
-      badge.hidden = active === 0;
+      if (badge) {
+        const active = activeFacetCount();
+        badge.textContent = String(active);
+        badge.hidden = active === 0;
+      }
 
       syncUrl();
     };
@@ -1225,13 +1227,24 @@
       })
     );
 
-    one(".catalog-clear", control).addEventListener("click", resetAll);
+    const clearBtn = one(".catalog-clear", control);
+    if (clearBtn) clearBtn.addEventListener("click", resetAll);
 
     const toggle = one(".catalog-filter-toggle", control);
-    toggle.addEventListener("click", () => {
-      const open = control.classList.toggle("is-open");
-      toggle.setAttribute("aria-expanded", String(open));
-    });
+    if (toggle) {
+      toggle.addEventListener("click", () => {
+        const open = control.classList.toggle("is-open");
+        toggle.setAttribute("aria-expanded", String(open));
+      });
+    }
+
+    const facetsClose = one(".catalog-facets-close", control);
+    if (facetsClose) {
+      facetsClose.addEventListener("click", () => {
+        control.classList.remove("is-open");
+        if (toggle) toggle.setAttribute("aria-expanded", "false");
+      });
+    }
 
     // A filter can empty the grid, so the empty state needs its own way back.
     host.addEventListener("click", (event) => {
@@ -1239,11 +1252,13 @@
     });
 
     const sortSelect = one("[data-sort]", control);
-    sortSelect.value = state.sort;
-    sortSelect.addEventListener("change", () => {
-      state.sort = sortSelect.value;
-      render();
-    });
+    if (sortSelect) {
+      sortSelect.value = state.sort;
+      sortSelect.addEventListener("change", () => {
+        state.sort = sortSelect.value;
+        render();
+      });
+    }
 
     render();
   };
