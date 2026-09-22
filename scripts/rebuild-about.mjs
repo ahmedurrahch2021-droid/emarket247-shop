@@ -34,12 +34,67 @@ const BN = `
 </ol>
 </div></section>
 <section class="info-grid wrap"><div><p class="eyebrow">আমাদের বিশ্বাস</p><h2>আমরা কী বিশ্বাস করি</h2></div><article class="info-card"><h3>পরিষ্কার তথ্য</h3><p>আপনি কী কিনছেন, সেটি বোঝার মতো তথ্য পাওয়া গুরুত্বপূর্ণ। পণ্যের ক্ষেত্রে যে তথ্য যাচাই করা ও প্রকাশ করা সম্ভব, সেটি পরিষ্কারভাবে দেওয়াই আমাদের লক্ষ্য।</p></article><article class="info-card"><h3>বাস্তব প্রত্যাশা</h3><p>City Gold বা imitation jewellery-কে আমরা আসল সোনা বলে উপস্থাপন করি না। এটি নিজস্ব সৌন্দর্য, ব্যবহার ও মূল্যের একটি আলাদা jewellery category।</p></article><article class="info-card"><h3>মানুষের সঙ্গে সরাসরি যোগাযোগ</h3><p>অনলাইনে কেনাকাটার সময় প্রশ্ন থাকা স্বাভাবিক। কোনো কিছু বুঝতে অসুবিধা হলে আমাদের সঙ্গে যোগাযোগ করার সুযোগ থাকা উচিত।</p></article><article class="info-card"><h3>ধীরে, কিন্তু সঠিকভাবে এগোনো</h3><p>আমরা এমন প্রতিশ্রুতি দিতে চাই না যা বাস্তবে পূরণ করা সম্ভব নয়। ব্যবসা বড় করার চেয়ে দীর্ঘমেয়াদে মানুষের আস্থা ধরে রাখা আমাদের কাছে বেশি গুরুত্বপূর্ণ।</p></article></section>
-<section class="wrap"><div class="care-note"><p class="eyebrow">আমাদের সীমারেখা</p><h2>আমরা যা বলি না</h2>
-<p>আমরা বলব না—<strong><span class="refusal-q">"এটি আসল সোনা।"</span></strong> যদি এটি imitation বা City Gold jewellery হয়।</p>
-<p>আমরা বলব না—<strong><span class="refusal-q">"আজই কিনুন, নইলে আর পাবেন না।"</span></strong> শুধু বিক্রি বাড়ানোর জন্য কৃত্রিম urgency তৈরি করে।</p>
-<p>আমরা বলব না—<strong><span class="refusal-q">"সবাই আমাদের পছন্দ করে।"</span></strong> যদি তার পেছনে বাস্তব ও যাচাইযোগ্য customer evidence না থাকে।</p>
-<p>আমরা বলব না—<strong><span class="refusal-q">"১০০% গ্যারান্টি।"</span></strong> যদি সেই গ্যারান্টির পরিষ্কার ও বাস্তব policy না থাকে।</p>
-<p>আমাদের কাছে বিশ্বাস তৈরি হয় বড় বড় কথায় নয়—<strong>কথা ও কাজের মিল থেকে।</strong></p>
+<section class="wrap"><div class="care-note manifesto-chamber" id="integrity-manifesto">
+  <div class="manifesto-header">
+    <div class="manifesto-badge"><span class="manifesto-badge-dot"></span> আমাদের সীমারেখা</div>
+    <h2>আমরা যা বলি না</h2>
+    <p class="manifesto-lead">আস্থা শুধু সুন্দর প্রতিশ্রুতিতে গড়ে ওঠে না। চটকদার বিজ্ঞাপন আর অতিরঞ্জিত দাবির ভিড়ে, আমরা কী বলি তার মতোই সমান গুরুত্বপূর্ণ—আমরা কী কখনোই বলি না।</p>
+  </div>
+  <div class="manifesto-grid">
+    <article class="manifesto-card">
+      <div class="manifesto-card-top">
+        <span class="manifesto-card-num">নীতি ০১</span>
+        <span class="manifesto-refusal-tag">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line></svg>
+          আমরা বলব না
+        </span>
+      </div>
+      <h3 class="manifesto-quote">"এটি আসল সোনা।"</h3>
+      <p class="manifesto-body">যদি কোনো গহনা City Gold বা imitation jewellery হয়, আমরা তা পরিষ্কারভাবে উল্লেখ করি। ফ্যাশন জুয়েলারির নিজস্ব রূপ, ব্যবহার ও সৌন্দর্য রয়েছে—মিথ্যা পরিচয়ের কোনো প্রয়োজন নেই।</p>
+    </article>
+    <article class="manifesto-card">
+      <div class="manifesto-card-top">
+        <span class="manifesto-card-num">নীতি ০২</span>
+        <span class="manifesto-refusal-tag">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line></svg>
+          আমরা বলব না
+        </span>
+      </div>
+      <h3 class="manifesto-quote">"আজই কিনুন, নইলে আর পাবেন না।"</h3>
+      <p class="manifesto-body">শুধু বিক্রি বাড়ানোর জন্য কোনো কৃত্রিম তাড়া বা ভুয়ো অফার তৈরি করা আমাদের নীতি নয়। প্রতিটি গহনা বেছে নেওয়ার স্বাধীনতা ও সময় সম্পূর্ণ আপনার।</p>
+    </article>
+    <article class="manifesto-card">
+      <div class="manifesto-card-top">
+        <span class="manifesto-card-num">নীতি ০৩</span>
+        <span class="manifesto-refusal-tag">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line></svg>
+          আমরা বলব না
+        </span>
+      </div>
+      <h3 class="manifesto-quote">"সবাই আমাদের পছন্দ করে।"</h3>
+      <p class="manifesto-body">আমরা কোনো বানানো রিভিউ বা মনগড়া প্রশংসা প্রচার করি না। আমাদের আসল শক্তি মানুষের সাথে সৎ যোগাযোগ এবং প্রতিটি ক্রেতার বাস্তব অভিজ্ঞতা।</p>
+    </article>
+    <article class="manifesto-card">
+      <div class="manifesto-card-top">
+        <span class="manifesto-card-num">নীতি ০৪</span>
+        <span class="manifesto-refusal-tag">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line></svg>
+          আমরা বলব না
+        </span>
+      </div>
+      <h3 class="manifesto-quote">"১০০% গ্যারান্টি।"</h3>
+      <p class="manifesto-body">বাস্তব ও স্বচ্ছ নীতিমালা ছাড়া ফাঁকা বুলির কোনো মূল্য নেই। প্রতিটি অর্ডারের পেছনে আমাদের স্পষ্ট যোগাযোগ ও সরাসরি দায়িত্বশীলতা কাজ করে।</p>
+    </article>
+  </div>
+  <div class="manifesto-seal">
+    <div class="manifesto-seal-icon" aria-hidden="true">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+    </div>
+    <div class="manifesto-seal-content">
+      <p class="manifesto-creed-text">“আমাদের কাছে বিশ্বাস তৈরি হয় বড় বড় কথায় নয়—<strong>কথা ও কাজের মিল থেকে।</strong>”</p>
+      <p class="manifesto-creed-sub">eMarket247 সততার মাপকাঠি • ঠাকুরগাঁও থেকে সারা বাংলাদেশ</p>
+    </div>
+  </div>
 </div></section>
 <section class="category-choose wrap"><div>
   <p class="eyebrow">পথচলা</p>
@@ -79,12 +134,67 @@ const EN = `
 </ol>
 </div></section>
 <section class="info-grid wrap"><div><p class="eyebrow">What we believe</p><h2>What we believe in</h2></div><article class="info-card"><h3>Clear information</h3><p>Getting information that helps you understand what you're buying matters. Our aim is to present, clearly, whatever product information can be verified and published.</p></article><article class="info-card"><h3>Honest expectations</h3><p>We never present City Gold or imitation jewellery as real gold. It is its own jewellery category, with its own beauty, use and value.</p></article><article class="info-card"><h3>Direct contact with people</h3><p>Questions are normal when shopping online. If anything is unclear, there should always be a way to reach us and ask.</p></article><article class="info-card"><h3>Slow, but in the right direction</h3><p>We don't want to make promises that can't actually be kept. Keeping people's trust over the long term matters more to us than growing fast.</p></article></section>
-<section class="wrap"><div class="care-note"><p class="eyebrow">Where we draw the line</p><h2>What we don't say</h2>
-<p>We won't say — <strong><span class="refusal-q">"This is real gold."</span></strong> If it is imitation or City Gold jewellery.</p>
-<p>We won't say — <strong><span class="refusal-q">"Buy today or lose it forever."</span></strong> Creating artificial urgency just to push sales.</p>
-<p>We won't say — <strong><span class="refusal-q">"Everyone loves us."</span></strong> Without real, verifiable customer evidence behind it.</p>
-<p>We won't say — <strong><span class="refusal-q">"100% guarantee."</span></strong> Without a clear, real policy behind that guarantee.</p>
-<p>For us, trust is not built on big words — <strong>it is built on words matching actions.</strong></p>
+<section class="wrap"><div class="care-note manifesto-chamber" id="integrity-manifesto">
+  <div class="manifesto-header">
+    <div class="manifesto-badge"><span class="manifesto-badge-dot"></span> Where we draw the line</div>
+    <h2>What we don't say</h2>
+    <p class="manifesto-lead">Trust isn't just about what a jewellery brand promises. In an industry full of exaggerated claims, our character is defined by the lines we refuse to cross.</p>
+  </div>
+  <div class="manifesto-grid">
+    <article class="manifesto-card">
+      <div class="manifesto-card-top">
+        <span class="manifesto-card-num">PILLAR 01</span>
+        <span class="manifesto-refusal-tag">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line></svg>
+          We won't say
+        </span>
+      </div>
+      <h3 class="manifesto-quote">"This is real gold."</h3>
+      <p class="manifesto-body">If a piece is City Gold, brass, or handcrafted fashion jewellery, we state it plainly. Imitation jewellery has its own distinct beauty and occasion value without needing to deceive you.</p>
+    </article>
+    <article class="manifesto-card">
+      <div class="manifesto-card-top">
+        <span class="manifesto-card-num">PILLAR 02</span>
+        <span class="manifesto-refusal-tag">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line></svg>
+          We won't say
+        </span>
+      </div>
+      <h3 class="manifesto-quote">"Buy today or lose it forever."</h3>
+      <p class="manifesto-body">We never manufacture artificial urgency, fake countdown timers, or pressure tactics just to rush your decision. Jewellery should be chosen with delight and clear consideration.</p>
+    </article>
+    <article class="manifesto-card">
+      <div class="manifesto-card-top">
+        <span class="manifesto-card-num">PILLAR 03</span>
+        <span class="manifesto-refusal-tag">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line></svg>
+          We won't say
+        </span>
+      </div>
+      <h3 class="manifesto-quote">"Everyone loves us."</h3>
+      <p class="manifesto-body">We will never publish fabricated ratings or pretend perfection. Our reputation rests on authentic conversations with real people and verifiable customer experiences.</p>
+    </article>
+    <article class="manifesto-card">
+      <div class="manifesto-card-top">
+        <span class="manifesto-card-num">PILLAR 04</span>
+        <span class="manifesto-refusal-tag">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line></svg>
+          We won't say
+        </span>
+      </div>
+      <h3 class="manifesto-quote">"100% guarantee."</h3>
+      <p class="manifesto-body">Slogans without substance protect no one. We offer clear, published support policies and direct WhatsApp assistance so you always know exactly who stands behind your order.</p>
+    </article>
+  </div>
+  <div class="manifesto-seal">
+    <div class="manifesto-seal-icon" aria-hidden="true">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+    </div>
+    <div class="manifesto-seal-content">
+      <p class="manifesto-creed-text">“For us, trust is not built on big words — <strong>it is built on words matching actions.</strong>”</p>
+      <p class="manifesto-creed-sub">eMarket247 Standard of Transparency • Thakurgaon to all of Bangladesh</p>
+    </div>
+  </div>
 </div></section>
 <section class="category-choose wrap"><div>
   <p class="eyebrow">The road ahead</p>

@@ -7450,17 +7450,152 @@ h1, h2, h3, h4, h5, h6 {
 /* ── About page: founder section — two columns, text left / photo right ────── */
 .founder-grid {
   display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
-  gap: clamp(38px, 7vw, 110px);
+  grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.85fr);
+  gap: clamp(36px, 6vw, 84px);
   align-items: center;
-  padding-block: clamp(56px, 8vw, 110px);
+  position: relative;
+  background: linear-gradient(135deg, rgba(247, 243, 237, 0.92) 0%, rgba(255, 253, 250, 0.98) 50%, rgba(244, 238, 230, 0.88) 100%);
+  border: 1px solid rgba(226, 219, 210, 0.9);
+  border-radius: 8px;
+  padding: clamp(36px, 5.5vw, 68px) clamp(24px, 4.5vw, 60px);
+  margin-block: clamp(40px, 6vw, 76px);
+  box-shadow: 0 16px 48px -20px rgba(33, 23, 19, 0.08), 0 2px 6px rgba(33, 23, 19, 0.03);
+  overflow: hidden;
 }
-.founder-grid .about-quote { padding: 0; }
-.founder-grid .founder-photo { margin: 0; display: flex; justify-content: center; }
-.founder-grid .founder-photo-frame { margin: 0; width: 100%; max-width: 420px; }
+.founder-grid::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: clamp(24px, 4.5vw, 60px);
+  width: 56px;
+  height: 3px;
+  background: var(--red);
+  border-radius: 0 0 2px 2px;
+}
+.founder-grid .about-quote {
+  position: relative;
+  padding: 0;
+  margin: 0;
+}
+.founder-grid .about-quote::before {
+  content: "“";
+  display: block;
+  font: 400 clamp(72px, 8vw, 110px)/0.65 var(--serif);
+  color: var(--red);
+  opacity: 0.18;
+  margin-bottom: clamp(-14px, -1.5vw, -8px);
+  margin-left: -2px;
+  user-select: none;
+  pointer-events: none;
+}
+.founder-grid .about-quote p {
+  margin: 0;
+  font: 400 clamp(22px, 2.3vw, 32px)/1.36 var(--serif);
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  border-left: none;
+  padding-left: 0;
+  position: relative;
+}
+.founder-grid .about-quote cite {
+  display: flex;
+  flex-direction: column;
+  margin-top: clamp(24px, 3.2vw, 36px);
+  padding-top: clamp(16px, 2vw, 24px);
+  padding-left: 0;
+  border-top: 1px solid var(--line);
+  font-style: normal;
+  position: relative;
+}
+.founder-grid .about-quote cite strong {
+  font: 700 15px/1.3 var(--serif);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.founder-grid .about-quote cite strong::before {
+  content: "";
+  display: inline-block;
+  width: 14px;
+  height: 1.5px;
+  background: var(--red);
+}
+.founder-grid .about-quote cite span {
+  margin-top: 5px;
+  font: 600 11px/1.4 var(--sans);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--red-dark);
+}
+.founder-grid .founder-photo {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+.founder-grid .founder-photo-frame {
+  position: relative;
+  width: 100%;
+  max-width: 380px;
+  aspect-ratio: 4 / 5;
+  border-radius: 6px;
+  border: 1px solid rgba(33, 23, 19, 0.12);
+  outline: 6px solid rgba(244, 238, 231, 0.85);
+  outline-offset: 3px;
+  box-shadow: 
+    0 24px 52px -16px rgba(33, 23, 19, 0.18),
+    0 4px 16px rgba(33, 23, 19, 0.06);
+  background: 
+    linear-gradient(180deg, rgba(20, 16, 14, 0) 35%, rgba(20, 16, 14, 0.72) 75%, rgba(20, 16, 14, 0.92) 100%),
+    url('/assets/images/editorial/rozina-akter.webp') center 15% / cover no-repeat,
+    radial-gradient(ellipse at 50% 30%, #FAF6F0 0%, #EDE6DC 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 24px 20px;
+  text-align: left;
+  overflow: hidden;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+}
+.founder-grid .founder-photo-frame:hover {
+  transform: translateY(-3px) scale(1.01);
+  box-shadow: 
+    0 32px 64px -18px rgba(33, 23, 19, 0.24),
+    0 6px 20px rgba(33, 23, 19, 0.08);
+}
+.founder-grid .founder-photo-frame span {
+  font: 500 clamp(14px, 1.4vw, 16px)/1.3 var(--serif);
+  color: #ffffff;
+  letter-spacing: -0.01em;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+  display: block;
+  z-index: 1;
+}
+.founder-grid .founder-photo-frame small {
+  margin-top: 6px;
+  font: 700 9.5px/1 "DM Mono", monospace;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #ff9d94;
+  display: inline-block;
+  z-index: 1;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+}
 @media (max-width: 840px) {
-  .founder-grid { grid-template-columns: 1fr; }
-  .founder-grid .founder-photo { order: -1; }
+  .founder-grid {
+    grid-template-columns: 1fr;
+    padding: clamp(28px, 5vw, 44px) 20px;
+    gap: 32px;
+  }
+  .founder-grid .founder-photo {
+    order: -1;
+  }
+  .founder-grid .founder-photo-frame {
+    max-width: 320px;
+  }
 }
 
 /* ── About page: story timeline — vertical rail with numbered steps ────────── */
@@ -7539,6 +7674,179 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--red);
 }
 .refusal-q { color: #ff8f86; }
+
+/* ── About page: Integrity & Transparency Manifesto ("What we don't say") ── */
+.care-note.manifesto-chamber {
+  position: relative;
+  background: #141110;
+  background-image: 
+    radial-gradient(ellipse 70% 40% at 50% 0%, rgba(237, 28, 36, 0.12), transparent 70%),
+    radial-gradient(ellipse 60% 30% at 50% 100%, rgba(33, 23, 19, 0.4), transparent 70%);
+  border: 1px solid rgba(255, 248, 240, 0.1);
+  border-radius: 6px;
+  padding: clamp(36px, 5.5vw, 64px) clamp(24px, 4.5vw, 56px);
+  margin-block: clamp(40px, 6vw, 72px);
+  box-shadow: 0 20px 50px -15px rgba(10, 8, 7, 0.6);
+  color: #fff;
+  overflow: hidden;
+}
+.care-note.manifesto-chamber::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 8%;
+  right: 8%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(237, 28, 36, 0.6), transparent);
+}
+.manifesto-header {
+  max-width: 720px;
+  margin-bottom: clamp(32px, 4vw, 44px);
+}
+.manifesto-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font: 700 11px/1 var(--sans, "DM Sans", sans-serif);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #ff8f86;
+  background: rgba(237, 28, 36, 0.12);
+  border: 1px solid rgba(237, 28, 36, 0.25);
+  padding: 6px 14px;
+  border-radius: 999px;
+  margin-bottom: 18px;
+}
+.manifesto-badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--red);
+  box-shadow: 0 0 8px var(--red);
+}
+.care-note.manifesto-chamber h2 {
+  font: 400 clamp(32px, 3.6vw, 48px)/1.08 var(--serif, "DM Serif Display", serif);
+  letter-spacing: -0.035em;
+  color: #fff;
+  margin: 0 0 14px;
+}
+.manifesto-lead {
+  font-size: clamp(15px, 1.4vw, 17px);
+  line-height: 1.65;
+  color: rgba(255, 248, 240, 0.72);
+  margin: 0;
+}
+.manifesto-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(16px, 2vw, 24px);
+  margin-bottom: clamp(32px, 4vw, 48px);
+}
+.manifesto-card {
+  position: relative;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 248, 240, 0.08);
+  border-radius: 4px;
+  padding: clamp(22px, 2.5vw, 30px);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+}
+.manifesto-card:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(237, 28, 36, 0.35);
+  box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.5);
+}
+.manifesto-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+.manifesto-card-num {
+  font: 600 11px/1 "DM Mono", monospace;
+  letter-spacing: 0.1em;
+  color: rgba(255, 248, 240, 0.45);
+}
+.manifesto-refusal-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: #ff8f86;
+}
+.manifesto-refusal-tag svg {
+  width: 13px;
+  height: 13px;
+}
+.manifesto-quote {
+  font: italic 400 clamp(20px, 1.9vw, 24px)/1.25 var(--serif, "DM Serif Display", serif);
+  letter-spacing: -0.015em;
+  color: #ff9d94;
+  margin: 0 0 12px;
+}
+.manifesto-body {
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: rgba(255, 248, 240, 0.72);
+  margin: 0;
+  flex-grow: 1;
+}
+.manifesto-seal {
+  position: relative;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02) 0%, rgba(237, 28, 36, 0.05) 100%);
+  border: 1px solid rgba(237, 28, 36, 0.22);
+  border-radius: 4px;
+  padding: clamp(20px, 2.5vw, 28px);
+  display: flex;
+  align-items: center;
+  gap: clamp(16px, 2.5vw, 24px);
+}
+.manifesto-seal-icon {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(237, 28, 36, 0.12);
+  border: 1px solid rgba(237, 28, 36, 0.3);
+  display: grid;
+  place-content: center;
+  color: #ff8f86;
+}
+.manifesto-seal-content {
+  flex-grow: 1;
+}
+.manifesto-creed-text {
+  font: 400 clamp(16px, 1.6vw, 20px)/1.4 var(--serif, "DM Serif Display", serif);
+  color: #fff;
+  margin: 0 0 6px;
+}
+.manifesto-creed-text strong {
+  color: #ff9d94;
+  font-weight: 600;
+}
+.manifesto-creed-sub {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 248, 240, 0.5);
+  margin: 0;
+}
+@media (max-width: 760px) {
+  .manifesto-grid {
+    grid-template-columns: 1fr;
+  }
+  .manifesto-seal {
+    flex-direction: column;
+    text-align: center;
+  }
+}
 
 /* ── Blog: post byline ─────────────────────────────────────────────── */
 .post-byline {
