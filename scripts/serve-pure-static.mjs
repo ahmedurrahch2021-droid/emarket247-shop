@@ -32,6 +32,35 @@ const types = {
 
 createServer(async (request, response) => {
   const raw = decodeURIComponent((request.url || "/").split("?")[0]);
+
+  if (request.method === "POST" && raw === "/api/dev-upload-founder") {
+    let body = "";
+    request.on("data", (chunk) => { body += chunk; });
+    request.on("end", async () => {
+      try {
+        const parsed = JSON.parse(body);
+        const buffer = Buffer.from(parsed.data, "base64");
+        const editorialDir = path.join(root, "assets", "images", "editorial");
+        await fs.mkdir(editorialDir, { recursive: true });
+        const targetJpg = path.join(editorialDir, "rozina-akter.jpg");
+        const targetOriginal = path.join(editorialDir, "Rozinal Akter.jpg");
+        await fs.writeFile(targetJpg, buffer);
+        await fs.writeFile(targetOriginal, buffer);
+        
+        try {
+          const { execSync } = await import("node:child_process");
+          const targetWebp = path.join(editorialDir, "rozina-akter.webp");
+          execSync(`ffmpeg -y -i "${targetJpg}" -c:v libwebp -quality 90 "${targetWebp}" 2>/dev/null || true`);
+        } catch (_) {}
+
+        response.writeHead(200, { "Content-Type": "application/json" }).end(JSON.stringify({ success: true }));
+      } catch (err) {
+        response.writeHead(500, { "Content-Type": "application/json" }).end(JSON.stringify({ error: err.message }));
+      }
+    });
+    return;
+  }
+
   const wanted = raw.endsWith("/") ? `${raw}index.html` : raw;
   let file = path.resolve(root, `.${wanted}`);
 

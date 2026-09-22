@@ -2987,7 +2987,45 @@
     ];
     let idx = 0;
     const tryNext = () => {
-      if (idx >= candidates.length) return;
+      if (idx >= candidates.length) {
+        if (!frame.querySelector(".founder-photo-upload")) {
+          const isBn = frame.getAttribute("data-lang") === "bn";
+          const uploadBtn = document.createElement("label");
+          uploadBtn.className = "founder-photo-upload";
+          uploadBtn.style.cssText = "cursor:pointer;display:inline-block;margin-top:12px;padding:8px 16px;background:var(--ink);color:var(--surface);font-size:12px;letter-spacing:.04em;text-transform:uppercase;border-radius:4px;font-weight:500;";
+          uploadBtn.innerHTML = (isBn ? "ছবি আপলোড করুন (Rozinal Akter.jpg)" : "Upload Photo (Rozinal Akter.jpg)") + '<input type="file" accept="image/*" style="display:none">';
+          const input = uploadBtn.querySelector("input");
+          input.addEventListener("change", (e) => {
+            const file = e.target.files && e.target.files[0];
+            if (!file) return;
+            uploadBtn.textContent = isBn ? "আপলোড হচ্ছে..." : "Uploading...";
+            const reader = new FileReader();
+            reader.onload = () => {
+              const base64 = reader.result.split(",")[1];
+              fetch("/api/dev-upload-founder", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ filename: file.name, data: base64 })
+              })
+                .then((res) => res.json())
+                .then((data) => {
+                  if (data.success) {
+                    idx = 0;
+                    tryNext();
+                  } else {
+                    uploadBtn.textContent = isBn ? "পুনরায় চেষ্টা করুন" : "Try Again";
+                  }
+                })
+                .catch(() => {
+                  uploadBtn.textContent = isBn ? "পুনরায় চেষ্টা করুন" : "Try Again";
+                });
+            };
+            reader.readAsDataURL(file);
+          });
+          frame.appendChild(uploadBtn);
+        }
+        return;
+      }
       const src = candidates[idx++];
       const probe = new Image();
       probe.onload = () => {
