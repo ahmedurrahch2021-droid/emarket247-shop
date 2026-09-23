@@ -2875,7 +2875,17 @@
     const match = window.location.pathname.match(/\/products\/([^/]+)\/?$/);
     const slug = match ? decodeURIComponent(match[1]) : "";
 
+    // The band publish-pdp-pages.mjs bakes in is an owner-approved,
+    // WhatsApp-confirmed range, not a placeholder to be swept away: the page
+    // says so itself under the price. Replacing it with "Price on request"
+    // repainted every one of these pages a moment after it loaded, so the
+    // visitor watched a real price band turn into no price at all - and the
+    // related-product cards beside it still read "Price on request", so one
+    // screen contradicted itself. A band therefore stands until the database
+    // has an exact price, which still wins below.
+    const hasApprovedBand = /pdp-price-note/.test(priceEl.innerHTML);
     const showPending = () => {
+      if (hasApprovedBand) return;
       priceEl.innerHTML = `${isBn ? "মূল্য জানতে যোগাযোগ করুন" : "Price on request"} <small class="pdp-price-note">(${isBn ? "কোটেশন সাপেক্ষে" : "Quote on inquiry"})</small>`;
     };
 
