@@ -504,7 +504,7 @@ function buildPdp(product, lang, relatedProducts) {
     ? 'চূড়ান্ত মূল্য WhatsApp-এ নিশ্চিত করা হবে। সাইজ ও ফিনিশ অনুযায়ী মূল্য ভিন্ন হতে পারে।'
     : 'Final price confirmed on WhatsApp. Prices may vary by size and finish.';
 
-  const addBagLabel = isBn ? 'বিস্তারিত জানুন' : 'Ask for details';
+  const addBagLabel = isBn ? 'ব্যাগে যোগ করুন' : 'Add to bag';
   const addBag      = isBn ? 'ব্যাগে যোগ করুন' : 'Add to bag';
   const qtyLabel    = isBn ? 'পরিমাণ' : 'Qty';
   const qtyDown     = isBn ? 'পরিমাণ কমান' : 'Decrease quantity';
@@ -693,14 +693,14 @@ function buildPdp(product, lang, relatedProducts) {
                 <button type="button" data-pdp-qty-change="1" aria-label="${esc(qtyUp)}">+</button>
               </div>
             </div>
-            <button class="pdp-btn-add-bag-primary" id="pdp-add-bag" type="button" data-pdp-add-bag="${esc(ref)}" data-title="${esc(displayTitle)}" data-slug="${esc(slug)}" data-img="${esc(image)}" data-cat="${esc(catLabel)}">
+            <button class="pdp-btn-add-bag-primary" id="pdp-add-bag" type="button" data-pdp-add-bag="${esc(ref)}" data-title="${esc(displayTitle)}" data-slug="${esc(slug)}" data-img="${esc(image)}" data-cat="${esc(catLabel)}" hidden aria-hidden="true" style="display:none">
               <span class="pdp-bag-text pdp-add-bag-label">${addBagLabel}</span>
             </button>
+            <a class="pdp-btn-whatsapp-action" id="pdp-whatsapp-cta" href="${waUrl}" target="_blank" rel="noopener noreferrer">
+              ${WA_SVG_BIG}
+              <span>${waCtaLabel}</span>
+            </a>
           </div>
-          <a class="pdp-btn-whatsapp-action" id="pdp-whatsapp-cta" href="${waUrl}" target="_blank" rel="noopener noreferrer">
-            ${WA_SVG_BIG}
-            <span>${waCtaLabel}</span>
-          </a>
           <div class="pdp-action-links">
             <a href="#pdp-specs">${sizeLink}</a>
             <a href="tel:+8801740501062">${careLink}</a>

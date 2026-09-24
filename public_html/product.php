@@ -343,15 +343,14 @@ foreach ($related as $rel) {
                 <button type="button" data-pdp-qty-change="1" aria-label="<?= $isBn ? 'পরিমাণ বাড়ান' : 'Increase quantity' ?>">+</button>
               </div>
             </div>
-            <button class="pdp-btn-add-bag-primary" id="pdp-add-bag" type="button" data-pdp-add-bag="<?= attr($ref) ?>" data-title="<?= attr($title) ?>" data-slug="<?= attr($slug) ?>" data-img="<?= attr($imageSrc) ?>" data-cat="<?= attr($categoryLabel) ?>">
+            <button class="pdp-btn-add-bag-primary" id="pdp-add-bag" type="button" data-pdp-add-bag="<?= attr($ref) ?>" data-title="<?= attr($title) ?>" data-slug="<?= attr($slug) ?>" data-img="<?= attr($imageSrc) ?>" data-cat="<?= attr($categoryLabel) ?>" hidden aria-hidden="true" style="display:none">
               <span class="pdp-bag-text pdp-add-bag-label"><?= $isBn ? 'ব্যাগে যোগ করুন' : 'Add to bag' ?></span>
             </button>
+            <a class="pdp-btn-whatsapp-action" id="pdp-whatsapp-cta" href="<?= attr($whatsappUrl) ?>" target="_blank" rel="noopener noreferrer">
+              <?= $WA_BIG ?>
+              <span><?= $isBn ? 'WhatsApp-এ অর্ডার' : 'Order on WhatsApp' ?></span>
+            </a>
           </div>
-
-          <a class="pdp-btn-whatsapp-action" id="pdp-whatsapp-cta" href="<?= attr($whatsappUrl) ?>" target="_blank" rel="noopener noreferrer">
-            <?= $WA_BIG ?>
-            <span><?= $isBn ? 'WhatsApp-এ অর্ডার' : 'Order on WhatsApp' ?></span>
-          </a>
 
           <div class="pdp-action-links">
             <a href="#pdp-specs"><?= $isBn ? 'সাইজ ও পরিমাপ' : 'Size and measurements' ?></a>

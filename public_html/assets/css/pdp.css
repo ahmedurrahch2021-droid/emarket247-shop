@@ -1,35 +1,69 @@
 /* =====================================================================
-   PDP MODULE: Luxury Jewelry Product Showcase - FINAL LOCK
-   Standard: Pandora-inspired Balance, High-End Typography, Stable Grid.
+   PDP MODULE: Luxury Jewelry Product Showcase - MOBILE-FIRST CANONICAL
+   Standard: Pandora-inspired Balance, High-End Typography, Clean Stack.
    ===================================================================== */
 
-/* 1. Layout Container - Locked Grid */
+/* 1. Base Container (Default Mobile & Tablet: Clean Linear Stack) */
+main#main section.pdp-hero,
 main section.pdp-hero.wrap,
-section.pdp-hero.wrap {
-  max-width: 1240px !important;
+section.pdp-hero.wrap,
+.pdp-hero {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: 28px !important;
   width: 100% !important;
+  max-width: 680px !important;
   margin-inline: auto !important;
-  display: grid !important;
-  grid-template-columns: 1.18fr 0.95fr !important;
-  gap: clamp(36px, 4.5vw, 64px) !important;
-  align-items: start !important;
-  padding-top: clamp(20px, 3vw, 36px) !important;
-  padding-bottom: clamp(40px, 5vw, 64px) !important;
+  padding-top: clamp(20px, 3.5vw, 36px) !important;
+  padding-bottom: clamp(32px, 4vw, 48px) !important;
+  margin-top: 0 !important;
   box-sizing: border-box !important;
-  float: none !important;
   position: relative !important;
+  float: none !important;
 }
 
-/* 2. Gallery (Left Column) - Locked */
+/* 2. Gallery (Product Photograph) - ALWAYS UPPER / FIRST ON MOBILE & TABLET */
+main#main section.pdp-hero .pdp-gallery,
 .pdp-gallery {
-  grid-column: 1 !important;
-  grid-row: 1 !important;
-  min-width: 0 !important;
-  width: auto !important;
-  position: sticky !important;
-  top: 96px !important;
+  order: 1 !important;
+  width: 100% !important;
+  max-width: 480px !important;
+  margin-inline: auto !important;
+  position: static !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  transform: none !important;
+  grid-column: auto !important;
+  grid-row: auto !important;
   float: none !important;
   display: block !important;
+  pointer-events: auto !important;
+}
+
+/* 3. Product Info (Details & Buy Box) - ALWAYS UNDER THE IMAGE ON MOBILE & TABLET */
+main#main section.pdp-hero .pdp-info,
+.pdp-info {
+  order: 2 !important;
+  width: 100% !important;
+  max-width: 580px !important;
+  margin-inline: auto !important;
+  grid-column: auto !important;
+  grid-row: auto !important;
+  float: none !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 18px !important;
+  position: static !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  transform: none !important;
+  pointer-events: auto !important;
+  z-index: auto !important;
 }
 
 .pdp-figure {
@@ -48,7 +82,7 @@ section.pdp-hero.wrap {
   height: auto !important;
   aspect-ratio: 1 / 1 !important;
   object-fit: contain !important;
-  padding: clamp(20px, 3.5vw, 40px);
+  padding: clamp(16px, 3.5vw, 36px);
   background: #ffffff;
   box-sizing: border-box;
   transition: transform 0.4s var(--ease);
@@ -57,19 +91,6 @@ section.pdp-hero.wrap {
 
 .pdp-figure:hover img {
   transform: scale(1.02);
-}
-
-/* 3. Product Info (Right Column) - Locked */
-.pdp-info {
-  grid-column: 2 !important;
-  grid-row: 1 !important;
-  min-width: 0 !important;
-  width: auto !important;
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 24px !important;
-  float: none !important;
-  position: relative !important;
 }
 
 .pdp-kicker {
@@ -83,7 +104,7 @@ section.pdp-hero.wrap {
 
 .pdp-title {
   margin: 0;
-  font: clamp(26px, 2.5vw, 36px) / 1.1 var(--serif);
+  font: clamp(24px, 2.5vw, 36px) / 1.15 var(--serif);
   color: var(--ink);
   letter-spacing: -0.02em;
 }
@@ -112,13 +133,14 @@ section.pdp-hero.wrap {
 
 /* 4. Pricing & Buy Box */
 .pdp-price-section {
-  padding: 20px;
+  padding: 18px 20px;
   background: var(--warm);
   border: 1px solid var(--line);
   border-left: 3px solid var(--gold);
   display: flex;
   flex-direction: column;
   gap: 8px;
+  border-radius: 2px;
 }
 
 .pdp-price-row {
@@ -146,100 +168,132 @@ section.pdp-hero.wrap {
   line-height: 1.4;
 }
 
-/* 5. Actions (Qty & Buy) */
+/* 5. Actions (Qty, WhatsApp & Wishlist) */
 .pdp-actions {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 12px !important;
 }
 
 .pdp-actions-row {
-  display: grid;
-  grid-template-columns: 120px 1fr;
-  gap: 12px;
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: wrap !important;
+  gap: 12px !important;
+  align-items: stretch !important;
+  width: 100% !important;
 }
 
 .pdp-qty-stepper-wrap {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  border: 1px solid var(--line);
-  padding: 4px 12px;
-  background: #fff;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 10px !important;
+  border: 1px solid var(--line) !important;
+  padding: 0 14px !important;
+  background: #ffffff !important;
+  border-radius: 2px !important;
+  height: 48px !important;
+  min-height: 48px !important;
+  box-sizing: border-box !important;
+  flex: 0 0 auto !important;
+  white-space: nowrap !important;
 }
 
 .pdp-qty-title {
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-  color: var(--muted);
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  color: var(--muted) !important;
+  letter-spacing: 0.05em !important;
+  margin: 0 !important;
+  flex: 0 0 auto !important;
+  white-space: nowrap !important;
 }
 
 .pdp-qty-stepper {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  border: none !important;
+  background: transparent !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  flex: 0 0 auto !important;
 }
 
 .pdp-qty-stepper button {
-  width: 24px;
-  height: 24px;
-  border: 1px solid var(--line);
-  background: none;
+  width: 28px !important;
+  height: 28px !important;
+  min-width: 28px !important;
+  border: 1px solid var(--line) !important;
+  background: #ffffff !important;
   cursor: pointer;
-  display: grid;
-  place-items: center;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 14px !important;
+  line-height: 1 !important;
+  color: var(--ink) !important;
+  border-radius: 2px;
+  outline: none !important;
+  flex: 0 0 28px !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+  transition: background 0.15s ease;
 }
 
-.pdp-qty-stepper span {
-  font-family: var(--mono);
-  font-weight: 700;
-  min-width: 20px;
-  text-align: center;
+.pdp-qty-stepper button:hover,
+.pdp-qty-stepper button:focus,
+.pdp-qty-stepper button:focus-visible,
+.pdp-qty-stepper button:active {
+  background: var(--warm) !important;
+  border-color: var(--line) !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.pdp-qty-stepper span,
+#pdp-qty-display {
+  font-family: var(--mono) !important;
+  font-weight: 700 !important;
+  min-width: 22px !important;
+  text-align: center !important;
+  font-size: 14px !important;
+  color: var(--ink) !important;
+  display: inline-block !important;
+  line-height: 28px !important;
+  flex: 0 0 auto !important;
 }
 
 .pdp-btn-add-bag-primary {
-  background: var(--btn-rest);
-  color: var(--btn-text);
-  border: 1px solid var(--btn-rest);
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  cursor: pointer;
-  transition: background-color 0.15s ease, border-color 0.15s ease;
-}
-
-.pdp-btn-add-bag-primary:hover {
-  background: var(--btn-hover);
-  border-color: var(--btn-hover);
-  color: var(--btn-text);
-}
-.pdp-btn-add-bag-primary:active,
-.pdp-btn-add-bag-primary:focus-visible {
-  background: var(--btn-active);
-  border-color: var(--btn-active);
-  color: var(--btn-text);
+  display: none !important;
 }
 
 .pdp-btn-whatsapp-action {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  background: #143d31;
-  color: #fff;
-  padding: 14px;
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  text-decoration: none;
-  transition: background 0.2s var(--ease);
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 10px !important;
+  background: #143d31 !important;
+  color: #ffffff !important;
+  padding: 0 20px !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+  text-decoration: none !important;
+  border-radius: 2px !important;
+  height: 48px !important;
+  min-height: 48px !important;
+  box-sizing: border-box !important;
+  flex: 1 1 auto !important;
+  white-space: nowrap !important;
+  transition: background 0.2s var(--ease) !important;
 }
 
 .pdp-btn-whatsapp-action:hover {
-  background: #0d2820;
+  background: #0d2820 !important;
 }
 
 .pdp-action-links {
@@ -285,28 +339,135 @@ section.pdp-hero.wrap {
   color: var(--ink);
 }
 
-/* 7. Responsive */
-@media (max-width: 900px) {
+/* 7. Wishlist Action Button in Buy Box */
+.pdp-actions-row .wishlist-btn-labelled {
+  position: static !important;
+  grid-column: 1 / -1 !important;
+  flex: 0 0 100% !important;
+  width: 100% !important;
+  min-height: 48px !important;
+  height: 48px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 10px !important;
+  border: 1px solid var(--line) !important;
+  border-radius: 2px !important;
+  background: #ffffff !important;
+  color: var(--ink) !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  cursor: pointer !important;
+  box-sizing: border-box !important;
+  margin-top: 4px !important;
+  transition: all 0.18s var(--ease) !important;
+}
+
+.pdp-actions-row .wishlist-btn-labelled:hover,
+.pdp-actions-row .wishlist-btn-labelled:focus-visible {
+  background: #faf4eb !important;
+  border-color: var(--ink) !important;
+  transform: none !important;
+}
+
+/* 8. Mobile Polish (< 600px) */
+@media (max-width: 600px) {
+  main#main section.pdp-hero,
   main section.pdp-hero.wrap,
-  section.pdp-hero.wrap {
-    grid-template-columns: 1fr !important;
-    gap: 32px !important;
+  section.pdp-hero.wrap,
+  .pdp-hero {
+    padding-top: 16px !important;
+    gap: 20px !important;
+    padding-inline: 16px !important;
   }
+
+  main#main section.pdp-hero .pdp-gallery,
   .pdp-gallery {
-    position: static !important;
-    width: 100% !important;
-    max-width: 500px !important;
-    margin-inline: auto !important;
+    max-width: 100% !important;
   }
+
+  main#main section.pdp-hero .pdp-info,
   .pdp-info {
+    max-width: 100% !important;
+    gap: 16px !important;
+  }
+
+  .pdp-title {
+    font-size: 24px !important;
+    line-height: 1.15 !important;
+  }
+
+  .pdp-actions-row {
+    flex-direction: column !important;
+    gap: 10px !important;
+  }
+
+  .pdp-qty-stepper-wrap {
     width: 100% !important;
-    max-width: 600px !important;
-    margin-inline: auto !important;
+    justify-content: space-between !important;
+    min-height: 48px !important;
+    flex: 1 1 auto !important;
+  }
+
+  .pdp-btn-whatsapp-action {
+    width: 100% !important;
+    min-height: 48px !important;
+    flex: 1 1 auto !important;
+  }
+
+  .pdp-actions-row .wishlist-btn-labelled {
+    width: 100% !important;
+    min-height: 48px !important;
   }
 }
 
-@media (max-width: 600px) {
-  .pdp-actions-row {
-    grid-template-columns: 1fr !important;
+/* 9. Desktop Layout Enhancement (>= 1025px) */
+@media (min-width: 1025px) {
+  main#main section.pdp-hero,
+  main section.pdp-hero.wrap,
+  section.pdp-hero.wrap,
+  .pdp-hero {
+    max-width: 1240px !important;
+    display: grid !important;
+    grid-template-columns: 1.18fr 0.95fr !important;
+    gap: clamp(36px, 4.5vw, 64px) !important;
+    align-items: start !important;
+    padding-top: clamp(40px, 4.5vw, 64px) !important;
+    padding-bottom: clamp(40px, 5vw, 64px) !important;
+    margin-top: clamp(8px, 1.5vw, 16px) !important;
   }
+
+  main#main section.pdp-hero .pdp-gallery,
+  .pdp-gallery {
+    order: 0 !important;
+    grid-column: 1 !important;
+    grid-row: 1 !important;
+    width: auto !important;
+    max-width: none !important;
+    position: sticky !important;
+    top: clamp(140px, 16vh, 180px) !important;
+  }
+
+  main#main section.pdp-hero .pdp-info,
+  .pdp-info {
+    order: 0 !important;
+    grid-column: 2 !important;
+    grid-row: 1 !important;
+    width: auto !important;
+    max-width: none !important;
+    gap: 24px !important;
+    position: relative !important;
+  }
+}
+
+/* 10. Guarantee Subsequent Sections Never Collide */
+.pdp-why-love,
+.pdp-specs,
+.pdp-story {
+  clear: both !important;
+  position: relative !important;
+  width: 100% !important;
+  margin-top: clamp(36px, 5vw, 60px) !important;
 }

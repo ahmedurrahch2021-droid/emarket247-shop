@@ -1562,14 +1562,18 @@
 
   // PDP Interactivity (Quantity Stepper, Add to Bag, Share Piece)
   const initPdpFeatures = () => {
-    const pdpAddBtn = one("#pdp-add-bag");
-    const qtyVal = one("#pdp-qty-display");
-    const waCta = one("#pdp-whatsapp-cta");
     let currentQty = 1;
 
+    const getElements = () => ({
+      pdpAddBtn: one("#pdp-add-bag"),
+      qtyVal: one("#pdp-qty-display"),
+      waCta: one("#pdp-whatsapp-cta"),
+    });
+
     const updateWaLink = () => {
+      const { pdpAddBtn, waCta } = getElements();
       if (!waCta || !pdpAddBtn) return;
-      const title = pdpAddBtn.dataset.title || "";
+      const title = pdpAddBtn.dataset.title || one(".pdp-title")?.textContent?.trim() || "";
       const id = pdpAddBtn.dataset.pdpAddBag || "";
       const slug = pdpAddBtn.dataset.slug || "";
       const isBn = language === "bn";
@@ -1580,15 +1584,32 @@
       waCta.href = `https://wa.me/8801740501062?text=${encodeURIComponent(text)}`;
     };
 
+    const handleQtyChange = (delta) => {
+      const { qtyVal } = getElements();
+      currentQty = Math.max(1, currentQty + delta);
+      if (qtyVal) qtyVal.textContent = String(currentQty);
+      updateWaLink();
+    };
+
+    // Direct event listener attachment
     all("[data-pdp-qty-change]").forEach((btn) => {
       btn.addEventListener("click", () => {
-        const change = Number(btn.dataset.pdpQtyChange);
-        currentQty = Math.max(1, currentQty + change);
-        if (qtyVal) qtyVal.textContent = String(currentQty);
-        updateWaLink();
+        const change = Number(btn.dataset.pdpQtyChange) || 0;
+        handleQtyChange(change);
       });
     });
 
+    // Delegated event listener on document for robust fallback
+    document.addEventListener("click", (e) => {
+      const qtyBtn = e.target.closest("[data-pdp-qty-change]");
+      if (qtyBtn && !qtyBtn._hasDirectListener) {
+        qtyBtn._hasDirectListener = true;
+        const change = Number(qtyBtn.dataset.pdpQtyChange) || 0;
+        handleQtyChange(change);
+      }
+    });
+
+    const { pdpAddBtn } = getElements();
     if (pdpAddBtn) {
       pdpAddBtn.addEventListener("click", () => {
         const id = pdpAddBtn.dataset.pdpAddBag;
@@ -3080,12 +3101,12 @@
     updateFooterLinks();
     initCustomerAccount();
     initAdminDashboard();
-    initPdpFeatures();
   });
   initHeaderSearch();
   initOccasionCards();
   initCategoryCarousel();
   hydratePdpPrice();
+  initPdpFeatures();
   updateBagCount();
   updateWishlistCount();
   repaintWishlistButtons();

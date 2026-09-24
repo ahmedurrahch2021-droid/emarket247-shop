@@ -501,7 +501,8 @@ main#main > section:nth-of-type(4).category-notes {
 .slide-copy .eyebrow{color:#fff!important}
 .slide-copy p:not(.eyebrow){color:var(--ink,#1f1f1f)!important}.slide h1,.slide .slide-headline{color:#fff!important;text-shadow:0 2px 22px rgba(0,0,0,.18)}
 /* --- Hero slider controls — positioned middle left & right edges, number text removed --- */
-main#main > section:nth-of-type(1) > div:nth-of-type(2),
+main#main > section.hero-slider > div.slider-controls,
+.hero-slider > .slider-controls,
 .slider-controls {
   position: absolute !important;
   top: 50% !important;
@@ -1493,25 +1494,12 @@ b.brand-name {
   border-top: 1px solid var(--line);
 }
 
-/* --- Section B: Above-The-Fold Product Area --- */
+/* --- Section B: Above-The-Fold Product Area (Layout governed authoritatively by pdp.css) --- */
 .pdp-hero {
   max-width: 1240px;
   width: 100%;
   margin-inline: auto;
-  display: grid;
-  grid-template-columns: minmax(0, 1.18fr) minmax(0, 0.95fr);
-  gap: clamp(36px, 4.5vw, 64px);
-  align-items: start;
-  padding-top: clamp(20px, 3vw, 36px);
-  padding-bottom: clamp(40px, 5vw, 64px);
   box-sizing: border-box;
-}
-
-.pdp-gallery {
-  grid-column: 1;
-  min-width: 0;
-  position: sticky;
-  top: 96px;
 }
 .pdp-figure {
   margin: 0;
@@ -1544,7 +1532,6 @@ b.brand-name {
 }
 
 .pdp-info {
-  grid-column: 2;
   min-width: 0;
   display: flex;
   flex-direction: column;
@@ -1864,15 +1851,20 @@ b.brand-name {
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid #ddd;
-  background: #fdfdfd;
-  color: #111;
+  border: 1px solid var(--line);
+  background: #ffffff;
+  color: var(--ink);
   cursor: pointer;
   font-size: 15px;
   font-weight: 700;
+  outline: none;
 }
-.pdp-qty-stepper button:hover {
-  background: #eee;
+.pdp-qty-stepper button:hover,
+.pdp-qty-stepper button:focus,
+.pdp-qty-stepper button:focus-visible {
+  background: var(--warm);
+  border-color: var(--line);
+  outline: none;
 }
 .pdp-qty-stepper span {
   min-width: 22px;
@@ -2310,18 +2302,6 @@ b.brand-name {
 
 /* --- Responsive Breakpoints for PDP System --- */
 @media (max-width: 900px) {
-  .pdp-hero {
-    grid-template-columns: 1fr;
-    gap: 24px;
-    padding-top: 20px;
-    padding-bottom: 30px;
-  }
-  .pdp-gallery {
-    order: -1;
-  }
-  .pdp-info {
-    order: 1;
-  }
   .pdp-story-grid {
     grid-template-columns: 1fr;
     gap: 24px;
@@ -2937,8 +2917,8 @@ b.brand-name {
 .pdp-qty-stepper {
   display: flex;
   align-items: center;
-  border: 1px solid var(--ink);
-  background: #ffffff;
+  border: none;
+  background: transparent;
   height: 48px;
 }
 .pdp-qty-btn {
@@ -5279,41 +5259,8 @@ b.brand-name {
   transform: none;
 }
 
-/* --- Cohesive Responsive System for PDP Hero --- */
-/* Optimized for screens < 1024px */
-@media (max-width: 1024px) {
-  .pdp-hero {
-    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
-    gap: 28px;
-    padding-top: 20px;
-    padding-bottom: 40px;
-  }
-  .pdp-gallery {
-    top: 84px;
-  }
-}
-
-/* Tablet Transition (900px) */
+/* --- Cohesive Responsive System for PDP (Layout governed by pdp.css) --- */
 @media (max-width: 900px) {
-  .pdp-hero {
-    grid-template-columns: 1fr;
-    gap: 32px;
-    padding-top: 24px;
-    padding-bottom: 40px;
-  }
-  .pdp-gallery {
-    grid-column: 1;
-    position: static;
-    width: 100%;
-    max-width: 480px;
-    margin-inline: auto;
-  }
-  .pdp-info {
-    grid-column: 1;
-    width: 100%;
-    max-width: 540px;
-    margin-inline: auto;
-  }
   .pdp-figure img {
     padding: clamp(16px, 3.5vw, 28px);
   }
@@ -5332,17 +5279,6 @@ b.brand-name {
 
 /* Mobile (< 600px) */
 @media (max-width: 600px) {
-  .pdp-hero {
-    gap: 20px;
-    padding-top: 16px;
-    padding-bottom: 24px;
-  }
-  .pdp-gallery {
-    max-width: 100%;
-  }
-  .pdp-info {
-    max-width: 100%;
-  }
   .pdp-title {
     font-size: 24px;
     line-height: 1.2;
