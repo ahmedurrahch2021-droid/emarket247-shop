@@ -5309,7 +5309,8 @@ b.brand-name {
 
 /* Accordion Styles for PDP */
 .pdp-accordion-section {
-  padding: 40px 0;
+  /* Set block padding only so .wrap's padding-inline gutter is preserved */
+  padding-block: 40px;
   border-top: 1px solid var(--line);
 }
 .pdp-accordion {
