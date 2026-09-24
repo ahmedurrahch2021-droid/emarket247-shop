@@ -747,7 +747,14 @@ function buildPdp(product, lang, relatedProducts) {
     <section class="pdp-accordion-section wrap">
       <details class="pdp-accordion" id="pdp-details">
         <summary>${accordion1}</summary>
-        <div class="pdp-accordion-content">${faqContent}</div>
+        <div class="pdp-accordion-content" id="pdp-specs">
+          <dl class="pdp-specs-list">
+            <div class="pdp-spec-row"><dt>${isBn ? 'ক্যাটালগ রেফারেন্স' : 'Catalogue Reference'}</dt><dd><code>${esc(ref)}</code></dd></div>
+            <div class="pdp-spec-row"><dt>${isBn ? 'ক্যাটাগরি' : 'Category'}</dt><dd>${esc(catLabel)}</dd></div>
+            <div class="pdp-spec-row"><dt>${isBn ? 'ফিনিশ ও উপাদান' : 'Finish & Material'}</dt><dd>${isBn ? 'উন্নত মানের সোনালি ফিনিশ (ইমিটেশন জুয়েলারি)' : 'Premium gold-tone finish (fashion jewellery)'}</dd></div>
+            <div class="pdp-spec-row"><dt>${isBn ? 'প্রস্তুতকরণ' : 'Crafting'}</dt><dd>${isBn ? 'হাতে তৈরি সূক্ষ্ম অলংকরণ, ঠাকুরগাঁও' : 'Hand-curated artisan finish, Thakurgaon'}</dd></div>
+          </dl>
+        </div>
       </details>
       <details class="pdp-accordion" id="pdp-care">
         <summary>${accordion2}</summary>
