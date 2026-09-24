@@ -10,13 +10,13 @@ section.pdp-hero.wrap,
 .pdp-hero {
   display: flex !important;
   flex-direction: column !important;
-  align-items: center !important;
-  gap: 28px !important;
+  align-items: stretch !important;
+  gap: 24px !important;
   width: 100% !important;
-  max-width: 680px !important;
+  max-width: 580px !important;
   margin-inline: auto !important;
-  padding-top: clamp(20px, 3.5vw, 36px) !important;
-  padding-bottom: clamp(32px, 4vw, 48px) !important;
+  padding-top: clamp(16px, 3vw, 28px) !important;
+  padding-bottom: clamp(24px, 3.5vw, 40px) !important;
   margin-top: 0 !important;
   box-sizing: border-box !important;
   position: relative !important;
@@ -28,7 +28,7 @@ main#main section.pdp-hero .pdp-gallery,
 .pdp-gallery {
   order: 1 !important;
   width: 100% !important;
-  max-width: 480px !important;
+  max-width: 100% !important;
   margin-inline: auto !important;
   position: static !important;
   top: auto !important;
@@ -48,7 +48,7 @@ main#main section.pdp-hero .pdp-info,
 .pdp-info {
   order: 2 !important;
   width: 100% !important;
-  max-width: 580px !important;
+  max-width: 100% !important;
   margin-inline: auto !important;
   grid-column: auto !important;
   grid-row: auto !important;
@@ -72,7 +72,7 @@ main#main section.pdp-hero .pdp-info,
   background: #ffffff;
   overflow: hidden;
   border-radius: 4px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
   width: 100% !important;
 }
 
@@ -104,7 +104,7 @@ main#main section.pdp-hero .pdp-info,
 
 .pdp-title {
   margin: 0;
-  font: clamp(24px, 2.5vw, 36px) / 1.15 var(--serif);
+  font: clamp(24px, 2.5vw, 34px) / 1.15 var(--serif);
   color: var(--ink);
   letter-spacing: -0.02em;
 }
@@ -133,7 +133,7 @@ main#main section.pdp-hero .pdp-info,
 
 /* 4. Pricing & Buy Box */
 .pdp-price-section {
-  padding: 18px 20px;
+  padding: 16px 20px;
   background: var(--warm);
   border: 1px solid var(--line);
   border-left: 3px solid var(--gold);
@@ -147,10 +147,12 @@ main#main section.pdp-hero .pdp-info,
   display: flex;
   justify-content: space-between;
   align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
 .pdp-price-val {
-  font: 24px/1 var(--serif);
+  font: clamp(22px, 2.2vw, 26px)/1.1 var(--serif);
   font-weight: 700;
   color: var(--ink);
 }
@@ -165,7 +167,7 @@ main#main section.pdp-hero .pdp-info,
   margin: 0;
   font-size: 12px;
   color: var(--muted);
-  line-height: 1.4;
+  line-height: 1.45;
 }
 
 /* 5. Actions (Qty, WhatsApp & Wishlist) */
@@ -205,7 +207,7 @@ main#main section.pdp-hero .pdp-info,
   font-weight: 700 !important;
   text-transform: uppercase !important;
   color: var(--muted) !important;
-  letter-spacing: 0.05em !important;
+  letter-spacing: 0.06em !important;
   margin: 0 !important;
   flex: 0 0 auto !important;
   white-space: nowrap !important;
@@ -223,24 +225,24 @@ main#main section.pdp-hero .pdp-info,
 }
 
 .pdp-qty-stepper button {
-  width: 28px !important;
-  height: 28px !important;
-  min-width: 28px !important;
+  width: 30px !important;
+  height: 30px !important;
+  min-width: 30px !important;
   border: 1px solid var(--line) !important;
   background: #ffffff !important;
   cursor: pointer;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
-  font-size: 14px !important;
+  font-size: 15px !important;
   line-height: 1 !important;
   color: var(--ink) !important;
   border-radius: 2px;
   outline: none !important;
-  flex: 0 0 28px !important;
+  flex: 0 0 30px !important;
   padding: 0 !important;
   box-sizing: border-box !important;
-  transition: background 0.15s ease;
+  transition: background 0.15s ease, border-color 0.15s ease;
 }
 
 .pdp-qty-stepper button:hover,
@@ -248,7 +250,7 @@ main#main section.pdp-hero .pdp-info,
 .pdp-qty-stepper button:focus-visible,
 .pdp-qty-stepper button:active {
   background: var(--warm) !important;
-  border-color: var(--line) !important;
+  border-color: var(--ink) !important;
   outline: none !important;
   box-shadow: none !important;
 }
@@ -257,12 +259,12 @@ main#main section.pdp-hero .pdp-info,
 #pdp-qty-display {
   font-family: var(--mono) !important;
   font-weight: 700 !important;
-  min-width: 22px !important;
+  min-width: 24px !important;
   text-align: center !important;
-  font-size: 14px !important;
+  font-size: 15px !important;
   color: var(--ink) !important;
   display: inline-block !important;
-  line-height: 28px !important;
+  line-height: 30px !important;
   flex: 0 0 auto !important;
 }
 
@@ -287,56 +289,92 @@ main#main section.pdp-hero .pdp-info,
   height: 48px !important;
   min-height: 48px !important;
   box-sizing: border-box !important;
-  flex: 1 1 auto !important;
+  flex: 1 1 200px !important;
   white-space: nowrap !important;
-  transition: background 0.2s var(--ease) !important;
+  transition: background 0.2s var(--ease), transform 0.15s ease !important;
 }
 
 .pdp-btn-whatsapp-action:hover {
   background: #0d2820 !important;
 }
 
+/* 6. Action Links & Assurance */
 .pdp-action-links {
   display: flex;
   flex-wrap: wrap;
-  gap: 16px;
-  margin-top: 8px;
+  gap: 14px 20px;
+  margin-top: 4px;
 }
 
-.pdp-action-links a, .pdp-action-links button {
-  font-size: 11px;
-  font-weight: 600;
+.pdp-action-links a,
+.pdp-action-links button,
+.pdp-share-link {
+  font-size: 12px;
+  font-weight: 500;
   color: var(--muted);
   text-decoration: underline;
+  text-underline-offset: 3px;
   background: none;
   border: none;
+  padding: 0;
   cursor: pointer;
+  transition: color 0.15s ease;
 }
 
-/* 6. Assurance */
+.pdp-action-links a:hover,
+.pdp-action-links button:hover,
+.pdp-share-link:hover {
+  color: var(--ink);
+  text-decoration-color: var(--crimson, #7a1830);
+}
+
 .pdp-assurance {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 12px;
-  margin-top: 12px;
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: 0 !important;
+  margin-top: 6px !important;
+  border-top: 1px solid var(--line) !important;
+  border-bottom: 1px solid var(--line) !important;
 }
 
-.pdp-assurance div {
-  display: grid;
-  grid-template-columns: 80px 1fr;
-  font-size: 12px;
+.pdp-assurance > div {
+  display: grid !important;
+  grid-template-columns: 95px 1fr !important;
+  gap: 12px !important;
+  padding: 10px 0 !important;
+  border-bottom: 1px solid rgba(232, 223, 216, 0.6) !important;
+  align-items: baseline !important;
+}
+
+.pdp-assurance > div:last-child {
+  border-bottom: none !important;
 }
 
 .pdp-assurance dt {
-  font-weight: 700;
-  text-transform: uppercase;
-  font-size: 10px;
-  color: var(--muted);
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  font-size: 10px !important;
+  letter-spacing: 0.08em !important;
+  color: var(--muted) !important;
+  margin: 0 !important;
 }
 
 .pdp-assurance dd {
-  margin: 0;
-  color: var(--ink);
+  margin: 0 !important;
+  font-size: 13px !important;
+  line-height: 1.45 !important;
+  color: var(--ink) !important;
+}
+
+.pdp-assurance dd a {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid var(--line);
+}
+
+.pdp-assurance dd a:hover {
+  color: var(--red);
+  border-color: var(--red);
 }
 
 /* 7. Wishlist Action Button in Buy Box */
@@ -361,7 +399,6 @@ main#main section.pdp-hero .pdp-info,
   text-transform: uppercase !important;
   cursor: pointer !important;
   box-sizing: border-box !important;
-  margin-top: 4px !important;
   transition: all 0.18s var(--ease) !important;
 }
 
@@ -372,31 +409,32 @@ main#main section.pdp-hero .pdp-info,
   transform: none !important;
 }
 
-/* 8. Mobile Polish (< 600px) */
-@media (max-width: 600px) {
+.pdp-actions-row .wishlist-btn-labelled.is-active {
+  background: #fff4f5 !important;
+  border-color: var(--crimson, #7a1830) !important;
+  color: var(--crimson, #7a1830) !important;
+}
+
+.pdp-actions-row .wishlist-btn-labelled.is-active svg {
+  fill: var(--red) !important;
+  stroke: var(--red) !important;
+}
+
+/* 8. Mobile Polish (< 560px) */
+@media (max-width: 560px) {
   main#main section.pdp-hero,
   main section.pdp-hero.wrap,
   section.pdp-hero.wrap,
   .pdp-hero {
-    padding-top: 16px !important;
-    gap: 20px !important;
-    padding-inline: 16px !important;
-  }
-
-  main#main section.pdp-hero .pdp-gallery,
-  .pdp-gallery {
+    padding-top: 14px !important;
+    gap: 18px !important;
+    padding-inline: clamp(14px, 4vw, 20px) !important;
     max-width: 100% !important;
-  }
-
-  main#main section.pdp-hero .pdp-info,
-  .pdp-info {
-    max-width: 100% !important;
-    gap: 16px !important;
   }
 
   .pdp-title {
-    font-size: 24px !important;
-    line-height: 1.15 !important;
+    font-size: clamp(22px, 5.5vw, 28px) !important;
+    line-height: 1.2 !important;
   }
 
   .pdp-actions-row {
@@ -423,20 +461,20 @@ main#main section.pdp-hero .pdp-info,
   }
 }
 
-/* 9. Desktop Layout Enhancement (>= 1025px) */
-@media (min-width: 1025px) {
+/* 9. Desktop Layout Enhancement (>= 901px: Matches Site-Wide Breakpoint) */
+@media (min-width: 901px) {
   main#main section.pdp-hero,
   main section.pdp-hero.wrap,
   section.pdp-hero.wrap,
   .pdp-hero {
     max-width: 1240px !important;
     display: grid !important;
-    grid-template-columns: 1.18fr 0.95fr !important;
-    gap: clamp(36px, 4.5vw, 64px) !important;
+    grid-template-columns: 1.15fr 0.95fr !important;
+    gap: clamp(36px, 4vw, 56px) !important;
     align-items: start !important;
-    padding-top: clamp(40px, 4.5vw, 64px) !important;
-    padding-bottom: clamp(40px, 5vw, 64px) !important;
-    margin-top: clamp(8px, 1.5vw, 16px) !important;
+    padding-top: clamp(28px, 3.5vw, 44px) !important;
+    padding-bottom: clamp(36px, 4.5vw, 56px) !important;
+    margin-top: clamp(4px, 1vw, 12px) !important;
   }
 
   main#main section.pdp-hero .pdp-gallery,
@@ -444,10 +482,10 @@ main#main section.pdp-hero .pdp-info,
     order: 0 !important;
     grid-column: 1 !important;
     grid-row: 1 !important;
-    width: auto !important;
+    width: 100% !important;
     max-width: none !important;
     position: sticky !important;
-    top: clamp(140px, 16vh, 180px) !important;
+    top: clamp(24px, 3.5vh, 40px) !important;
   }
 
   main#main section.pdp-hero .pdp-info,
@@ -455,19 +493,202 @@ main#main section.pdp-hero .pdp-info,
     order: 0 !important;
     grid-column: 2 !important;
     grid-row: 1 !important;
-    width: auto !important;
+    width: 100% !important;
     max-width: none !important;
-    gap: 24px !important;
+    gap: 20px !important;
     position: relative !important;
   }
 }
 
-/* 10. Guarantee Subsequent Sections Never Collide */
-.pdp-why-love,
-.pdp-specs,
-.pdp-story {
+/* 10. Subsequent Sections: Responsive, Balanced & Collision-Free */
+.pdp-why-love {
   clear: both !important;
   position: relative !important;
   width: 100% !important;
-  margin-top: clamp(36px, 5vw, 60px) !important;
+  padding-top: clamp(36px, 4vw, 56px) !important;
+  border-top: 1px solid var(--line) !important;
+  margin-top: clamp(24px, 3vw, 36px) !important;
+}
+
+.pdp-benefit-grid {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: clamp(14px, 2vw, 24px) !important;
+}
+
+.pdp-benefit-card {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+  padding: clamp(18px, 2.5vw, 24px) !important;
+  background: #fffdfb !important;
+  border: 1px solid var(--line) !important;
+  border-radius: 4px !important;
+}
+
+@media (max-width: 768px) {
+  .pdp-benefit-grid {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+}
+
+/* Accordion Component */
+.pdp-accordion-section {
+  clear: both !important;
+  width: 100% !important;
+  padding-block: clamp(32px, 4vw, 48px) !important;
+  border-top: 1px solid var(--line) !important;
+}
+
+.pdp-accordion {
+  border-bottom: 1px solid var(--line) !important;
+  padding: 16px 0 !important;
+}
+
+.pdp-accordion summary {
+  font: clamp(16px, 1.8vw, 19px) / 1.2 var(--serif) !important;
+  cursor: pointer !important;
+  list-style: none !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  padding: 4px 0 !important;
+  color: var(--ink) !important;
+  user-select: none;
+}
+
+.pdp-accordion summary::-webkit-details-marker {
+  display: none !important;
+}
+
+.pdp-accordion summary::after {
+  content: "+" !important;
+  font-size: 22px !important;
+  line-height: 1 !important;
+  font-weight: 400 !important;
+  color: var(--crimson, #7a1830) !important;
+  margin-left: 12px !important;
+  flex: 0 0 auto !important;
+}
+
+.pdp-accordion[open] summary::after {
+  content: "−" !important;
+}
+
+.pdp-accordion-content {
+  padding-top: 14px !important;
+  padding-bottom: 6px !important;
+  color: var(--muted) !important;
+  font-size: 14px !important;
+  line-height: 1.65 !important;
+}
+
+.pdp-accordion-content p {
+  margin: 0 0 10px !important;
+}
+
+.pdp-accordion-content p:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* Specs table inside accordion */
+.pdp-specs-list {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0 !important;
+  margin: 4px 0 0 !important;
+  border: 1px solid var(--line) !important;
+  background: var(--warm) !important;
+  border-radius: 2px !important;
+  overflow: hidden !important;
+}
+
+.pdp-spec-row {
+  display: grid !important;
+  grid-template-columns: minmax(140px, 200px) 1fr !important;
+  padding: 10px 16px !important;
+  border-bottom: 1px solid var(--line) !important;
+  align-items: baseline !important;
+}
+
+.pdp-spec-row:last-child {
+  border-bottom: none !important;
+}
+
+.pdp-spec-row dt {
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.06em !important;
+  color: var(--muted) !important;
+  margin: 0 !important;
+}
+
+.pdp-spec-row dd {
+  font-size: 13px !important;
+  color: var(--ink) !important;
+  margin: 0 !important;
+}
+
+.pdp-spec-row dd code {
+  font-family: var(--mono) !important;
+  font-size: 12px !important;
+  background: rgba(0, 0, 0, 0.05) !important;
+  padding: 2px 6px !important;
+  border-radius: 2px !important;
+}
+
+@media (max-width: 500px) {
+  .pdp-spec-row {
+    grid-template-columns: 1fr !important;
+    gap: 4px !important;
+    padding: 8px 12px !important;
+  }
+}
+
+/* Related Products Grid */
+.pdp-related {
+  clear: both !important;
+  width: 100% !important;
+  padding-top: clamp(32px, 4vw, 52px) !important;
+  border-top: 1px solid var(--line) !important;
+}
+
+.pdp-related .pdp-section-head h2 {
+  font: clamp(22px, 2.5vw, 32px) / 1.2 var(--serif) !important;
+  margin: 0 0 20px !important;
+}
+
+/* Final CTA Card */
+.pdp-final-cta {
+  clear: both !important;
+  width: 100% !important;
+  padding-top: clamp(32px, 4vw, 48px) !important;
+  padding-bottom: clamp(20px, 3vw, 32px) !important;
+}
+
+.pdp-final-card {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  gap: clamp(20px, 3vw, 40px) !important;
+  padding: clamp(24px, 4vw, 44px) !important;
+  background: #faf7f2 !important;
+  border: 1px solid var(--line) !important;
+  border-radius: 4px !important;
+}
+
+@media (max-width: 768px) {
+  .pdp-final-card {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    text-align: left !important;
+    gap: 20px !important;
+  }
+
+  .pdp-final-actions {
+    width: 100% !important;
+    min-width: 0 !important;
+  }
 }

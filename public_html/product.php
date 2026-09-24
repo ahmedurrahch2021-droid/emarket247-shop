@@ -399,7 +399,7 @@ foreach ($related as $rel) {
     <section class="pdp-accordion-section wrap">
       <details class="pdp-accordion" id="pdp-details">
         <summary><?= $isBn ? 'পণ্যের তথ্য' : 'Product Details' ?></summary>
-        <div class="pdp-accordion-content">
+        <div class="pdp-accordion-content" id="pdp-specs">
           <dl class="pdp-specs-list">
             <div class="pdp-spec-row"><dt><?= $isBn ? 'ক্যাটালগ রেফারেন্স আইডি' : 'Catalogue Reference ID' ?></dt><dd><code><?= attr($ref) ?></code></dd></div>
             <div class="pdp-spec-row"><dt><?= $isBn ? 'ক্যাটাগরি' : 'Category' ?></dt><dd><?= attr($categoryLabel) ?></dd></div>

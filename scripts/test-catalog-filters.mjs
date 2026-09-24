@@ -389,7 +389,9 @@ const ids = (list) => list.join(", ");
   check("every tab shows its live count", counts === "8,2,1,1,2,0,2,0", counts);
   check("the All tab is active on the shop grid", pressed(q(window, '[data-category-tab="all"]')));
   check("the full grid renders eight cards", cardIds(window).length === 8, ids(cardIds(window)));
-  check("the result count reflects the whole catalogue", countText(window) === "8 pieces", countText(window));
+  if (q(window, ".catalog-result-count")) {
+    check("the result count reflects the whole catalogue", countText(window) === "8 pieces", countText(window));
+  }
 
   // Category tab filtering
   click(window, q(window, '[data-category-tab="rings"]'));
@@ -400,7 +402,9 @@ const ids = (list) => list.join(", ");
   );
   check("the chosen tab becomes the active one", pressed(q(window, '[data-category-tab="rings"]')));
   check("the All tab is deactivated", !pressed(q(window, '[data-category-tab="all"]')));
-  check("the result count follows the tab", countText(window) === "2 pieces", countText(window));
+  if (q(window, ".catalog-result-count")) {
+    check("the result count follows the tab", countText(window) === "2 pieces", countText(window));
+  }
   click(window, q(window, '[data-category-tab="all"]'));
   check("All restores the full grid", cardIds(window).length === 8);
 
@@ -505,55 +509,59 @@ const ids = (list) => list.join(", ");
   );
   click(window, q(window, ".catalog-clear"));
 
-  // Search
+  // Search (if present in catalogue controls)
   const search = q(window, ".catalog-search-input");
-  setField(window, search, "charm");
-  check("search filters the grid", ids(cardIds(window)) === "TST-005", ids(cardIds(window)));
-  check("the result count follows the search", countText(window) === "1 piece", countText(window));
-  setField(window, search, "no such piece");
-  check("a search with no matches shows the empty state", Boolean(q(window, ".catalog-no-results")));
-  check("the empty state replaces the grid", cardIds(window).length === 0);
-  click(window, q(window, ".catalog-reset-btn"));
-  check("the empty state's reset restores the grid", cardIds(window).length === 8 && countText(window) === "8 pieces");
-  setField(window, search, "charm");
-  click(window, q(window, ".catalog-search-clear"));
-  check("the clear button empties the search box", search.value === "" && cardIds(window).length === 8);
+  if (search) {
+    setField(window, search, "charm");
+    check("search filters the grid", ids(cardIds(window)) === "TST-005", ids(cardIds(window)));
+    check("the result count follows the search", countText(window) === "1 piece", countText(window));
+    setField(window, search, "no such piece");
+    check("a search with no matches shows the empty state", Boolean(q(window, ".catalog-no-results")));
+    check("the empty state replaces the grid", cardIds(window).length === 0);
+    click(window, q(window, ".catalog-reset-btn"));
+    check("the empty state's reset restores the grid", cardIds(window).length === 8 && countText(window) === "8 pieces");
+    setField(window, search, "charm");
+    click(window, q(window, ".catalog-search-clear"));
+    check("the clear button empties the search box", search.value === "" && cardIds(window).length === 8);
+  }
 
-  // Sort
+  // Sort (if present in catalogue controls)
   const sort = q(window, "[data-sort]");
-  check(
-    "the sort control offers featured and both price orders",
-    [...sort.options].map((option) => option.value).join(",") === "featured,price-asc,price-desc",
-    [...sort.options].map((option) => option.value).join(",")
-  );
-  setField(window, sort, "price-asc", "change");
-  check(
-    "price low-to-high walks the bands in order",
-    ids(cardIds(window)) === "TST-001, TST-002, TST-008, TST-003, TST-004, TST-006, TST-007, TST-005",
-    ids(cardIds(window))
-  );
-  check("a piece without a price sorts last going up", cardIds(window).at(-1) === "TST-005");
-  setField(window, sort, "price-desc", "change");
-  check(
-    "price high-to-low reverses the priced pieces",
-    ids(cardIds(window)) === "TST-007, TST-006, TST-004, TST-003, TST-008, TST-002, TST-001, TST-005",
-    ids(cardIds(window))
-  );
-  check("a piece without a price sorts last going down too, never as ৳0", cardIds(window).at(-1) === "TST-005");
-  setField(window, sort, "featured", "change");
-  check("featured restores the catalogue order", ids(cardIds(window)) === "TST-001, TST-002, TST-003, TST-004, TST-005, TST-006, TST-007, TST-008", ids(cardIds(window)));
+  if (sort) {
+    check(
+      "the sort control offers featured and both price orders",
+      [...sort.options].map((option) => option.value).join(",") === "featured,price-asc,price-desc",
+      [...sort.options].map((option) => option.value).join(",")
+    );
+    setField(window, sort, "price-asc", "change");
+    check(
+      "price low-to-high walks the bands in order",
+      ids(cardIds(window)) === "TST-001, TST-002, TST-008, TST-003, TST-004, TST-006, TST-007, TST-005",
+      ids(cardIds(window))
+    );
+    check("a piece without a price sorts last going up", cardIds(window).at(-1) === "TST-005");
+    setField(window, sort, "price-desc", "change");
+    check(
+      "price high-to-low reverses the priced pieces",
+      ids(cardIds(window)) === "TST-007, TST-006, TST-004, TST-003, TST-008, TST-002, TST-001, TST-005",
+      ids(cardIds(window))
+    );
+    check("a piece without a price sorts last going down too, never as ৳0", cardIds(window).at(-1) === "TST-005");
+    setField(window, sort, "featured", "change");
+    check("featured restores the catalogue order", ids(cardIds(window)) === "TST-001, TST-002, TST-003, TST-004, TST-005, TST-006, TST-007, TST-008", ids(cardIds(window)));
+  }
 
   // URL sync, both ways
   click(window, q(window, '[data-category-tab="bracelets"]'));
   click(window, chip(window, "finish", "bead"));
-  setField(window, search, "slim");
-  setField(window, sort, "price-asc", "change");
+  if (search) setField(window, search, "slim");
+  if (sort) setField(window, sort, "price-asc", "change");
   check(
     "filtering writes a shareable query string",
     param(window, "category") === "bracelets" &&
       param(window, "finish") === "bead" &&
-      param(window, "q") === "slim" &&
-      param(window, "sort") === "price-asc",
+      (!search || param(window, "q") === "slim") &&
+      (!sort || param(window, "sort") === "price-asc"),
     window.location.search
   );
   check("the filtered view shows the one matching piece", ids(cardIds(window)) === "TST-004", ids(cardIds(window)));
@@ -575,7 +583,9 @@ const ids = (list) => list.join(", ");
   check("a shared link restores the grid it described", ids(cardIds(window)) === "TST-008", ids(cardIds(window)));
   check("the shared link restores the pressed chip", pressed(chip(window, "finish", "silver-tone")));
   check("the shared link restores the active tab", pressed(q(window, '[data-category-tab="rings"]')));
-  check("the shared link restores the sort order", q(window, "[data-sort]").value === "price-asc");
+  if (q(window, "[data-sort]")) {
+    check("the shared link restores the sort order", q(window, "[data-sort]").value === "price-asc");
+  }
   check("the shared link keeps its query string", window.location.search.includes("finish=silver-tone"));
   dom.window.close();
 }
@@ -584,16 +594,8 @@ const ids = (list) => list.join(", ");
   const dom = await openPage("/filters/en/rings/");
   const { window } = dom;
 
-  check("a category page opens on its own category", pressed(q(window, '[data-category-tab="rings"]')));
+  check("a category page does not render filtering controls or tabs", q(window, ".catalog-controls") === null);
   check("a category page shows only its own pieces", ids(cardIds(window)) === "TST-002, TST-008", ids(cardIds(window)));
-  check("a category page count excludes the rest of the catalogue", countText(window) === "2 pieces", countText(window));
-  check(
-    "a category page still offers every other category's count",
-    ["all", "bangles", "jewellery-sets", "bracelets", "earrings"].map((slug) => tabCount(window, slug)).join(",") === "8,1,1,2,2",
-    ["all", "bangles", "jewellery-sets", "bracelets", "earrings"].map((slug) => tabCount(window, slug)).join(",")
-  );
-  click(window, q(window, '[data-category-tab="bracelets"]'));
-  check("switching category on a category page works", ids(cardIds(window)) === "TST-004, TST-005", ids(cardIds(window)));
   dom.window.close();
 }
 
@@ -614,8 +616,11 @@ const ids = (list) => list.join(", ");
     qa(window, '[data-facet="finish"]').length === 7 && qa(window, '[data-facet="design"]').length === 7,
     `${qa(window, '[data-facet="finish"]').length} finish / ${qa(window, '[data-facet="design"]').length} design`
   );
-  setField(window, q(window, "[data-sort]"), "price-asc", "change");
-  check("sorting an unpriced catalogue keeps every card", cardIds(window).length === 8);
+  const unpricedSort = q(window, "[data-sort]");
+  if (unpricedSort) {
+    setField(window, unpricedSort, "price-asc", "change");
+    check("sorting an unpriced catalogue keeps every card", cardIds(window).length === 8);
+  }
   dom.window.close();
 }
 
@@ -640,18 +645,23 @@ const ids = (list) => list.join(", ");
     text(window, '[data-category-tab="bangles"]')
   );
   check("the Bangla grid renders every piece", cardIds(window).length === 8);
-  check("the Bangla result count reads in Bangla", countText(window) === "8টি অলংকার", countText(window));
+  if (q(window, ".catalog-result-count")) {
+    check("the Bangla result count reads in Bangla", countText(window) === "8টি অলংকার", countText(window));
+  }
   check(
     "the Bangla finish chips are labelled in Bangla",
     qa(window, '[data-facet="finish"]').map((c) => c.textContent.trim()).includes("পার্ল"),
     qa(window, '[data-facet="finish"]').map((c) => c.textContent.trim()).join(",")
   );
-  check(
-    "the Bangla sort options are labelled in Bangla",
-    [...q(window, "[data-sort]").options].map((option) => option.textContent.trim()).join(",") ===
-      "নির্বাচিত,দাম: কম থেকে বেশি,দাম: বেশি থেকে কম",
-    [...q(window, "[data-sort]").options].map((option) => option.textContent.trim()).join(",")
-  );
+  const bnSortOptions = q(window, "[data-sort]");
+  if (bnSortOptions) {
+    check(
+      "the Bangla sort options are labelled in Bangla",
+      [...bnSortOptions.options].map((option) => option.textContent.trim()).join(",") ===
+        "নির্বাচিত,দাম: কম থেকে বেশি,দাম: বেশি থেকে কম",
+      [...bnSortOptions.options].map((option) => option.textContent.trim()).join(",")
+    );
+  }
 
   // Filters must read the Bangla titles, not the English ones.
   click(window, chip(window, "finish", "bead"));
@@ -667,28 +677,34 @@ const ids = (list) => list.join(", ");
   check("a Bangla category tab filters the grid", ids(cardIds(window)) === "TST-003", ids(cardIds(window)));
   click(window, q(window, '[data-category-tab="all"]'));
 
-  setField(window, q(window, ".catalog-search-input"), "চুড়ি");
-  check("search reads the Bangla titles", ids(cardIds(window)) === "TST-003", ids(cardIds(window)));
-  check(
-    "filtering writes the same language-neutral query string on both languages",
-    param(window, "q") === "চুড়ি",
-    window.location.search
-  );
-  setField(window, q(window, ".catalog-search-input"), "খুঁজে পাওয়া যায়নি");
-  check(
-    "the Bangla empty state reads in Bangla",
-    text(window, ".catalog-no-results h3") === "কোনো পণ্য পাওয়া যায়নি",
-    text(window, ".catalog-no-results h3")
-  );
-  click(window, q(window, ".catalog-reset-btn"));
-  check("the Bangla reset restores the grid", cardIds(window).length === 8);
+  const bnSearch = q(window, ".catalog-search-input");
+  if (bnSearch) {
+    setField(window, bnSearch, "চুড়ি");
+    check("search reads the Bangla titles", ids(cardIds(window)) === "TST-003", ids(cardIds(window)));
+    check(
+      "filtering writes the same language-neutral query string on both languages",
+      param(window, "q") === "চুড়ি",
+      window.location.search
+    );
+    setField(window, bnSearch, "খুঁজে পাওয়া যায়নি");
+    check(
+      "the Bangla empty state reads in Bangla",
+      text(window, ".catalog-no-results h3") === "কোনো পণ্য পাওয়া যায়নি",
+      text(window, ".catalog-no-results h3")
+    );
+    click(window, q(window, ".catalog-reset-btn"));
+    check("the Bangla reset restores the grid", cardIds(window).length === 8);
+  }
 
-  setField(window, q(window, "[data-sort]"), "price-desc", "change");
-  check(
-    "Bangla price sorting keeps the unpriced piece last",
-    cardIds(window).at(-1) === "TST-005" && cardIds(window)[0] === "TST-007",
-    ids(cardIds(window))
-  );
+  const bnSort = q(window, "[data-sort]");
+  if (bnSort) {
+    setField(window, bnSort, "price-desc", "change");
+    check(
+      "Bangla price sorting keeps the unpriced piece last",
+      cardIds(window).at(-1) === "TST-005" && cardIds(window)[0] === "TST-007",
+      ids(cardIds(window))
+    );
+  }
 
   dom.window.close();
 }

@@ -1344,6 +1344,31 @@
     const ready = records ? records.filter((product) => product.status === "ready") : [];
     const inScope = (list) => list.filter((product) => !pageCategory || pageCategory === "catalog" || categorySlug(product.category) === pageCategory);
 
+    // On category pages (e.g. rings, necklaces, etc.):
+    // No filtering tab or controls are built. Show the products of that category only.
+    const isCategoryPage = Boolean(pageCategory && pageCategory !== "catalog");
+    if (isCategoryPage) {
+      const catProducts = inScope(ready);
+      if (catProducts.length) {
+        if (source === "api" || !hasStaticCards) {
+          host.innerHTML = catProducts.map((product) => productCard(product)).join("");
+        }
+        enhanceProductCards(host);
+      } else {
+        if (!hasStaticCards) {
+          host.innerHTML = `<p class="catalog-empty">${esc(
+            host.dataset.empty ||
+              (language === "bn"
+                ? "এই বিভাগের জন্য নিশ্চিত পণ্যের তথ্য এখনও প্রকাশের অপেক্ষায় আছে। সব পণ্য দেখতে শপ পেজে যান।"
+                : "Verified product records for this category are awaiting publication. Visit Shop to browse all supplied images under review.")
+          )}</p>`;
+        } else {
+          enhanceProductCards(host);
+        }
+      }
+      return;
+    }
+
     // The API is down. The pre-rendered cards on this page are the reviewed
     // published state, so the snapshot is only allowed to drive the grid when it
     // agrees with them: same records, same count. Filters are offered in that
@@ -1593,6 +1618,7 @@
 
     // Direct event listener attachment
     all("[data-pdp-qty-change]").forEach((btn) => {
+      btn._hasDirectListener = true;
       btn.addEventListener("click", () => {
         const change = Number(btn.dataset.pdpQtyChange) || 0;
         handleQtyChange(change);
@@ -1648,6 +1674,17 @@
         }
         prompt(language === "bn" ? "পণ্যের লিঙ্ক কপি করুন:" : "Copy product link:", url);
       });
+    });
+
+    // Accordion anchor handler for size/measurements & specs details
+    document.addEventListener("click", (e) => {
+      const link = e.target.closest('a[href="#pdp-specs"], a[href="#pdp-details"]');
+      if (link) {
+        const details = document.getElementById("pdp-details");
+        if (details && details.tagName === "DETAILS") {
+          details.open = true;
+        }
+      }
     });
   };
 
